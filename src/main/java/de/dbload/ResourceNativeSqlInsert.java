@@ -51,8 +51,7 @@ class ResourceNativeSqlInsert implements ResourceInsert {
 	 */
 	@Override
 	public void insert(List<String> data) {
-		StringBuffer insertSqlCommand = new StringBuffer("I")
-				.append("NSERT INTO ");
+		StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
 		insertSqlCommand.append(tableMetaData.getTableName());
 		insertSqlCommand.append('(');
 
