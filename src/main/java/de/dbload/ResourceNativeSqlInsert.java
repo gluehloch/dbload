@@ -18,6 +18,9 @@ package de.dbload;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
+import de.dbload.jdbc.JdbcTemplate;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.TableMetaData;
@@ -74,7 +77,7 @@ class ResourceNativeSqlInsert implements ResourceInsert {
 				// int[] types = jdbcInsert.getInsertTypes();
 				// insertme = InOutUtils.toString(types[i], data.get(i));
 				String val = data.get(i);
-				if (org.apache.commons.lang.StringUtils.isBlank(val)) {
+				if (StringUtils.isBlank(val)) {
 					insertme = "NULL";
 				} else {
 					insertme = "'" + val + "'";

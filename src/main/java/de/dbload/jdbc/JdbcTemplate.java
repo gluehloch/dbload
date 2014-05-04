@@ -32,25 +32,19 @@ public class JdbcTemplate {
 	private Connection conn;
 
 	public void execute(String sql) {
-		Statement stmt = null;
-		try {
-			stmt = conn.createStatement();
+		try (Statement stmt = conn.createStatement()) {
 			stmt.execute(sql);
 		} catch (SQLException ex) {
 			throw new DbloadException(ex);
-		} finally {
-			JdbcUtils.close(stmt);
 		}
 	}
 
-	public PreparedStatement insert(String sql) {
-		PreparedStatement pstmt;
-		try {
-			pstmt = conn.prepareStatement(sql);
+	public void executeBatch(String sql) {
+		try (PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			//
 		} catch (SQLException ex) {
 			throw new DbloadException(ex);
 		}
-		return pstmt;
 	}
 
 }

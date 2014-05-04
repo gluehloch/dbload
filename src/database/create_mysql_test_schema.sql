@@ -1,32 +1,41 @@
-create table tablefortest_a (
+create table person (
     id bigint not null auto_increment,
-    dbload_bigint_a bigint,
-    dbload_bigint_b bigint,
-    dbload_integer_a integer,
-    dbload_integer_b integer,
-    dbload_bit bit,
-    dbload_datetime datetime,
-    dbload_text_a varchar(10),
-    dbload_text_b varchar(20),
+    name varchar(40),
+    vorname varchar(40),
+    age integer,
+    sex bit,
+    birthday datetime,
     primary key (id)
 ) ENGINE=InnoDB;
 
-create table tablefortest_b (
+create table address (
     id bigint not null auto_increment,
-    dbload_bigint_a bigint,
-    dbload_bigint_b bigint,
-    dbload_integer_a integer,
-    dbload_integer_b integer,
-    dbload_bit bit,
-    dbload_datetime datetime,
-    dbload_text_a varchar(10),
-    dbload_text_b varchar(20),
-    fk_tablefortest_a bigint,
+    street varchar(10),
+    housenumber varchar(20),
+    plz varchar(10),
+    city varchar(40),
+    fk_person_id bigint,
     primary key (id)
 ) ENGINE=InnoDB;
 
-alter table tablefortest_b
-    add index fkindex (fk_tablefortest_a), 
-    add constraint fkconstraint
-    foreign key (fk_tablefortest_a) 
-    references tablefortest_a (id);
+create table account (
+    id bigint not null auto_increment,
+    accountnr varchar(10),
+    bic varchar(20),
+    iban varchar(20),
+    fk_person_id bigint,
+    primary key(id)
+) ENGINE=InnoDB;
+
+alter table address
+    add index fk_address_person_id (address), 
+    add constraint fk_person_id
+    foreign key (fk_person_id) 
+    references person (id);
+    
+alter table account
+    add index fk_account_person_id (account),
+    add constraint fk_person_id
+    foreign key (fk_person_id)
+    references person (id);
+
