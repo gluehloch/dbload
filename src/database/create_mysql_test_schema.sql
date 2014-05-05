@@ -28,14 +28,14 @@ create table account (
 ) ENGINE=InnoDB;
 
 alter table address
-    add index fk_address_person_id (address), 
-    add constraint fk_person_id
+    add index fk_address_person_id (fk_person_id), 
+    add constraint cst_address_person_id
     foreign key (fk_person_id) 
     references person (id);
     
 alter table account
-    add index fk_account_person_id (account),
-    add constraint fk_person_id
+    add index fk_account_person_id (fk_person_id),
+    add constraint cst_account_person_id
     foreign key (fk_person_id)
     references person (id);
 
