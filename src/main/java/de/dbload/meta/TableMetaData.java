@@ -16,9 +16,6 @@
 
 package de.dbload.meta;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Holds the database table meta data.
  * 
@@ -26,33 +23,26 @@ import java.util.List;
  */
 public class TableMetaData {
 
-	private final String tableName;
-	private final List<ColumnMetaData> columns = new ArrayList<>();
+    private final String tableName;
+    private final ColumnsMetaData columnsMetaData;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param tableName
-	 *            The table name
-	 * @param columns
-	 *            The columns of the table
-	 */
-	public TableMetaData(String tableName, List<ColumnMetaData> columns) {
-		this.tableName = tableName;
-		this.columns.addAll(columns);
-	}
+    /**
+     * Constructor
+     * 
+     * @param _tableName the table name
+     * @param _columns the columns of the table
+     */
+    public TableMetaData(String _tableName, ColumnsMetaData _columns) {
+        tableName = _tableName;
+        columnsMetaData = _columns;
+    }
 
-	public String getTableName() {
-		return tableName;
-	}
+    public String getTableName() {
+        return tableName;
+    }
 
-	/**
-	 * Liste aller Spalten
-	 * 
-	 * @return Eine Liste aller Spalten
-	 */
-	public List<ColumnMetaData> getColumns() {
-		return columns;
-	}
+    public ColumnsMetaData getColumns() {
+        return columnsMetaData;
+    }
 
 }
