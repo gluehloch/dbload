@@ -23,48 +23,55 @@ package de.dbload.meta;
  */
 public class ColumnMetaData {
 
-	private final String columnName;
+    private final String columnName;
 
-	private final Type columnType;
+    private final Type columnType;
 
-	public static enum Type {
-		DEFAULT, DATE
-	}
+    public static enum Type {
+        /** Unknown data type */
+        DEFAULT,
+        /** varchar */
+        STRING,
+        /** number */
+        NUMBER,
+        /** date */
+        DATE
+    }
 
-	/**
-	 * Constructor
-	 * 
-	 * @param columnName
-	 *            column name
-	 * @param columnType
-	 *            column type
-	 */
-	public ColumnMetaData(String columnName, Type columnType) {
-		this.columnName = columnName;
-		this.columnType = columnType;
-	}
+    /**
+     * Constructor
+     * 
+     * @param columnName
+     *            column name
+     * @param columnType
+     *            column type
+     */
+    public ColumnMetaData(String columnName, Type columnType) {
+        this.columnName = columnName;
+        this.columnType = columnType;
+    }
 
-	/**
-	 * Column name
-	 * 
-	 * @return Column name
-	 */
-	public String getColumnName() {
-		return columnName;
-	}
+    /**
+     * Column name
+     * 
+     * @return Column name
+     */
+    public String getColumnName() {
+        return columnName;
+    }
 
-	/**
-	 * Column type
-	 * 
-	 * @return Column type
-	 */
-	public Type getColumnType() {
-		return columnType;
-	}
+    /**
+     * Column type
+     * 
+     * @return Column type
+     */
+    public Type getColumnType() {
+        return columnType;
+    }
 
-	@Override
-	public String toString() {
-		return columnName + "[" + columnType + "]";
-	}
+    @Override
+    public String toString() {
+        return columnName + "[" + columnType + "]";
+    }
 
 }

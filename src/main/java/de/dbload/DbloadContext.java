@@ -14,40 +14,25 @@
  * limitations under the License.
  */
 
-package de.dbload.jdbc;
+package de.dbload;
 
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
- * Jdbc Utilities.
- *
+ * Holds the database connection.
+ * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class JdbcUtils {
+public class DbloadContext {
+
+    private final Connection conn;
     
-	public static void close(Statement stmt) {
+    public DbloadContext(Connection _conn) {
+        conn = _conn;
+    }
 
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException ex) {
-				// Ignore me
-			}
-		}
-	}
-
-	public static void findMetaData(Connection conn, String tableName) {
-	    String sql = "SELECT * FROM " + tableName + " WHERE 1 = 0";
-	    
-	    try {
-            Statement stmt = conn.createStatement();
-            boolean execute = stmt.execute(sql);
-        } catch (SQLException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
-	}
+    public Connection getConnection() {
+        return conn;
+    }
 
 }

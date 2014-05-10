@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload.jdbc.mysql;
+package de.dbload.jdbc.common;
 
 import de.dbload.jdbc.SqlStatement;
 import de.dbload.jdbc.SqlStatementBuilderUtils;
@@ -25,7 +25,7 @@ import de.dbload.meta.TableMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class MySqlInsertStatementBuilder {
+public class DefaultInsertStatementBuilder implements InsertStatementBuilder {
 
     public SqlStatement create(TableMetaData tableMetaData) {
         // INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);

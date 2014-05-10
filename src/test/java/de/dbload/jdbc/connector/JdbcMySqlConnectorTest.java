@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload.connector;
+package de.dbload.jdbc.connector;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -23,6 +23,8 @@ import static org.junit.Assert.assertThat;
 import java.sql.Connection;
 
 import org.junit.Test;
+
+import de.dbload.jdbc.connector.JdbcMySqlConnector;
 
 /**
  * Test for {@link JdbcMySqlConnector}.

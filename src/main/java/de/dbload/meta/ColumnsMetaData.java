@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import de.dbload.meta.ColumnMetaData.Type;
+
 /**
  * Holds the meta data of all columns of a table.
  *
@@ -42,6 +44,11 @@ public class ColumnsMetaData {
 
     public void addColumn(ColumnMetaData column) {
         columns.add(column);
+    }
+
+    public ColumnsMetaData column(String columnName, Type type) {
+        addColumn(new ColumnMetaData(columnName, type));
+        return this;
     }
 
     @Override

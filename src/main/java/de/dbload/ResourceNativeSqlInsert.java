@@ -18,27 +18,23 @@ package de.dbload;
 
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
-
-import de.dbload.jdbc.JdbcTemplate;
-import de.dbload.meta.ColumnMetaData;
-import de.dbload.meta.ColumnMetaData.Type;
+import de.dbload.jdbc.SqlStatement;
+import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
+import de.dbload.jdbc.common.InsertStatementBuilder;
 import de.dbload.meta.TableMetaData;
 
-class ResourceNativeSqlInsert implements ResourceInsert {
+/**
+ * TODO
+ * 
+ * @author Andre Winkler. http://www.andre-winkler.de
+ */
+public class ResourceNativeSqlInsert implements ResourceInsert {
 
-	private final JdbcTemplate jdbcTemplate;
-
+    private final DbloadContext dbloadContext;
 	private TableMetaData tableMetaData;
 
-	/**
-	 * Konstruktor
-	 * 
-	 * @param jdbcTemplate
-	 *            JdbcTemplate fuer ein einfaches Insert
-	 */
-	public ResourceNativeSqlInsert(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
+	public ResourceNativeSqlInsert(DbloadContext _context) {
+	    dbloadContext = _context;
 	}
 
 	/**
@@ -54,44 +50,13 @@ class ResourceNativeSqlInsert implements ResourceInsert {
 	 */
 	@Override
 	public void insert(List<String> data) {
-		StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
-		insertSqlCommand.append(tableMetaData.getTableName());
-		insertSqlCommand.append('(');
+	    DataRow dataRow = new DataRow();
 
-		List<ColumnMetaData> columns = tableMetaData.getColumns();
-		for (int i = 0; i < columns.size(); i++) {
-			ColumnMetaData column = columns.get(i);
-			insertSqlCommand.append(column.getColumnName());
-			if (i < columns.size() - 1) {
-				insertSqlCommand.append(',');
-			}
-		}
-		insertSqlCommand.append(")\r\n VALUES (");
-		for (int i = 0; i < columns.size(); i++) {
-			ColumnMetaData column = columns.get(i);
-			Object insertme;
-			if (column.getColumnType() == Type.DATE) {
-				insertme = "to_date('" + data.get(i) + "', '"
-						+ ORACLE_DATE_FORMAT + "')";
-			} else {
-				// int[] types = jdbcInsert.getInsertTypes();
-				// insertme = InOutUtils.toString(types[i], data.get(i));
-				String val = data.get(i);
-				if (StringUtils.isBlank(val)) {
-					insertme = "NULL";
-				} else {
-					insertme = "'" + val + "'";
-				}
-			}
-
-			insertSqlCommand.append(insertme);
-			if (i < columns.size() - 1) {
-				insertSqlCommand.append(',');
-			}
-		}
-		insertSqlCommand.append(')');
-
-		jdbcTemplate.execute(insertSqlCommand.toString());
+	    InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
+	    SqlStatement insertSqlStmt = statementBuilder.create(tableMetaData);
+	    
+		DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext, tableMetaData);
+		dbloadInsertStmt.insert(dataRow);
 	}
 
 	/**

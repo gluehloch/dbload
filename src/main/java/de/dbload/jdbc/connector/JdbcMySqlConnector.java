@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload.connector;
+package de.dbload.jdbc.connector;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -26,6 +26,7 @@ import de.dbload.DbloadException;
 
 /**
  * Some utility methods to create a {@link Connection} to a MySQL database.
+ * All connections are created with <code>autocommit=false</code>.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
@@ -57,6 +58,7 @@ public class JdbcMySqlConnector {
 			throw new IllegalArgumentException();
 		}
 
+		// TODO "jdbc:mysql://localhost/test?user=monty&password=greatsqldb
 		return String.format("jdbc:mysql://%s:%d/%s", server, port,
 				databaseName);
 	}
@@ -67,6 +69,7 @@ public class JdbcMySqlConnector {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(dbUrl, user, password);
+			conn.setAutoCommit(false);
 		} catch (SQLException ex) {
 			throw new DbloadException(String.format(
 					"Unable to connect to database with url '%s'", dbUrl), ex);
