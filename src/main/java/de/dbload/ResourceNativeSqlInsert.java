@@ -16,6 +16,7 @@
 
 package de.dbload;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import de.dbload.jdbc.SqlStatement;
@@ -30,11 +31,11 @@ import de.dbload.meta.TableMetaData;
  */
 public class ResourceNativeSqlInsert implements ResourceInsert {
 
-    private final DbloadContext dbloadContext;
+	private final DbloadContext dbloadContext;
 	private TableMetaData tableMetaData;
 
 	public ResourceNativeSqlInsert(DbloadContext _context) {
-	    dbloadContext = _context;
+		dbloadContext = _context;
 	}
 
 	/**
@@ -49,14 +50,17 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void insert(List<String> data) {
-	    DataRow dataRow = new DataRow();
+	public void insert(List<String> data) throws SQLException {
+		DataRow dataRow = new DataRow();
 
-	    InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
-	    SqlStatement insertSqlStmt = statementBuilder.create(tableMetaData);
-	    
-		DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext, tableMetaData);
-		dbloadInsertStmt.insert(dataRow);
+		InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
+		SqlStatement insertSqlStmt = statementBuilder.create(tableMetaData);
+
+		try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
+				tableMetaData)) {
+			dbloadInsertStmt.insert(dataRow);
+		}
+
 	}
 
 	/**

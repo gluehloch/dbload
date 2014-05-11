@@ -16,6 +16,7 @@
 
 package de.dbload;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import de.dbload.meta.TableMetaData;
@@ -26,16 +27,6 @@ import de.dbload.meta.TableMetaData;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 interface ResourceInsert {
-
-	/**
-	 * Konvertierungsformat Oracle-Date-Type -> String
-	 */
-	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-	/**
-	 * Konvertierungsformat String -> Oracle-Date-Type
-	 */
-	public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
 	/**
 	 * Setzen der aktuellen Metadaten (Tabellename und Spaltennamen).
@@ -51,7 +42,7 @@ interface ResourceInsert {
 	 * @param data
 	 *            Die einzufuegenden Daten
 	 */
-	void insert(List<String> data);
+	void insert(List<String> data) throws SQLException;
 
 	/**
 	 * Schliesst die Ressource.
