@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package de.dbload.jdbc.common;
+package de.dbload.jdbc;
 
-import de.dbload.jdbc.SqlStatement;
-import de.dbload.jdbc.SqlStatementBuilderUtils;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Creates an insert statement for the MySQL database.
+ * The representation of a SQL statement.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DefaultInsertStatementBuilder implements InsertStatementBuilder {
+public class SqlInsertStatement {
 
-    public SqlStatement create(TableMetaData tableMetaData) {
+    private TableMetaData tableMetaData;
+
+    public SqlInsertStatement(TableMetaData _tableMetaData) {
+        tableMetaData = _tableMetaData;
+    }
+
+    public String getSql() {
         // INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
         StringBuffer stmt = new StringBuffer("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());
@@ -37,9 +41,8 @@ public class DefaultInsertStatementBuilder implements InsertStatementBuilder {
         
         String questionMarkPerColumn = SqlStatementBuilderUtils.createColumnValues(tableMetaData.getColumns());
         stmt.append(questionMarkPerColumn).append(")");
-        
-        SqlStatement sqlStmt = new SqlStatement(stmt.toString());
-        return sqlStmt;
+
+        return stmt.toString();
     }
 
 }

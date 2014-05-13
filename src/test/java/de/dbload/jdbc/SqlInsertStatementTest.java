@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload.jdbc.common;
+package de.dbload.jdbc;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -28,8 +28,6 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.dbload.jdbc.SqlStatement;
-import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
 import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -41,7 +39,7 @@ import de.dbload.misc.DateTimeUtils;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DefaultInsertStatementBuilderTest {
+public class SqlInsertStatementTest {
 
     private TableMetaData tableMetaData;
 
@@ -59,11 +57,11 @@ public class DefaultInsertStatementBuilderTest {
 
     @Test
     public void testSqlInsertStatementBuilder() {
-        DefaultInsertStatementBuilder builder = new DefaultInsertStatementBuilder();
-        SqlStatement sqlStatement = builder.create(tableMetaData);
+        SqlInsertStatement stmt = new SqlInsertStatement(tableMetaData);
+        String sqlStmt = stmt.getSql();
 
         assertThat(
-                sqlStatement.getSql(),
+                sqlStmt,
                 equalTo("INSERT INTO person(id, name, vorname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)"));
     }
 
@@ -72,8 +70,7 @@ public class DefaultInsertStatementBuilderTest {
         Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
                 "dbload", "localhost", "dbload");
 
-        DefaultInsertStatementBuilder builder = new DefaultInsertStatementBuilder();
-        SqlStatement sqlStatement = builder.create(tableMetaData);
+        SqlInsertStatement stmt = new SqlInsertStatement(tableMetaData);
 
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
         Date date = jodaDateTime.toDate();
@@ -81,22 +78,22 @@ public class DefaultInsertStatementBuilderTest {
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
         java.sql.Time sqlTime = new java.sql.Time(date.getTime());
 
-        PreparedStatement stmt = conn.prepareStatement(sqlStatement.getSql());
-        stmt.setInt(1, 1);
-        stmt.setString(2, "winkler");
-        stmt.setString(3, "andre");
-        stmt.setInt(4, 43);
-        stmt.setInt(5, 0);
-        stmt.setTimestamp(6, sqlTimestamp);
-        stmt.execute();
+        PreparedStatement pstmt = conn.prepareStatement(stmt.getSql());
+        pstmt.setInt(1, 1);
+        pstmt.setString(2, "winkler");
+        pstmt.setString(3, "andre");
+        pstmt.setInt(4, 43);
+        pstmt.setInt(5, 0);
+        pstmt.setTimestamp(6, sqlTimestamp);
+        pstmt.execute();
 
-        stmt.setInt(1, 2);
-        stmt.setString(2, "winkler");
-        stmt.setString(3, "andre");
-        stmt.setInt(4, 43);
-        stmt.setInt(5, 0);
-        stmt.setTime(6, sqlTime);
-        stmt.execute();
+        pstmt.setInt(1, 2);
+        pstmt.setString(2, "winkler");
+        pstmt.setString(3, "andre");
+        pstmt.setInt(4, 43);
+        pstmt.setInt(5, 0);
+        pstmt.setTime(6, sqlTime);
+        pstmt.execute();
 
         /* I get the following result from the MySql command line:
         +----+---------+---------+------+------+---------------------+

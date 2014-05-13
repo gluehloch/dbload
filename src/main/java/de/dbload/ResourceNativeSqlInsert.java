@@ -19,7 +19,7 @@ package de.dbload;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.dbload.jdbc.SqlStatement;
+import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
 import de.dbload.jdbc.common.InsertStatementBuilder;
 import de.dbload.meta.TableMetaData;
@@ -54,7 +54,7 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
 		DataRow dataRow = new DataRow();
 
 		InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
-		SqlStatement insertSqlStmt = statementBuilder.create(tableMetaData);
+		SqlInsertStatement insertSqlStmt = statementBuilder.create(tableMetaData);
 
 		try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
 				tableMetaData)) {

@@ -24,7 +24,7 @@ import java.util.Date;
 import org.joda.time.DateTime;
 
 import de.dbload.jdbc.JdbcUtils;
-import de.dbload.jdbc.SqlStatement;
+import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
@@ -36,12 +36,14 @@ import de.dbload.misc.DateTimeUtils;
  */
 public class DbloadInsert implements Closeable {
 
-    private SqlStatement sqlStatement;
+    private SqlInsertStatement sqlStatement;
     private PreparedStatement stmt;
+    private TableMetaData tableMetaData;
 
     public DbloadInsert(DbloadContext _context, TableMetaData _tableMetaData)
             throws SQLException {
 
+        tableMetaData = _tableMetaData;
         stmt = prepareStatement(_context, _tableMetaData);
     }
 
@@ -54,6 +56,15 @@ public class DbloadInsert implements Closeable {
     }
 
     public void insert(DataRow data) throws SQLException {
+        applyParams(data, tableMetaData, stmt);
+        stmt.execute();
+    }
+
+    private void applyParams(DataRow data, TableMetaData tableMetaData,
+            PreparedStatement stmt) throws SQLException {
+
+        stmt.setString(1, "Hallo");
+
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
         Date date = jodaDateTime.toDate();
 
@@ -65,7 +76,6 @@ public class DbloadInsert implements Closeable {
         stmt.setInt(4, 43);
         stmt.setInt(5, 0);
         stmt.setTimestamp(6, sqlTimestamp);
-        stmt.execute();
     }
 
     public void close() {
