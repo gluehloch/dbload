@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload.jdbc.common;
+package de.dbload.jdbc;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
@@ -28,8 +28,6 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.dbload.jdbc.SqlStatement;
-import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
 import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -41,7 +39,7 @@ import de.dbload.misc.DateTimeUtils;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DefaultInsertStatementBuilderTest {
+public class SqlInsertStatementTest {
 
     private TableMetaData tableMetaData;
 
@@ -59,8 +57,7 @@ public class DefaultInsertStatementBuilderTest {
 
     @Test
     public void testSqlInsertStatementBuilder() {
-        DefaultInsertStatementBuilder builder = new DefaultInsertStatementBuilder();
-        SqlStatement sqlStatement = builder.create(tableMetaData);
+        SqlInsertStatement sqlStatement = new SqlInsertStatement(tableMetaData);
 
         assertThat(
                 sqlStatement.getSql(),
@@ -72,8 +69,7 @@ public class DefaultInsertStatementBuilderTest {
         Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
                 "dbload", "localhost", "dbload");
 
-        DefaultInsertStatementBuilder builder = new DefaultInsertStatementBuilder();
-        SqlStatement sqlStatement = builder.create(tableMetaData);
+        SqlInsertStatement sqlStatement = new SqlInsertStatement(tableMetaData);
 
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
         Date date = jodaDateTime.toDate();
