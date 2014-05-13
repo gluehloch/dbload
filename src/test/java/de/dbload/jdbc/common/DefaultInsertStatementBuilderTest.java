@@ -28,7 +28,7 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.dbload.jdbc.SqlStatement;
+import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
 import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.meta.ColumnMetaData.Type;
@@ -60,7 +60,7 @@ public class DefaultInsertStatementBuilderTest {
     @Test
     public void testSqlInsertStatementBuilder() {
         DefaultInsertStatementBuilder builder = new DefaultInsertStatementBuilder();
-        SqlStatement sqlStatement = builder.create(tableMetaData);
+        SqlInsertStatement sqlStatement = builder.create(tableMetaData);
 
         assertThat(
                 sqlStatement.getSql(),
@@ -73,7 +73,7 @@ public class DefaultInsertStatementBuilderTest {
                 "dbload", "localhost", "dbload");
 
         DefaultInsertStatementBuilder builder = new DefaultInsertStatementBuilder();
-        SqlStatement sqlStatement = builder.create(tableMetaData);
+        SqlInsertStatement sqlStatement = builder.create(tableMetaData);
 
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
         Date date = jodaDateTime.toDate();

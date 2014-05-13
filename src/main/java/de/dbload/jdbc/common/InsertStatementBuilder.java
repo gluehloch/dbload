@@ -16,7 +16,7 @@
 
 package de.dbload.jdbc.common;
 
-import de.dbload.jdbc.SqlStatement;
+import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.meta.TableMetaData;
 
 /**
@@ -26,6 +26,6 @@ import de.dbload.meta.TableMetaData;
  */
 public interface InsertStatementBuilder {
 
-    public SqlStatement create(TableMetaData tableMetaData);
+    public SqlInsertStatement create(TableMetaData tableMetaData);
 
 }

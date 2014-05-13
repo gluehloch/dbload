@@ -16,7 +16,7 @@
 
 package de.dbload.jdbc.common;
 
-import de.dbload.jdbc.SqlStatement;
+import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.jdbc.SqlStatementBuilderUtils;
 import de.dbload.meta.TableMetaData;
 
@@ -27,7 +27,7 @@ import de.dbload.meta.TableMetaData;
  */
 public class DefaultInsertStatementBuilder implements InsertStatementBuilder {
 
-    public SqlStatement create(TableMetaData tableMetaData) {
+    public SqlInsertStatement create(TableMetaData tableMetaData) {
         // INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
         StringBuffer stmt = new StringBuffer("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());
@@ -38,7 +38,7 @@ public class DefaultInsertStatementBuilder implements InsertStatementBuilder {
         String questionMarkPerColumn = SqlStatementBuilderUtils.createColumnValues(tableMetaData.getColumns());
         stmt.append(questionMarkPerColumn).append(")");
         
-        SqlStatement sqlStmt = new SqlStatement(stmt.toString());
+        SqlInsertStatement sqlStmt = new SqlInsertStatement(stmt.toString(), tableMetaData);
         return sqlStmt;
     }
 

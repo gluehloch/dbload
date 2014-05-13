@@ -16,23 +16,27 @@
 
 package de.dbload.jdbc;
 
+import de.dbload.meta.TableMetaData;
+
 /**
  * The representation of a SQL statement.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlStatement {
+public class SqlInsertStatement {
 
     private String sql;
+    private TableMetaData tableMetaData;
 
-    public SqlStatement(String _sql) {
+    public SqlInsertStatement(String _sql, TableMetaData _tableMetaData) {
         sql = _sql;
+        tableMetaData = _tableMetaData;
     }
 
     public String getSql() {
         return sql;
     }
-
+    
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -49,7 +53,7 @@ public class SqlStatement {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        SqlStatement other = (SqlStatement) obj;
+        SqlInsertStatement other = (SqlInsertStatement) obj;
         if (sql == null) {
             if (other.sql != null)
                 return false;
