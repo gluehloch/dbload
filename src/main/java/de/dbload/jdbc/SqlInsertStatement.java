@@ -25,24 +25,41 @@ import de.dbload.meta.TableMetaData;
  */
 public class SqlInsertStatement {
 
+    private String sql;
     private TableMetaData tableMetaData;
 
-    public SqlInsertStatement(TableMetaData _tableMetaData) {
+    public SqlInsertStatement(String _sql, TableMetaData _tableMetaData) {
+        sql = _sql;
         tableMetaData = _tableMetaData;
     }
 
     public String getSql() {
-        // INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
-        StringBuffer stmt = new StringBuffer("INSERT INTO ");
-        stmt.append(tableMetaData.getTableName());
-        
-        String columnDescription = SqlStatementBuilderUtils.createColumnDescription(tableMetaData.getColumns());
-        stmt.append("(").append(columnDescription).append(") VALUES(");
-        
-        String questionMarkPerColumn = SqlStatementBuilderUtils.createColumnValues(tableMetaData.getColumns());
-        stmt.append(questionMarkPerColumn).append(")");
+        return sql;
+    }
+    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((sql == null) ? 0 : sql.hashCode());
+        return result;
+    }
 
-        return stmt.toString();
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SqlInsertStatement other = (SqlInsertStatement) obj;
+        if (sql == null) {
+            if (other.sql != null)
+                return false;
+        } else if (!sql.equals(other.sql))
+            return false;
+        return true;
     }
 
 }
