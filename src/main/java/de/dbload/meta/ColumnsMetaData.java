@@ -27,7 +27,7 @@ import de.dbload.meta.ColumnMetaData.Type;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class ColumnsMetaData {
+public class ColumnsMetaData implements Iterable<ColumnMetaData>{
 
     private List<ColumnMetaData> columns = new ArrayList<>();
 

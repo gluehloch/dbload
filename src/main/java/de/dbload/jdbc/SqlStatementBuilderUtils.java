@@ -16,8 +16,6 @@
 
 package de.dbload.jdbc;
 
-import java.util.Iterator;
-
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnsMetaData;
 
@@ -62,11 +60,10 @@ public class SqlStatementBuilderUtils {
 
         boolean first = true;
         StringBuffer insertSqlCommand = new StringBuffer();
-        for (Iterator<ColumnMetaData> i = columns.iterator(); i.hasNext();) {
+        for (ColumnMetaData column : columns) {
             if (!first) {
                 insertSqlCommand.append(", ");
             }
-            ColumnMetaData column = i.next();
             insertSqlCommand.append(columnIterator.get(column));
 
             first = false;

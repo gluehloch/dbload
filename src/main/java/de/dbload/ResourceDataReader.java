@@ -17,6 +17,7 @@
 package de.dbload;
 
 import java.io.BufferedReader;
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -26,95 +27,88 @@ import java.io.InputStreamReader;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class ResourceDataReader {
+public class ResourceDataReader implements Closeable {
 
-	private final Class<?> resourceClass;
-	private final String resourceName;
+    private final Class<?> resourceClass;
+    private final String resourceName;
 
-	private InputStream resourceAsStream;
-	private InputStreamReader inputStreamReader;
-	private BufferedReader bufferedReader;
-	private String line;
+    private InputStream resourceAsStream;
+    private InputStreamReader inputStreamReader;
+    private BufferedReader bufferedReader;
+    private String line;
 
-	/**
-	 * Konstruktor
-	 * 
-	 * @param resourceName
-	 *            der Name der zu ladenden Klassenpfadressource
-	 */
-	public ResourceDataReader(String resourceName) {
-		this(resourceName, ResourceDataReader.class);
-	}
+    /**
+     * Constructor
+     * 
+     * @param resourceName a classpath resource
+     */
+    public ResourceDataReader(String resourceName) {
+        this(resourceName, ResourceDataReader.class);
+    }
 
-	/**
-	 * Konstruktor
-	 * 
-	 * @param resourceName
-	 *            der Name der zu ladenden Klassenpfadressource
-	 * @param resourceClass
-	 *            die Resource relativ zu dieser Klasse
-	 */
-	public ResourceDataReader(String resourceName, Class<?> resourceClass) {
-		this.resourceName = resourceName;
-		this.resourceClass = resourceClass;
-	}
+    /**
+     * Constructor
+     * 
+     * @param resourceName name of a classpath resource
+     * @param resourceClass reference class for the classpath resource
+     */
+    public ResourceDataReader(String resourceName, Class<?> resourceClass) {
+        this.resourceName = resourceName;
+        this.resourceClass = resourceClass;
+    }
 
-	/**
-	 * Oeffnen der Ressource.
-	 * 
-	 * @throws IOException
-	 *             Ups
-	 */
-	public void open() throws IOException {
-		resourceAsStream = resourceClass.getResourceAsStream(resourceName);
-		if (resourceAsStream == null) {
-			throw new IOException("Die Ressource '" + resourceName
-					+ "' kann nicht geoeffnet werden!");
-		}
-		inputStreamReader = new InputStreamReader(resourceAsStream);
-		bufferedReader = new BufferedReader(inputStreamReader);
-	}
+    /**
+     * Opens the resource.
+     * 
+     * @throws IOException Ups
+     */
+    public void open() throws IOException {
+        resourceAsStream = resourceClass.getResourceAsStream(resourceName);
+        if (resourceAsStream == null) {
+            throw new IOException("Unable to open resource " + resourceName);
+        }
 
-	/**
-	 * Liest eine Resourcendatei ein.
-	 * 
-	 * @return Eine Zeile aus der Datei
-	 * @throws IOException
-	 *             Ups
-	 */
-	public String readLine() throws IOException {
-		line = bufferedReader.readLine();
-		return line;
-	}
+        inputStreamReader = new InputStreamReader(resourceAsStream);
+        bufferedReader = new BufferedReader(inputStreamReader);
+    }
 
-	/**
-	 * Ende der Datei erreicht?
-	 * 
-	 * @return Liefert <code>true</code>, falls das Ende der Datei erreicht
-	 *         wurde.
-	 */
-	public boolean endOfFile() {
-		return null == line;
-	}
+    /**
+     * Read one line of the resource.
+     * 
+     * @return line of data
+     * @throws IOException Ups
+     */
+    public String readLine() throws IOException {
+        line = bufferedReader.readLine();
+        return line;
+    }
 
-	/**
-	 * Schliesst die gebundenen Ressourcen
-	 * 
-	 * @throws IOException
-	 *             Ups
-	 */
-	public void close() throws IOException {
-		if (bufferedReader != null) {
-			bufferedReader.close();
-		}
+    /**
+     * Reached end of file?
+     * 
+     * @return Returns <code>true</code>, if reached end of file
+     */
+    public boolean endOfFile() {
+        return null == line;
+    }
 
-		if (inputStreamReader != null) {
-			inputStreamReader.close();
-		}
+    /**
+     * Close the resource.
+     * 
+     * @throws IOException Ups
+     */
+    public void close() throws IOException {
+        if (bufferedReader != null) {
+            bufferedReader.close();
+        }
 
-		if (resourceAsStream != null) {
-			resourceAsStream.close();
-		}
-	}
+        if (inputStreamReader != null) {
+            inputStreamReader.close();
+        }
+
+        if (resourceAsStream != null) {
+            resourceAsStream.close();
+        }
+    }
 
 }

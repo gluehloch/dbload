@@ -17,6 +17,7 @@
 package de.dbload;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -24,15 +25,17 @@ import java.util.List;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DataRow {
+public class DataRow implements Iterable<String> {
 
     private final List<String> datas = new ArrayList<>();
 
-    public DataRow() {
-    }
-
     public void add(String data) {
         datas.add(data);
+    }
+
+    @Override
+    public Iterator<String> iterator() {
+        return datas.iterator();
     }
 
 }

@@ -35,134 +35,124 @@ import de.dbload.meta.ColumnMetaData.Type;
  */
 public class ResourceFileInsert extends ResourceInsertDeko {
 
-	private TableMetaData tableMetaData;
-	private File sqlOutputFile;
-	private FileOutputStream fos;
-	private Writer writer;
+    private TableMetaData tableMetaData;
+    private File sqlOutputFile;
+    private FileOutputStream fos;
+    private Writer writer;
 
-	private boolean doNotWriteToFileBecauseThisIsAJenkinsRun = false;
+    /**
+     * Constructor
+     * 
+     * @param resourceInsertDeko resource to decorate
+     * @param testcase the name of the testcase
+     */
+    public ResourceFileInsert(File directory,
+            ResourceInsert resourceInsertDeko, String testcase) {
 
-	/**
-	 * Konstruktor
-	 * 
-	 * @param resourceInsertDeko
-	 *            Der wird dekoriert
-	 * @param testcase
-	 *            Der Name des Testcase
-	 */
-	public ResourceFileInsert(ResourceInsert resourceInsertDeko, String testcase) {
-		super(resourceInsertDeko);
+        super(resourceInsertDeko);
 
-		sqlOutputFile = new File("D:\\comdirect\\sql_i" + "nsert\\" + testcase
-				+ ".sql");
-		if (sqlOutputFile.exists()) {
-			sqlOutputFile.delete();
-		}
+        sqlOutputFile = new File(directory, testcase + ".sql");
+        if (sqlOutputFile.exists()) {
+            sqlOutputFile.delete();
+        }
 
-		try {
-			fos = new FileOutputStream(sqlOutputFile, true);
-			writer = new OutputStreamWriter(fos, "UTF-8");
-		} catch (FileNotFoundException ex) {
-			// Ok. Ist das hier Unix? Jenkins vielleicht? Dann ignorieren und
-			// weitermachen ...
-			doNotWriteToFileBecauseThisIsAJenkinsRun = true;
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
-	}
+        try {
+            fos = new FileOutputStream(sqlOutputFile, true);
+            writer = new OutputStreamWriter(fos, "UTF-8");
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void newInsert(TableMetaData tableMetaData) {
-		super.newInsert(tableMetaData);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void newInsert(TableMetaData tableMetaData) {
+        super.newInsert(tableMetaData);
 
-		this.tableMetaData = tableMetaData;
+        this.tableMetaData = tableMetaData;
 
-		try {
-			if (!doNotWriteToFileBecauseThisIsAJenkinsRun) {
-				writer.write("\r\n");
-			}
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
-	}
+        try {
+            writer.write("\r\n");
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void insert(List<String> data) {
-		super.insert(data);
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insert(List<String> data) {
+        super.insert(data);
 
-		StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
-		insertSqlCommand.append(tableMetaData.getTableName());
-		insertSqlCommand.append('(');
+        StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
+        insertSqlCommand.append(tableMetaData.getTableName());
+        insertSqlCommand.append('(');
 
-		List<ColumnMetaData> columns = tableMetaData.getColumns();
-		for (int i = 0; i < columns.size(); i++) {
-			ColumnMetaData column = columns.get(i);
-			insertSqlCommand.append(column.getColumnName());
-			if (i < columns.size() - 1) {
-				insertSqlCommand.append(',');
-			}
-		}
-		insertSqlCommand.append(")\r\n VALUES (");
-		for (int i = 0; i < columns.size(); i++) {
-			ColumnMetaData column = columns.get(i);
-			Object insertme;
-			if (column.getColumnType() == Type.DATE) {
-				insertme = "to_date('" + data.get(i) + "', '"
-						+ ORACLE_DATE_FORMAT + "')";
-			} else {
-				// int[] types = jdbcInsert.getInsertTypes();
-				// insertme = InOutUtils.toString(types[i], data.get(i));
-				String val = data.get(i);
-				if (org.apache.commons.lang.StringUtils.isBlank(val)) {
-					insertme = "NULL";
-				} else {
-					insertme = "'" + val + "'";
-				}
-			}
+        // List<ColumnMetaData> columns = tableMetaData.getColumns();
+        boolean first = true;
+        for (ColumnMetaData column : tableMetaData.getColumns()) {
+            if (!first) {
+                insertSqlCommand.append(',');
+            }
+            insertSqlCommand.append(column.getColumnName());
+            first = false;
+        }
 
-			insertSqlCommand.append(insertme);
-			if (i < columns.size() - 1) {
-				insertSqlCommand.append(',');
-			}
-		}
-		insertSqlCommand.append(");");
+        insertSqlCommand.append(")\r\n VALUES (");
+        first = true;
+        for (ColumnMetaData column : tableMetaData.getColumns()) {
+            if (!first) {
+                insertSqlCommand.append(',');
+            }
+            Object insertme;
+            if (column.getColumnType() == Type.DATE) {
+                insertme = "to_date('" + data.get(i) + "', '"
+                        + ORACLE_DATE_FORMAT + "')";
+            } else {
+                // int[] types = jdbcInsert.getInsertTypes();
+                // insertme = InOutUtils.toString(types[i], data.get(i));
+                String val = data.get(i);
+                if (org.apache.commons.lang.StringUtils.isBlank(val)) {
+                    insertme = "NULL";
+                } else {
+                    insertme = "'" + val + "'";
+                }
+            }
 
-		try {
-			writer.write(insertSqlCommand.toString());
-			writer.write("\r\n");
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
-	}
+            insertSqlCommand.append(insertme);
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void close() {
-		super.close();
+        }
+        insertSqlCommand.append(");");
 
-		if (doNotWriteToFileBecauseThisIsAJenkinsRun) {
-			return;
-		}
+        try {
+            writer.write(insertSqlCommand.toString());
+            writer.write("\r\n");
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
 
-		try {
-			if (writer != null) {
-				writer.close();
-			}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+        super.close();
 
-			if (fos != null) {
-				fos.close();
-			}
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
-	}
+        try {
+            if (writer != null) {
+                writer.close();
+            }
+
+            if (fos != null) {
+                fos.close();
+            }
+        } catch (IOException ex) {
+            throw new IllegalStateException(ex);
+        }
+    }
 
 }
