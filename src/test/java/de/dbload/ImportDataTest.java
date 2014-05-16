@@ -29,16 +29,8 @@ import org.junit.Test;
 
 public class ImportDataTest {
 
-	/**
-	 * Testet das Laden von Testdaten
-	 * 
-	 * @throws IOException
-	 *             Ups
-	 */
 	@Test
 	public void testImportData() throws IOException {
-		JdbcTemplate dibaJdbcTemplate = null /* TODO this.getDibaJdbcTemplate() */;
-
 		ImportData importData = new ImportData();
 		importData.start(dibaJdbcTemplate, "resourceundertest.dat",
 				ImportDataTest.class);

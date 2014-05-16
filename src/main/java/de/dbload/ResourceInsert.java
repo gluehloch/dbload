@@ -16,36 +16,35 @@
 
 package de.dbload;
 
+import java.io.Closeable;
 import java.sql.SQLException;
 import java.util.List;
 
 import de.dbload.meta.TableMetaData;
 
 /**
- * {@link ResourceInsert}.
+ * The interface for executing insert to a database.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-interface ResourceInsert {
+interface ResourceInsert extends Closeable {
 
 	/**
-	 * Setzen der aktuellen Metadaten (Tabellename und Spaltennamen).
+	 * Set the current table name.
 	 * 
-	 * @param tableMetaData
-	 *            Tabellenname und Spaltenbezeichner.
+	 * @param tableMetaData table name.
 	 */
 	void newInsert(TableMetaData tableMetaData);
 
 	/**
-	 * Einfuegen einer Datenzeile.
+	 * Insert a new row of data.
 	 * 
-	 * @param data
-	 *            Die einzufuegenden Daten
+	 * @param data the data to insert
 	 */
 	void insert(List<String> data) throws SQLException;
 
 	/**
-	 * Schliesst die Ressource.
+	 * Close this resource.
 	 */
 	void close();
 

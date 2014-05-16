@@ -32,20 +32,8 @@ import de.dbload.meta.TableMetaData;
 
 class ResourceSqlInsert implements ResourceInsert {
 
-	private final JdbcTemplate jdbcTemplate;
-
 	private TableMetaData tableMetaData;
 	private SimpleJdbcInsert simpleJdbcInsert;
-
-	/**
-	 * Konstruktor
-	 * 
-	 * @param jdbcTemplate
-	 *            JdbcTemplate fuer ein einfaches Insert
-	 */
-	public ResourceSqlInsert(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
-	}
 
 	/**
 	 * {@inheritDoc}

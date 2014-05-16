@@ -16,21 +16,26 @@
 
 package de.dbload;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import de.dbload.meta.TableMetaData;
 
-class ResourceInsertDeko implements ResourceInsert {
+/**
+ * A decorator for {@link ResourceInsert}.
+ *
+ * @author Andre Winkler. http://www.andre-winkler.de
+ */
+class ResourceInsertDecorator implements ResourceInsert {
 
 	private final ResourceInsert resourceInsertDeko;
 
 	/**
-	 * Konstruktor
+	 * Constructor
 	 * 
-	 * @param resourceInsertDeko
-	 *            ...
+	 * @param resourceInsertDeko the resourceInsert to decorate
 	 */
-	public ResourceInsertDeko(ResourceInsert resourceInsertDeko) {
+	public ResourceInsertDecorator(ResourceInsert resourceInsertDeko) {
 		this.resourceInsertDeko = resourceInsertDeko;
 	}
 
@@ -46,7 +51,7 @@ class ResourceInsertDeko implements ResourceInsert {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void insert(List<String> data) {
+	public void insert(List<String> data) throws SQLException {
 		resourceInsertDeko.insert(data);
 	}
 

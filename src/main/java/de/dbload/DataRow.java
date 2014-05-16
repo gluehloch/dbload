@@ -33,6 +33,14 @@ public class DataRow implements Iterable<String> {
         datas.add(data);
     }
 
+    public int size() {
+    	return datas.size();
+    }
+
+    public String get(int index) {
+    	return datas.get(index);
+    }
+
     @Override
     public Iterator<String> iterator() {
         return datas.iterator();

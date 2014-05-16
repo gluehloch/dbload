@@ -23,6 +23,7 @@ import java.util.List;
 import org.junit.Test;
 
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.ColumnsMetaData;
 
 /**
  * Test fuer {@link ResourceParser}.
@@ -48,14 +49,13 @@ public class ResourceParserTest {
 	@Test
 	public void testDataLoderParseColumns() {
 		ResourceParser resourceParser = new ResourceParser();
-		List<ColumnMetaData> readColumns = resourceParser
+		ColumnsMetaData columns = resourceParser
 				.readColumns("### col1 | col2(date) | col3");
 
-		assertEquals("col1", readColumns.get(0).getColumnName());
-		assertEquals("col2", readColumns.get(1).getColumnName());
-		assertEquals(ColumnMetaData.Type.DATE, readColumns.get(1)
-				.getColumnType());
-		assertEquals("col3", readColumns.get(2).getColumnName());
+		assertEquals("col1", columns.get(0).getColumnName());
+		assertEquals("col2", columns.get(1).getColumnName());
+		assertEquals(ColumnMetaData.Type.DATE, columns.get(1).getColumnType());
+		assertEquals("col3", columns.get(2).getColumnName());
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class ResourceParserTest {
 	@Test
 	public void testResourceParserDataRow() {
 		ResourceParser resourceParser = new ResourceParser();
-		List<String> data = null;
+		DataRow data = null;
 		data = resourceParser.readData("dat1 | dat2|dat3  | dat4 | | ");
 
 		assertEquals("dat1", data.get(0));

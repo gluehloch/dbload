@@ -16,17 +16,23 @@
 
 package de.dbload;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
-import de.dbload.meta.ColumnMetaData;
+import org.apache.commons.lang.StringUtils;
 
+import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.ColumnsMetaData;
+
+/**
+ * Read a resource.
+ * 
+ * @author Andre Winkler. http://www.andre-winkler.de
+ */
 class ResourceParser {
 
 	private String tableName;
-	private List<ColumnMetaData> columns;
-	private List<String> data;
+	private ColumnsMetaData columns;
+	private DataRow data;
 	private ParserState parserState;
 
 	enum ParserState {
@@ -34,37 +40,37 @@ class ResourceParser {
 	}
 
 	/**
-	 * Der aktuelle Tabellenname.
+	 * The name of the current table.
 	 * 
-	 * @return Der Tabellenname
+	 * @return table name
 	 */
 	public String getTableName() {
 		return tableName;
 	}
 
 	/**
-	 * Die Namen der Tabellenspalten.
+	 * The column description.
 	 * 
-	 * @return Die Namen der Tabellenspalten.
+	 * @return Column description.
 	 */
-	public List<de.dbload.meta.ColumnMetaData> getColumns() {
+	public ColumnsMetaData getColumns() {
 		return columns;
 	}
 
 	/**
-	 * Die Daten zu der Tabelle.
+	 * The data for a table row.
 	 * 
-	 * @return Die Daten zu der Tabelle.
+	 * @return data of a row in a table.
 	 */
-	public List<String> getData() {
+	public DataRow getDataRow() {
 		return data;
 	}
 
 	/**
-	 * Liest die Tabellendefinition
+	 * Reads the table definition
 	 * 
 	 * @param line
-	 *            Eine Zeile aus der Ressource.
+	 *            One line from the resource
 	 * @return ParserState
 	 */
 	public ParserState parse(String line) {
@@ -78,9 +84,9 @@ class ResourceParser {
 			columns = readColumns(line);
 			parserState = ParserState.COLUMN_DEFINITION;
 		} else if ((currentLine.length() > 0 && currentLine.charAt(0) == '#')
-				|| org.apache.commons.lang.StringUtils.isBlank(currentLine)) {
+				|| StringUtils.isBlank(currentLine)) {
 			parserState = ParserState.COMMENT_OR_EMPTY;
-		} else if (!org.apache.commons.lang.StringUtils.isBlank(currentLine)) {
+		} else if (!StringUtils.isBlank(currentLine)) {
 			readData(line);
 			parserState = ParserState.DATA_DEFINITION;
 		}
@@ -88,14 +94,14 @@ class ResourceParser {
 	}
 
 	/**
-	 * Liest eine Datenzeile ein.
+	 * Reading a line of data.
 	 * 
 	 * @param line
-	 *            Die in die Tabelle einzufuegenden Daten
-	 * @return Eine Liste mit den Daten
+	 *            the data
+	 * @return list with data
 	 */
-	public List<String> readData(String line) {
-		data = new ArrayList<>();
+	public DataRow readData(String line) {
+		data = new DataRow();
 		StringTokenizer stok = new StringTokenizer(line, "|", true);
 		boolean lastTokenIsDelim = false;
 		while (stok.hasMoreTokens()) {
@@ -119,45 +125,45 @@ class ResourceParser {
 	}
 
 	/**
-	 * Liest die Spaltennamen
+	 * Read the column definition
 	 * 
 	 * @param columnDefinition
-	 *            Die Spaltendefinition
-	 * @return Eine Liste mit Spaltennamen
+	 *            column definitions
+	 * @return column description
 	 */
-	public List<ColumnMetaData> readColumns(String columnDefinition) {
-		List<ColumnMetaData> columns = new ArrayList<>();
+	public ColumnsMetaData readColumns(String columnDefinition) {
+		ColumnsMetaData columns = new ColumnsMetaData();
 
 		String tmp = columnDefinition.trim();
 		if (!tmp.startsWith("###")) {
 			throw new IllegalStateException("Expected ###");
 		}
 
-		tmp = org.apache.commons.lang.StringUtils.removeStart(tmp, "###");
+		tmp = StringUtils.removeStart(tmp, "###");
 
 		StringTokenizer stok = new StringTokenizer(tmp, "|");
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
 
 			ColumnMetaData.Type type = ColumnMetaData.Type.DEFAULT;
-			if (org.apache.commons.lang.StringUtils.contains(token, "(date)")) {
+			if (StringUtils.contains(token, "(date)")) {
 				token = org.apache.commons.lang.StringUtils.remove(token,
 						"(date)");
 				type = ColumnMetaData.Type.DATE;
 			}
 
-			columns.add(new ColumnMetaData(token.trim(), type));
+			columns.addColumn(new ColumnMetaData(token.trim(), type));
 		}
 
 		return columns;
 	}
 
 	/**
-	 * Liest die Tabellendefinition
+	 * Read the table definition
 	 * 
 	 * @param tableDefinition
-	 *            Die Tabellendefinition
-	 * @return Der Tabellennamne
+	 *            the table definition
+	 * @return the table name
 	 */
 	public String readTableDefinition(String tableDefinition) {
 		String tableName = "";

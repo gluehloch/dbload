@@ -38,6 +38,10 @@ public class ColumnsMetaData implements Iterable<ColumnMetaData>{
         return columns.iterator();
     }
 
+    public ColumnMetaData get(int index) {
+    	return columns.get(index);
+    }
+
     public int size() {
         return columns.size();
     }

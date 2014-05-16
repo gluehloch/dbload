@@ -17,6 +17,7 @@
 package de.dbload;
 
 import java.io.IOException;
+import java.sql.Connection;
 
 import de.dbload.ResourceParser.ParserState;
 import de.dbload.meta.TableMetaData;
@@ -24,34 +25,34 @@ import de.dbload.meta.TableMetaData;
 public class ImportData {
 
 	/**
-	 * Laedt die Testdaten in die Datenbank.
+	 * Load data to the database.
 	 * 
-	 * @param jdbcTemplate
-	 *            ...
+	 * @param conn
+	 *            a database connection
 	 * @param testcase
-	 *            Die Klasse die den Test enthaelt
+	 *            the test case class
 	 * @throws IOException
 	 *             ups
 	 */
-	public void start(JdbcTemplate jdbcTemplate, Class<?> testcase)
-			throws IOException {
-		start(jdbcTemplate, testcase.getSimpleName() + ".dat", testcase);
+	public void start(Connection conn, Class<?> testcase) throws IOException {
+		start(conn, testcase.getSimpleName() + ".dat", testcase);
 	}
 
 	/**
 	 * Laedt die Testdaten in die Datenbank.
 	 * 
-	 * @param jdbcTemplate
-	 *            ...
+	 * @param conn
+	 *            a database connection
 	 * @param resourceName
-	 *            ...
+	 *            the name of a resource
 	 * @param resourceClass
-	 *            ...
+	 *            the resource root class
 	 * @throws IOException
 	 *             ups
 	 */
-	public void start(JdbcTemplate jdbcTemplate, String resourceName,
+	public void start(Connection conn, String resourceName,
 			Class<?> resourceClass) throws IOException {
+
 		ResourceFileInsert resourceFileInsert = new ResourceFileInsert(
 				new ResourceNativeSqlInsert(jdbcTemplate), resourceName);
 		ResourceDataReader rdr = new ResourceDataReader(resourceName,
