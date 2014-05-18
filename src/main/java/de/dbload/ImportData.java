@@ -39,7 +39,7 @@ public class ImportData {
 	}
 
 	/**
-	 * Laedt die Testdaten in die Datenbank.
+	 * Load data to the database.
 	 * 
 	 * @param conn
 	 *            a database connection

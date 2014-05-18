@@ -106,7 +106,7 @@ class ResourceParser {
 		boolean lastTokenIsDelim = false;
 		while (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
-			if (org.apache.commons.lang.StringUtils.equals("|", token)) {
+			if (StringUtils.equals("|", token)) {
 				if (lastTokenIsDelim) {
 					data.add("");
 				}
@@ -147,8 +147,7 @@ class ResourceParser {
 
 			ColumnMetaData.Type type = ColumnMetaData.Type.DEFAULT;
 			if (StringUtils.contains(token, "(date)")) {
-				token = org.apache.commons.lang.StringUtils.remove(token,
-						"(date)");
+				token = StringUtils.remove(token, "(date)");
 				type = ColumnMetaData.Type.DATE;
 			}
 
@@ -171,21 +170,21 @@ class ResourceParser {
 		StringTokenizer stok = new StringTokenizer(tableDefinition);
 		if (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
-			if (!org.apache.commons.lang.StringUtils.equals(token, "###")) {
+			if (!StringUtils.equals(token, "###")) {
 				throw new IllegalStateException("Expected ###");
 			}
 		}
 
 		if (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
-			if (!org.apache.commons.lang.StringUtils.equals(token, "TAB")) {
+			if (!StringUtils.equals(token, "TAB")) {
 				throw new IllegalStateException("Expected TAB");
 			}
 		}
 
 		if (stok.hasMoreTokens()) {
 			String token = stok.nextToken();
-			if (org.apache.commons.lang.StringUtils.isBlank(token)) {
+			if (StringUtils.isBlank(token)) {
 				throw new IllegalStateException();
 			}
 
