@@ -34,51 +34,51 @@ public class SqlStatementBuilderTest {
 
     @Test
     public void testSqlStatementBuilderCreateColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col3", Type.DATE));
-        String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
-        assertThat(desc, equalTo("col1, col2, col3"));
+	ColumnsMetaData columns = new ColumnsMetaData();
+	columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+	columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
+	columns.addColumn(new ColumnMetaData("col3", Type.DATE));
+	String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
+	assertThat(desc, equalTo("col1, col2, col3"));
     }
 
     @Test
     public void testSqlStatementBuilderCreateColumnWithSingleColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
-        assertThat(desc, equalTo("col1"));
+	ColumnsMetaData columns = new ColumnsMetaData();
+	columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+	String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
+	assertThat(desc, equalTo("col1"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSqlStatementBuilderCreateColumnWithNoColumns() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
-        assertThat(desc, equalTo(""));
+	ColumnsMetaData columns = new ColumnsMetaData();
+	String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
+	assertThat(desc, equalTo(""));
     }
-    
+
     @Test
     public void testSqlStatementBuilderCreateValueColumn() {
-       ColumnsMetaData columns = new ColumnsMetaData();
-       columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-       columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
-       String desc = SqlStatementBuilderUtils.createColumnValues(columns);
-       assertThat(desc, equalTo("?, ?"));
+	ColumnsMetaData columns = new ColumnsMetaData();
+	columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+	columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
+	String desc = SqlStatementBuilderUtils.createColumnValues(columns);
+	assertThat(desc, equalTo("?, ?"));
     }
 
     @Test
     public void testSqlStatementBuilderCreateValueColumnWithSingleColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        String desc = SqlStatementBuilderUtils.createColumnValues(columns);
-        assertThat(desc, equalTo("?"));
+	ColumnsMetaData columns = new ColumnsMetaData();
+	columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+	String desc = SqlStatementBuilderUtils.createColumnValues(columns);
+	assertThat(desc, equalTo("?"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSqlStatementBuilderCreateColumnValueWithNoColumns() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        String desc = SqlStatementBuilderUtils.createColumnValues(columns);
-        assertThat(desc, equalTo(""));
+	ColumnsMetaData columns = new ColumnsMetaData();
+	String desc = SqlStatementBuilderUtils.createColumnValues(columns);
+	assertThat(desc, equalTo(""));
     }
 
 }

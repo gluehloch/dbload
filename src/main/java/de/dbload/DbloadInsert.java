@@ -66,8 +66,13 @@ public class DbloadInsert implements Closeable {
         for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
             String name = columnMetaData.getColumnName();
             Type type = columnMetaData.getColumnType();
+            
+            String untypedValue = data.get(name);
         }
 
+        // TODO Wie kommen die Daten in die Fragezeichen?
+        
+        // Das Metamodell gibt den Typ vor.
         for (String e : data) {
             
         }

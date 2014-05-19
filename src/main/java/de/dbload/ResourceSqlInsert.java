@@ -25,27 +25,31 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import de.dbload.jdbc.JdbcTemplate;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
+import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
+import de.dbload.misc.DateTimeUtils;
 
+/**
+ * Execute an INSERT statement.
+ *
+ * @author Andre Winkler. http://www.andre-winkler.de
+ */
 class ResourceSqlInsert implements ResourceInsert {
 
 	private TableMetaData tableMetaData;
-	private SimpleJdbcInsert simpleJdbcInsert;
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void newInsert(TableMetaData tableMetaData) {
-		this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
 		this.tableMetaData = tableMetaData;
 
 		simpleJdbcInsert.withTableName(tableMetaData.getTableName());
 
-		List<ColumnMetaData> columns = tableMetaData.getColumns();
+		ColumnsMetaData columns = tableMetaData.getColumns();
 		String[] strings = new String[columns.size()];
 		for (int i = 0; i < columns.size(); i++) {
 			strings[i] = columns.get(i).getColumnName();
@@ -59,14 +63,14 @@ class ResourceSqlInsert implements ResourceInsert {
 	 */
 	@Override
 	public void insert(List<String> data) {
-		List<ColumnMetaData> columns = tableMetaData.getColumns();
+		ColumnsMetaData columns = tableMetaData.getColumns();
 		Map<String, Object> params = new HashMap<>();
 
 		for (int i = 0; i < columns.size(); i++) {
 			ColumnMetaData column = columns.get(i);
 			Object insertme;
 			if (column.getColumnType() == Type.DATE) {
-				DateTimeFormatter format = DateTimeFormat.forPattern(DATE_FORMAT);
+				DateTimeFormatter format = DateTimeFormat.forPattern(DateTimeUtils.DATE_FORMAT);
 				String value = data.get(i);
 				DateTime dateTime = null;
 
