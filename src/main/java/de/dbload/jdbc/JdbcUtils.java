@@ -26,28 +26,28 @@ import java.sql.Statement;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class JdbcUtils {
-    
-	public static void close(Statement stmt) {
 
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException ex) {
-				// Ignore me
-			}
-		}
-	}
+    public static void close(Statement stmt) {
 
-	public static void findMetaData(Connection conn, String tableName) {
-	    String sql = "SELECT * FROM " + tableName + " WHERE 1 = 0";
-	    
+	if (stmt != null) {
 	    try {
-            Statement stmt = conn.createStatement();
-            boolean execute = stmt.execute(sql);
-        } catch (SQLException ex) {
-            // TODO Auto-generated catch block
-            ex.printStackTrace();
-        }
+		stmt.close();
+	    } catch (SQLException ex) {
+		// Ignore me
+	    }
 	}
+    }
+
+    public static void findMetaData(Connection conn, String tableName) {
+	String sql = "SELECT * FROM " + tableName + " WHERE 1 = 0";
+
+	try {
+	    Statement stmt = conn.createStatement();
+	    boolean execute = stmt.execute(sql);
+	} catch (SQLException ex) {
+	    // TODO Auto-generated catch block
+	    ex.printStackTrace();
+	}
+    }
 
 }

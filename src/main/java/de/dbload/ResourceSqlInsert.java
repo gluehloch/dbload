@@ -38,77 +38,78 @@ import de.dbload.misc.DateTimeUtils;
  */
 class ResourceSqlInsert implements ResourceInsert {
 
-	private TableMetaData tableMetaData;
+    private TableMetaData tableMetaData;
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void newInsert(TableMetaData tableMetaData) {
-		this.tableMetaData = tableMetaData;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void newInsert(TableMetaData tableMetaData) {
+	this.tableMetaData = tableMetaData;
 
-		simpleJdbcInsert.withTableName(tableMetaData.getTableName());
+	simpleJdbcInsert.withTableName(tableMetaData.getTableName());
 
-		ColumnsMetaData columns = tableMetaData.getColumns();
-		String[] strings = new String[columns.size()];
-		for (int i = 0; i < columns.size(); i++) {
-			strings[i] = columns.get(i).getColumnName();
+	ColumnsMetaData columns = tableMetaData.getColumns();
+	String[] strings = new String[columns.size()];
+	for (int i = 0; i < columns.size(); i++) {
+	    strings[i] = columns.get(i).getColumnName();
+	}
+
+	simpleJdbcInsert.usingColumns(strings);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insert(List<String> data) {
+	ColumnsMetaData columns = tableMetaData.getColumns();
+	Map<String, Object> params = new HashMap<>();
+
+	for (int i = 0; i < columns.size(); i++) {
+	    ColumnMetaData column = columns.get(i);
+	    Object insertme;
+	    if (column.getColumnType() == Type.DATE) {
+		DateTimeFormatter format = DateTimeFormat
+			.forPattern(DateTimeUtils.DATE_FORMAT);
+		String value = data.get(i);
+		DateTime dateTime = null;
+
+		if (StringUtils.isBlank(value)) {
+		    insertme = null;
+		} else {
+		    try {
+			dateTime = format.parseDateTime(value);
+		    } catch (IllegalArgumentException ex) {
+			throw new IllegalArgumentException(
+				"Invalid format for table ->"
+					+ tableMetaData.getTableName()
+					+ "<- at column index ->" + i + "<-.",
+				ex);
+		    }
+		    // insertme = dateTime.toDate();
+		    // insertme = new
+		    // java.sql.Timestamp(dateTime.toDate().getTime());
+		    insertme = new SqlParameterValue(java.sql.Types.TIMESTAMP,
+			    new java.sql.Date(dateTime.toDate().getTime()));
 		}
+	    } else {
+		insertme = data.get(i);
+	    }
 
-		simpleJdbcInsert.usingColumns(strings);
+	    // System.out.println(insertme);
+	    params.put(column.getColumnName(), insertme);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void insert(List<String> data) {
-		ColumnsMetaData columns = tableMetaData.getColumns();
-		Map<String, Object> params = new HashMap<>();
+	simpleJdbcInsert.execute(params);
+    }
 
-		for (int i = 0; i < columns.size(); i++) {
-			ColumnMetaData column = columns.get(i);
-			Object insertme;
-			if (column.getColumnType() == Type.DATE) {
-				DateTimeFormatter format = DateTimeFormat.forPattern(DateTimeUtils.DATE_FORMAT);
-				String value = data.get(i);
-				DateTime dateTime = null;
-
-				if (StringUtils.isBlank(value)) {
-					insertme = null;
-				} else {
-					try {
-						dateTime = format.parseDateTime(value);
-					} catch (IllegalArgumentException ex) {
-						throw new IllegalArgumentException(
-								"Invalid format for table ->"
-										+ tableMetaData.getTableName()
-										+ "<- at column index ->" + i + "<-.",
-								ex);
-					}
-					// insertme = dateTime.toDate();
-					// insertme = new
-					// java.sql.Timestamp(dateTime.toDate().getTime());
-					insertme = new SqlParameterValue(java.sql.Types.TIMESTAMP,
-							new java.sql.Date(dateTime.toDate().getTime()));
-				}
-			} else {
-				insertme = data.get(i);
-			}
-
-			// System.out.println(insertme);
-			params.put(column.getColumnName(), insertme);
-		}
-
-		simpleJdbcInsert.execute(params);
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void close() {
-		// Do nothing...
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+	// Do nothing...
+    }
 
 }

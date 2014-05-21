@@ -26,13 +26,13 @@ import java.sql.Connection;
 public class DbloadContext {
 
     private final Connection conn;
-    
+
     public DbloadContext(Connection _conn) {
-        conn = _conn;
+	conn = _conn;
     }
 
     public Connection getConnection() {
-        return conn;
+	return conn;
     }
 
 }

@@ -35,118 +35,118 @@ import de.dbload.misc.DateTimeUtils;
  */
 public class ResourceFileInsert implements ResourceInsert {
 
-	private TableMetaData tableMetaData;
-	private File sqlOutputFile;
-	private FileOutputStream fos;
-	private Writer writer;
+    private TableMetaData tableMetaData;
+    private File sqlOutputFile;
+    private FileOutputStream fos;
+    private Writer writer;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param resourceInsertDeko
-	 *            resource to decorate
-	 * @param testcase
-	 *            the name of the testcase
-	 */
-	public ResourceFileInsert(File directory,
-			ResourceInsert resourceInsertDeko, String testcase) {
+    /**
+     * Constructor
+     * 
+     * @param resourceInsertDeko
+     *            resource to decorate
+     * @param testcase
+     *            the name of the testcase
+     */
+    public ResourceFileInsert(File directory,
+	    ResourceInsert resourceInsertDeko, String testcase) {
 
-		sqlOutputFile = new File(directory, testcase + ".sql");
-		if (sqlOutputFile.exists()) {
-			sqlOutputFile.delete();
-		}
-
-		try {
-			fos = new FileOutputStream(sqlOutputFile, true);
-			writer = new OutputStreamWriter(fos, "UTF-8");
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
+	sqlOutputFile = new File(directory, testcase + ".sql");
+	if (sqlOutputFile.exists()) {
+	    sqlOutputFile.delete();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void newInsert(TableMetaData tableMetaData) {
-		this.tableMetaData = tableMetaData;
+	try {
+	    fos = new FileOutputStream(sqlOutputFile, true);
+	    writer = new OutputStreamWriter(fos, "UTF-8");
+	} catch (IOException ex) {
+	    throw new IllegalStateException(ex);
+	}
+    }
 
-		try {
-			writer.write("\r\n");
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void newInsert(TableMetaData tableMetaData) {
+	this.tableMetaData = tableMetaData;
+
+	try {
+	    writer.write("\r\n");
+	} catch (IOException ex) {
+	    throw new IllegalStateException(ex);
+	}
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insert(List<String> data) {
+	StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
+	insertSqlCommand.append(tableMetaData.getTableName());
+	insertSqlCommand.append('(');
+
+	// List<ColumnMetaData> columns = tableMetaData.getColumns();
+	boolean first = true;
+	for (ColumnMetaData column : tableMetaData.getColumns()) {
+	    if (!first) {
+		insertSqlCommand.append(',');
+	    }
+	    insertSqlCommand.append(column.getColumnName());
+	    first = false;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void insert(List<String> data) {
-		StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
-		insertSqlCommand.append(tableMetaData.getTableName());
-		insertSqlCommand.append('(');
-
-		// List<ColumnMetaData> columns = tableMetaData.getColumns();
-		boolean first = true;
-		for (ColumnMetaData column : tableMetaData.getColumns()) {
-			if (!first) {
-				insertSqlCommand.append(',');
-			}
-			insertSqlCommand.append(column.getColumnName());
-			first = false;
+	insertSqlCommand.append(")\r\n VALUES (");
+	first = true;
+	for (ColumnMetaData column : tableMetaData.getColumns()) {
+	    if (!first) {
+		insertSqlCommand.append(',');
+	    }
+	    Object insertme;
+	    if (column.getColumnType() == Type.DATE) {
+		insertme = "to_date('" + data.get(i) + "', '"
+			+ DateTimeUtils.ORACLE_DATE_FORMAT + "')";
+	    } else {
+		// int[] types = jdbcInsert.getInsertTypes();
+		// insertme = InOutUtils.toString(types[i], data.get(i));
+		String val = data.get(i);
+		if (org.apache.commons.lang.StringUtils.isBlank(val)) {
+		    insertme = "NULL";
+		} else {
+		    insertme = "'" + val + "'";
 		}
+	    }
 
-		insertSqlCommand.append(")\r\n VALUES (");
-		first = true;
-		for (ColumnMetaData column : tableMetaData.getColumns()) {
-			if (!first) {
-				insertSqlCommand.append(',');
-			}
-			Object insertme;
-			if (column.getColumnType() == Type.DATE) {
-				insertme = "to_date('" + data.get(i) + "', '"
-						+ DateTimeUtils.ORACLE_DATE_FORMAT + "')";
-			} else {
-				// int[] types = jdbcInsert.getInsertTypes();
-				// insertme = InOutUtils.toString(types[i], data.get(i));
-				String val = data.get(i);
-				if (org.apache.commons.lang.StringUtils.isBlank(val)) {
-					insertme = "NULL";
-				} else {
-					insertme = "'" + val + "'";
-				}
-			}
+	    insertSqlCommand.append(insertme);
 
-			insertSqlCommand.append(insertme);
-
-		}
-		insertSqlCommand.append(");");
-
-		try {
-			writer.write(insertSqlCommand.toString());
-			writer.write("\r\n");
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
 	}
+	insertSqlCommand.append(");");
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void close() {
-		try {
-			if (writer != null) {
-				writer.close();
-			}
-
-			if (fos != null) {
-				fos.close();
-			}
-		} catch (IOException ex) {
-			// Ok. Something is wrong...
-		}
+	try {
+	    writer.write(insertSqlCommand.toString());
+	    writer.write("\r\n");
+	} catch (IOException ex) {
+	    throw new IllegalStateException(ex);
 	}
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+	try {
+	    if (writer != null) {
+		writer.close();
+	    }
+
+	    if (fos != null) {
+		fos.close();
+	    }
+	} catch (IOException ex) {
+	    // Ok. Something is wrong...
+	}
+    }
 
 }

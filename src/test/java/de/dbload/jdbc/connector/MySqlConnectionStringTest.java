@@ -39,10 +39,10 @@ public class MySqlConnectionStringTest {
      */
     @Test
     public void testMySqlConnectionStringWithAutoCommit() throws Exception {
-        String dbUrl = "jdbc:mysql://localhost/dbload?user=dbload&password=dbload";
-        Connection conn = DriverManager.getConnection(dbUrl);
-        conn.setAutoCommit(false);
-        conn.rollback();
+	String dbUrl = "jdbc:mysql://localhost/dbload?user=dbload&password=dbload";
+	Connection conn = DriverManager.getConnection(dbUrl);
+	conn.setAutoCommit(false);
+	conn.rollback();
     }
 
 }

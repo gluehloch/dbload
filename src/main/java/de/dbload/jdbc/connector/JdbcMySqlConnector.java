@@ -32,49 +32,49 @@ import de.dbload.DbloadException;
  */
 public class JdbcMySqlConnector {
 
-	public static Connection createMySqlConnection(String user,
-			String password, String server, int port, String databaseName) {
+    public static Connection createMySqlConnection(String user,
+	    String password, String server, int port, String databaseName) {
 
-		return createConnection(user, password,
-				createUrl(server, port, databaseName));
+	return createConnection(user, password,
+		createUrl(server, port, databaseName));
+    }
+
+    public static Connection createMySqlConnection(String user,
+	    String password, String server, String databaseName) {
+
+	return createConnection(user, password, createUrl(server, databaseName));
+    }
+
+    public static String createUrl(String server, String databaseName) {
+	if (StringUtils.isBlank(server) || StringUtils.isBlank(databaseName)) {
+	    throw new IllegalArgumentException();
 	}
 
-	public static Connection createMySqlConnection(String user,
-			String password, String server, String databaseName) {
+	return String.format("jdbc:mysql://%s/%s", server, databaseName);
+    }
 
-		return createConnection(user, password, createUrl(server, databaseName));
+    public static String createUrl(String server, int port, String databaseName) {
+	if (StringUtils.isBlank(server) || StringUtils.isBlank(databaseName)) {
+	    throw new IllegalArgumentException();
 	}
 
-	public static String createUrl(String server, String databaseName) {
-		if (StringUtils.isBlank(server) || StringUtils.isBlank(databaseName)) {
-			throw new IllegalArgumentException();
-		}
+	// TODO "jdbc:mysql://localhost/test?user=monty&password=greatsqldb
+	return String.format("jdbc:mysql://%s:%d/%s", server, port,
+		databaseName);
+    }
 
-		return String.format("jdbc:mysql://%s/%s", server, databaseName);
+    private static Connection createConnection(String user, String password,
+	    String dbUrl) {
+
+	Connection conn = null;
+	try {
+	    conn = DriverManager.getConnection(dbUrl, user, password);
+	    conn.setAutoCommit(false);
+	} catch (SQLException ex) {
+	    throw new DbloadException(String.format(
+		    "Unable to connect to database with url '%s'", dbUrl), ex);
 	}
-
-	public static String createUrl(String server, int port, String databaseName) {
-		if (StringUtils.isBlank(server) || StringUtils.isBlank(databaseName)) {
-			throw new IllegalArgumentException();
-		}
-
-		// TODO "jdbc:mysql://localhost/test?user=monty&password=greatsqldb
-		return String.format("jdbc:mysql://%s:%d/%s", server, port,
-				databaseName);
-	}
-
-	private static Connection createConnection(String user, String password,
-			String dbUrl) {
-
-		Connection conn = null;
-		try {
-			conn = DriverManager.getConnection(dbUrl, user, password);
-			conn.setAutoCommit(false);
-		} catch (SQLException ex) {
-			throw new DbloadException(String.format(
-					"Unable to connect to database with url '%s'", dbUrl), ex);
-		}
-		return conn;
-	}
+	return conn;
+    }
 
 }

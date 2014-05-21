@@ -27,31 +27,31 @@ import org.joda.time.format.DateTimeFormatterBuilder;
  */
 public class DateTimeUtils {
 
-	/**
-	 * Konvertierungsformat Oracle-Date-Type -> String
-	 */
-	public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * Konvertierungsformat Oracle-Date-Type -> String
+     */
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-	/**
-	 * Konvertierungsformat String -> Oracle-Date-Type
-	 */
-	public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
+    /**
+     * Konvertierungsformat String -> Oracle-Date-Type
+     */
+    public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
-	private static DateTimeFormatter DEFAULT_FORMATTER = new DateTimeFormatterBuilder()
-			.appendYear(4, 4).appendMonthOfYear(2).appendDayOfMonth(2)
-			.appendHourOfDay(2).appendMinuteOfHour(2).appendSecondOfMinute(2)
-			.toFormatter();
+    private static DateTimeFormatter DEFAULT_FORMATTER = new DateTimeFormatterBuilder()
+	    .appendYear(4, 4).appendMonthOfYear(2).appendDayOfMonth(2)
+	    .appendHourOfDay(2).appendMinuteOfHour(2).appendSecondOfMinute(2)
+	    .toFormatter();
 
-	/**
-	 * Creates a Joda DateTime object.
-	 * 
-	 * @param dateAsString
-	 *            a String with pattern like 'YYYYMMDDhhmmss'
-	 * @return A Joda {@link DateTime}
-	 */
-	public static DateTime toJodaDateTime(String dateAsString) {
-		DateTime dateTime = DateTime.parse(dateAsString, DEFAULT_FORMATTER);
-		return dateTime;
-	}
+    /**
+     * Creates a Joda DateTime object.
+     * 
+     * @param dateAsString
+     *            a String with pattern like 'YYYYMMDDhhmmss'
+     * @return A Joda {@link DateTime}
+     */
+    public static DateTime toJodaDateTime(String dateAsString) {
+	DateTime dateTime = DateTime.parse(dateAsString, DEFAULT_FORMATTER);
+	return dateTime;
+    }
 
 }

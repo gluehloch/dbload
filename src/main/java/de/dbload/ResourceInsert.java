@@ -29,23 +29,23 @@ import de.dbload.meta.TableMetaData;
  */
 interface ResourceInsert extends Closeable {
 
-	/**
-	 * Set the current table name.
-	 * 
-	 * @param tableMetaData table name.
-	 */
-	void newInsert(TableMetaData tableMetaData);
+    /**
+     * Set the current table name.
+     * 
+     * @param tableMetaData table name.
+     */
+    void newInsert(TableMetaData tableMetaData);
 
-	/**
-	 * Insert a new row of data.
-	 * 
-	 * @param data the data to insert
-	 */
-	void insert(List<String> data) throws SQLException;
+    /**
+    * Insert a new row of data.
+    * 
+    * @param data the data to insert
+    */
+    void insert(List<String> data) throws SQLException;
 
-	/**
-	 * Close this resource.
-	 */
-	void close();
+    /**
+     * Close this resource.
+     */
+    void close();
 
 }

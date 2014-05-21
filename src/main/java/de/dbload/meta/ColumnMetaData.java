@@ -28,14 +28,14 @@ public class ColumnMetaData {
     private final Type columnType;
 
     public static enum Type {
-        /** Unknown data type */
-        DEFAULT,
-        /** varchar */
-        STRING,
-        /** number */
-        NUMBER,
-        /** date */
-        DATE
+	/** Unknown data type */
+	DEFAULT,
+	/** varchar */
+	STRING,
+	/** number */
+	NUMBER,
+	/** date */
+	DATE
     }
 
     /**
@@ -47,8 +47,8 @@ public class ColumnMetaData {
      *            column type
      */
     public ColumnMetaData(String columnName, Type columnType) {
-        this.columnName = columnName;
-        this.columnType = columnType;
+	this.columnName = columnName;
+	this.columnType = columnType;
     }
 
     /**
@@ -57,7 +57,7 @@ public class ColumnMetaData {
      * @return Column name
      */
     public String getColumnName() {
-        return columnName;
+	return columnName;
     }
 
     /**
@@ -66,12 +66,12 @@ public class ColumnMetaData {
      * @return Column type
      */
     public Type getColumnType() {
-        return columnType;
+	return columnType;
     }
 
     @Override
     public String toString() {
-        return columnName + "[" + columnType + "]";
+	return columnName + "[" + columnType + "]";
     }
 
 }

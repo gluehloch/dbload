@@ -31,44 +31,45 @@ import de.dbload.meta.TableMetaData;
  */
 public class ResourceNativeSqlInsert implements ResourceInsert {
 
-	private final DbloadContext dbloadContext;
-	private TableMetaData tableMetaData;
+    private final DbloadContext dbloadContext;
+    private TableMetaData tableMetaData;
 
-	public ResourceNativeSqlInsert(DbloadContext _context) {
-		dbloadContext = _context;
+    public ResourceNativeSqlInsert(DbloadContext _context) {
+	dbloadContext = _context;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void newInsert(TableMetaData tableMetaData) {
+	this.tableMetaData = tableMetaData;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insert(List<String> data) throws SQLException {
+	DataRow dataRow = new DataRow();
+
+	InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
+	SqlInsertStatement insertSqlStmt = statementBuilder
+		.create(tableMetaData);
+
+	try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
+		tableMetaData)) {
+	    dbloadInsertStmt.insert(dataRow);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void newInsert(TableMetaData tableMetaData) {
-		this.tableMetaData = tableMetaData;
-	}
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void insert(List<String> data) throws SQLException {
-		DataRow dataRow = new DataRow();
-
-		InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
-		SqlInsertStatement insertSqlStmt = statementBuilder.create(tableMetaData);
-
-		try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
-				tableMetaData)) {
-			dbloadInsertStmt.insert(dataRow);
-		}
-
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void close() {
-		// Do nothing...
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+	// Do nothing...
+    }
 
 }

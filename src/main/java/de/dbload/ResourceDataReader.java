@@ -43,7 +43,7 @@ public class ResourceDataReader implements Closeable {
      * @param resourceName a classpath resource
      */
     public ResourceDataReader(String resourceName) {
-        this(resourceName, ResourceDataReader.class);
+	this(resourceName, ResourceDataReader.class);
     }
 
     /**
@@ -53,8 +53,8 @@ public class ResourceDataReader implements Closeable {
      * @param resourceClass reference class for the classpath resource
      */
     public ResourceDataReader(String resourceName, Class<?> resourceClass) {
-        this.resourceName = resourceName;
-        this.resourceClass = resourceClass;
+	this.resourceName = resourceName;
+	this.resourceClass = resourceClass;
     }
 
     /**
@@ -63,13 +63,13 @@ public class ResourceDataReader implements Closeable {
      * @throws IOException Ups
      */
     public void open() throws IOException {
-        resourceAsStream = resourceClass.getResourceAsStream(resourceName);
-        if (resourceAsStream == null) {
-            throw new IOException("Unable to open resource " + resourceName);
-        }
+	resourceAsStream = resourceClass.getResourceAsStream(resourceName);
+	if (resourceAsStream == null) {
+	    throw new IOException("Unable to open resource " + resourceName);
+	}
 
-        inputStreamReader = new InputStreamReader(resourceAsStream);
-        bufferedReader = new BufferedReader(inputStreamReader);
+	inputStreamReader = new InputStreamReader(resourceAsStream);
+	bufferedReader = new BufferedReader(inputStreamReader);
     }
 
     /**
@@ -79,8 +79,8 @@ public class ResourceDataReader implements Closeable {
      * @throws IOException Ups
      */
     public String readLine() throws IOException {
-        line = bufferedReader.readLine();
-        return line;
+	line = bufferedReader.readLine();
+	return line;
     }
 
     /**
@@ -89,7 +89,7 @@ public class ResourceDataReader implements Closeable {
      * @return Returns <code>true</code>, if reached end of file
      */
     public boolean endOfFile() {
-        return null == line;
+	return null == line;
     }
 
     /**
@@ -98,17 +98,17 @@ public class ResourceDataReader implements Closeable {
      * @throws IOException Ups
      */
     public void close() throws IOException {
-        if (bufferedReader != null) {
-            bufferedReader.close();
-        }
+	if (bufferedReader != null) {
+	    bufferedReader.close();
+	}
 
-        if (inputStreamReader != null) {
-            inputStreamReader.close();
-        }
+	if (inputStreamReader != null) {
+	    inputStreamReader.close();
+	}
 
-        if (resourceAsStream != null) {
-            resourceAsStream.close();
-        }
+	if (resourceAsStream != null) {
+	    resourceAsStream.close();
+	}
     }
 
 }

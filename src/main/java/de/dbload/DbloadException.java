@@ -23,22 +23,22 @@ package de.dbload;
  */
 public class DbloadException extends RuntimeException {
 
-	private static final long serialVersionUID = -6258629715078833636L;
+    private static final long serialVersionUID = -6258629715078833636L;
 
-	public DbloadException() {
-		super();
-	}
+    public DbloadException() {
+	super();
+    }
 
-	public DbloadException(Exception ex) {
-		super(ex);
-	}
+    public DbloadException(Exception ex) {
+	super(ex);
+    }
 
-	public DbloadException(String message) {
-		super(message);
-	}
-	
-	public DbloadException(String message, Exception ex) {
-		super(message, ex);
-	}
+    public DbloadException(String message) {
+	super(message);
+    }
+
+    public DbloadException(String message, Exception ex) {
+	super(message, ex);
+    }
 
 }

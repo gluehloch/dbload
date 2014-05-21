@@ -28,39 +28,39 @@ import de.dbload.meta.TableMetaData;
  */
 class ResourceInsertDecorator implements ResourceInsert {
 
-	private final ResourceInsert resourceInsertDeko;
+    private final ResourceInsert resourceInsertDeko;
 
-	/**
-	 * Constructor
-	 * 
-	 * @param resourceInsertDeko the resourceInsert to decorate
-	 */
-	public ResourceInsertDecorator(ResourceInsert resourceInsertDeko) {
-		this.resourceInsertDeko = resourceInsertDeko;
-	}
+    /**
+     * Constructor
+     * 
+     * @param resourceInsertDeko the resourceInsert to decorate
+     */
+    public ResourceInsertDecorator(ResourceInsert resourceInsertDeko) {
+	this.resourceInsertDeko = resourceInsertDeko;
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void newInsert(TableMetaData tableMetaData) {
-		resourceInsertDeko.newInsert(tableMetaData);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void newInsert(TableMetaData tableMetaData) {
+	resourceInsertDeko.newInsert(tableMetaData);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void insert(List<String> data) throws SQLException {
-		resourceInsertDeko.insert(data);
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void insert(List<String> data) throws SQLException {
+	resourceInsertDeko.insert(data);
+    }
 
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void close() {
-		resourceInsertDeko.close();
-	}
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() {
+	resourceInsertDeko.close();
+    }
 
 }

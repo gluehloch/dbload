@@ -107,24 +107,30 @@ public class ResourceParser {
 	    String token = stok.nextToken();
 	    if (StringUtils.equals("|", token)) {
 		if (lastTokenIsDelim) {
-		    data.put(columns.get(index), null);
-		    index++;
+		    if (index >= columns.size()) {
+			throw new IllegalStateException(
+				"More data than columns!");
+		    }
+
+		    data.put(columns.get(index++), null);
 		}
 		lastTokenIsDelim = true;
 	    } else {
 		// Check, if more data than defined columns
-		if (columns.size() <= index) {
+		if (index >= columns.size()) {
 		    throw new IllegalStateException("More data than columns!");
 		}
 
-		data.put(columns.get(index), (token == null ? null
+		data.put(columns.get(index++), (token == null ? null
 			: StringUtils.trimToNull(token)));
-		index++;
 		lastTokenIsDelim = false;
 	    }
 	}
 
 	if (lastTokenIsDelim) {
+	    if (index >= columns.size()) {
+		throw new IllegalStateException("More data than columns!");
+	    }
 	    data.put(columns.get(index), null);
 	}
 
