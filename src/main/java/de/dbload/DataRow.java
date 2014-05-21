@@ -16,34 +16,28 @@
 
 package de.dbload;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A row of data.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DataRow implements Iterable<String> {
+public class DataRow {
 
-    private final List<String> datas = new ArrayList<>();
+    private final Map<String, String> datas = new HashMap<>();
 
-    public void add(String data) {
-        datas.add(data);
+    public void put(String columnName, String value) {
+        datas.put(columnName, value);
     }
 
     public int size() {
     	return datas.size();
     }
 
-    public String get(int index) {
-    	return datas.get(index);
-    }
-
-    @Override
-    public Iterator<String> iterator() {
-        return datas.iterator();
+    public String get(String columnName) {
+    	return datas.get(columnName);
     }
 
 }

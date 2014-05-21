@@ -17,7 +17,6 @@
 package de.dbload.csv;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -81,13 +80,13 @@ public class ResourceParser {
 	    tableName = readTableDefinition(line);
 	    parserState = ParserState.TABLE_DEFINITION;
 	} else if (currentLine.startsWith("###")) {
-	    columns = readColumns(line);
+	    columns = readColumnNames(line);
 	    parserState = ParserState.COLUMN_DEFINITION;
 	} else if ((currentLine.length() > 0 && currentLine.charAt(0) == '#')
 		|| StringUtils.isBlank(currentLine)) {
 	    parserState = ParserState.COMMENT_OR_EMPTY;
 	} else if (!StringUtils.isBlank(currentLine)) {
-	    readData(line);
+	    readRow(columns, line);
 	    parserState = ParserState.DATA_DEFINITION;
 	}
 	return parserState;
@@ -99,25 +98,34 @@ public class ResourceParser {
      * @param line the data
      * @return list with data
      */
-    public DataRow readData(String line) {
+    public DataRow readRow(List<String> columns, String line) {
 	data = new DataRow();
 	StringTokenizer stok = new StringTokenizer(line, "|", true);
 	boolean lastTokenIsDelim = false;
+	int index = 0;
 	while (stok.hasMoreTokens()) {
 	    String token = stok.nextToken();
 	    if (StringUtils.equals("|", token)) {
 		if (lastTokenIsDelim) {
-		    data.add("");
+		    data.put(columns.get(index), null);
+		    index++;
 		}
 		lastTokenIsDelim = true;
 	    } else {
-		data.add(token == null ? null : token.trim());
+		// Check, if more data than defined columns
+		if (columns.size() <= index) {
+		    throw new IllegalStateException("More data than columns!");
+		}
+
+		data.put(columns.get(index), (token == null ? null
+			: StringUtils.trimToNull(token)));
+		index++;
 		lastTokenIsDelim = false;
 	    }
 	}
 
 	if (lastTokenIsDelim) {
-	    data.add("");
+	    data.put(columns.get(index), null);
 	}
 
 	return data;
@@ -129,10 +137,7 @@ public class ResourceParser {
      * @param columnDefinition column definitions
      * @return column description
      */
-    public List<String> readColumns(String columnDefinition) {
-	LinkedHashMap<String, String> cl = new LinkedHashMap<>();
-	cl.get("kwy");
-	cl.
+    public List<String> readColumnNames(String columnDefinition) {
 	List<String> columns = new ArrayList<>();
 
 	String tmp = columnDefinition.trim();
