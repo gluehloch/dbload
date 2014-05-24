@@ -17,9 +17,14 @@
 package de.dbload;
 
 import java.io.Closeable;
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.Date;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -60,21 +65,66 @@ public class DbloadInsert implements Closeable {
 	stmt.execute();
     }
 
+    private Number toNumber(final String value) {
+        Number number;
+        try {
+            number = parseNumber(value);
+        } catch (ParseException ex) {
+            throw new RuntimeException(ex);
+        }
+        return number;
+    }
+
+    private Number parseNumber(final String value) throws ParseException {
+        DecimalFormat decimalFormat = createNumberFormatter();
+        return (decimalFormat.parse(value));
+    }
+
+    /** Das default-mäßige Format. */
+    public static final String DEFAULT_DECIMAL_FORMAT = "###,###.##";
+
+    /** Das Format für Währungsanzeigen. */
+    public static final String DEFAULT_ZERO_FORMAT = "##,##0.00";
+
+    /** the empty string (placeholder) */
+    private static final String EMPTY = "";
+
+    /** Das Default-Locale. */
+    private Locale locale = Locale.getDefault();
+
+    /** Das Default-Pattern. */
+    private String pattern = DEFAULT_DECIMAL_FORMAT;
+
+    private DecimalFormat createNumberFormatter() {
+        DecimalFormat decimalFormat =
+                (DecimalFormat) NumberFormat.getNumberInstance(locale);
+        decimalFormat.applyPattern(pattern);
+        return decimalFormat;
+    }
+
     private void applyParams(DataRow data, TableMetaData tableMetaData,
 	    PreparedStatement stmt) throws SQLException {
 
+	int index = 0;
 	for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
-	    String name = columnMetaData.getColumnName();
-	    Type type = columnMetaData.getColumnType();
+	    String value = data.get(columnMetaData.getColumnName());
 
-	    String untypedValue = data.get(name);
-	}
-
-	// TODO Wie kommen die Daten in die Fragezeichen?
-
-	// Das Metamodell gibt den Typ vor.
-	for (String e : data) {
-
+	    switch (columnMetaData.getColumnType()) {
+	    case STRING:
+		if (value == null) {
+		    stmt.setNull(index, java.sql.Types.VARCHAR);
+		} else {
+		    stmt.setString(index, value);
+		}
+		break;
+	    case NUMBER:
+		if (value == null) {
+		    BigDecimal number = BigDecimal.
+		    stmt.setBigDecimal(index, value);
+		}
+	    default:
+		stmt.setObject(index, value);
+	    }
 	}
 
 	stmt.setString(1, "Hallo");
