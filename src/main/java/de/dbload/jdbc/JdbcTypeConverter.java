@@ -18,6 +18,10 @@ package de.dbload.jdbc;
 
 import java.math.BigDecimal;
 import java.sql.Statement;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.util.Locale;
 
 import de.dbload.meta.ColumnMetaData;
 
@@ -28,18 +32,17 @@ import de.dbload.meta.ColumnMetaData;
  */
 public class JdbcTypeConverter {
 
-    public void convert(ColumnMetaData columnMetaData, String value) {
+    public Object convert(ColumnMetaData columnMetaData, String value) {
+	Object returnValue = null;
 	switch (columnMetaData.getColumnType()) {
 	case STRING:
-	    if (value == null) {
-		stmt.setNull(index, java.sql.Types.VARCHAR);
-	    } else {
-		stmt.setString(index, value);
+	    if (value != null) {
+		returnValue = value;
 	    }
 	    break;
 	case NUMBER:
-	    if (value == null) {
-		BigDecimal number = BigDecimal.stmt.setBigDecimal(index, value);
+	    if (value != null) {
+		BigDecimal number = BigDecimal.
 	    }
 	default:
 	    stmt.setObject(index, value);

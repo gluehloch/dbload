@@ -65,43 +65,6 @@ public class DbloadInsert implements Closeable {
 	stmt.execute();
     }
 
-    private Number toNumber(final String value) {
-        Number number;
-        try {
-            number = parseNumber(value);
-        } catch (ParseException ex) {
-            throw new RuntimeException(ex);
-        }
-        return number;
-    }
-
-    private Number parseNumber(final String value) throws ParseException {
-        DecimalFormat decimalFormat = createNumberFormatter();
-        return (decimalFormat.parse(value));
-    }
-
-    /** Das default-mäßige Format. */
-    public static final String DEFAULT_DECIMAL_FORMAT = "###,###.##";
-
-    /** Das Format für Währungsanzeigen. */
-    public static final String DEFAULT_ZERO_FORMAT = "##,##0.00";
-
-    /** the empty string (placeholder) */
-    private static final String EMPTY = "";
-
-    /** Das Default-Locale. */
-    private Locale locale = Locale.getDefault();
-
-    /** Das Default-Pattern. */
-    private String pattern = DEFAULT_DECIMAL_FORMAT;
-
-    private DecimalFormat createNumberFormatter() {
-        DecimalFormat decimalFormat =
-                (DecimalFormat) NumberFormat.getNumberInstance(locale);
-        decimalFormat.applyPattern(pattern);
-        return decimalFormat;
-    }
-
     private void applyParams(DataRow data, TableMetaData tableMetaData,
 	    PreparedStatement stmt) throws SQLException {
 
