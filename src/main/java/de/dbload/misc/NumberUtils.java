@@ -41,17 +41,20 @@ public class NumberUtils {
     }
 
     public static Number toNumber(final String value, Locale locale) {
+        return toNumber(value, createDecimalFormatter(locale));
+    }
+
+    public static Number toNumber(final String value, DecimalFormat decimalFormat) {
         Number number;
         try {
-            number = parseNumber(value, locale);
+            number = parseNumber(value, decimalFormat);
         } catch (ParseException ex) {
             throw new RuntimeException(ex);
         }
         return number;
     }
 
-    private static Number parseNumber(String value, Locale locale) throws ParseException {
-        DecimalFormat decimalFormat = createDecimalFormatter(locale);
+    private static Number parseNumber(String value, DecimalFormat decimalFormat) throws ParseException {
         return (decimalFormat.parse(value));
     }
 

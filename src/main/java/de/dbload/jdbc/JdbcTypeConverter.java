@@ -16,21 +16,33 @@
 
 package de.dbload.jdbc;
 
-import java.math.BigDecimal;
-import java.sql.Statement;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
 import java.util.Locale;
 
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.misc.NumberUtils;
 
 /**
- * Convert a Java type to the associated JDBC type.
+ * Convert a Java type to the associated JDBC type. Don´t share this converter
+ * between different threads (DecimalFormat).
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class JdbcTypeConverter {
+
+    private DecimalFormat decimalFormat;
+
+    public JdbcTypeConverter() {
+	decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
+    }
+
+    public JdbcTypeConverter(Locale _locale) {
+	decimalFormat = NumberUtils.createDecimalFormatter(_locale);
+    }
+
+    public JdbcTypeConverter(DecimalFormat _decimalFormat) {
+	decimalFormat = _decimalFormat;
+    }
 
     public Object convert(ColumnMetaData columnMetaData, String value) {
 	Object returnValue = null;
@@ -42,11 +54,13 @@ public class JdbcTypeConverter {
 	    break;
 	case NUMBER:
 	    if (value != null) {
-		BigDecimal number = BigDecimal.
+		returnValue = NumberUtils.toNumber(value, decimalFormat);
 	    }
+	    break;
 	default:
-	    stmt.setObject(index, value);
+	    returnValue = value;
 	}
+	return returnValue;
     }
 
 }
