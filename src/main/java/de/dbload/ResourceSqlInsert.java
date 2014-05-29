@@ -45,17 +45,17 @@ class ResourceSqlInsert implements ResourceInsert {
      */
     @Override
     public void newInsert(TableMetaData tableMetaData) {
-	this.tableMetaData = tableMetaData;
+        this.tableMetaData = tableMetaData;
 
-	simpleJdbcInsert.withTableName(tableMetaData.getTableName());
+        simpleJdbcInsert.withTableName(tableMetaData.getTableName());
 
-	ColumnsMetaData columns = tableMetaData.getColumns();
-	String[] strings = new String[columns.size()];
-	for (int i = 0; i < columns.size(); i++) {
-	    strings[i] = columns.get(i).getColumnName();
-	}
+        ColumnsMetaData columns = tableMetaData.getColumns();
+        String[] strings = new String[columns.size()];
+        for (int i = 0; i < columns.size(); i++) {
+            strings[i] = columns.get(i).getColumnName();
+        }
 
-	simpleJdbcInsert.usingColumns(strings);
+        simpleJdbcInsert.usingColumns(strings);
     }
 
     /**
@@ -63,45 +63,45 @@ class ResourceSqlInsert implements ResourceInsert {
      */
     @Override
     public void insert(List<String> data) {
-	ColumnsMetaData columns = tableMetaData.getColumns();
-	Map<String, Object> params = new HashMap<>();
+        ColumnsMetaData columns = tableMetaData.getColumns();
+        Map<String, Object> params = new HashMap<>();
 
-	for (int i = 0; i < columns.size(); i++) {
-	    ColumnMetaData column = columns.get(i);
-	    Object insertme;
-	    if (column.getColumnType() == Type.DATE) {
-		DateTimeFormatter format = DateTimeFormat
-			.forPattern(DateTimeUtils.DATE_FORMAT);
-		String value = data.get(i);
-		DateTime dateTime = null;
+        for (int i = 0; i < columns.size(); i++) {
+            ColumnMetaData column = columns.get(i);
+            Object insertme;
+            if (column.getColumnType() == Type.DATE) {
+                DateTimeFormatter format = DateTimeFormat
+                        .forPattern(DateTimeUtils.DATE_FORMAT);
+                String value = data.get(i);
+                DateTime dateTime = null;
 
-		if (StringUtils.isBlank(value)) {
-		    insertme = null;
-		} else {
-		    try {
-			dateTime = format.parseDateTime(value);
-		    } catch (IllegalArgumentException ex) {
-			throw new IllegalArgumentException(
-				"Invalid format for table ->"
-					+ tableMetaData.getTableName()
-					+ "<- at column index ->" + i + "<-.",
-				ex);
-		    }
-		    // insertme = dateTime.toDate();
-		    // insertme = new
-		    // java.sql.Timestamp(dateTime.toDate().getTime());
-		    insertme = new SqlParameterValue(java.sql.Types.TIMESTAMP,
-			    new java.sql.Date(dateTime.toDate().getTime()));
-		}
-	    } else {
-		insertme = data.get(i);
-	    }
+                if (StringUtils.isBlank(value)) {
+                    insertme = null;
+                } else {
+                    try {
+                        dateTime = format.parseDateTime(value);
+                    } catch (IllegalArgumentException ex) {
+                        throw new IllegalArgumentException(
+                                "Invalid format for table ->"
+                                        + tableMetaData.getTableName()
+                                        + "<- at column index ->" + i + "<-.",
+                                ex);
+                    }
+                    // insertme = dateTime.toDate();
+                    // insertme = new
+                    // java.sql.Timestamp(dateTime.toDate().getTime());
+                    insertme = new SqlParameterValue(java.sql.Types.TIMESTAMP,
+                            new java.sql.Date(dateTime.toDate().getTime()));
+                }
+            } else {
+                insertme = data.get(i);
+            }
 
-	    // System.out.println(insertme);
-	    params.put(column.getColumnName(), insertme);
-	}
+            // System.out.println(insertme);
+            params.put(column.getColumnName(), insertme);
+        }
 
-	simpleJdbcInsert.execute(params);
+        simpleJdbcInsert.execute(params);
     }
 
     /**
@@ -109,7 +109,7 @@ class ResourceSqlInsert implements ResourceInsert {
      */
     @Override
     public void close() {
-	// Do nothing...
+        // Do nothing...
     }
 
 }

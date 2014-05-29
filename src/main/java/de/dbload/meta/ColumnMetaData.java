@@ -18,7 +18,7 @@ package de.dbload.meta;
 
 /**
  * Holds the name and type of a database column.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ColumnMetaData {
@@ -28,50 +28,48 @@ public class ColumnMetaData {
     private final Type columnType;
 
     public static enum Type {
-	/** Unknown data type */
-	DEFAULT,
-	/** varchar */
-	STRING,
-	/** number */
-	NUMBER,
-	/** date */
-	DATE
+        /** Unknown data type */
+        DEFAULT,
+        /** varchar */
+        STRING,
+        /** number */
+        NUMBER,
+        /** date */
+        DATE
     }
 
     /**
      * Constructor
-     * 
-     * @param columnName
-     *            column name
-     * @param columnType
-     *            column type
+     *
+     * @param columnName column name
+     * @param columnType column type
      */
     public ColumnMetaData(String columnName, Type columnType) {
-	this.columnName = columnName;
-	this.columnType = columnType;
+        this.columnName = columnName;
+        this.columnType = columnType;
     }
 
     /**
      * Column name
-     * 
+     *
      * @return Column name
      */
     public String getColumnName() {
-	return columnName;
+        return columnName;
     }
 
     /**
      * Column type
-     * 
+     *
      * @return Column type
      */
     public Type getColumnType() {
-	return columnType;
+        return columnType;
     }
 
     @Override
     public String toString() {
-	return columnName + "[" + columnType + "]";
+        return columnName + "[" + columnType + "]";
     }
 
 }

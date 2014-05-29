@@ -31,28 +31,28 @@ public class ImportDataTest {
 
     @Test
     public void testImportData() throws IOException {
-	ImportData importData = new ImportData();
-	importData.start(dibaJdbcTemplate, "resourceundertest.dat",
-		ImportDataTest.class);
+        ImportData importData = new ImportData();
+        importData.start(dibaJdbcTemplate, "resourceundertest.dat",
+                ImportDataTest.class);
 
-	String sql = "SELECT * FROM beteiligte_partei WHERE bp_id = 7777777";
-	SqlRowSet rowSet = dibaJdbcTemplate.queryForRowSet(sql);
+        String sql = "SELECT * FROM beteiligte_partei WHERE bp_id = 7777777";
+        SqlRowSet rowSet = dibaJdbcTemplate.queryForRowSet(sql);
 
-	boolean findSomething = false;
+        boolean findSomething = false;
 
-	while (rowSet.next()) {
-	    findSomething = true;
+        while (rowSet.next()) {
+            findSomething = true;
 
-	    String bpid = rowSet.getString("BP_ID");
-	    String mitarbkenz = rowSet.getString("MITARB_KENZ");
-	    Date dterf = rowSet.getDate("DT_ERF");
-	    DateTime datetime = new DateTime(dterf);
+            String bpid = rowSet.getString("BP_ID");
+            String mitarbkenz = rowSet.getString("MITARB_KENZ");
+            Date dterf = rowSet.getDate("DT_ERF");
+            DateTime datetime = new DateTime(dterf);
 
-	    assertThat(bpid, equalTo("7777777"));
-	    assertThat(mitarbkenz, nullValue());
-	    assertThat(datetime, equalTo(new DateTime(2013, 07, 22, 11, 0, 0)));
-	}
+            assertThat(bpid, equalTo("7777777"));
+            assertThat(mitarbkenz, nullValue());
+            assertThat(datetime, equalTo(new DateTime(2013, 07, 22, 11, 0, 0)));
+        }
 
-	assertThat(findSomething, is(true));
+        assertThat(findSomething, is(true));
     }
 }

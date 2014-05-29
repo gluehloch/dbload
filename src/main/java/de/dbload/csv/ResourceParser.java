@@ -37,7 +37,7 @@ public class ResourceParser {
     private ParserState parserState;
 
     enum ParserState {
-	TABLE_DEFINITION, COLUMN_DEFINITION, DATA_DEFINITION, COMMENT_OR_EMPTY
+        TABLE_DEFINITION, COLUMN_DEFINITION, DATA_DEFINITION, COMMENT_OR_EMPTY
     }
 
     /**
@@ -46,7 +46,7 @@ public class ResourceParser {
      * @return table name
      */
     public String getTableName() {
-	return tableName;
+        return tableName;
     }
 
     /**
@@ -55,7 +55,7 @@ public class ResourceParser {
      * @return Column description.
      */
     public List<String> getColumns() {
-	return columns;
+        return columns;
     }
 
     /**
@@ -64,7 +64,7 @@ public class ResourceParser {
      * @return data of a row in a table.
      */
     public DataRow getDataRow() {
-	return data;
+        return data;
     }
 
     /**
@@ -74,22 +74,22 @@ public class ResourceParser {
      * @return ParserState
      */
     public ParserState parse(String line) {
-	String currentLine = StringUtils.trimToEmpty(line);
+        String currentLine = StringUtils.trimToEmpty(line);
 
-	if (currentLine.startsWith("### TAB")) {
-	    tableName = readTableDefinition(line);
-	    parserState = ParserState.TABLE_DEFINITION;
-	} else if (currentLine.startsWith("###")) {
-	    columns = readColumnNames(line);
-	    parserState = ParserState.COLUMN_DEFINITION;
-	} else if ((currentLine.length() > 0 && currentLine.charAt(0) == '#')
-		|| StringUtils.isBlank(currentLine)) {
-	    parserState = ParserState.COMMENT_OR_EMPTY;
-	} else if (!StringUtils.isBlank(currentLine)) {
-	    readRow(columns, line);
-	    parserState = ParserState.DATA_DEFINITION;
-	}
-	return parserState;
+        if (currentLine.startsWith("### TAB")) {
+            tableName = readTableDefinition(line);
+            parserState = ParserState.TABLE_DEFINITION;
+        } else if (currentLine.startsWith("###")) {
+            columns = readColumnNames(line);
+            parserState = ParserState.COLUMN_DEFINITION;
+        } else if ((currentLine.length() > 0 && currentLine.charAt(0) == '#')
+                || StringUtils.isBlank(currentLine)) {
+            parserState = ParserState.COMMENT_OR_EMPTY;
+        } else if (!StringUtils.isBlank(currentLine)) {
+            readRow(columns, line);
+            parserState = ParserState.DATA_DEFINITION;
+        }
+        return parserState;
     }
 
     /**
@@ -99,42 +99,42 @@ public class ResourceParser {
      * @return list with data
      */
     public DataRow readRow(List<String> columns, String line) {
-	data = new DataRow();
-	StringTokenizer stok = new StringTokenizer(line, "|", true);
-	boolean lastTokenIsDelim = false;
-	int index = 0;
-	while (stok.hasMoreTokens()) {
-	    String token = stok.nextToken();
-	    if (StringUtils.equals("|", token)) {
-		if (lastTokenIsDelim) {
-		    if (index >= columns.size()) {
-			throw new IllegalStateException(
-				"More data than columns!");
-		    }
+        data = new DataRow();
+        StringTokenizer stok = new StringTokenizer(line, "|", true);
+        boolean lastTokenIsDelim = false;
+        int index = 0;
+        while (stok.hasMoreTokens()) {
+            String token = stok.nextToken();
+            if (StringUtils.equals("|", token)) {
+                if (lastTokenIsDelim) {
+                    if (index >= columns.size()) {
+                        throw new IllegalStateException(
+                                "More data than columns!");
+                    }
 
-		    data.put(columns.get(index++), null);
-		}
-		lastTokenIsDelim = true;
-	    } else {
-		// Check, if more data than defined columns
-		if (index >= columns.size()) {
-		    throw new IllegalStateException("More data than columns!");
-		}
+                    data.put(columns.get(index++), null);
+                }
+                lastTokenIsDelim = true;
+            } else {
+                // Check, if more data than defined columns
+                if (index >= columns.size()) {
+                    throw new IllegalStateException("More data than columns!");
+                }
 
-		data.put(columns.get(index++), (token == null ? null
-			: StringUtils.trimToNull(token)));
-		lastTokenIsDelim = false;
-	    }
-	}
+                data.put(columns.get(index++), (token == null ? null
+                        : StringUtils.trimToNull(token)));
+                lastTokenIsDelim = false;
+            }
+        }
 
-	if (lastTokenIsDelim) {
-	    if (index >= columns.size()) {
-		throw new IllegalStateException("More data than columns!");
-	    }
-	    data.put(columns.get(index), null);
-	}
+        if (lastTokenIsDelim) {
+            if (index >= columns.size()) {
+                throw new IllegalStateException("More data than columns!");
+            }
+            data.put(columns.get(index), null);
+        }
 
-	return data;
+        return data;
     }
 
     /**
@@ -144,27 +144,27 @@ public class ResourceParser {
      * @return column description
      */
     public List<String> readColumnNames(String columnDefinition) {
-	List<String> columns = new ArrayList<>();
+        List<String> columns = new ArrayList<>();
 
-	String tmp = columnDefinition.trim();
-	if (!tmp.startsWith("###")) {
-	    throw new IllegalStateException("Expected ###");
-	}
+        String tmp = columnDefinition.trim();
+        if (!tmp.startsWith("###")) {
+            throw new IllegalStateException("Expected ###");
+        }
 
-	tmp = StringUtils.removeStart(tmp, "###");
+        tmp = StringUtils.removeStart(tmp, "###");
 
-	StringTokenizer stok = new StringTokenizer(tmp, "|");
-	while (stok.hasMoreTokens()) {
-	    String token = stok.nextToken();
+        StringTokenizer stok = new StringTokenizer(tmp, "|");
+        while (stok.hasMoreTokens()) {
+            String token = stok.nextToken();
 
-	    if (StringUtils.contains(token, "(date)")) {
-		token = StringUtils.remove(token, "(date)");
-	    }
+            if (StringUtils.contains(token, "(date)")) {
+                token = StringUtils.remove(token, "(date)");
+            }
 
-	    columns.add(token.trim());
-	}
+            columns.add(token.trim());
+        }
 
-	return columns;
+        return columns;
     }
 
     /**
@@ -175,33 +175,33 @@ public class ResourceParser {
      * @return the table name
      */
     public String readTableDefinition(String tableDefinition) {
-	String tableName = "";
+        String tableName = "";
 
-	StringTokenizer stok = new StringTokenizer(tableDefinition);
-	if (stok.hasMoreTokens()) {
-	    String token = stok.nextToken();
-	    if (!StringUtils.equals(token, "###")) {
-		throw new IllegalStateException("Expected ###");
-	    }
-	}
+        StringTokenizer stok = new StringTokenizer(tableDefinition);
+        if (stok.hasMoreTokens()) {
+            String token = stok.nextToken();
+            if (!StringUtils.equals(token, "###")) {
+                throw new IllegalStateException("Expected ###");
+            }
+        }
 
-	if (stok.hasMoreTokens()) {
-	    String token = stok.nextToken();
-	    if (!StringUtils.equals(token, "TAB")) {
-		throw new IllegalStateException("Expected TAB");
-	    }
-	}
+        if (stok.hasMoreTokens()) {
+            String token = stok.nextToken();
+            if (!StringUtils.equals(token, "TAB")) {
+                throw new IllegalStateException("Expected TAB");
+            }
+        }
 
-	if (stok.hasMoreTokens()) {
-	    String token = stok.nextToken();
-	    if (StringUtils.isBlank(token)) {
-		throw new IllegalStateException();
-	    }
+        if (stok.hasMoreTokens()) {
+            String token = stok.nextToken();
+            if (StringUtils.isBlank(token)) {
+                throw new IllegalStateException();
+            }
 
-	    tableName = token;
-	}
+            tableName = token;
+        }
 
-	return tableName;
+        return tableName;
     }
 
 }

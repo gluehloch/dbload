@@ -35,30 +35,30 @@ public class JdbcMySqlConnectorTest {
 
     @Test
     public void testJdbcMySqlConnector() throws Exception {
-	Connection connection = JdbcMySqlConnector.createMySqlConnection(
-		"betoffice", "betoffice", "localhost", "betoffice");
-	assertThat(connection, notNullValue());
+        Connection connection = JdbcMySqlConnector.createMySqlConnection(
+                "betoffice", "betoffice", "localhost", "betoffice");
+        assertThat(connection, notNullValue());
 
-	connection.rollback();
-	connection.close();
+        connection.rollback();
+        connection.close();
     }
 
     @Test
     public void testJdbcMySqlConnectorCreateUrl() {
-	assertThat(JdbcMySqlConnector.createUrl("localhost", "myDatabase"),
-		equalTo("jdbc:mysql://localhost/myDatabase"));
+        assertThat(JdbcMySqlConnector.createUrl("localhost", "myDatabase"),
+                equalTo("jdbc:mysql://localhost/myDatabase"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testJdbcMySqlConnectorCreateUrlWithBlankParam() {
-	assertThat(JdbcMySqlConnector.createUrl(" ", "myDatabase"),
-		equalTo("jdbc:mysql://localhost/myDatabase"));
+        assertThat(JdbcMySqlConnector.createUrl(" ", "myDatabase"),
+                equalTo("jdbc:mysql://localhost/myDatabase"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testJdbcMySqlConnectorCreateUrlWithNullParam() {
-	assertThat(JdbcMySqlConnector.createUrl(null, "myDatabase"),
-		equalTo("jdbc:mysql://localhost/myDatabase"));
+        assertThat(JdbcMySqlConnector.createUrl(null, "myDatabase"),
+                equalTo("jdbc:mysql://localhost/myDatabase"));
     }
 
 }

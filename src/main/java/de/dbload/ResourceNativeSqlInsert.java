@@ -35,7 +35,7 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
     private TableMetaData tableMetaData;
 
     public ResourceNativeSqlInsert(DbloadContext _context) {
-	dbloadContext = _context;
+        dbloadContext = _context;
     }
 
     /**
@@ -43,7 +43,7 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
      */
     @Override
     public void newInsert(TableMetaData tableMetaData) {
-	this.tableMetaData = tableMetaData;
+        this.tableMetaData = tableMetaData;
     }
 
     /**
@@ -51,16 +51,16 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
      */
     @Override
     public void insert(List<String> data) throws SQLException {
-	DataRow dataRow = new DataRow();
+        DataRow dataRow = new DataRow();
 
-	InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
-	SqlInsertStatement insertSqlStmt = statementBuilder
-		.create(tableMetaData);
+        InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
+        SqlInsertStatement insertSqlStmt = statementBuilder
+                .create(tableMetaData);
 
-	try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
-		tableMetaData)) {
-	    dbloadInsertStmt.insert(dataRow);
-	}
+        try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
+                tableMetaData)) {
+            dbloadInsertStmt.insert(dataRow);
+        }
 
     }
 
@@ -69,7 +69,7 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
      */
     @Override
     public void close() {
-	// Do nothing...
+        // Do nothing...
     }
 
 }

@@ -47,66 +47,66 @@ public class DbloadInsert implements Closeable {
     private TableMetaData tableMetaData;
 
     public DbloadInsert(DbloadContext _context, TableMetaData _tableMetaData)
-	    throws SQLException {
+            throws SQLException {
 
-	tableMetaData = _tableMetaData;
-	stmt = prepareStatement(_context, _tableMetaData);
+        tableMetaData = _tableMetaData;
+        stmt = prepareStatement(_context, _tableMetaData);
     }
 
     private PreparedStatement prepareStatement(DbloadContext _context,
-	    TableMetaData tableMetaData) throws SQLException {
+            TableMetaData tableMetaData) throws SQLException {
 
-	sqlStatement = new SqlInsertStatement(tableMetaData);
-	return _context.getConnection().prepareStatement(sqlStatement.getSql());
+        sqlStatement = new SqlInsertStatement(tableMetaData);
+        return _context.getConnection().prepareStatement(sqlStatement.getSql());
     }
 
     public void insert(DataRow data) throws SQLException {
-	applyParams(data, tableMetaData, stmt);
-	stmt.execute();
+        applyParams(data, tableMetaData, stmt);
+        stmt.execute();
     }
 
     private void applyParams(DataRow data, TableMetaData tableMetaData,
-	    PreparedStatement stmt) throws SQLException {
+            PreparedStatement stmt) throws SQLException {
 
-	int index = 0;
-	for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
-	    String value = data.get(columnMetaData.getColumnName());
+        int index = 0;
+        for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
+            String value = data.get(columnMetaData.getColumnName());
 
-	    switch (columnMetaData.getColumnType()) {
-	    case STRING:
-		if (value == null) {
-		    stmt.setNull(index, java.sql.Types.VARCHAR);
-		} else {
-		    stmt.setString(index, value);
-		}
-		break;
-	    case NUMBER:
-		if (value == null) {
-		    BigDecimal number = BigDecimal.
-		    stmt.setBigDecimal(index, value);
-		}
-	    default:
-		stmt.setObject(index, value);
-	    }
-	}
+            switch (columnMetaData.getColumnType()) {
+            case STRING:
+                if (value == null) {
+                    stmt.setNull(index, java.sql.Types.VARCHAR);
+                } else {
+                    stmt.setString(index, value);
+                }
+                break;
+            case NUMBER:
+                if (value == null) {
+                    BigDecimal number = BigDecimal.stmt.setBigDecimal(index,
+                            value);
+                }
+            default:
+                stmt.setObject(index, value);
+            }
+        }
 
-	stmt.setString(1, "Hallo");
+        stmt.setString(1, "Hallo");
 
-	DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
-	Date date = jodaDateTime.toDate();
+        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
+        Date date = jodaDateTime.toDate();
 
-	java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
+        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
 
-	stmt.setInt(1, 1);
-	stmt.setString(2, "winkler");
-	stmt.setString(3, "andre");
-	stmt.setInt(4, 43);
-	stmt.setInt(5, 0);
-	stmt.setTimestamp(6, sqlTimestamp);
+        stmt.setInt(1, 1);
+        stmt.setString(2, "winkler");
+        stmt.setString(3, "andre");
+        stmt.setInt(4, 43);
+        stmt.setInt(5, 0);
+        stmt.setTimestamp(6, sqlTimestamp);
     }
 
     public void close() {
-	JdbcUtils.close(stmt);
+        JdbcUtils.close(stmt);
     }
 
 }

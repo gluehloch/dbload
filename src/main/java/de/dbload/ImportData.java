@@ -36,7 +36,7 @@ public class ImportData {
      *             ups
      */
     public void start(Connection conn, Class<?> testcase) throws IOException {
-	start(conn, testcase.getSimpleName() + ".dat", testcase);
+        start(conn, testcase.getSimpleName() + ".dat", testcase);
     }
 
     /**
@@ -52,43 +52,43 @@ public class ImportData {
      *             ups
      */
     public void start(Connection conn, String resourceName,
-	    Class<?> resourceClass) throws IOException {
+            Class<?> resourceClass) throws IOException {
 
-	ResourceFileInsert resourceFileInsert = new ResourceFileInsert(
-		new ResourceNativeSqlInsert(jdbcTemplate), resourceName);
-	ResourceDataReader rdr = new ResourceDataReader(resourceName,
-		resourceClass);
+        ResourceFileInsert resourceFileInsert = new ResourceFileInsert(
+                new ResourceNativeSqlInsert(jdbcTemplate), resourceName);
+        ResourceDataReader rdr = new ResourceDataReader(resourceName,
+                resourceClass);
 
-	try {
-	    rdr.open();
-	    ResourceParser resourceParser = new ResourceParser();
+        try {
+            rdr.open();
+            ResourceParser resourceParser = new ResourceParser();
 
-	    do {
-		String line = rdr.readLine();
-		ParserState parserState = resourceParser.parse(line);
+            do {
+                String line = rdr.readLine();
+                ParserState parserState = resourceParser.parse(line);
 
-		switch (parserState) {
-		case DATA_DEFINITION:
-		    resourceFileInsert.insert(resourceParser.getData());
-		    break;
-		case COLUMN_DEFINITION:
-		    TableMetaData tableMetaData = new TableMetaData(
-			    resourceParser.getTableName(),
-			    resourceParser.getColumns());
-		    resourceFileInsert.newInsert(tableMetaData);
-		    break;
-		case TABLE_DEFINITION:
-		    break;
-		case COMMENT_OR_EMPTY:
-		    break;
-		default:
-		    break;
-		}
-	    } while (!rdr.endOfFile());
-	} finally {
-	    resourceFileInsert.close();
-	    rdr.close();
-	}
+                switch (parserState) {
+                case DATA_DEFINITION:
+                    resourceFileInsert.insert(resourceParser.getData());
+                    break;
+                case COLUMN_DEFINITION:
+                    TableMetaData tableMetaData = new TableMetaData(
+                            resourceParser.getTableName(),
+                            resourceParser.getColumns());
+                    resourceFileInsert.newInsert(tableMetaData);
+                    break;
+                case TABLE_DEFINITION:
+                    break;
+                case COMMENT_OR_EMPTY:
+                    break;
+                default:
+                    break;
+                }
+            } while (!rdr.endOfFile());
+        } finally {
+            resourceFileInsert.close();
+            rdr.close();
+        }
     }
 
 }

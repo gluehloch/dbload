@@ -17,9 +17,14 @@
 package de.dbload.jdbc;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
 
 /**
@@ -33,34 +38,49 @@ public class JdbcTypeConverter {
     private DecimalFormat decimalFormat;
 
     public JdbcTypeConverter() {
-	decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
+        decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
     }
 
     public JdbcTypeConverter(Locale _locale) {
-	decimalFormat = NumberUtils.createDecimalFormatter(_locale);
+        decimalFormat = NumberUtils.createDecimalFormatter(_locale);
     }
 
     public JdbcTypeConverter(DecimalFormat _decimalFormat) {
-	decimalFormat = _decimalFormat;
+        decimalFormat = _decimalFormat;
     }
 
+    /**
+     * Convert a String value to the associated column type.
+     *
+     * @param columnMetaData meta data of the database column
+     * @param value the String value to convert
+     * @return the converted value (String, Number, Date)
+     */
     public Object convert(ColumnMetaData columnMetaData, String value) {
-	Object returnValue = null;
-	switch (columnMetaData.getColumnType()) {
-	case STRING:
-	    if (value != null) {
-		returnValue = value;
-	    }
-	    break;
-	case NUMBER:
-	    if (value != null) {
-		returnValue = NumberUtils.toNumber(value, decimalFormat);
-	    }
-	    break;
-	default:
-	    returnValue = value;
-	}
-	return returnValue;
+        Object returnValue = null;
+        switch (columnMetaData.getColumnType()) {
+        case STRING:
+            if (value != null) {
+                returnValue = value;
+            }
+            break;
+        case NUMBER:
+            if (value != null) {
+                returnValue = NumberUtils.toNumber(value, decimalFormat);
+            }
+            break;
+        case DATE:
+            if (value != null) {
+                DateTime jodaDateTime = DateTimeUtils.toJodaDateTime(value);
+                Date date = jodaDateTime.toDate();
+                long dateAsLong = date.getTime();
+                returnValue = new java.sql.Date(dateAsLong);
+            }
+            break;
+        default:
+            returnValue = value;
+        }
+        return returnValue;
     }
 
 }

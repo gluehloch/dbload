@@ -44,7 +44,8 @@ public class NumberUtils {
         return toNumber(value, createDecimalFormatter(locale));
     }
 
-    public static Number toNumber(final String value, DecimalFormat decimalFormat) {
+    public static Number toNumber(final String value,
+            DecimalFormat decimalFormat) {
         Number number;
         try {
             number = parseNumber(value, decimalFormat);
@@ -54,13 +55,14 @@ public class NumberUtils {
         return number;
     }
 
-    private static Number parseNumber(String value, DecimalFormat decimalFormat) throws ParseException {
+    private static Number parseNumber(String value, DecimalFormat decimalFormat)
+            throws ParseException {
         return (decimalFormat.parse(value));
     }
 
     public static DecimalFormat createDecimalFormatter(Locale locale) {
-        DecimalFormat decimalFormat =
-                (DecimalFormat) NumberFormat.getNumberInstance(locale);
+        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat
+                .getNumberInstance(locale);
         decimalFormat.applyPattern(DEFAULT_DECIMAL_FORMAT);
         return decimalFormat;
     }

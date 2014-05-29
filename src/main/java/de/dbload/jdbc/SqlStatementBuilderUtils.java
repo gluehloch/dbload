@@ -33,8 +33,8 @@ public class SqlStatementBuilderUtils {
      * @return a String
      */
     public static String createColumnDescription(ColumnsMetaData columns) {
-	checkArguments(columns);
-	return joinColumns(columns, new GetColumnNameIterator()).toString();
+        checkArguments(columns);
+        return joinColumns(columns, new GetColumnNameIterator()).toString();
     }
 
     /**
@@ -45,51 +45,51 @@ public class SqlStatementBuilderUtils {
      * @return Something like "?, ?, ?"
      */
     public static String createColumnValues(ColumnsMetaData columns) {
-	checkArguments(columns);
-	return joinColumns(columns, new QuestionMarkIterator()).toString();
+        checkArguments(columns);
+        return joinColumns(columns, new QuestionMarkIterator()).toString();
     }
 
     private static void checkArguments(ColumnsMetaData columns) {
-	if (columns == null || columns.size() == 0) {
-	    throw new IllegalArgumentException("columns is null or empty");
-	}
+        if (columns == null || columns.size() == 0) {
+            throw new IllegalArgumentException("columns is null or empty");
+        }
     }
 
     private static StringBuffer joinColumns(ColumnsMetaData columns,
-	    ColumnIterator columnIterator) {
+            ColumnIterator columnIterator) {
 
-	boolean first = true;
-	StringBuffer insertSqlCommand = new StringBuffer();
-	for (ColumnMetaData column : columns) {
-	    if (!first) {
-		insertSqlCommand.append(", ");
-	    }
-	    insertSqlCommand.append(columnIterator.get(column));
+        boolean first = true;
+        StringBuffer insertSqlCommand = new StringBuffer();
+        for (ColumnMetaData column : columns) {
+            if (!first) {
+                insertSqlCommand.append(", ");
+            }
+            insertSqlCommand.append(columnIterator.get(column));
 
-	    first = false;
-	}
-	return insertSqlCommand;
+            first = false;
+        }
+        return insertSqlCommand;
     }
 
     private static interface ColumnIterator {
 
-	public String get(ColumnMetaData column);
+        public String get(ColumnMetaData column);
 
     }
 
     private static class GetColumnNameIterator implements ColumnIterator {
 
-	public String get(ColumnMetaData column) {
-	    return column.getColumnName();
-	}
+        public String get(ColumnMetaData column) {
+            return column.getColumnName();
+        }
 
     }
 
     private static class QuestionMarkIterator implements ColumnIterator {
 
-	public String get(ColumnMetaData column) {
-	    return "?";
-	}
+        public String get(ColumnMetaData column) {
+            return "?";
+        }
 
     }
 

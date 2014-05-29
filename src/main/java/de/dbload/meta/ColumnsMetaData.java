@@ -35,38 +35,38 @@ public class ColumnsMetaData implements Iterable<ColumnMetaData> {
     }
 
     public Iterator<ColumnMetaData> iterator() {
-	return columns.iterator();
+        return columns.iterator();
     }
 
     public ColumnMetaData get(int index) {
-	return columns.get(index);
+        return columns.get(index);
     }
 
     public int size() {
-	return columns.size();
+        return columns.size();
     }
 
     public void addColumn(ColumnMetaData column) {
-	columns.add(column);
+        columns.add(column);
     }
 
     public ColumnsMetaData column(String columnName, Type type) {
-	addColumn(new ColumnMetaData(columnName, type));
-	return this;
+        addColumn(new ColumnMetaData(columnName, type));
+        return this;
     }
 
     @Override
     public String toString() {
-	StringBuffer buf = new StringBuffer("ColumnsMetaData [columns=");
-	for (int i = 0; i < columns.size(); i++) {
-	    buf.append(columns.get(i));
-	    if (i < columns.size() - 1) {
-		buf.append(", ");
-	    }
-	}
-	buf.append("]");
+        StringBuffer buf = new StringBuffer("ColumnsMetaData [columns=");
+        for (int i = 0; i < columns.size(); i++) {
+            buf.append(columns.get(i));
+            if (i < columns.size() - 1) {
+                buf.append(", ");
+            }
+        }
+        buf.append("]");
 
-	return buf.toString();
+        return buf.toString();
     }
 
 }

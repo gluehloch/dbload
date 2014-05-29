@@ -33,16 +33,16 @@ public class TableMetaData {
      * @param _columns the columns of the table
      */
     public TableMetaData(String _tableName, ColumnsMetaData _columns) {
-	tableName = _tableName;
-	columnsMetaData = _columns;
+        tableName = _tableName;
+        columnsMetaData = _columns;
     }
 
     public String getTableName() {
-	return tableName;
+        return tableName;
     }
 
     public ColumnsMetaData getColumns() {
-	return columnsMetaData;
+        return columnsMetaData;
     }
 
 }

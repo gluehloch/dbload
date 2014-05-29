@@ -28,23 +28,23 @@ public class SqlInsertStatement {
     private TableMetaData tableMetaData;
 
     public SqlInsertStatement(TableMetaData _tableMetaData) {
-	tableMetaData = _tableMetaData;
+        tableMetaData = _tableMetaData;
     }
 
     public String getSql() {
-	// INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
-	StringBuffer stmt = new StringBuffer("INSERT INTO ");
-	stmt.append(tableMetaData.getTableName());
+        // INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
+        StringBuffer stmt = new StringBuffer("INSERT INTO ");
+        stmt.append(tableMetaData.getTableName());
 
-	String columnDescription = SqlStatementBuilderUtils
-		.createColumnDescription(tableMetaData.getColumns());
-	stmt.append("(").append(columnDescription).append(") VALUES(");
+        String columnDescription = SqlStatementBuilderUtils
+                .createColumnDescription(tableMetaData.getColumns());
+        stmt.append("(").append(columnDescription).append(") VALUES(");
 
-	String questionMarkPerColumn = SqlStatementBuilderUtils
-		.createColumnValues(tableMetaData.getColumns());
-	stmt.append(questionMarkPerColumn).append(")");
+        String questionMarkPerColumn = SqlStatementBuilderUtils
+                .createColumnValues(tableMetaData.getColumns());
+        stmt.append(questionMarkPerColumn).append(")");
 
-	return stmt.toString();
+        return stmt.toString();
     }
 
 }

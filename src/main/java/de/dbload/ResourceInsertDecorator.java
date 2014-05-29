@@ -36,7 +36,7 @@ class ResourceInsertDecorator implements ResourceInsert {
      * @param resourceInsertDeko the resourceInsert to decorate
      */
     public ResourceInsertDecorator(ResourceInsert resourceInsertDeko) {
-	this.resourceInsertDeko = resourceInsertDeko;
+        this.resourceInsertDeko = resourceInsertDeko;
     }
 
     /**
@@ -44,7 +44,7 @@ class ResourceInsertDecorator implements ResourceInsert {
      */
     @Override
     public void newInsert(TableMetaData tableMetaData) {
-	resourceInsertDeko.newInsert(tableMetaData);
+        resourceInsertDeko.newInsert(tableMetaData);
     }
 
     /**
@@ -52,7 +52,7 @@ class ResourceInsertDecorator implements ResourceInsert {
      */
     @Override
     public void insert(List<String> data) throws SQLException {
-	resourceInsertDeko.insert(data);
+        resourceInsertDeko.insert(data);
     }
 
     /**
@@ -60,7 +60,7 @@ class ResourceInsertDecorator implements ResourceInsert {
      */
     @Override
     public void close() {
-	resourceInsertDeko.close();
+        resourceInsertDeko.close();
     }
 
 }
