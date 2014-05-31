@@ -16,12 +16,14 @@
 
 package de.dbload.jdbc;
 
+import java.sql.Statement;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
+
+import com.mysql.jdbc.PreparedStatement;
 
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
@@ -81,6 +83,13 @@ public class JdbcTypeConverter {
             returnValue = value;
         }
         return returnValue;
+    }
+
+    public void setTypedValue(PreparedStatement stmt, ColumnMetaData columnMetaData, Object value) {
+        switch (columnMetaData.getColumnType()) {
+        case STRING:
+            stmt.setString(columnMetaData.getColumnName(), value.toString());
+        }
     }
 
 }

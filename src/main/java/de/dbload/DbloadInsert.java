@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 
+import de.dbload.jdbc.JdbcTypeConverter;
 import de.dbload.jdbc.JdbcUtils;
 import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.meta.ColumnMetaData;
@@ -43,14 +44,16 @@ import de.dbload.misc.DateTimeUtils;
 public class DbloadInsert implements Closeable {
 
     private SqlInsertStatement sqlStatement;
-    private PreparedStatement stmt;
-    private TableMetaData tableMetaData;
+    private final PreparedStatement stmt;
+    private final TableMetaData tableMetaData;
+    private final JdbcTypeConverter jdbcTypeConverter;
 
-    public DbloadInsert(DbloadContext _context, TableMetaData _tableMetaData)
+    public DbloadInsert(DbloadContext _context, TableMetaData _tableMetaData, Locale _locale)
             throws SQLException {
 
         tableMetaData = _tableMetaData;
         stmt = prepareStatement(_context, _tableMetaData);
+        jdbcTypeConverter = new JdbcTypeConverter(_locale);
     }
 
     private PreparedStatement prepareStatement(DbloadContext _context,
@@ -72,22 +75,8 @@ public class DbloadInsert implements Closeable {
         for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
             String value = data.get(columnMetaData.getColumnName());
 
-            switch (columnMetaData.getColumnType()) {
-            case STRING:
-                if (value == null) {
-                    stmt.setNull(index, java.sql.Types.VARCHAR);
-                } else {
-                    stmt.setString(index, value);
-                }
-                break;
-            case NUMBER:
-                if (value == null) {
-                    BigDecimal number = BigDecimal.stmt.setBigDecimal(index,
-                            value);
-                }
-            default:
-                stmt.setObject(index, value);
-            }
+            Object typedValue = jdbcTypeConverter.convert(columnMetaData, value);
+            stmt.setObject(parameterIndex, x);
         }
 
         stmt.setString(1, "Hallo");
