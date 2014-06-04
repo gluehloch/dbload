@@ -17,24 +17,15 @@
 package de.dbload;
 
 import java.io.Closeable;
-import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.Date;
 import java.util.Locale;
-
-import org.joda.time.DateTime;
 
 import de.dbload.jdbc.JdbcTypeConverter;
 import de.dbload.jdbc.JdbcUtils;
 import de.dbload.jdbc.SqlInsertStatement;
 import de.dbload.meta.ColumnMetaData;
-import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.TableMetaData;
-import de.dbload.misc.DateTimeUtils;
 
 /**
  * Load data.
@@ -74,24 +65,10 @@ public class DbloadInsert implements Closeable {
         int index = 0;
         for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
             String value = data.get(columnMetaData.getColumnName());
-
             Object typedValue = jdbcTypeConverter.convert(columnMetaData, value);
-            stmt.setObject(parameterIndex, x);
+            jdbcTypeConverter.setTypedValue(stmt, index, columnMetaData, typedValue);
+            index++;
         }
-
-        stmt.setString(1, "Hallo");
-
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
-        Date date = jodaDateTime.toDate();
-
-        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
-
-        stmt.setInt(1, 1);
-        stmt.setString(2, "winkler");
-        stmt.setString(3, "andre");
-        stmt.setInt(4, 43);
-        stmt.setInt(5, 0);
-        stmt.setTimestamp(6, sqlTimestamp);
     }
 
     public void close() {

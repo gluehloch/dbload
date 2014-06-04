@@ -1,3 +1,3 @@
-### TAB beteiligte_partei
-### BP_ID| MITARB_KENZ| ORGE_KENZ| ORGA_KENZ| PERS_KENZ| PROSP_KENZ| PERS_NR_ERF| DT_ERF(date)       | DT_LEGI(date)       | AUSKUNFT_EINVST| RECHTSFORM| PERS_NR_AEND| DT_AEND(date)       | LEGI_SCHL
- 7777777 |            | N        | N        | J        | J         | 2036036    |2013-07-22 11:00:00 | 2013-07-22 11:00:00 |                |           | SR10316     | 2013-07-22 11:00:00 | 05
+### TAB person
+### id | name    | vorname | age | sex | birthday (date)
+   100 | Winkler | Andre   | 43  | M   | 1971-03-24 06:38:00
