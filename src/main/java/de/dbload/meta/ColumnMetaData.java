@@ -30,12 +30,24 @@ public class ColumnMetaData {
     public static enum Type {
         /** Unknown data type */
         DEFAULT,
+
         /** varchar */
         STRING,
-        /** number */
-        NUMBER,
-        /** date */
-        DATE
+
+        /** number with no decimals like byte, short, int or long */
+        NUMBER_INTEGER,
+
+        /** number with decimals like float or BigDecimal */
+        NUMBER_DECIMAL,
+
+        /** date (date without time) */
+        DATE,
+
+        /** time (time without date) */
+        TIME,
+
+        /** date and time */
+        DATE_TIME;
     }
 
     /**

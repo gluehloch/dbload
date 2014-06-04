@@ -16,8 +16,14 @@
 
 package de.dbload;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Date;
 import java.util.Locale;
 
 import org.junit.Test;
@@ -27,6 +33,7 @@ import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
+import de.dbload.misc.DateTimeUtils;
 
 /**
  * A test case for {@link DbloadInsert}.
@@ -49,7 +56,8 @@ public class DbloadInsertTest {
         columns.addColumn(new ColumnMetaData("birthday", Type.DATE));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
-        try (DbloadInsert dbloadInsert = new DbloadInsert(context, tableMetaData, Locale.GERMANY)) {
+        try (DbloadInsert dbloadInsert = new DbloadInsert(context,
+                tableMetaData, Locale.GERMANY)) {
             DataRow data = new DataRow();
             data.put("id", "0");
             data.put("name", "Winkler");
@@ -59,6 +67,19 @@ public class DbloadInsertTest {
             data.put("birthday", "1971-03-24 06:41:11");
             dbloadInsert.insert(data);
         }
+
+        Statement stmt = connection.createStatement();
+        ResultSet resultSet = stmt.executeQuery("select * from person");
+        boolean hasNext = resultSet.next();
+        String name = resultSet.getString(2);
+        String vorname = resultSet.getString(3);
+        Date date = resultSet.getTimestamp(6);
+
+        assertThat(name, equalTo("Winkler"));
+        assertThat(vorname, equalTo("Andre"));
+        assertThat(date,
+                equalTo(DateTimeUtils.toJodaDateTime("1971-03-24 06:41:11")
+                        .toDate()));
     }
 
 }

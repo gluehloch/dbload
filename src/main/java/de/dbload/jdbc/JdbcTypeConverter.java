@@ -65,7 +65,7 @@ public class JdbcTypeConverter {
                 returnValue = value;
             }
             break;
-        case NUMBER:
+        case NUMBER_INTEGER:
             if (value != null) {
                 returnValue = NumberUtils.toNumber(value, decimalFormat);
             }
@@ -75,7 +75,7 @@ public class JdbcTypeConverter {
                 DateTime jodaDateTime = DateTimeUtils.toJodaDateTime(value);
                 Date date = jodaDateTime.toDate();
                 long dateAsLong = date.getTime();
-                returnValue = new java.sql.Date(dateAsLong);
+                returnValue = new java.sql.Timestamp(dateAsLong);
             }
             break;
         default:
@@ -91,8 +91,13 @@ public class JdbcTypeConverter {
         case STRING:
             stmt.setString(index, value.toString());
             break;
-        case NUMBER:
-            stmt.setInt(index, (Integer) value);
+        case NUMBER_INTEGER:
+            // TODO Integer
+            stmt.setObject(index, value);
+            break;
+        case NUMBER_DECIMAL:
+            // TODO Decimal
+            stmt.setd
             break;
         default:
             stmt.setString(index, value.toString());
