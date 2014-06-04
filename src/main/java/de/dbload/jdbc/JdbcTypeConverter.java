@@ -92,7 +92,7 @@ public class JdbcTypeConverter {
             stmt.setString(index, value.toString());
             break;
         case NUMBER:
-            stmt.setInt(index, (Integer) value);
+            stmt.setObject(index, value);
             break;
         default:
             stmt.setString(index, value.toString());
