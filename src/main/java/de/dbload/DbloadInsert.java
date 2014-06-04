@@ -62,7 +62,7 @@ public class DbloadInsert implements Closeable {
     private void applyParams(DataRow data, TableMetaData tableMetaData,
             PreparedStatement stmt) throws SQLException {
 
-        int index = 0;
+        int index = 1; // JDBC parameter index starts with 1
         for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
             String value = data.get(columnMetaData.getColumnName());
             Object typedValue = jdbcTypeConverter.convert(columnMetaData, value);

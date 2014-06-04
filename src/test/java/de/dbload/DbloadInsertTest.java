@@ -42,9 +42,23 @@ public class DbloadInsertTest {
         DbloadContext context = new DbloadContext(connection);
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.addColumn(new ColumnMetaData("id", Type.NUMBER));
-        // TODO Missing columns...
+        columns.addColumn(new ColumnMetaData("name", Type.STRING));
+        columns.addColumn(new ColumnMetaData("vorname", Type.STRING));
+        columns.addColumn(new ColumnMetaData("age", Type.NUMBER));
+        columns.addColumn(new ColumnMetaData("sex", Type.NUMBER));
+        columns.addColumn(new ColumnMetaData("birthday", Type.DATE));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
-        DbloadInsert dbloadInsert = new DbloadInsert(context, tableMetaData, Locale.GERMANY);
+
+        try (DbloadInsert dbloadInsert = new DbloadInsert(context, tableMetaData, Locale.GERMANY)) {
+            DataRow data = new DataRow();
+            data.put("id", "0");
+            data.put("name", "Winkler");
+            data.put("vorname", "Andre");
+            data.put("age", "43");
+            data.put("sex", "0");
+            data.put("birthday", "1971-03-24 06:41:11");
+            dbloadInsert.insert(data);
+        }
     }
 
 }
