@@ -17,51 +17,48 @@
 package de.dbload;
 
 import java.sql.SQLException;
-import java.util.List;
+import java.util.Locale;
 
-import de.dbload.jdbc.SqlInsertStatement;
-import de.dbload.jdbc.common.DefaultInsertStatementBuilder;
-import de.dbload.jdbc.common.InsertStatementBuilder;
 import de.dbload.meta.TableMetaData;
 
 /**
  * TODO
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ResourceNativeSqlInsert implements ResourceInsert {
 
     private final DbloadContext dbloadContext;
-    private TableMetaData tableMetaData;
+    private final Locale locale;
 
-    public ResourceNativeSqlInsert(DbloadContext _context) {
+    private DbloadInsert dbloadInsert;
+
+    public ResourceNativeSqlInsert(DbloadContext _context,
+            TableMetaData _tableMetaData, Locale _locale) throws SQLException {
+
         dbloadContext = _context;
+        locale = _locale;
+
+        dbloadInsert = new DbloadInsert(dbloadContext, _tableMetaData, locale);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws SQLException
+     */
+    @Override
+    public void newInsert(TableMetaData tableMetaData) throws SQLException {
+        dbloadInsert.close();
+        dbloadInsert = new DbloadInsert(dbloadContext, tableMetaData, locale);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void newInsert(TableMetaData tableMetaData) {
-        this.tableMetaData = tableMetaData;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void insert(List<String> data) throws SQLException {
-        DataRow dataRow = new DataRow();
-
-        InsertStatementBuilder statementBuilder = new DefaultInsertStatementBuilder();
-        SqlInsertStatement insertSqlStmt = statementBuilder
-                .create(tableMetaData);
-
-        try (DbloadInsert dbloadInsertStmt = new DbloadInsert(dbloadContext,
-                tableMetaData)) {
-            dbloadInsertStmt.insert(dataRow);
-        }
-
+    public void insert(DataRow data) throws SQLException {
+        dbloadInsert.insert(data);
     }
 
     /**
@@ -69,7 +66,7 @@ public class ResourceNativeSqlInsert implements ResourceInsert {
      */
     @Override
     public void close() {
-        // Do nothing...
+        dbloadInsert.close();
     }
 
 }

@@ -44,14 +44,10 @@ public class ResourceFileInsert implements ResourceInsert {
     /**
      * Constructor
      *
-     * @param resourceInsertDeko
-     *            resource to decorate
-     * @param testcase
-     *            the name of the testcase
+     * @param file export directory
+     * @param testcase the name of the testcase
      */
-    public ResourceFileInsert(File directory,
-            ResourceInsert resourceInsertDeko, String testcase) {
-
+    public ResourceFileInsert(File directory, String testcase) {
         sqlOutputFile = new File(directory, testcase + ".sql");
         if (sqlOutputFile.exists()) {
             sqlOutputFile.delete();

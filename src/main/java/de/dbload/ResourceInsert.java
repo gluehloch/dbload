@@ -18,7 +18,6 @@ package de.dbload;
 
 import java.io.Closeable;
 import java.sql.SQLException;
-import java.util.List;
 
 import de.dbload.meta.TableMetaData;
 
@@ -33,8 +32,9 @@ interface ResourceInsert extends Closeable {
      * Set the current table name.
      *
      * @param tableMetaData table name.
+     * @throws SQLException
      */
-    void newInsert(TableMetaData tableMetaData);
+    void newInsert(TableMetaData tableMetaData) throws SQLException;
 
     /**
     * Insert a new row of data.
