@@ -80,6 +80,10 @@ public class DbloadInsertTest {
         assertThat(date,
                 equalTo(DateTimeUtils.toJodaDateTime("1971-03-24 06:41:11")
                         .toDate()));
+
+        stmt.close();
+        connection.rollback();
+        connection.close();
     }
 
 }
