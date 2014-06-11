@@ -37,7 +37,7 @@ public class ColumnMetaData {
         /** number with no decimals like byte, short, int or long */
         NUMBER_INTEGER,
 
-        /** number with decimals like float or BigDecimal */
+        /** number with decimals like float, double or BigDecimal */
         NUMBER_DECIMAL,
 
         /** date (date without time) */

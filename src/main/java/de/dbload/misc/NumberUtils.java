@@ -22,7 +22,7 @@ import java.text.ParseException;
 import java.util.Locale;
 
 /**
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class NumberUtils {
@@ -46,6 +46,7 @@ public class NumberUtils {
 
     public static Number toNumber(final String value,
             DecimalFormat decimalFormat) {
+
         Number number;
         try {
             number = parseNumber(value, decimalFormat);
@@ -57,6 +58,7 @@ public class NumberUtils {
 
     private static Number parseNumber(String value, DecimalFormat decimalFormat)
             throws ParseException {
+
         return (decimalFormat.parse(value));
     }
 

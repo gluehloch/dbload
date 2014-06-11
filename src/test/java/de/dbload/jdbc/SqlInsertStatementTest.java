@@ -46,11 +46,11 @@ public class SqlInsertStatementTest {
     @Before
     public void setup() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.column("id", Type.NUMBER);
+        columns.column("id", Type.NUMBER_INTEGER);
         columns.column("name", Type.STRING);
         columns.column("vorname", Type.STRING);
-        columns.column("age", Type.NUMBER);
-        columns.column("sex", Type.NUMBER);
+        columns.column("age", Type.NUMBER_INTEGER);
+        columns.column("sex", Type.NUMBER_INTEGER);
         columns.column("birthday", Type.DATE);
         tableMetaData = new TableMetaData("person", columns);
     }
@@ -71,7 +71,7 @@ public class SqlInsertStatementTest {
 
         SqlInsertStatement sqlStatement = new SqlInsertStatement(tableMetaData);
 
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("20140324060500");
+        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");
         Date date = jodaDateTime.toDate();
 
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
@@ -101,7 +101,7 @@ public class SqlInsertStatementTest {
         |  1 | winkler | andre   |   43 |      | 2014-03-24 06:05:00 |
         |  2 | winkler | andre   |   43 |      | 2006-05-00 00:00:00 |
         +----+---------+---------+------+------+---------------------+
-        The type java.sql.Time delivers an unexpected result: Hours and 
+        The type java.sql.Time delivers an unexpected result: Hours and
         minutes are moved to year and month? No! Time ist only time!!!
          */
 

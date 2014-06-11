@@ -21,6 +21,7 @@ import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
@@ -38,14 +39,35 @@ import de.dbload.misc.DateTimeUtils;
 public class JdbcTypeConverterTest {
 
     @Test
-    public void testJdbcTypeConverterToNumber() {
+    public void testJdbcTypeConverterToNumberInteger() {
         JdbcTypeConverter converter = new JdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER);
-        Object value = converter.convert(columnMetaData, "4711");
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER_INTEGER);
 
+        Object value = converter.convert(columnMetaData, "4711");
         assertThat(value, instanceOf(Number.class));
         Number number = (Number) value;
         assertThat(number.intValue(), equalTo(4711));
+
+        value = converter.convert(columnMetaData, "4711,1");
+        assertThat(value, instanceOf(Number.class));
+        number = (Number) value;
+        assertThat(number.intValue(), equalTo(4711));
+    }
+
+    @Test
+    public void testJdbcTypeConverterToNumberDecimal() {
+        JdbcTypeConverter converter = new JdbcTypeConverter(Locale.GERMANY);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER_DECIMAL);
+
+        Object value = converter.convert(columnMetaData, "4711,11");
+        assertThat(value, instanceOf(Number.class));
+        Number number = (Number) value;
+        assertThat(number.doubleValue(), equalTo(4711.11));
+
+        value = converter.convert(columnMetaData, "4711");
+        assertThat(value, instanceOf(Number.class));
+        number = (Number) value;
+        assertThat(number.doubleValue(), equalTo(4711d));
     }
 
     @Test
@@ -65,9 +87,9 @@ public class JdbcTypeConverterTest {
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.DATE);
         Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
 
-        assertThat(value, instanceOf(Date.class));
+        assertThat(value, instanceOf(Timestamp.class));
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2011-03-24 06:34:11");
-        assertThat(((Date) value).getTime() , equalTo(jodaDateTime.toDate().getTime()));
+        assertThat(((Timestamp) value).getTime() , equalTo(jodaDateTime.toDate().getTime()));
     }
 
 }

@@ -16,6 +16,7 @@
 
 package de.dbload.jdbc;
 
+import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
@@ -70,6 +71,11 @@ public class JdbcTypeConverter {
                 returnValue = NumberUtils.toNumber(value, decimalFormat);
             }
             break;
+        case NUMBER_DECIMAL:
+            if (value != null) {
+                returnValue = NumberUtils.toNumber(value, decimalFormat);
+            }
+            break;
         case DATE:
             if (value != null) {
                 DateTime jodaDateTime = DateTimeUtils.toJodaDateTime(value);
@@ -92,15 +98,34 @@ public class JdbcTypeConverter {
             stmt.setString(index, value.toString());
             break;
         case NUMBER_INTEGER:
-            // TODO Integer
-            stmt.setObject(index, value);
+            if (value instanceof Integer) {
+                stmt.setInt(index, (Integer) value);
+            } else if (value instanceof Long) {
+                stmt.setLong(index, (Long) value);
+            } else if (value instanceof Short) {
+                stmt.setShort(index, (Short) value);
+            } else if (value instanceof Byte) {
+                stmt.setByte(index, (Byte) value);
+            } else {
+                throw new IllegalStateException("Unknown number type "
+                        + columnMetaData.getColumnType());
+            }
             break;
         case NUMBER_DECIMAL:
-            // TODO Decimal
-            stmt.setd
+            if (value instanceof Float) {
+                stmt.setFloat(index, ((Float) value));
+            } else if (value instanceof Double) {
+                stmt.setDouble(index, ((Double) value));
+            } else if (value instanceof BigDecimal) {
+                stmt.setBigDecimal(index, ((BigDecimal) value));
+            } else {
+                throw new IllegalStateException("Unknown decimal type "
+                        + columnMetaData.getColumnName());
+            }
             break;
+
         default:
-            stmt.setString(index, value.toString());
+            stmt.setObject(index, value);
             break;
         }
     }
