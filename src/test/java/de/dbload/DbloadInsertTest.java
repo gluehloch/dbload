@@ -48,11 +48,11 @@ public class DbloadInsertTest {
                 "dbload", "dbload", "localhost", "dbload");
         DbloadContext context = new DbloadContext(connection);
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("id", Type.NUMBER));
+        columns.addColumn(new ColumnMetaData("id", Type.NUMBER_INTEGER));
         columns.addColumn(new ColumnMetaData("name", Type.STRING));
         columns.addColumn(new ColumnMetaData("vorname", Type.STRING));
-        columns.addColumn(new ColumnMetaData("age", Type.NUMBER));
-        columns.addColumn(new ColumnMetaData("sex", Type.NUMBER));
+        columns.addColumn(new ColumnMetaData("age", Type.NUMBER_INTEGER));
+        columns.addColumn(new ColumnMetaData("sex", Type.NUMBER_INTEGER));
         columns.addColumn(new ColumnMetaData("birthday", Type.DATE));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
@@ -70,7 +70,7 @@ public class DbloadInsertTest {
 
         Statement stmt = connection.createStatement();
         ResultSet resultSet = stmt.executeQuery("select * from person");
-        boolean hasNext = resultSet.next();
+        resultSet.next();
         String name = resultSet.getString(2);
         String vorname = resultSet.getString(3);
         Date date = resultSet.getTimestamp(6);

@@ -32,7 +32,7 @@ class ResourceInsertDecorator implements ResourceInsert {
 
     /**
      * Constructor
-     * 
+     *
      * @param resourceInsertDeko the resourceInsert to decorate
      */
     public ResourceInsertDecorator(ResourceInsert resourceInsertDeko) {
@@ -51,7 +51,7 @@ class ResourceInsertDecorator implements ResourceInsert {
      * {@inheritDoc}
      */
     @Override
-    public void insert(List<String> data) throws SQLException {
+    public void insert(DataRow data) throws SQLException {
         resourceInsertDeko.insert(data);
     }
 

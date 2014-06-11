@@ -62,7 +62,7 @@ class ResourceSqlInsert implements ResourceInsert {
      * {@inheritDoc}
      */
     @Override
-    public void insert(List<String> data) {
+    public void insert(DataRow data) {
         ColumnsMetaData columns = tableMetaData.getColumns();
         Map<String, Object> params = new HashMap<>();
 
@@ -72,7 +72,7 @@ class ResourceSqlInsert implements ResourceInsert {
             if (column.getColumnType() == Type.DATE) {
                 DateTimeFormatter format = DateTimeFormat
                         .forPattern(DateTimeUtils.DATE_FORMAT);
-                String value = data.get(i);
+                String value = data.get(data.get(column.getColumnName()));
                 DateTime dateTime = null;
 
                 if (StringUtils.isBlank(value)) {
@@ -87,14 +87,11 @@ class ResourceSqlInsert implements ResourceInsert {
                                         + "<- at column index ->" + i + "<-.",
                                 ex);
                     }
-                    // insertme = dateTime.toDate();
-                    // insertme = new
-                    // java.sql.Timestamp(dateTime.toDate().getTime());
                     insertme = new SqlParameterValue(java.sql.Types.TIMESTAMP,
                             new java.sql.Date(dateTime.toDate().getTime()));
                 }
             } else {
-                insertme = data.get(i);
+                insertme = data.get(column.getColumnName());
             }
 
             // System.out.println(insertme);

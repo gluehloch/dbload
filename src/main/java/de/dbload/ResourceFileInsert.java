@@ -21,7 +21,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
@@ -30,7 +31,7 @@ import de.dbload.misc.DateTimeUtils;
 
 /**
  * Writes the insert sql script to the file system.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ResourceFileInsert implements ResourceInsert {
@@ -42,7 +43,7 @@ public class ResourceFileInsert implements ResourceInsert {
 
     /**
      * Constructor
-     * 
+     *
      * @param resourceInsertDeko
      *            resource to decorate
      * @param testcase
@@ -68,8 +69,8 @@ public class ResourceFileInsert implements ResourceInsert {
      * {@inheritDoc}
      */
     @Override
-    public void newInsert(TableMetaData tableMetaData) {
-        this.tableMetaData = tableMetaData;
+    public void newInsert(TableMetaData _tableMetaData) {
+        this.tableMetaData = _tableMetaData;
 
         try {
             writer.write("\r\n");
@@ -82,7 +83,7 @@ public class ResourceFileInsert implements ResourceInsert {
      * {@inheritDoc}
      */
     @Override
-    public void insert(List<String> data) {
+    public void insert(DataRow data) {
         StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
         insertSqlCommand.append(tableMetaData.getTableName());
         insertSqlCommand.append('(');
@@ -105,13 +106,13 @@ public class ResourceFileInsert implements ResourceInsert {
             }
             Object insertme;
             if (column.getColumnType() == Type.DATE) {
-                insertme = "to_date('" + data.get(i) + "', '"
-                        + DateTimeUtils.ORACLE_DATE_FORMAT + "')";
+                insertme = "to_date('" + data.get(column.getColumnName())
+                        + "', '" + DateTimeUtils.ORACLE_DATE_FORMAT + "')";
             } else {
                 // int[] types = jdbcInsert.getInsertTypes();
                 // insertme = InOutUtils.toString(types[i], data.get(i));
-                String val = data.get(i);
-                if (org.apache.commons.lang.StringUtils.isBlank(val)) {
+                String val = data.get(column.getColumnName());
+                if (StringUtils.isBlank(val)) {
                     insertme = "NULL";
                 } else {
                     insertme = "'" + val + "'";

@@ -47,26 +47,26 @@ public class DbloadInsert implements Closeable {
         jdbcTypeConverter = new JdbcTypeConverter(_locale);
     }
 
-    private PreparedStatement prepareStatement(DbloadContext _context,
-            TableMetaData tableMetaData) throws SQLException {
-
-        sqlStatement = new SqlInsertStatement(tableMetaData);
-        return _context.getConnection().prepareStatement(sqlStatement.getSql());
-    }
-
     public void insert(DataRow data) throws SQLException {
         applyParams(data, tableMetaData, stmt);
         stmt.execute();
     }
 
-    private void applyParams(DataRow data, TableMetaData tableMetaData,
-            PreparedStatement stmt) throws SQLException {
+    private PreparedStatement prepareStatement(DbloadContext _context,
+            TableMetaData _tableMetaData) throws SQLException {
+
+        sqlStatement = new SqlInsertStatement(_tableMetaData);
+        return _context.getConnection().prepareStatement(sqlStatement.getSql());
+    }
+
+    private void applyParams(DataRow data, TableMetaData _tableMetaData,
+            PreparedStatement _stmt) throws SQLException {
 
         int index = 1; // JDBC parameter index starts with 1
-        for (ColumnMetaData columnMetaData : tableMetaData.getColumns()) {
+        for (ColumnMetaData columnMetaData : _tableMetaData.getColumns()) {
             String value = data.get(columnMetaData.getColumnName());
             Object typedValue = jdbcTypeConverter.convert(columnMetaData, value);
-            jdbcTypeConverter.setTypedValue(stmt, index, columnMetaData, typedValue);
+            jdbcTypeConverter.setTypedValue(_stmt, index, columnMetaData, typedValue);
             index++;
         }
     }

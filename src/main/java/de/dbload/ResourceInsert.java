@@ -24,24 +24,24 @@ import de.dbload.meta.TableMetaData;
 
 /**
  * The interface for executing insert to a database.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 interface ResourceInsert extends Closeable {
 
     /**
      * Set the current table name.
-     * 
+     *
      * @param tableMetaData table name.
      */
     void newInsert(TableMetaData tableMetaData);
 
     /**
     * Insert a new row of data.
-    * 
+    *
     * @param data the data to insert
     */
-    void insert(List<String> data) throws SQLException;
+    void insert(DataRow data) throws SQLException;
 
     /**
      * Close this resource.
