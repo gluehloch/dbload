@@ -44,7 +44,17 @@ public class ResourceFileInsert implements ResourceInsert {
     /**
      * Constructor
      *
-     * @param file export directory
+     * @param directory export directory
+     * @param clazz the classpath resource
+     */
+    public ResourceFileInsert(File directory, Class<?> clazz) {
+        this(directory, clazz.getName());
+    }
+
+    /**
+     * Constructor
+     *
+     * @param directory export directory
      * @param testcase the name of the testcase
      */
     public ResourceFileInsert(File directory, String testcase) {
@@ -88,7 +98,7 @@ public class ResourceFileInsert implements ResourceInsert {
         boolean first = true;
         for (ColumnMetaData column : tableMetaData.getColumns()) {
             if (!first) {
-                insertSqlCommand.append(',');
+                insertSqlCommand.append(", ");
             }
             insertSqlCommand.append(column.getColumnName());
             first = false;
@@ -98,7 +108,7 @@ public class ResourceFileInsert implements ResourceInsert {
         first = true;
         for (ColumnMetaData column : tableMetaData.getColumns()) {
             if (!first) {
-                insertSqlCommand.append(',');
+                insertSqlCommand.append(", ");
             }
             Object insertme;
             if (column.getColumnType() == Type.DATE) {
@@ -114,7 +124,7 @@ public class ResourceFileInsert implements ResourceInsert {
                     insertme = "'" + val + "'";
                 }
             }
-
+            first = false;
             insertSqlCommand.append(insertme);
 
         }

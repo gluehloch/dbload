@@ -32,7 +32,7 @@ import de.dbload.meta.TableMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadInsert implements Closeable {
+class DbloadInsert implements Closeable {
 
     private SqlInsertStatement sqlStatement;
     private final PreparedStatement stmt;

@@ -39,14 +39,27 @@ public class JdbcTypeConverter {
 
     private DecimalFormat decimalFormat;
 
+    /**
+     * Creates a type converter with the default locale.
+     */
     public JdbcTypeConverter() {
         decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
     }
 
+    /**
+     * Creates a type converter with the specified locale.
+     *
+     * @param _locale a locale
+     */
     public JdbcTypeConverter(Locale _locale) {
         decimalFormat = NumberUtils.createDecimalFormatter(_locale);
     }
 
+    /**
+     * Creates a type converter. But here you define your own {@link DecimalFormat}.
+     *
+     * @param _decimalFormat a decimal formatter
+     */
     public JdbcTypeConverter(DecimalFormat _decimalFormat) {
         decimalFormat = _decimalFormat;
     }

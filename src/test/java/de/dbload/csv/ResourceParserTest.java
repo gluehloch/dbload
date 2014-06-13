@@ -29,7 +29,7 @@ import de.dbload.DataRow;
 
 /**
  * Test fuer {@link ResourceParser}.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ResourceParserTest {
@@ -46,7 +46,7 @@ public class ResourceParserTest {
     }
 
     /**
-     * Test {@link ResourceParser#readColumns(String)}
+     * Test {@link ResourceParser#readColumnNames(String)}
      */
     @Test
     public void testDataLoderParseColumns() {
@@ -61,7 +61,7 @@ public class ResourceParserTest {
     }
 
     /**
-     * Test {@link ResourceParser#readData(String)}
+     * Test {@link ResourceParser#readRow(List, String)}
      */
     @Test
     public void testResourceParserDataRow() {

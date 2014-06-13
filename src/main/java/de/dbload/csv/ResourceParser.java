@@ -26,7 +26,7 @@ import de.dbload.DataRow;
 
 /**
  * Read a resource.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ResourceParser {
@@ -42,7 +42,7 @@ public class ResourceParser {
 
     /**
      * The name of the current table.
-     * 
+     *
      * @return table name
      */
     public String getTableName() {
@@ -51,7 +51,7 @@ public class ResourceParser {
 
     /**
      * The column description.
-     * 
+     *
      * @return Column description.
      */
     public List<String> getColumns() {
@@ -60,7 +60,7 @@ public class ResourceParser {
 
     /**
      * The data for a table row.
-     * 
+     *
      * @return data of a row in a table.
      */
     public DataRow getDataRow() {
@@ -69,7 +69,7 @@ public class ResourceParser {
 
     /**
      * Reads the table definition
-     * 
+     *
      * @param line One line from the resource
      * @return ParserState
      */
@@ -94,11 +94,11 @@ public class ResourceParser {
 
     /**
      * Reading a line of data.
-     * 
+     *
      * @param line the data
      * @return list with data
      */
-    public DataRow readRow(List<String> columns, String line) {
+    public DataRow readRow(List<String> _columns, String line) {
         data = new DataRow();
         StringTokenizer stok = new StringTokenizer(line, "|", true);
         boolean lastTokenIsDelim = false;
@@ -107,31 +107,31 @@ public class ResourceParser {
             String token = stok.nextToken();
             if (StringUtils.equals("|", token)) {
                 if (lastTokenIsDelim) {
-                    if (index >= columns.size()) {
+                    if (index >= _columns.size()) {
                         throw new IllegalStateException(
                                 "More data than columns!");
                     }
 
-                    data.put(columns.get(index++), null);
+                    data.put(_columns.get(index++), null);
                 }
                 lastTokenIsDelim = true;
             } else {
                 // Check, if more data than defined columns
-                if (index >= columns.size()) {
+                if (index >= _columns.size()) {
                     throw new IllegalStateException("More data than columns!");
                 }
 
-                data.put(columns.get(index++), (token == null ? null
+                data.put(_columns.get(index++), (token == null ? null
                         : StringUtils.trimToNull(token)));
                 lastTokenIsDelim = false;
             }
         }
 
         if (lastTokenIsDelim) {
-            if (index >= columns.size()) {
+            if (index >= _columns.size()) {
                 throw new IllegalStateException("More data than columns!");
             }
-            data.put(columns.get(index), null);
+            data.put(_columns.get(index), null);
         }
 
         return data;
@@ -139,12 +139,12 @@ public class ResourceParser {
 
     /**
      * Read the column definition
-     * 
+     *
      * @param columnDefinition column definitions
      * @return column description
      */
     public List<String> readColumnNames(String columnDefinition) {
-        List<String> columns = new ArrayList<>();
+        List<String> _columns = new ArrayList<>();
 
         String tmp = columnDefinition.trim();
         if (!tmp.startsWith("###")) {
@@ -161,21 +161,21 @@ public class ResourceParser {
                 token = StringUtils.remove(token, "(date)");
             }
 
-            columns.add(token.trim());
+            _columns.add(token.trim());
         }
 
-        return columns;
+        return _columns;
     }
 
     /**
      * Read the table definition
-     * 
+     *
      * @param tableDefinition
      *            the table definition
      * @return the table name
      */
     public String readTableDefinition(String tableDefinition) {
-        String tableName = "";
+        String _tableName = "";
 
         StringTokenizer stok = new StringTokenizer(tableDefinition);
         if (stok.hasMoreTokens()) {
@@ -198,10 +198,10 @@ public class ResourceParser {
                 throw new IllegalStateException();
             }
 
-            tableName = token;
+            _tableName = token;
         }
 
-        return tableName;
+        return _tableName;
     }
 
 }

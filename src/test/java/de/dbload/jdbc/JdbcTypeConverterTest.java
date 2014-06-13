@@ -20,7 +20,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Locale;
 
