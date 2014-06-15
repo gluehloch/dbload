@@ -17,6 +17,8 @@
 package de.dbload.jdbc;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -37,12 +39,13 @@ public class JdbcUtils {
         }
     }
 
-    public static boolean findMetaData(Connection conn, String tableName) {
+    public static ResultSetMetaData findMetaData(Connection conn, String tableName) {
         String sql = "SELECT * FROM " + tableName + " WHERE 1 = 0";
 
         try {
             Statement stmt = conn.createStatement();
-            return stmt.execute(sql);
+            ResultSet resultSet = stmt.executeQuery(sql);
+            return resultSet.getMetaData();
         } catch (SQLException ex) {
             throw new IllegalArgumentException(ex);
         }

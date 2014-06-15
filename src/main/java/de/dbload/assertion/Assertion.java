@@ -14,30 +14,25 @@
  * limitations under the License.
  */
 
-package de.dbload;
+package de.dbload.assertion;
 
-import java.sql.Connection;
-
-import org.junit.Test;
-
-import de.dbload.assertion.Assertion;
-import de.dbload.jdbc.connector.JdbcMySqlConnector;
+import static org.junit.Assert.assertEquals;
+import de.dbload.DataRow;
 
 /**
- * Test Dbload. The whole!
+ * Some assertions...
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadTest {
+public class Assertion {
 
-    @Test
-    public void testDbload() {
-        Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
-                "dbload", "127.0.0.1", "dbload");
-        DbloadContext context = new DbloadContext(conn);
-        Dbload.start(context, DbloadTest.class);
+    public static void assertExists(Class<?> clazz) {
+        assertEquals(0, 0);
+        throw new AssertionError();
+    }
 
-        Assertion.assertExists(DbloadTest.class);
+    public static void assertExists(DataRow dataRow) {
+
     }
 
 }
