@@ -14,26 +14,14 @@
  * limitations under the License.
  */
 
-package de.dbload.assertion;
-
-import static org.junit.Assert.assertEquals;
-import de.dbload.DataRow;
-import de.dbload.meta.TableMetaData;
+package de.dbload.jdbc;
 
 /**
- * Some assertions...
+ * Creates a SELECT SQL string like
+ * <pre>SELECT c1, c2, c3 FROM tablename WHERE c1 = ? AND c2 = ? AND c3 = ?;</pre>
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class Assertion {
-
-    public static void assertExists(Class<?> clazz) {
-        assertEquals(0, 0);
-        throw new AssertionError();
-    }
-
-    public static void assertExists(DataRow dataRow, TableMetaData tableMetaData) {
-        tableMetaData.
-    }
+public class SqlSelectStatement {
 
 }

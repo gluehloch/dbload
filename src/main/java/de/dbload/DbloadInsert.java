@@ -56,7 +56,7 @@ class DbloadInsert implements Closeable {
             TableMetaData _tableMetaData) throws SQLException {
 
         sqlStatement = new SqlInsertStatement(_tableMetaData);
-        return _context.getConnection().prepareStatement(sqlStatement.getSql());
+        return _context.getConnection().prepareStatement(sqlStatement.createSql());
     }
 
     private void applyParams(DataRow data, TableMetaData _tableMetaData,

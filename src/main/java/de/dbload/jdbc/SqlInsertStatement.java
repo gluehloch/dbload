@@ -31,8 +31,13 @@ public class SqlInsertStatement {
         tableMetaData = _tableMetaData;
     }
 
-    public String getSql() {
-        // INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
+    /**
+     * Creates an INSERT SQL string like
+     * <pre>INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);</pre>
+     *
+     * @return A SQL insert statement
+     */
+    public String createSql() {
         StringBuffer stmt = new StringBuffer("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());
 

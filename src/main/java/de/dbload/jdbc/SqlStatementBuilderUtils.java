@@ -24,7 +24,7 @@ import de.dbload.meta.ColumnsMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlStatementBuilderUtils {
+class SqlStatementBuilderUtils {
 
     /**
      * Creates a list of column names like "col1, col2, col3" from a meta description.

@@ -60,7 +60,7 @@ public class SqlInsertStatementTest {
         SqlInsertStatement sqlStatement = new SqlInsertStatement(tableMetaData);
 
         assertThat(
-                sqlStatement.getSql(),
+                sqlStatement.createSql(),
                 equalTo("INSERT INTO person(id, name, vorname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)"));
     }
 
@@ -77,7 +77,7 @@ public class SqlInsertStatementTest {
         java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
         java.sql.Time sqlTime = new java.sql.Time(date.getTime());
 
-        PreparedStatement stmt = conn.prepareStatement(sqlStatement.getSql());
+        PreparedStatement stmt = conn.prepareStatement(sqlStatement.createSql());
         stmt.setInt(1, 1);
         stmt.setString(2, "winkler");
         stmt.setString(3, "andre");
