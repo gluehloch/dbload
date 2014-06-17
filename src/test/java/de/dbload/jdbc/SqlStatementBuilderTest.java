@@ -1,17 +1,17 @@
 /*
  * Copyright 2014 Andre Winkler
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
 package de.dbload.jdbc;
@@ -33,19 +33,23 @@ import de.dbload.meta.ColumnsMetaData;
 public class SqlStatementBuilderTest {
 
     @Test
+    public void testSqlStatementBuilderAndCondition() {
+        ColumnsMetaData columns = createThreeColumnTable();
+        String andCondition = SqlStatementBuilderUtils
+                .createAndCondition(columns);
+        assertThat(andCondition, equalTo("col1 = ? AND col2 = ? AND col3 = ?"));
+    }
+
+    @Test
     public void testSqlStatementBuilderCreateColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col3", Type.DATE));
+        ColumnsMetaData columns = createThreeColumnTable();
         String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
         assertThat(desc, equalTo("col1, col2, col3"));
     }
 
     @Test
     public void testSqlStatementBuilderCreateColumnWithSingleColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+        ColumnsMetaData columns = createSingleColumnTable();
         String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
         assertThat(desc, equalTo("col1"));
     }
@@ -59,26 +63,47 @@ public class SqlStatementBuilderTest {
 
     @Test
     public void testSqlStatementBuilderCreateValueColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
-        String desc = SqlStatementBuilderUtils.createColumnValues(columns);
+        ColumnsMetaData columns = createTwoColumnTable();
+        String desc = SqlStatementBuilderUtils
+                .createQuestionMarkPerColumn(columns);
         assertThat(desc, equalTo("?, ?"));
     }
 
     @Test
     public void testSqlStatementBuilderCreateValueColumnWithSingleColumn() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        String desc = SqlStatementBuilderUtils.createColumnValues(columns);
+        ColumnsMetaData columns = createSingleColumnTable();
+        String desc = SqlStatementBuilderUtils
+                .createQuestionMarkPerColumn(columns);
         assertThat(desc, equalTo("?"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testSqlStatementBuilderCreateColumnValueWithNoColumns() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        String desc = SqlStatementBuilderUtils.createColumnValues(columns);
+        String desc = SqlStatementBuilderUtils
+                .createQuestionMarkPerColumn(columns);
         assertThat(desc, equalTo(""));
+    }
+
+    private ColumnsMetaData createSingleColumnTable() {
+        ColumnsMetaData columns = new ColumnsMetaData();
+        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+        return columns;
+    }
+
+    private ColumnsMetaData createTwoColumnTable() {
+        ColumnsMetaData columns = new ColumnsMetaData();
+        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
+        return columns;
+    }
+
+    private ColumnsMetaData createThreeColumnTable() {
+        ColumnsMetaData columns = new ColumnsMetaData();
+        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
+        columns.addColumn(new ColumnMetaData("col3", Type.DATE));
+        return columns;
     }
 
 }
