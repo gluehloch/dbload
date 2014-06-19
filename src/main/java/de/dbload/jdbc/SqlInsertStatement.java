@@ -27,7 +27,7 @@ import de.dbload.meta.TableMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlInsertStatement {
+public class SqlInsertStatement implements SqlStatement {
 
     private TableMetaData tableMetaData;
 
@@ -44,6 +44,7 @@ public class SqlInsertStatement {
      *
      * @return A SQL insert statement
      */
+    @Override
     public String createSql() {
         StringBuffer stmt = new StringBuffer("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());

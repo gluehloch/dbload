@@ -27,7 +27,7 @@ import de.dbload.meta.TableMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlSelectStatement {
+public class SqlSelectStatement implements SqlStatement {
 
     private TableMetaData tableMetaData;
 
@@ -50,6 +50,7 @@ public class SqlSelectStatement {
      *
      * @return A SQL select statement
      */
+    @Override
     public String createSql() {
         StringBuffer stmt = new StringBuffer("SELECT ");
         stmt.append(SqlStatementBuilderUtils

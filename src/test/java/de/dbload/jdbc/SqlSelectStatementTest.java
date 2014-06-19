@@ -19,12 +19,11 @@ package de.dbload.jdbc;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Before;
 import org.junit.Test;
 
+import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
-import de.dbload.meta.ColumnMetaData.Type;
 
 /**
  * A test class for {@link SqlSelectStatement}.
@@ -33,10 +32,8 @@ import de.dbload.meta.ColumnMetaData.Type;
  */
 public class SqlSelectStatementTest {
 
-    private TableMetaData tableMetaData;
-
-    @Before
-    public void setup() {
+    @Test
+    public void tesSqlSelectStatement() {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.column("id", Type.NUMBER_INTEGER);
         columns.column("name", Type.STRING);
@@ -44,11 +41,8 @@ public class SqlSelectStatementTest {
         columns.column("age", Type.NUMBER_INTEGER);
         columns.column("sex", Type.NUMBER_INTEGER);
         columns.column("birthday", Type.DATE);
-        tableMetaData = new TableMetaData("person", columns);
-    }
+        TableMetaData tableMetaData = new TableMetaData("person", columns);
 
-    @Test
-    public void tesSqlSelectStatement() {
         SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
                 tableMetaData);
         assertThat(
@@ -56,6 +50,18 @@ public class SqlSelectStatementTest {
                 equalTo("SELECT id, name, vorname, age, sex, birthday "
                         + "FROM person "
                         + "WHERE id = ? AND name = ? AND vorname = ? AND age = ? AND sex = ? AND birthday = ?"));
+    }
+
+    @Test
+    public void tesSqlSelectStatementWithSingleColumnTable() {
+        ColumnsMetaData columns = new ColumnsMetaData();
+        columns.column("id", Type.NUMBER_INTEGER);
+        TableMetaData tableMetaData = new TableMetaData("person", columns);
+
+        SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
+                tableMetaData);
+        assertThat(sqlSelectStatement.createSql(),
+                equalTo("SELECT id FROM person WHERE id = ?"));
     }
 
 }
