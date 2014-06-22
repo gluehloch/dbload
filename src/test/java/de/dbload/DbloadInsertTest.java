@@ -17,6 +17,7 @@
 package de.dbload;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
@@ -28,6 +29,7 @@ import java.util.Locale;
 
 import org.junit.Test;
 
+import de.dbload.assertion.Assertion;
 import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
@@ -53,33 +55,38 @@ public class DbloadInsertTest {
         columns.addColumn(new ColumnMetaData("vorname", Type.STRING));
         columns.addColumn(new ColumnMetaData("age", Type.NUMBER_INTEGER));
         columns.addColumn(new ColumnMetaData("sex", Type.NUMBER_INTEGER));
-        columns.addColumn(new ColumnMetaData("birthday", Type.DATE));
+        columns.addColumn(new ColumnMetaData("birthday", Type.DATE_TIME));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
+
+        DataRow data = new DataRow();
+        data.put("id", "1");
+        data.put("name", "Winkler");
+        data.put("vorname", "Andre");
+        data.put("age", "43");
+        data.put("sex", "0");
+        data.put("birthday", "1971-03-24 06:41:11");
 
         try (DbloadInsert dbloadInsert = new DbloadInsert(context,
                 tableMetaData, Locale.GERMANY)) {
-            DataRow data = new DataRow();
-            data.put("id", "0");
-            data.put("name", "Winkler");
-            data.put("vorname", "Andre");
-            data.put("age", "43");
-            data.put("sex", "0");
-            data.put("birthday", "1971-03-24 06:41:11");
             dbloadInsert.insert(data);
         }
 
         Statement stmt = connection.createStatement();
         ResultSet resultSet = stmt.executeQuery("select * from person");
         resultSet.next();
+        long id = resultSet.getLong(1);
         String name = resultSet.getString(2);
         String vorname = resultSet.getString(3);
         Date date = resultSet.getTimestamp(6);
 
+        assertThat(id, equalTo(1L));
         assertThat(name, equalTo("Winkler"));
         assertThat(vorname, equalTo("Andre"));
         assertThat(date,
                 equalTo(DateTimeUtils.toJodaDateTime("1971-03-24 06:41:11")
                         .toDate()));
+
+        assertThat(Assertion.assertExists(context, data, tableMetaData), is(true));
 
         stmt.close();
         connection.rollback();

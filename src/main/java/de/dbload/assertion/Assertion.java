@@ -39,13 +39,18 @@ public class Assertion {
         throw new AssertionError();
     }
 
-    public static void assertExists(DbloadContext _context, DataRow _dataRow,
-            TableMetaData _tableMetaData) throws SQLException {
+    public static boolean assertExists(DbloadContext _context,
+            DataRow _dataRow, TableMetaData _tableMetaData) throws SQLException {
 
         SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
                 _tableMetaData);
         PreparedStatement stmt = PreparedStatementBuilder.prepareStatement(
                 _context, sqlSelectStatement);
+
+        DbloadAssertionContext assertionContext = new DbloadAssertionContext(
+                _context, _tableMetaData, stmt);
+
+        return assertionContext.assertExists(_dataRow);
     }
 
 }
