@@ -53,24 +53,21 @@
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>1.6.1</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-log4j12</artifactId>
-      <version>1.6.1</version>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <version>1.2.16</version>
-      <scope>runtime</scope>
+      <scope>compile</scope>
     </dependency>
 
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.13</version>
+      <scope>test</scope>
+    </dependency>
+    <!-- TODO Compile dependency because of dbload assertion! -->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.10</version>
-      <scope>test</scope>
+      <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
@@ -79,21 +76,21 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Springframework. <dependency> <groupId>org.springframework</groupId> 
-      <artifactId>spring-test</artifactId> <version>${org.springframework.version}</version> 
-      <scope>test</scope> </dependency> <dependency> <groupId>org.springframework</groupId> 
-      <artifactId>spring-core</artifactId> <version>${org.springframework.version}</version> 
-      <scope>compile</scope> </dependency> <dependency> <groupId>org.springframework</groupId> 
-      <artifactId>spring-tx</artifactId> <version>${org.springframework.version}</version> 
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context</artifactId> 
-      <version>${org.springframework.version}</version> </dependency> <dependency> 
-      <groupId>org.springframework</groupId> <artifactId>spring-aop</artifactId> 
-      <version>${org.springframework.version}</version> </dependency> <dependency> 
-      <groupId>org.springframework</groupId> <artifactId>spring-orm</artifactId> 
-      <version>${org.springframework.version}</version> </dependency> <dependency> 
-      <groupId>org.springframework</groupId> <artifactId>spring-jdbc</artifactId> 
-      <version>${org.springframework.version}</version> </dependency> <dependency> 
-      <groupId>aspectj</groupId> <artifactId>aspectjweaver</artifactId> <version>1.5.3</version> 
+    <!-- Springframework. <dependency> <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId> <version>${org.springframework.version}</version>
+      <scope>test</scope> </dependency> <dependency> <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId> <version>${org.springframework.version}</version>
+      <scope>compile</scope> </dependency> <dependency> <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId> <version>${org.springframework.version}</version>
+      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context</artifactId>
+      <version>${org.springframework.version}</version> </dependency> <dependency>
+      <groupId>org.springframework</groupId> <artifactId>spring-aop</artifactId>
+      <version>${org.springframework.version}</version> </dependency> <dependency>
+      <groupId>org.springframework</groupId> <artifactId>spring-orm</artifactId>
+      <version>${org.springframework.version}</version> </dependency> <dependency>
+      <groupId>org.springframework</groupId> <artifactId>spring-jdbc</artifactId>
+      <version>${org.springframework.version}</version> </dependency> <dependency>
+      <groupId>aspectj</groupId> <artifactId>aspectjweaver</artifactId> <version>1.5.3</version>
       </dependency> -->
 
     <!-- MySQL Datenbank Treiber -->

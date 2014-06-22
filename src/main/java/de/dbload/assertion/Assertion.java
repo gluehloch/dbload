@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.List;
 
 import de.dbload.DataRow;
 import de.dbload.DbloadContext;
@@ -40,7 +41,13 @@ public class Assertion {
     }
 
     public static boolean assertExists(DbloadContext _context,
-            DataRow _dataRow, TableMetaData _tableMetaData) throws SQLException {
+            TableMetaData _tableMetaData, List<DataRow> _dataRow) {
+
+        return false;
+    }
+
+    public static boolean assertExists(DbloadContext _context,
+            TableMetaData _tableMetaData, DataRow _dataRow) throws SQLException {
 
         SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
                 _tableMetaData);

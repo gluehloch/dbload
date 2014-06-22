@@ -20,6 +20,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dbload.DataRow;
 import de.dbload.DbloadContext;
 import de.dbload.jdbc.PreparedStatementBuilder;
@@ -31,6 +34,9 @@ import de.dbload.meta.TableMetaData;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 class DbloadAssertionContext {
+
+    private static final Logger LOG = LoggerFactory
+            .getLogger(DbloadAssertionContext.class);
 
     private final DbloadContext dbloadContext;
     private final TableMetaData tableMetaData;
@@ -66,6 +72,10 @@ class DbloadAssertionContext {
     public boolean assertExists(DataRow _dataRow) throws SQLException {
         PreparedStatementBuilder.applyParams(_dataRow, tableMetaData,
                 dbloadContext.getJdbcTypeConverter(), statement);
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Execute query {}", statement);
+        }
 
         ResultSet resultSet = statement.executeQuery();
         if (resultSet.next()) {
