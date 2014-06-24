@@ -18,12 +18,14 @@ package de.dbload;
 
 import java.io.File;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
-import de.dbload.meta.ColumnMetaData.Type;
 
 /**
  * Test for class {@link ResourceFileInsert}.
@@ -32,8 +34,11 @@ import de.dbload.meta.ColumnMetaData.Type;
  */
 public class ResourceFileInsertTest {
 
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
+
     @Test
-    public void testResourceFileInsert() {
+    public void testResourceFileInsert() throws Exception {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.addColumn(new ColumnMetaData("id", Type.NUMBER_INTEGER));
         columns.addColumn(new ColumnMetaData("name", Type.STRING));
@@ -51,7 +56,7 @@ public class ResourceFileInsertTest {
         data.put("sex", "0");
         data.put("birthday", "1971-03-24 06:41:11");
 
-        File directory = new File("c:/tmp");
+        File directory = folder.newFolder();
         try (ResourceFileInsert rfi = new ResourceFileInsert(directory,
                 Dbload.class)) {
 
