@@ -21,12 +21,14 @@ import static org.junit.Assert.assertThat;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.ComparisonFailure;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.internal.matchers.TypeSafeMatcher;
+import org.junit.rules.ErrorCollector;
 
 import de.dbload.DataRow;
-import de.dbload.meta.TableMetaData;
-import de.dbload.utils.TestMetaDataFactory;
 
 /**
  * An example for a good assertion class.
@@ -35,20 +37,18 @@ import de.dbload.utils.TestMetaDataFactory;
  */
 public class ExampleForAGoodAssertionTest {
 
+    @Rule
+    public ErrorCollector collector = new ErrorCollector();
+
     @Test
     public void messageOfAnAssertionError() {
         ComparisonFailure failure = new ComparisonFailure("Some nice text.",
                 "expected", "actual");
 
-        assertThat(
-                failure.getMessage(),
-                equalTo("Some nice text. expected:<[expected]> but was:<[actual]>"));
-    }
-
-    private class MyAssertionError extends ComparisonFailure {
-        public MyAssertionError(String message, String expected, String actual) {
-            super(message, expected, actual);
-        }
+        collector
+                .checkThat(
+                        failure.getMessage(),
+                        equalTo("Some nice text. expected:<[expected]> but was:<[actual]>"));
     }
 
     @Test
@@ -63,14 +63,30 @@ public class ExampleForAGoodAssertionTest {
         rowB.put("col2", "value2");
         rowB.put("col3", "value3");
 
-        assertThat("identical dataRows", rowA, new DataRowMatcher(rowB));
-
         DataRow rowC = new DataRow();
         rowC.put("col1", "value1");
         rowC.put("col2", "value2");
         rowC.put("col3", "value4");
 
-        assertThat("identical dataRows", rowA, new DataRowMatcher(rowC));
+        collector.checkThat("identical dataRows", rowA,
+                new DataRowMatcher(rowB));
+        collector.checkThat("identical dataRows", rowA,
+                new DataRowMatcher(rowC)); // error
+
+        collector.checkThat("identical dataRows", rowA,
+                new DataRowTypeSafeMatcher(rowB));
+        collector.checkThat("identical dataRows", rowA,
+                new DataRowTypeSafeMatcher(rowC)); // error
+
+        collector.checkThat("identical dataRows", rowA,
+                new DataRowTypeSafeDignosticMatcher(rowB));
+        collector.checkThat("identical dataRows", rowA,
+                new DataRowTypeSafeDignosticMatcher(rowC)); // error
+        collector.checkThat(new DataRow(), new DataRowTypeSafeDignosticMatcher(
+                rowC)); // error
+
+        // assertThat("identical dataRows", rowA, new
+        // DataRowTypeSafeDignosticMatcher(rowC)); // error
     }
 
     private class DataRowMatcher extends BaseMatcher<DataRow> {
@@ -89,7 +105,52 @@ public class ExampleForAGoodAssertionTest {
 
         @Override
         public void describeTo(Description description) {
+            description.appendText("the datarow should by equal to ")
+                    .appendValue(dataRow);
+        }
+
+    }
+
+    private class DataRowTypeSafeMatcher extends TypeSafeMatcher<DataRow> {
+
+        private final DataRow dataRow;
+
+        DataRowTypeSafeMatcher(DataRow _dataRow) {
+            dataRow = _dataRow;
+        }
+
+        @Override
+        public boolean matchesSafely(DataRow dataRowToMatch) {
+            return dataRow.equals(dataRowToMatch);
+        }
+
+        @Override
+        public void describeTo(Description description) {
+            description.appendText("the datarow should by equal to ")
+                    .appendValue(dataRow);
+        }
+
+    }
+
+    private class DataRowTypeSafeDignosticMatcher extends
+            TypeSafeDiagnosingMatcher<DataRow> {
+
+        private final DataRow dataRow;
+
+        DataRowTypeSafeDignosticMatcher(DataRow _dataRow) {
+            dataRow = _dataRow;
+        }
+
+        @Override
+        public void describeTo(Description description) {
             description.appendText("the datarow should by equal to " + dataRow);
+        }
+
+        @Override
+        protected boolean matchesSafely(DataRow dataRowToMatch,
+                Description description) {
+            description.appendText("but was ").appendValue(dataRowToMatch);
+            return dataRow.equals(dataRowToMatch);
         }
 
     }
