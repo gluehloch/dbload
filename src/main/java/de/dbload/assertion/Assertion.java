@@ -41,9 +41,22 @@ public class Assertion {
     }
 
     public static boolean assertExists(DbloadContext _context,
-            TableMetaData _tableMetaData, List<DataRow> _dataRow) {
+            TableMetaData _tableMetaData, List<DataRow> _dataRow)
+            throws SQLException {
 
-        return false;
+        SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
+                _tableMetaData);
+        PreparedStatement stmt = PreparedStatementBuilder.prepareStatement(
+                _context, sqlSelectStatement);
+
+        DbloadAssertionContext assertionContext = new DbloadAssertionContext(
+                _context, _tableMetaData, stmt);
+
+        boolean ok = true;
+        for (DataRow dataRow : _dataRow) {
+            ok = ok && assertionContext.assertExists(dataRow);
+        }
+        return ok;
     }
 
     public static boolean assertExists(DbloadContext _context,

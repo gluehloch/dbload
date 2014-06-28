@@ -30,12 +30,10 @@ import java.util.Locale;
 import org.junit.Test;
 
 import de.dbload.assertion.Assertion;
-import de.dbload.jdbc.connector.JdbcMySqlConnector;
-import de.dbload.meta.ColumnMetaData;
-import de.dbload.meta.ColumnMetaData.Type;
-import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
+import de.dbload.utils.TestConnectionFactory;
+import de.dbload.utils.TestMetaDataFactory;
 
 /**
  * A test case for {@link DbloadInsert}.
@@ -46,18 +44,9 @@ public class DbloadInsertTest {
 
     @Test
     public void dbloadInsert() throws SQLException {
-        Connection connection = JdbcMySqlConnector.createMySqlConnection(
-                "dbload", "dbload", "localhost", "dbload");
-
+        Connection connection = TestConnectionFactory.connectToTestDatabase();
         DbloadContext context = new DbloadContext(connection);
-        ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("id", Type.NUMBER_INTEGER));
-        columns.addColumn(new ColumnMetaData("name", Type.STRING));
-        columns.addColumn(new ColumnMetaData("vorname", Type.STRING));
-        columns.addColumn(new ColumnMetaData("age", Type.NUMBER_INTEGER));
-        columns.addColumn(new ColumnMetaData("sex", Type.NUMBER_INTEGER));
-        columns.addColumn(new ColumnMetaData("birthday", Type.DATE_TIME));
-        TableMetaData tableMetaData = new TableMetaData("person", columns);
+        TableMetaData tableMetaData = TestMetaDataFactory.createPersonMetaData();
 
         DataRow dataRow1 = new DataRow();
         dataRow1.put("id", "1");
@@ -105,4 +94,5 @@ public class DbloadInsertTest {
         connection.rollback();
         connection.close();
     }
+
 }

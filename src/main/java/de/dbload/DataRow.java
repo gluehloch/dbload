@@ -26,18 +26,48 @@ import java.util.Map;
  */
 public class DataRow {
 
-    private final Map<String, String> datas = new HashMap<>();
+    private final Map<String, String> map = new HashMap<>();
 
     public void put(String columnName, String value) {
-        datas.put(columnName, value);
+        map.put(columnName, value);
     }
 
     public int size() {
-        return datas.size();
+        return map.size();
     }
 
     public String get(String columnName) {
-        return datas.get(columnName);
+        return map.get(columnName);
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((map == null) ? 0 : map.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DataRow other = (DataRow) obj;
+        if (map == null) {
+            if (other.map != null)
+                return false;
+        } else if (!map.equals(other.map))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "DataRow [map=" + map + "]";
     }
 
 }
