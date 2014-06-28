@@ -17,7 +17,8 @@
 package de.dbload.assertion;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+// import static org.junit.Assert.assertThat;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
@@ -143,13 +144,16 @@ public class ExampleForAGoodAssertionTest {
 
         @Override
         public void describeTo(Description description) {
-            description.appendText("the datarow should by equal to " + dataRow);
+            description.appendValue(dataRow);
         }
 
         @Override
         protected boolean matchesSafely(DataRow dataRowToMatch,
-                Description description) {
-            description.appendText("but was ").appendValue(dataRowToMatch);
+                Description mismatchDescription) {
+
+            mismatchDescription.appendValue(dataRow)
+                    .appendText(" is not equal to ")
+                    .appendValue(dataRowToMatch);
             return dataRow.equals(dataRowToMatch);
         }
 
