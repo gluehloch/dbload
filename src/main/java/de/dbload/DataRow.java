@@ -40,6 +40,10 @@ public class DataRow {
         return map.get(columnName);
     }
 
+    public Map<String, String> asMap() {
+        return map;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

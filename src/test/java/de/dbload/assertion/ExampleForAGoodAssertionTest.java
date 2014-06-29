@@ -17,19 +17,23 @@
 package de.dbload.assertion;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-// import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertThat;
+
+import java.util.Map;
 
 import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.ComparisonFailure;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.internal.matchers.TypeSafeMatcher;
 import org.junit.rules.ErrorCollector;
 
 import de.dbload.DataRow;
+
+// import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * An example for a good assertion class.
@@ -52,7 +56,12 @@ public class ExampleForAGoodAssertionTest {
                         equalTo("Some nice text. expected:<[expected]> but was:<[actual]>"));
     }
 
+    /**
+     * Test method to find the 'perfect' matcher for {@link DataRow} or a
+     * {@link Map}.
+     */
     @Test
+    @Ignore
     public void matchDataRow() {
         DataRow rowA = new DataRow();
         rowA.put("col1", "value1");
@@ -86,8 +95,13 @@ public class ExampleForAGoodAssertionTest {
         collector.checkThat(new DataRow(), new DataRowTypeSafeDignosticMatcher(
                 rowC)); // error
 
-        // assertThat("identical dataRows", rowA, new
-        // DataRowTypeSafeDignosticMatcher(rowC)); // error
+        collector.checkThat(rowA.asMap(),
+                MapContentMatchers.hasAllEntries(rowC.asMap()));
+
+        collector.checkThat(rowA, DataRowMatchers.hasAllEntries(rowC));
+
+        assertThat("identical dataRows", rowA,
+                DataRowMatchers.hasAllEntries(rowC)); // error
     }
 
     private class DataRowMatcher extends BaseMatcher<DataRow> {
@@ -154,6 +168,7 @@ public class ExampleForAGoodAssertionTest {
             mismatchDescription.appendValue(dataRow)
                     .appendText(" is not equal to ")
                     .appendValue(dataRowToMatch);
+
             return dataRow.equals(dataRowToMatch);
         }
 

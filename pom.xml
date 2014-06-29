@@ -55,13 +55,6 @@
       <version>1.6.1</version>
       <scope>compile</scope>
     </dependency>
-
-    <dependency>
-      <groupId>ch.qos.logback</groupId>
-      <artifactId>logback-classic</artifactId>
-      <version>1.0.13</version>
-      <scope>test</scope>
-    </dependency>
     <!-- TODO Compile dependency because of dbload assertion! -->
     <dependency>
       <groupId>junit</groupId>
@@ -73,6 +66,14 @@
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-all</artifactId>
       <version>1.3</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- Logging -->
+    <dependency>
+      <groupId>ch.qos.logback</groupId>
+      <artifactId>logback-classic</artifactId>
+      <version>1.0.13</version>
       <scope>test</scope>
     </dependency>
     <dependency>
