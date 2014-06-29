@@ -18,6 +18,7 @@ package de.dbload.assertion;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Map;
 
@@ -32,8 +33,6 @@ import org.junit.Test;
 import org.junit.rules.ErrorCollector;
 
 import de.dbload.DataRow;
-
-// import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * An example for a good assertion class.
@@ -99,9 +98,32 @@ public class ExampleForAGoodAssertionTest {
                 MapContentMatchers.hasAllEntries(rowC.asMap()));
 
         collector.checkThat(rowA, DataRowMatchers.hasAllEntries(rowC));
+    }
 
-        assertThat("identical dataRows", rowA,
-                DataRowMatchers.hasAllEntries(rowC)); // error
+    @Test
+    public void matchDataRowWithoutCollector() {
+        DataRow rowA = new DataRow();
+        rowA.put("col1", "value1");
+        rowA.put("col2", "value2");
+        rowA.put("col3", "value3");
+
+        DataRow rowB = new DataRow();
+        rowB.put("col1", "value1");
+        rowB.put("col2", "value2");
+        rowB.put("col3", "value3");
+
+        DataRow rowC = new DataRow();
+        rowC.put("col1", "value1");
+        rowC.put("col2", "value2");
+        rowC.put("col3", "value4");
+
+        try {
+            assertThat("identical dataRows", rowA,
+                    DataRowMatchers.hasAllEntries(rowC)); // error
+            fail("Expected an AssertionError!");
+        } catch (AssertionError err) {
+            // ok
+        }
     }
 
     private class DataRowMatcher extends BaseMatcher<DataRow> {

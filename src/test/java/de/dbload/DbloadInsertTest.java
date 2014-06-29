@@ -27,6 +27,7 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.dbload.assertion.Assertion;
@@ -46,7 +47,8 @@ public class DbloadInsertTest {
     public void dbloadInsert() throws SQLException {
         Connection connection = TestConnectionFactory.connectToTestDatabase();
         DbloadContext context = new DbloadContext(connection);
-        TableMetaData tableMetaData = TestMetaDataFactory.createPersonMetaData();
+        TableMetaData tableMetaData = TestMetaDataFactory
+                .createPersonMetaData();
 
         DataRow dataRow1 = new DataRow();
         dataRow1.put("id", "1");
@@ -77,13 +79,19 @@ public class DbloadInsertTest {
         String name = resultSet.getString(2);
         String vorname = resultSet.getString(3);
         Date date = resultSet.getTimestamp(6);
+        DateTime dateTime = new DateTime(date.getTime());
 
         assertThat(id, equalTo(1L));
         assertThat(name, equalTo("Winkler"));
         assertThat(vorname, equalTo("Andre"));
-        assertThat(date,
-                equalTo(DateTimeUtils.toJodaDateTime("1971-03-24 06:41:11")
-                        .toDate()));
+
+        DateTime date_19710324 = DateTimeUtils
+                .toJodaDateTime("1971-03-24 06:41:11");
+
+        assertThat(dateTime, equalTo(date_19710324));
+        // An equal on a java.util.Date is a bad idea! The following assertion
+        // does not work!
+        // assertThat(date, equalTo(date_19710324.toDate()));
 
         assertThat(Assertion.assertExists(context, tableMetaData, dataRow1),
                 is(true));

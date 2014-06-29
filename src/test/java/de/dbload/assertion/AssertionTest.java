@@ -73,6 +73,7 @@ public class AssertionTest {
         dataRows.add(dataRow);
 
         assertThat(Assertion.assertExists(context, tableMetaData, dataRows), is(true));
+        assertThat(dataRow, DataRowMatchers.hasAllEntries(dataRow));
     }
 
 }

@@ -36,6 +36,13 @@ public class DataRowMatchers extends TypeSafeMatcher<DataRow> {
         dataRow = _dataRow;
     }
 
+    /**
+     * Creates a {@link DataRow} matcher.
+     *
+     * @param dataRow
+     *            the dataRow to match against
+     * @return a hamcrest matcher
+     */
     @Factory
     public static Matcher<DataRow> hasAllEntries(DataRow dataRow) {
         return new DataRowMatchers(dataRow);
