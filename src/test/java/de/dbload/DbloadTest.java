@@ -31,7 +31,7 @@ import de.dbload.jdbc.connector.JdbcMySqlConnector;
 public class DbloadTest {
 
     @Test
-    public void testDbload() {
+    public void testDbload() throws Exception {
         Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
                 "dbload", "127.0.0.1", "dbload");
         DbloadContext context = new DbloadContext(conn);

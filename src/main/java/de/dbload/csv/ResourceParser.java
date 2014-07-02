@@ -36,7 +36,7 @@ public class ResourceParser {
     private DataRow data;
     private ParserState parserState;
 
-    enum ParserState {
+    public enum ParserState {
         TABLE_DEFINITION, COLUMN_DEFINITION, DATA_DEFINITION, COMMENT_OR_EMPTY
     }
 
