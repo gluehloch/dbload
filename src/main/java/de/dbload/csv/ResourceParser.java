@@ -159,11 +159,6 @@ public class ResourceParser {
         StringTokenizer stok = new StringTokenizer(tmp, "|");
         while (stok.hasMoreTokens()) {
             String token = stok.nextToken();
-
-            if (StringUtils.contains(token, "(date)")) {
-                token = StringUtils.remove(token, "(date)");
-            }
-
             _columns.add(token.trim());
         }
 

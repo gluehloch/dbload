@@ -34,6 +34,9 @@ public class ColumnMetaData {
         /** varchar */
         STRING,
 
+        /** number with no decimals
+        NUMBER_BIT,
+        
         /** number with no decimals like byte, short, int or long */
         NUMBER_INTEGER,
 

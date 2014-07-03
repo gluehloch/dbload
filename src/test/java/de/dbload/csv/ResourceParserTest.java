@@ -55,7 +55,7 @@ public class ResourceParserTest {
                 .readColumnNames("### col1 | col2(date) | col3");
 
         assertEquals("col1", columns.get(0));
-        assertEquals("col2", columns.get(1));
+        assertEquals("col2(date)", columns.get(1));
         //assertEquals(ColumnMetaData.Type.DATE, columns.get(1).getColumnType());
         assertEquals("col3", columns.get(2));
     }

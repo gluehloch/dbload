@@ -3,7 +3,7 @@ create table person (
     name varchar(40),
     vorname varchar(40),
     age integer,
-    sex bit,
+    sex varchar(1),
     birthday datetime,
     primary key (id)
 ) ENGINE=InnoDB;

@@ -17,14 +17,13 @@
 package de.dbload;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
 import de.dbload.csv.ResourceParser;
-import de.dbload.meta.ColumnMetaData;
-import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
@@ -44,9 +43,11 @@ public class Dbload {
      *            used as classloader root
      * @throws IOException
      *             Unable to read data file
+     * @throws SQLException
+     *             Unable to write to database
      */
     public static void start(DbloadContext context, Class<?> clazz)
-            throws IOException {
+            throws IOException, SQLException {
 
         try (ResourceDataReader resourceDataReader = new ResourceDataReader(
                 clazz)) {
@@ -64,27 +65,36 @@ public class Dbload {
                         .parse(line);
                 switch (parserState) {
                 case COLUMN_DEFINITION:
-                    List<String> currentColumnNames = resourceParser
-                            .readColumnNames(line);
-
-                    ColumnsMetaData columnsMetaData = new ColumnsMetaData();
-                    for (String columnName : currentColumnNames) {
-                        Type columnType = ColumnTypeParser.findType(columnName);
-                        columnsMetaData.addColumn(new ColumnMetaData(
-                                columnName, columnType));
+                    if (currentTableName == null) {
+                        throw new IllegalStateException(
+                                "Find column description without a table name!");
                     }
 
+                    List<String> currentColumnNames = resourceParser
+                            .readColumnNames(line);
+                    ColumnsMetaData columnsMetaData = ColumnTypeParser
+                            .parseColumnsMetaData(currentColumnNames);
                     currentTableMetaData = new TableMetaData(currentTableName,
                             columnsMetaData);
                     break;
                 case COMMENT_OR_EMPTY:
                     break;
                 case DATA_DEFINITION:
-                    resourceParser.readRow(currentTableMetaData.getColumns()
-                            .getColumnNames(), line);
+                    DataRow dataRow = resourceParser.readRow(
+                            currentTableMetaData.getColumns().getColumnNames(),
+                            line);
+                    // TODO Was passiert mit der DataRow? Gleich in die
+                    // Datenbank oder erst zwischen lagern fuer das spaetere
+                    // Ablegen in der Datenbank?
+
+                    // TODO Das DbloadInsert koennte nach jeder
+                    // Tabellendefinition neu angelegt werden.
+                    DbloadInsert dbloadInsert = new DbloadInsert(context,
+                            currentTableMetaData, Locale.GERMANY);
+                    dbloadInsert.insert(dataRow);
                     break;
                 case TABLE_DEFINITION:
-                    String tableName = resourceParser.readTableDefinition(line);
+                    currentTableName = resourceParser.readTableDefinition(line);
                     break;
                 default:
                     break;
@@ -92,6 +102,7 @@ public class Dbload {
                 }
 
             } while (!resourceDataReader.endOfFile());
+            context.getConnection().commit();
         }
     }
 

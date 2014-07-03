@@ -16,11 +16,13 @@
 
 package de.dbload.csv;
 
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 
 /**
@@ -29,6 +31,19 @@ import de.dbload.meta.ColumnMetaData.Type;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ColumnTypeParserTest {
+
+    @Test
+    public void testColumnNameAndTypeParser() {
+        ColumnMetaData columnMetaData = null;
+
+        columnMetaData = ColumnTypeParser.parseColumnMetaData("hello");
+        assertThat(columnMetaData.getColumnName(), equalTo("hello"));
+        assertThat(columnMetaData.getColumnType(), equalTo(Type.DEFAULT));
+
+        columnMetaData = ColumnTypeParser.parseColumnMetaData("hello(date)");
+        assertThat(columnMetaData.getColumnName(), equalTo("hello"));
+        assertThat(columnMetaData.getColumnType(), equalTo(Type.DATE_TIME));
+    }
 
     @Test
     public void testColumnTypeParser() {
