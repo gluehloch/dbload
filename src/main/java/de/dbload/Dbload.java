@@ -19,7 +19,6 @@ package de.dbload;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Locale;
 
 import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
@@ -57,8 +56,9 @@ public class Dbload {
 
             String currentTableName = null;
             TableMetaData currentTableMetaData = null;
-
+            DbloadInsert dbloadInsert = null;
             String line = null;
+
             do {
                 line = resourceDataReader.readLine();
                 ResourceParser.ParserState parserState = resourceParser
@@ -76,6 +76,8 @@ public class Dbload {
                             .parseColumnsMetaData(currentColumnNames);
                     currentTableMetaData = new TableMetaData(currentTableName,
                             columnsMetaData);
+                    dbloadInsert = new DbloadInsert(context,
+                            currentTableMetaData);
                     break;
                 case COMMENT_OR_EMPTY:
                     break;
@@ -83,14 +85,6 @@ public class Dbload {
                     DataRow dataRow = resourceParser.readRow(
                             currentTableMetaData.getColumns().getColumnNames(),
                             line);
-                    // TODO Was passiert mit der DataRow? Gleich in die
-                    // Datenbank oder erst zwischen lagern fuer das spaetere
-                    // Ablegen in der Datenbank?
-
-                    // TODO Das DbloadInsert koennte nach jeder
-                    // Tabellendefinition neu angelegt werden.
-                    DbloadInsert dbloadInsert = new DbloadInsert(context,
-                            currentTableMetaData, Locale.GERMANY);
                     dbloadInsert.insert(dataRow);
                     break;
                 case TABLE_DEFINITION:
@@ -98,9 +92,7 @@ public class Dbload {
                     break;
                 default:
                     break;
-
                 }
-
             } while (!resourceDataReader.endOfFile());
         }
     }
