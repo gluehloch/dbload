@@ -102,7 +102,6 @@ public class Dbload {
                 }
 
             } while (!resourceDataReader.endOfFile());
-            context.getConnection().commit();
         }
     }
 
