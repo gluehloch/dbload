@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload;
+package de.dbload.impl;
 
 import java.io.File;
 
@@ -22,17 +22,20 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
+import de.dbload.DataRow;
+import de.dbload.Dbload;
+import de.dbload.impl.DbloadFileInsert;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Test for class {@link ResourceFileInsert}.
+ * Test for class {@link DbloadFileInsert}.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class ResourceFileInsertTest {
+public class DbloadFileInsertTest {
 
     @Rule
     public TemporaryFolder folder = new TemporaryFolder();
@@ -57,7 +60,7 @@ public class ResourceFileInsertTest {
         data.put("birthday", "1971-03-24 06:41:11");
 
         File directory = folder.newFolder();
-        try (ResourceFileInsert rfi = new ResourceFileInsert(directory,
+        try (DbloadFileInsert rfi = new DbloadFileInsert(directory,
                 Dbload.class)) {
 
             rfi.newInsert(tableMetaData);

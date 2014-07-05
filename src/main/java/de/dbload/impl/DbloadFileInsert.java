@@ -1,29 +1,31 @@
 /*
  * Copyright 2014 Andre Winkler
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
  *
- *    http://www.apache.org/licenses/LICENSE-2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 
-package de.dbload;
+package de.dbload.impl;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.sql.SQLException;
 
 import org.apache.commons.lang.StringUtils;
 
+import de.dbload.DataRow;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.TableMetaData;
@@ -34,7 +36,7 @@ import de.dbload.misc.DateTimeUtils;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class ResourceFileInsert implements ResourceInsert {
+public class DbloadFileInsert implements DbloadInsert {
 
     private TableMetaData tableMetaData;
     private File sqlOutputFile;
@@ -44,20 +46,24 @@ public class ResourceFileInsert implements ResourceInsert {
     /**
      * Constructor
      *
-     * @param directory export directory
-     * @param clazz the classpath resource
+     * @param directory
+     *            export directory
+     * @param clazz
+     *            the classpath resource
      */
-    public ResourceFileInsert(File directory, Class<?> clazz) {
+    public DbloadFileInsert(File directory, Class<?> clazz) {
         this(directory, clazz.getName());
     }
 
     /**
      * Constructor
      *
-     * @param directory export directory
-     * @param testcase the name of the testcase
+     * @param directory
+     *            export directory
+     * @param testcase
+     *            the name of the testcase
      */
-    public ResourceFileInsert(File directory, String testcase) {
+    public DbloadFileInsert(File directory, String testcase) {
         sqlOutputFile = new File(directory, testcase + ".sql");
         if (sqlOutputFile.exists()) {
             sqlOutputFile.delete();
@@ -72,7 +78,11 @@ public class ResourceFileInsert implements ResourceInsert {
     }
 
     /**
-     * {@inheritDoc}
+     * Set the current table name.
+     *
+     * @param tableMetaData
+     *            table name.
+     * @throws SQLException
      */
     @Override
     public void newInsert(TableMetaData _tableMetaData) {
@@ -86,7 +96,10 @@ public class ResourceFileInsert implements ResourceInsert {
     }
 
     /**
-     * {@inheritDoc}
+     * Insert a new row of data.
+     *
+     * @param data
+     *            the data to insert
      */
     @Override
     public void insert(DataRow data) {
@@ -139,7 +152,7 @@ public class ResourceFileInsert implements ResourceInsert {
     }
 
     /**
-     * {@inheritDoc}
+     * Close this resource.
      */
     @Override
     public void close() {

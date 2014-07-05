@@ -20,6 +20,9 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
 import de.dbload.csv.ResourceParser;
@@ -34,6 +37,8 @@ import de.dbload.meta.TableMetaData;
  */
 public class Dbload {
 
+    private static final Logger LOG = LoggerFactory.getLogger(Dbload.class);
+
     /**
      * Start upload.
      *
@@ -41,13 +46,11 @@ public class Dbload {
      *            the context for dbload
      * @param clazz
      *            used as classloader root for the data file
-     * @throws IOException
-     *             Unable to read data file
-     * @throws SQLException
-     *             Unable to write to database
+     * @throws DbloadException
+     *             Some problems with files or datasources
      */
     public static void start(DbloadContext context, Class<?> clazz)
-            throws IOException, SQLException {
+            throws DbloadException {
 
         PreparedSqlInsertStatement dbloadInsert = null;
         try (ResourceDataReader resourceDataReader = new ResourceDataReader(
@@ -95,6 +98,9 @@ public class Dbload {
                     break;
                 }
             } while (!resourceDataReader.endOfFile());
+        } catch (IOException | SQLException ex) {
+            LOG.error("dbload has a problem...", ex);
+            throw new DbloadException(ex);
         } finally {
             if (dbloadInsert != null) {
                 dbloadInsert.close();

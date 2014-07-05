@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package de.dbload;
+package de.dbload.impl;
 
 import java.io.Closeable;
 import java.sql.SQLException;
 
+import de.dbload.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
@@ -26,7 +27,7 @@ import de.dbload.meta.TableMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-interface ResourceInsert extends Closeable {
+interface DbloadInsert extends Closeable {
 
     /**
      * Set the current table name.
