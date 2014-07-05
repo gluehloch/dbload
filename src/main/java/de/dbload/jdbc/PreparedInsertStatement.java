@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -14,30 +14,29 @@
  * the License.
  */
 
-package de.dbload;
+package de.dbload.jdbc;
 
 import java.io.Closeable;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import de.dbload.jdbc.JdbcUtils;
-import de.dbload.jdbc.PreparedStatementBuilder;
-import de.dbload.jdbc.SqlInsertStatement;
+import de.dbload.DataRow;
+import de.dbload.DbloadContext;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Load data.
- * 
+ * Create and hold a {@link PreparedStatement}.
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-class DbloadInsert implements Closeable {
+public class PreparedInsertStatement implements Closeable {
 
     private final DbloadContext dbloadContext;
     private final PreparedStatement stmt;
     private final TableMetaData tableMetaData;
 
-    public DbloadInsert(DbloadContext _context, TableMetaData _tableMetaData)
-            throws SQLException {
+    public PreparedInsertStatement(DbloadContext _context,
+            TableMetaData _tableMetaData) throws SQLException {
 
         dbloadContext = _context;
         tableMetaData = _tableMetaData;
@@ -45,7 +44,15 @@ class DbloadInsert implements Closeable {
                 new SqlInsertStatement(_tableMetaData));
     }
 
-    public void insert(DataRow data) throws SQLException {
+    /**
+     * Execute an insert for the assigned data.
+     *
+     * @param data
+     *            the data to insert
+     * @throws SQLException
+     *             Something is wrong
+     */
+    public void execute(DataRow data) throws SQLException {
         PreparedStatementBuilder.applyParams(data, tableMetaData,
                 dbloadContext.getJdbcTypeConverter(), stmt);
         stmt.execute();

@@ -30,13 +30,14 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 import de.dbload.assertion.Assertion;
+import de.dbload.jdbc.PreparedInsertStatement;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
 
 /**
- * A test case for {@link DbloadInsert}.
+ * A test case for {@link PreparedInsertStatement}.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
@@ -65,10 +66,10 @@ public class DbloadInsertTest {
         dataRow2.put("sex", "0");
         dataRow2.put("birthday", "1974-06-02 10:00:00");
 
-        try (DbloadInsert dbloadInsert = new DbloadInsert(context,
+        try (PreparedInsertStatement dbloadInsert = new PreparedInsertStatement(context,
                 tableMetaData)) {
-            dbloadInsert.insert(dataRow1);
-            dbloadInsert.insert(dataRow2);
+            dbloadInsert.execute(dataRow1);
+            dbloadInsert.execute(dataRow2);
         }
 
         Statement stmt = connection.createStatement();

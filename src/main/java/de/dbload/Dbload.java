@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,23 +23,24 @@ import java.util.List;
 import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
 import de.dbload.csv.ResourceParser;
+import de.dbload.jdbc.PreparedInsertStatement;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
 /**
  * Entry point for uploading data to the database.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class Dbload {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param clazz
-     *            used as classloader root
+     *            used as classloader root for the data file
      * @throws IOException
      *             Unable to read data file
      * @throws SQLException
@@ -48,6 +49,7 @@ public class Dbload {
     public static void start(DbloadContext context, Class<?> clazz)
             throws IOException, SQLException {
 
+        PreparedInsertStatement dbloadInsert = null;
         try (ResourceDataReader resourceDataReader = new ResourceDataReader(
                 clazz)) {
 
@@ -56,14 +58,11 @@ public class Dbload {
 
             String currentTableName = null;
             TableMetaData currentTableMetaData = null;
-            DbloadInsert dbloadInsert = null;
             String line = null;
 
             do {
                 line = resourceDataReader.readLine();
-                ResourceParser.ParserState parserState = resourceParser
-                        .parse(line);
-                switch (parserState) {
+                switch (resourceParser.parse(line)) {
                 case COLUMN_DEFINITION:
                     if (currentTableName == null) {
                         throw new IllegalStateException(
@@ -76,7 +75,8 @@ public class Dbload {
                             .parseColumnsMetaData(currentColumnNames);
                     currentTableMetaData = new TableMetaData(currentTableName,
                             columnsMetaData);
-                    dbloadInsert = new DbloadInsert(context,
+
+                    dbloadInsert = new PreparedInsertStatement(context,
                             currentTableMetaData);
                     break;
                 case COMMENT_OR_EMPTY:
@@ -85,7 +85,8 @@ public class Dbload {
                     DataRow dataRow = resourceParser.readRow(
                             currentTableMetaData.getColumns().getColumnNames(),
                             line);
-                    dbloadInsert.insert(dataRow);
+
+                    dbloadInsert.execute(dataRow);
                     break;
                 case TABLE_DEFINITION:
                     currentTableName = resourceParser.readTableDefinition(line);
@@ -94,6 +95,10 @@ public class Dbload {
                     break;
                 }
             } while (!resourceDataReader.endOfFile());
+        } finally {
+            if (dbloadInsert != null) {
+                dbloadInsert.close();
+            }
         }
     }
 
