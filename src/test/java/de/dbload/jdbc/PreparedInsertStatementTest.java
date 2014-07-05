@@ -14,7 +14,7 @@
  * the License.
  */
 
-package de.dbload;
+package de.dbload.jdbc;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -29,19 +29,21 @@ import java.util.Date;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import de.dbload.DataRow;
+import de.dbload.DbloadContext;
 import de.dbload.assertion.Assertion;
-import de.dbload.jdbc.PreparedInsertStatement;
+import de.dbload.jdbc.PreparedSqlInsertStatement;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
 
 /**
- * A test case for {@link PreparedInsertStatement}.
+ * A test case for {@link PreparedSqlInsertStatement}.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadInsertTest {
+public class PreparedInsertStatementTest {
 
     @Test
     public void dbloadInsert() throws SQLException {
@@ -66,7 +68,7 @@ public class DbloadInsertTest {
         dataRow2.put("sex", "0");
         dataRow2.put("birthday", "1974-06-02 10:00:00");
 
-        try (PreparedInsertStatement dbloadInsert = new PreparedInsertStatement(context,
+        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(context,
                 tableMetaData)) {
             dbloadInsert.execute(dataRow1);
             dbloadInsert.execute(dataRow2);

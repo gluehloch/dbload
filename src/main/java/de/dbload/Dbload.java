@@ -23,7 +23,7 @@ import java.util.List;
 import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
 import de.dbload.csv.ResourceParser;
-import de.dbload.jdbc.PreparedInsertStatement;
+import de.dbload.jdbc.PreparedSqlInsertStatement;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
@@ -49,7 +49,7 @@ public class Dbload {
     public static void start(DbloadContext context, Class<?> clazz)
             throws IOException, SQLException {
 
-        PreparedInsertStatement dbloadInsert = null;
+        PreparedSqlInsertStatement dbloadInsert = null;
         try (ResourceDataReader resourceDataReader = new ResourceDataReader(
                 clazz)) {
 
@@ -76,7 +76,7 @@ public class Dbload {
                     currentTableMetaData = new TableMetaData(currentTableName,
                             columnsMetaData);
 
-                    dbloadInsert = new PreparedInsertStatement(context,
+                    dbloadInsert = new PreparedSqlInsertStatement(context,
                             currentTableMetaData);
                     break;
                 case COMMENT_OR_EMPTY:

@@ -29,13 +29,13 @@ import de.dbload.meta.TableMetaData;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class PreparedInsertStatement implements Closeable {
+public class PreparedSqlInsertStatement implements Closeable {
 
     private final DbloadContext dbloadContext;
     private final PreparedStatement stmt;
     private final TableMetaData tableMetaData;
 
-    public PreparedInsertStatement(DbloadContext _context,
+    public PreparedSqlInsertStatement(DbloadContext _context,
             TableMetaData _tableMetaData) throws SQLException {
 
         dbloadContext = _context;
