@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
 import de.dbload.csv.ResourceParser;
-import de.dbload.jdbc.PreparedSqlInsertStatement;
+import de.dbload.impl.DbloadSqlInsert;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
@@ -52,9 +52,9 @@ public class Dbload {
     public static void start(DbloadContext context, Class<?> clazz)
             throws DbloadException {
 
-        PreparedSqlInsertStatement dbloadInsert = null;
         try (ResourceDataReader resourceDataReader = new ResourceDataReader(
-                clazz)) {
+                clazz);
+                DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
 
             resourceDataReader.open();
             ResourceParser resourceParser = new ResourceParser();
@@ -79,8 +79,8 @@ public class Dbload {
                     currentTableMetaData = new TableMetaData(currentTableName,
                             columnsMetaData);
 
-                    dbloadInsert = new PreparedSqlInsertStatement(context,
-                            currentTableMetaData);
+                    dbloadSqlInsert.newInsert(currentTableMetaData);
+
                     break;
                 case COMMENT_OR_EMPTY:
                     break;
@@ -89,7 +89,8 @@ public class Dbload {
                             currentTableMetaData.getColumns().getColumnNames(),
                             line);
 
-                    dbloadInsert.execute(dataRow);
+                    dbloadSqlInsert.insert(dataRow);
+
                     break;
                 case TABLE_DEFINITION:
                     currentTableName = resourceParser.readTableDefinition(line);
@@ -101,10 +102,6 @@ public class Dbload {
         } catch (IOException | SQLException ex) {
             LOG.error("dbload has a problem...", ex);
             throw new DbloadException(ex);
-        } finally {
-            if (dbloadInsert != null) {
-                dbloadInsert.close();
-            }
         }
     }
 
