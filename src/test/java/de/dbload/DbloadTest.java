@@ -37,7 +37,7 @@ public class DbloadTest {
         DbloadContext context = new DbloadContext(conn);
         Dbload.start(context, DbloadTest.class);
 
-        Assertion.assertExists(DbloadTest.class);
+        Assertion.assertExists(context, DbloadTest.class);
     }
 
 }

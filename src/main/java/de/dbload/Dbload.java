@@ -18,16 +18,14 @@ package de.dbload;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dbload.csv.ColumnTypeParser;
 import de.dbload.csv.ResourceDataReader;
-import de.dbload.csv.ResourceParser;
+import de.dbload.csv.ResourceReader;
+import de.dbload.csv.ResourceReaderCallback;
 import de.dbload.impl.DbloadSqlInsert;
-import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
 /**
@@ -56,51 +54,30 @@ public class Dbload {
                 clazz);
                 DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
 
-            resourceDataReader.open();
-            ResourceParser resourceParser = new ResourceParser();
+            ResourceReader resourceReader = new ResourceReader();
+            resourceReader.start(resourceDataReader,
+                    new ResourceReaderCallback() {
+                        @Override
+                        public void newTableMetaData(TableMetaData tableMetaData) {
+                            try {
+                                dbloadSqlInsert.newInsert(tableMetaData);
+                            } catch (SQLException ex) {
+                                throw new DbloadException(ex);
+                            }
+                        }
 
-            String currentTableName = null;
-            TableMetaData currentTableMetaData = null;
-            String line = null;
+                        @Override
+                        public void newDataRow(DataRow dataRow) {
+                            try {
+                                dbloadSqlInsert.insert(dataRow);
+                            } catch (SQLException ex) {
+                                throw new DbloadException(ex);
+                            }
+                        }
+                    });
 
-            do {
-                line = resourceDataReader.readLine();
-                switch (resourceParser.parse(line)) {
-                case COLUMN_DEFINITION:
-                    if (currentTableName == null) {
-                        throw new IllegalStateException(
-                                "Find column description without a table name!");
-                    }
-
-                    List<String> currentColumnNames = resourceParser
-                            .readColumnNames(line);
-                    ColumnsMetaData columnsMetaData = ColumnTypeParser
-                            .parseColumnsMetaData(currentColumnNames);
-                    currentTableMetaData = new TableMetaData(currentTableName,
-                            columnsMetaData);
-
-                    dbloadSqlInsert.newInsert(currentTableMetaData);
-
-                    break;
-                case COMMENT_OR_EMPTY:
-                    break;
-                case DATA_DEFINITION:
-                    DataRow dataRow = resourceParser.readRow(
-                            currentTableMetaData.getColumns().getColumnNames(),
-                            line);
-
-                    dbloadSqlInsert.insert(dataRow);
-
-                    break;
-                case TABLE_DEFINITION:
-                    currentTableName = resourceParser.readTableDefinition(line);
-                    break;
-                default:
-                    break;
-                }
-            } while (!resourceDataReader.endOfFile());
-        } catch (IOException | SQLException ex) {
-            LOG.error("dbload has a problem...", ex);
+        } catch (IOException ex) {
+            LOG.error("Dbload has an IOException problem...", ex);
             throw new DbloadException(ex);
         }
     }

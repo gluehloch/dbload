@@ -35,7 +35,9 @@ import de.dbload.meta.TableMetaData;
  */
 public class Assertion {
 
-    public static void assertExists(Class<?> clazz) {
+    public static void assertExists(DbloadContext context, Class<?> clazz) {
+        
+        
         assertEquals(0, 0);
         throw new AssertionError();
     }
