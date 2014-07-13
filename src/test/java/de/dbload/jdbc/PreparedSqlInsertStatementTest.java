@@ -17,7 +17,6 @@
 package de.dbload.jdbc;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
@@ -27,12 +26,12 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.joda.time.DateTime;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import de.dbload.DataRow;
 import de.dbload.DbloadContext;
-import de.dbload.assertion.Assertion;
-import de.dbload.jdbc.AbstractPreparedSqlStatement;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestConnectionFactory;
@@ -45,13 +44,24 @@ import de.dbload.utils.TestMetaDataFactory;
  */
 public class PreparedSqlInsertStatementTest {
 
+    private DbloadContext dbloadContext;
+    private TableMetaData tableMetaData;
+
+    @Before
+    public void before() {
+        Connection connection = TestConnectionFactory.connectToTestDatabase();
+        dbloadContext = new DbloadContext(connection);
+        tableMetaData = TestMetaDataFactory.createPersonMetaData();
+    }
+
+    @After
+    public void after() throws SQLException {
+        dbloadContext.getConnection().rollback();
+        dbloadContext.getConnection().close();
+    }
+
     @Test
     public void dbloadInsert() throws SQLException {
-        Connection connection = TestConnectionFactory.connectToTestDatabase();
-        DbloadContext context = new DbloadContext(connection);
-        TableMetaData tableMetaData = TestMetaDataFactory
-                .createPersonMetaData();
-
         DataRow dataRow1 = new DataRow();
         dataRow1.put("id", "1");
         dataRow1.put("name", "Winkler");
@@ -69,41 +79,29 @@ public class PreparedSqlInsertStatementTest {
         dataRow2.put("birthday", "1974-06-02 10:00:00");
 
         try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(
-                context, tableMetaData)) {
+                dbloadContext, tableMetaData)) {
 
             dbloadInsert.execute(dataRow1);
             dbloadInsert.execute(dataRow2);
         }
 
-        Statement stmt = connection.createStatement();
-        ResultSet resultSet = stmt.executeQuery("select * from person");
-        resultSet.next();
-        long id = resultSet.getLong(1);
-        String name = resultSet.getString(2);
-        String vorname = resultSet.getString(3);
-        Date date = resultSet.getTimestamp(6);
-        DateTime dateTime = new DateTime(date.getTime());
+        try (Statement stmt = dbloadContext.getConnection().createStatement()) {
+            ResultSet resultSet = stmt
+                    .executeQuery("select * from person order by id");
+            resultSet.next();
 
-        assertThat(id, equalTo(1L));
-        assertThat(name, equalTo("Winkler"));
-        assertThat(vorname, equalTo("Andre"));
+            assertThat(resultSet.getLong("id"), equalTo(1L));
+            assertThat(resultSet.getString("name"), equalTo("Winkler"));
+            assertThat(resultSet.getString("vorname"), equalTo("Andre"));
 
-        DateTime date_19710324 = DateTimeUtils
-                .toJodaDateTime("1971-03-24 06:41:11");
+            Date date = resultSet.getTimestamp("birthday");
+            DateTime dateTime = new DateTime(date.getTime());
 
-        assertThat(dateTime, equalTo(date_19710324));
-        // An equal on a java.util.Date is a bad idea! The following assertion
-        // does not work!
-        // assertThat(date, equalTo(date_19710324.toDate()));
+            DateTime date_19710324 = DateTimeUtils
+                    .toJodaDateTime("1971-03-24 06:41:11");
 
-        assertThat(Assertion.assertExists(context, tableMetaData, dataRow1),
-                is(true));
-        assertThat(Assertion.assertExists(context, tableMetaData, dataRow2),
-                is(true));
-
-        stmt.close();
-        connection.rollback();
-        connection.close();
+            assertThat(dateTime, equalTo(date_19710324));
+        }
     }
 
 }

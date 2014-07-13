@@ -51,6 +51,7 @@ public class AssertionTest {
                 TestConnectionFactory.connectToTestDatabase());
         Statement stmt = context.getConnection().createStatement();
         stmt.execute("INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00')");
+        stmt.execute("INSERT INTO person VALUES (2, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00')");
 
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
     }
@@ -64,14 +65,28 @@ public class AssertionTest {
     @Test
     public void testAssertion() throws SQLException {
         List<DataRow> dataRows = new ArrayList<>();
-        DataRow dataRow = new DataRow();
-        dataRow.put("id", "1");
-        dataRow.put("vorname", "lars");
-        dataRow.put("name", "winkler");
-        dataRow.put("age", "40");
-        dataRow.put("sex", "0");
-        dataRow.put("birthday", "1972-01-01 01:00:00");
-        dataRows.add(dataRow);
+        DataRow dataRow1 = new DataRow();
+        dataRow1.put("id", "1");
+        dataRow1.put("vorname", "lars");
+        dataRow1.put("name", "winkler");
+        dataRow1.put("age", "40");
+        dataRow1.put("sex", "0");
+        dataRow1.put("birthday", "1972-01-01 01:00:00");
+        dataRows.add(dataRow1);
+
+        DataRow dataRow2 = new DataRow();
+        dataRow2.put("id", "2");
+        dataRow2.put("vorname", "andre");
+        dataRow2.put("name", "winkler");
+        dataRow2.put("age", "43");
+        dataRow2.put("sex", "0");
+        dataRow2.put("birthday", "1971-03-24 01:00:00");
+        dataRows.add(dataRow2);
+
+        assertThat(Assertion.assertExists(context, tableMetaData, dataRow1),
+                is(true));
+        assertThat(Assertion.assertExists(context, tableMetaData, dataRow2),
+                is(true));
 
         assertThat(Assertion.assertExists(context, tableMetaData, dataRows),
                 is(true));
@@ -82,7 +97,7 @@ public class AssertionTest {
         //
         // assertThat(dataRow, DataRowMatchers.hasAllEntries(dataRow));
 
-        dataRow.put("birthday", "1971-01-01 01:01:00");
+        dataRow1.put("birthday", "1971-01-01 01:01:00");
         assertThat(Assertion.assertExists(context, tableMetaData, dataRows),
                 is(false));
         
