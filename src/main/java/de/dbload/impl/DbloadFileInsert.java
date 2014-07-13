@@ -85,7 +85,7 @@ public class DbloadFileInsert implements DbloadInsert {
      * @throws SQLException
      */
     @Override
-    public void newInsert(TableMetaData _tableMetaData) {
+    public void newTableMetaData(TableMetaData _tableMetaData) {
         this.tableMetaData = _tableMetaData;
 
         try {

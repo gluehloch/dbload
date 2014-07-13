@@ -17,13 +17,21 @@
 package de.dbload.assertion;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 
+import java.io.IOException;
+import java.lang.ref.Reference;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
 import de.dbload.DataRow;
 import de.dbload.DbloadContext;
+import de.dbload.DbloadException;
+import de.dbload.csv.ResourceDataReader;
+import de.dbload.csv.ResourceReader;
+import de.dbload.csv.ResourceReaderCallback;
+import de.dbload.impl.DbloadSqlInsert;
 import de.dbload.jdbc.PreparedStatementBuilder;
 import de.dbload.jdbc.SqlSelectStatement;
 import de.dbload.meta.TableMetaData;
@@ -35,11 +43,43 @@ import de.dbload.meta.TableMetaData;
  */
 public class Assertion {
 
-    public static void assertExists(DbloadContext context, Class<?> clazz) {
-        
-        
-        assertEquals(0, 0);
-        throw new AssertionError();
+    public static void assertExists(final DbloadContext context, Class<?> clazz) {
+        try (ResourceDataReader rdr = new ResourceDataReader(clazz)) {
+
+            final TableMetaDataHolder tableMetaDataHolder = new TableMetaDataHolder();
+
+            ResourceReader resourceReader = new ResourceReader();
+            resourceReader.start(rdr, new ResourceReaderCallback() {
+                @Override
+                public void newTableMetaData(TableMetaData _tableMetaData) {
+                    tableMetaDataHolder.setValue(_tableMetaData);
+                }
+
+                @Override
+                public void newDataRow(DataRow dataRow) {
+                    try {
+                        assertExists(context, tableMetaDataHolder.getValue(), dataRow);
+                    } catch (SQLException ex) {
+                        throw new DbloadException(ex);
+                    }
+                }
+            });
+
+        } catch (IOException ex) {
+            throw new DbloadException(ex);
+        }
+    }
+
+    private static class TableMetaDataHolder {
+        private TableMetaData tableMetaData;
+
+        public void setValue(TableMetaData _tableMetaData) {
+            tableMetaData = _tableMetaData;
+        }
+
+        public TableMetaData getValue() {
+            return tableMetaData;
+        }
     }
 
     public static boolean assertExists(DbloadContext _context,

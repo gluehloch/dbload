@@ -50,31 +50,29 @@ public class Dbload {
     public static void start(DbloadContext context, Class<?> clazz)
             throws DbloadException {
 
-        try (ResourceDataReader resourceDataReader = new ResourceDataReader(
-                clazz);
+        try (ResourceDataReader rdr = new ResourceDataReader(clazz);
                 DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
 
             ResourceReader resourceReader = new ResourceReader();
-            resourceReader.start(resourceDataReader,
-                    new ResourceReaderCallback() {
-                        @Override
-                        public void newTableMetaData(TableMetaData tableMetaData) {
-                            try {
-                                dbloadSqlInsert.newInsert(tableMetaData);
-                            } catch (SQLException ex) {
-                                throw new DbloadException(ex);
-                            }
-                        }
+            resourceReader.start(rdr, new ResourceReaderCallback() {
+                @Override
+                public void newTableMetaData(TableMetaData tableMetaData) {
+                    try {
+                        dbloadSqlInsert.newTableMetaData(tableMetaData);
+                    } catch (SQLException ex) {
+                        throw new DbloadException(ex);
+                    }
+                }
 
-                        @Override
-                        public void newDataRow(DataRow dataRow) {
-                            try {
-                                dbloadSqlInsert.insert(dataRow);
-                            } catch (SQLException ex) {
-                                throw new DbloadException(ex);
-                            }
-                        }
-                    });
+                @Override
+                public void newDataRow(DataRow dataRow) {
+                    try {
+                        dbloadSqlInsert.insert(dataRow);
+                    } catch (SQLException ex) {
+                        throw new DbloadException(ex);
+                    }
+                }
+            });
 
         } catch (IOException ex) {
             LOG.error("Dbload has an IOException problem...", ex);

@@ -35,7 +35,7 @@ interface DbloadInsert extends Closeable {
      * @param tableMetaData table name.
      * @throws SQLException
      */
-    void newInsert(TableMetaData tableMetaData) throws SQLException;
+    void newTableMetaData(TableMetaData tableMetaData) throws SQLException;
 
     /**
     * Insert a new row of data.

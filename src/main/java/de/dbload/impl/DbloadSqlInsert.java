@@ -45,7 +45,7 @@ public class DbloadSqlInsert implements DbloadInsert {
     }
 
     @Override
-    public void newInsert(TableMetaData tableMetaData) throws SQLException {
+    public void newTableMetaData(TableMetaData tableMetaData) throws SQLException {
         preparedSqlInsertStatement = new PreparedSqlInsertStatement(context,
                 tableMetaData);
     }

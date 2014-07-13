@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -36,7 +36,7 @@ import de.dbload.utils.TestMetaDataFactory;
 
 /**
  * Test for class {@link Assertion}.
- *
+ * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class AssertionTest {
@@ -47,7 +47,8 @@ public class AssertionTest {
 
     @Before
     public void before() throws SQLException {
-        context = new DbloadContext(TestConnectionFactory.connectToTestDatabase());
+        context = new DbloadContext(
+                TestConnectionFactory.connectToTestDatabase());
         Statement stmt = context.getConnection().createStatement();
         stmt.execute("INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00')");
 
@@ -66,14 +67,27 @@ public class AssertionTest {
         DataRow dataRow = new DataRow();
         dataRow.put("id", "1");
         dataRow.put("vorname", "lars");
-        dataRow.put("name",  "winkler");
+        dataRow.put("name", "winkler");
         dataRow.put("age", "40");
         dataRow.put("sex", "0");
-        dataRow.put("birthday", "1972-01-01 01:01:00");
+        dataRow.put("birthday", "1972-01-01 01:00:00");
         dataRows.add(dataRow);
 
-        assertThat(Assertion.assertExists(context, tableMetaData, dataRows), is(true));
-        assertThat(dataRow, DataRowMatchers.hasAllEntries(dataRow));
+        assertThat(Assertion.assertExists(context, tableMetaData, dataRows),
+                is(true));
+        //
+        // TODO DataRow Matcher funktioniert nur eingeschraenkt: Date == String
+        // Vergleich funktioniert nur wenn eine Type-Konversation statt finden
+        // wuerde.
+        //
+        // assertThat(dataRow, DataRowMatchers.hasAllEntries(dataRow));
+
+        dataRow.put("birthday", "1971-01-01 01:01:00");
+        assertThat(Assertion.assertExists(context, tableMetaData, dataRows),
+                is(false));
+        
+        // TODO Siehe oben. DataRow assertion bringt uns hier nicht weiter.
+        // assertThat(dataRow, DataRowMatchers.hasAllEntries(dataRow));
     }
 
 }
