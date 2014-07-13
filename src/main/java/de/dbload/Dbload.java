@@ -67,7 +67,7 @@ public class Dbload {
                 @Override
                 public void newDataRow(DataRow dataRow) {
                     try {
-                        dbloadSqlInsert.insert(dataRow);
+                        dbloadSqlInsert.execute(dataRow);
                     } catch (SQLException ex) {
                         throw new DbloadException(ex);
                     }

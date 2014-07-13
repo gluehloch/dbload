@@ -64,7 +64,7 @@ public class DbloadFileInsertTest {
                 Dbload.class)) {
 
             rfi.newTableMetaData(tableMetaData);
-            rfi.insert(data);
+            rfi.execute(data);
         }
     }
 

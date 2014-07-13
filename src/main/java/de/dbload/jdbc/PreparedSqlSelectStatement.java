@@ -24,15 +24,16 @@ import de.dbload.DbloadContext;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Holds a prepared INSERT statement.
+ * Holds a prepared SELECT statement.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
+public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
 
     private boolean executionResult;
+    private ResultSet resultSet;
 
-    public PreparedSqlInsertStatement(DbloadContext _context,
+    public PreparedSqlSelectStatement(DbloadContext _context,
             TableMetaData _tableMetaData) throws SQLException {
 
         super(_context, _tableMetaData);
@@ -42,6 +43,7 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     public void execute(DataRow data) throws SQLException {
         applyParams(data);
         executionResult = getPreparedStatement().execute();
+        resultSet = getPreparedStatement().getResultSet();
     }
 
     /**
@@ -53,6 +55,10 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
      */
     public boolean isExecutionResult() {
         return executionResult;
+    }
+
+    public ResultSet getResultSet() {
+        return resultSet;
     }
 
 }

@@ -32,14 +32,14 @@ import org.junit.Test;
 import de.dbload.DataRow;
 import de.dbload.DbloadContext;
 import de.dbload.assertion.Assertion;
-import de.dbload.jdbc.PreparedSqlInsertStatement;
+import de.dbload.jdbc.AbstractPreparedSqlStatement;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
 
 /**
- * A test case for {@link PreparedSqlInsertStatement}.
+ * A test case for {@link AbstractPreparedSqlStatement}.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
@@ -68,7 +68,7 @@ public class PreparedInsertStatementTest {
         dataRow2.put("sex", "0");
         dataRow2.put("birthday", "1974-06-02 10:00:00");
 
-        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(context,
+        try (AbstractPreparedSqlStatement dbloadInsert = new AbstractPreparedSqlStatement(context,
                 tableMetaData)) {
             dbloadInsert.execute(dataRow1);
             dbloadInsert.execute(dataRow2);

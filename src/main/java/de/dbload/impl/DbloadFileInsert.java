@@ -36,7 +36,7 @@ import de.dbload.misc.DateTimeUtils;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadFileInsert implements DbloadInsert {
+public class DbloadFileInsert implements DbloadSqlStatement {
 
     private TableMetaData tableMetaData;
     private File sqlOutputFile;
@@ -102,7 +102,7 @@ public class DbloadFileInsert implements DbloadInsert {
      *            the data to insert
      */
     @Override
-    public void insert(DataRow data) {
+    public void execute(DataRow data) {
         StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
         insertSqlCommand.append(tableMetaData.getTableName());
         insertSqlCommand.append('(');
