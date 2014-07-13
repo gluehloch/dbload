@@ -43,7 +43,7 @@ import de.dbload.utils.TestMetaDataFactory;
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class PreparedInsertStatementTest {
+public class PreparedSqlInsertStatementTest {
 
     @Test
     public void dbloadInsert() throws SQLException {
@@ -68,8 +68,9 @@ public class PreparedInsertStatementTest {
         dataRow2.put("sex", "0");
         dataRow2.put("birthday", "1974-06-02 10:00:00");
 
-        try (AbstractPreparedSqlStatement dbloadInsert = new AbstractPreparedSqlStatement(context,
-                tableMetaData)) {
+        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(
+                context, tableMetaData)) {
+
             dbloadInsert.execute(dataRow1);
             dbloadInsert.execute(dataRow2);
         }

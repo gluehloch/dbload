@@ -26,11 +26,11 @@ import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 
 /**
- * A test class for {@link SqlSelectStatement}.
+ * A test class for {@link SqlSelectStatementBuilder}.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlSelectStatementTest {
+public class SqlSelectStatementBuilderTest {
 
     @Test
     public void tesSqlSelectStatement() {
@@ -43,7 +43,7 @@ public class SqlSelectStatementTest {
         columns.column("birthday", Type.DATE);
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
-        SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
+        SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(
                 tableMetaData);
         assertThat(
                 sqlSelectStatement.createSql(),
@@ -58,7 +58,7 @@ public class SqlSelectStatementTest {
         columns.column("id", Type.NUMBER_INTEGER);
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
-        SqlSelectStatement sqlSelectStatement = new SqlSelectStatement(
+        SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(
                 tableMetaData);
         assertThat(sqlSelectStatement.createSql(),
                 equalTo("SELECT id FROM person WHERE id = ?"));

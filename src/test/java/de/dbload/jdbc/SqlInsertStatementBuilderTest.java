@@ -39,7 +39,7 @@ import de.dbload.misc.DateTimeUtils;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlInsertStatementTest {
+public class SqlInsertStatementBuilderTest {
 
     private TableMetaData tableMetaData;
 
@@ -57,7 +57,7 @@ public class SqlInsertStatementTest {
 
     @Test
     public void testSqlInsertStatementBuilder() {
-        SqlInsertStatement sqlStatement = new SqlInsertStatement(tableMetaData);
+        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
         assertThat(
                 sqlStatement.createSql(),
@@ -69,7 +69,7 @@ public class SqlInsertStatementTest {
         Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
                 "dbload", "localhost", "dbload");
 
-        SqlInsertStatement sqlStatement = new SqlInsertStatement(tableMetaData);
+        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");
         Date date = jodaDateTime.toDate();

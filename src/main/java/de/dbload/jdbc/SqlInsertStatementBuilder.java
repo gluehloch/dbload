@@ -19,47 +19,44 @@ package de.dbload.jdbc;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Creates a SELECT SQL string like
+ * Creates a INSERT SQL string like
  *
  * <pre>
- * SELECT c1, c2, c3 FROM tablename WHERE c1 = ? AND c2 = ? AND c3 = ?;
+ * INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
  * </pre>
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlSelectStatement implements SqlStatement {
+public class SqlInsertStatementBuilder implements SqlStatementBuilder {
 
     private TableMetaData tableMetaData;
 
-    /**
-     * Constructor.
-     *
-     * @param _tableMetaData
-     *            the meta data of a database table
-     */
-    public SqlSelectStatement(TableMetaData _tableMetaData) {
+    public SqlInsertStatementBuilder(TableMetaData _tableMetaData) {
         tableMetaData = _tableMetaData;
     }
 
     /**
-     * Create an SELECT SQL string like
+     * Creates an INSERT SQL string like
      *
      * <pre>
-     * SELECT c1, c2, c3 FROM tablename WHERE c1 = ? AND c2 = ? AND c3 = ?;
+     * INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
      * </pre>
      *
-     * @return A SQL select statement
+     * @return A SQL insert statement
      */
     @Override
     public String createSql() {
-        StringBuffer stmt = new StringBuffer("SELECT ");
-        stmt.append(SqlStatementBuilderUtils
-                .createColumnDescription(tableMetaData.getColumns()));
-        stmt.append(" FROM ");
+        StringBuffer stmt = new StringBuffer("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());
-        stmt.append(" WHERE ");
-        stmt.append(SqlStatementBuilderUtils.createAndCondition(tableMetaData
-                .getColumns()));
+
+        String columnDescription = SqlStatementBuilderUtils
+                .createColumnDescription(tableMetaData.getColumns());
+        stmt.append("(").append(columnDescription).append(") VALUES(");
+
+        String questionMarkPerColumn = SqlStatementBuilderUtils
+                .createQuestionMarkPerColumn(tableMetaData.getColumns());
+        stmt.append(questionMarkPerColumn).append(")");
+
         return stmt.toString();
     }
 

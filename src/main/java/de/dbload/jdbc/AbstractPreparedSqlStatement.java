@@ -54,7 +54,15 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
         dbloadContext = _context;
         tableMetaData = _tableMetaData;
         stmt = PreparedStatementBuilder.prepareStatement(_context,
-                new SqlInsertStatement(_tableMetaData));
+                new SqlInsertStatementBuilder(_tableMetaData));
+    }
+
+    /**
+     * Close the statement.
+     */
+    @Override
+    public void close() {
+        JdbcUtils.close(stmt);
     }
 
     /**
@@ -72,7 +80,7 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     }
 
     /**
-     * Execute an insert for the assigned data.
+     * Execute the SQL statement with the given parameters (data).
      * 
      * @param data
      *            the data to use as parameters for the query
@@ -80,10 +88,6 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      *             Something is wrong
      */
     public abstract void execute(DataRow data) throws SQLException;
-
-    public void close() {
-        JdbcUtils.close(stmt);
-    }
 
     /**
      * Returns the execution result.

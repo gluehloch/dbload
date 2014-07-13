@@ -19,44 +19,47 @@ package de.dbload.jdbc;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Creates a INSERT SQL string like
+ * Creates a SELECT SQL string like
  *
  * <pre>
- * INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
+ * SELECT c1, c2, c3 FROM tablename WHERE c1 = ? AND c2 = ? AND c3 = ?;
  * </pre>
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlInsertStatement implements SqlStatement {
+public class SqlSelectStatementBuilder implements SqlStatementBuilder {
 
     private TableMetaData tableMetaData;
 
-    public SqlInsertStatement(TableMetaData _tableMetaData) {
+    /**
+     * Constructor.
+     *
+     * @param _tableMetaData
+     *            the meta data of a database table
+     */
+    public SqlSelectStatementBuilder(TableMetaData _tableMetaData) {
         tableMetaData = _tableMetaData;
     }
 
     /**
-     * Creates an INSERT SQL string like
+     * Create an SELECT SQL string like
      *
      * <pre>
-     * INSERT INTO tablename(col1, col2, col3) VALUES (?, ?, ?);
+     * SELECT c1, c2, c3 FROM tablename WHERE c1 = ? AND c2 = ? AND c3 = ?;
      * </pre>
      *
-     * @return A SQL insert statement
+     * @return A SQL select statement
      */
     @Override
     public String createSql() {
-        StringBuffer stmt = new StringBuffer("INSERT INTO ");
+        StringBuffer stmt = new StringBuffer("SELECT ");
+        stmt.append(SqlStatementBuilderUtils
+                .createColumnDescription(tableMetaData.getColumns()));
+        stmt.append(" FROM ");
         stmt.append(tableMetaData.getTableName());
-
-        String columnDescription = SqlStatementBuilderUtils
-                .createColumnDescription(tableMetaData.getColumns());
-        stmt.append("(").append(columnDescription).append(") VALUES(");
-
-        String questionMarkPerColumn = SqlStatementBuilderUtils
-                .createQuestionMarkPerColumn(tableMetaData.getColumns());
-        stmt.append(questionMarkPerColumn).append(")");
-
+        stmt.append(" WHERE ");
+        stmt.append(SqlStatementBuilderUtils.createAndCondition(tableMetaData
+                .getColumns()));
         return stmt.toString();
     }
 

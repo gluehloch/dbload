@@ -21,7 +21,7 @@ package de.dbload.jdbc;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public interface SqlStatement {
+public interface SqlStatementBuilder {
 
     /**
      * Creates a SQL statement.

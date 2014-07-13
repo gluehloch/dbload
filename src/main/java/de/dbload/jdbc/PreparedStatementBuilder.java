@@ -44,7 +44,7 @@ public class PreparedStatementBuilder {
      *             that was not ok!
      */
     public static PreparedStatement prepareStatement(DbloadContext _context,
-            SqlStatement sqlStatement) throws SQLException {
+            SqlStatementBuilder sqlStatement) throws SQLException {
 
         return _context.getConnection().prepareStatement(
                 sqlStatement.createSql());
