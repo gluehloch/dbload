@@ -17,11 +17,14 @@
 package de.dbload.jdbc;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -88,7 +91,7 @@ public class SqlInsertStatementBuilderTest {
 
         stmt.setInt(1, 2);
         stmt.setString(2, "winkler");
-        stmt.setString(3, "andre");
+        stmt.setString(3, "lars");
         stmt.setInt(4, 43);
         stmt.setInt(5, 0);
         stmt.setTime(6, sqlTime);
@@ -104,6 +107,17 @@ public class SqlInsertStatementBuilderTest {
         The type java.sql.Time delivers an unexpected result: Hours and
         minutes are moved to year and month? No! Time ist only time!!!
          */
+
+        try (Statement selectStmt = conn.createStatement()) {
+            ResultSet resultSet = selectStmt.executeQuery("select * from person order by id");
+            assertThat(resultSet.next(), is(true));
+            assertThat(resultSet.getString("name"), equalTo("winkler"));
+            assertThat(resultSet.getString("vorname"), equalTo("andre"));
+            assertThat(resultSet.next(), is(true));
+            assertThat(resultSet.getString("name"), equalTo("winkler"));
+            assertThat(resultSet.getString("vorname"), equalTo("lars"));
+            assertThat(resultSet.next(), is(false));
+        }
 
         conn.rollback();
         conn.close();
