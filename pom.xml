@@ -31,6 +31,54 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <!--  Site Deployment -->
+      <!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.1</version>
+        <executions>
+          <execution>
+            <id>ftp</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ftp server="${site.ftp.server}"
+                  remotedir="${site.ftp.remotedir.betoffice-storage}"
+                  userid="${site.ftp.user}" password="${site.ftp.password}">
+                  <fileset dir="${project.build.directory}/site" />
+                </ftp>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-commons-net</artifactId>
+            <version>1.6.5</version>
+          </dependency>
+          <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>1.4.1</version>
+          </dependency>
+        </dependencies>
+      </plugin>
+      -->
+    </plugins>
+    
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ftp</artifactId>
+        <version>2.2</version>
+      </extension>
+    </extensions>
   </build>
 
   <dependencies>
@@ -116,6 +164,19 @@
     </dependency>
 
   </dependencies>
+
+  <distributionManagement>
+    <repository>
+      <id>gluehloch-repository</id>
+      <name>Gluehloch Repository</name>
+      <url>ftp://gluehloch.de/www/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <id>gluehloch-repository-snap</id>
+      <name>Gluehloch Snapshot Repository</name>
+      <url>ftp://gluehloch.de/www/maven2-snap</url>
+    </snapshotRepository>
+  </distributionManagement>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
