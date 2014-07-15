@@ -36,8 +36,6 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     private final PreparedStatement stmt;
     private final TableMetaData tableMetaData;
 
-    private boolean executionResult;
-
     /**
      * Constructor.
      * 
@@ -49,12 +47,11 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      *             Something is wrong
      */
     public AbstractPreparedSqlStatement(DbloadContext _context,
-            TableMetaData _tableMetaData) throws SQLException {
+            TableMetaData _tableMetaData, PreparedStatement preparedStatement) throws SQLException {
 
         dbloadContext = _context;
         tableMetaData = _tableMetaData;
-        stmt = PreparedStatementBuilder.prepareStatement(_context,
-                new SqlInsertStatementBuilder(_tableMetaData));
+        stmt = preparedStatement;
     }
 
     /**
@@ -96,8 +93,6 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      *         {@link ResultSet} object. Returns <code>false</code>, if the
      *         executed statement returns the count of executed updates.
      */
-    boolean isResultSet() {
-        return executionResult;
-    }
+    abstract boolean hasResultSet();
 
 }

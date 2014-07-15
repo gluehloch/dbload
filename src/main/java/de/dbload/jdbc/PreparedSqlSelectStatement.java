@@ -30,19 +30,22 @@ import de.dbload.meta.TableMetaData;
  */
 public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
 
-    private boolean executionResult;
+    private boolean preparedStatementReturnsWithResultSet;
     private ResultSet resultSet;
 
     public PreparedSqlSelectStatement(DbloadContext _context,
             TableMetaData _tableMetaData) throws SQLException {
 
-        super(_context, _tableMetaData);
+        super(_context, _tableMetaData, PreparedStatementBuilder
+                .prepareStatement(_context, new SqlSelectStatementBuilder(
+                        _tableMetaData)));
     }
 
     @Override
     public void execute(DataRow data) throws SQLException {
         applyParams(data);
-        executionResult = getPreparedStatement().execute();
+        preparedStatementReturnsWithResultSet = getPreparedStatement()
+                .execute();
         resultSet = getPreparedStatement().getResultSet();
     }
 
@@ -53,10 +56,16 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
      *         {@link ResultSet} object. Returns <code>false</code>, if the
      *         executed statement returns the count of executed updates.
      */
-    public boolean isExecutionResult() {
-        return executionResult;
+    @Override
+    public boolean hasResultSet() {
+        return preparedStatementReturnsWithResultSet;
     }
 
+    /**
+     * Returns the result set.
+     * 
+     * @return the result set
+     */
     public ResultSet getResultSet() {
         return resultSet;
     }

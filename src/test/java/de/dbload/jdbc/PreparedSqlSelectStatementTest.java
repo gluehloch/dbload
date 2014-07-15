@@ -21,7 +21,6 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -71,8 +70,12 @@ public class PreparedSqlSelectStatementTest {
                 dbloadContext, tableMetaData)) {
 
             DataRow dataRowB = new DataRow();
+            dataRowB.put("id",  "1");
             dataRowB.put("name", "winkler");
             dataRowB.put("vorname", "andre");
+            dataRowB.put("age", "43");
+            dataRowB.put("sex", "0");
+            dataRowB.put("birthday", "1971-03-24 01:00:00");
             sql.execute(dataRowB);
 
             assertThat(sql.getResultSet().next(), is(true));
@@ -80,8 +83,12 @@ public class PreparedSqlSelectStatementTest {
             assertThat(sql.getResultSet().getString("vorname"), equalTo("andre"));
 
             DataRow dataRowA = new DataRow();
+            dataRowA.put("id",  "2");
             dataRowA.put("name", "winkler");
             dataRowA.put("vorname", "lars");
+            dataRowA.put("age", "40");
+            dataRowA.put("sex", "0");
+            dataRowA.put("birthday", "1971-03-24 01:00:00");
             sql.execute(dataRowA);
 
             assertThat(sql.getResultSet().next(), is(true));

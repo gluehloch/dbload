@@ -30,18 +30,20 @@ import de.dbload.meta.TableMetaData;
  */
 public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
 
-    private boolean executionResult;
+    private boolean preparedStatementReturnsWithResultSet;
 
     public PreparedSqlInsertStatement(DbloadContext _context,
             TableMetaData _tableMetaData) throws SQLException {
 
-        super(_context, _tableMetaData);
+        super(_context, _tableMetaData, PreparedStatementBuilder
+                .prepareStatement(_context, new SqlInsertStatementBuilder(
+                        _tableMetaData)));
     }
 
     @Override
     public void execute(DataRow data) throws SQLException {
         applyParams(data);
-        executionResult = getPreparedStatement().execute();
+        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
     }
 
     /**
@@ -52,7 +54,12 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
      *         executed statement returns the count of executed updates.
      */
     public boolean isExecutionResult() {
-        return executionResult;
+        return preparedStatementReturnsWithResultSet;
+    }
+
+    @Override
+    boolean hasResultSet() {
+        return preparedStatementReturnsWithResultSet;
     }
 
 }
