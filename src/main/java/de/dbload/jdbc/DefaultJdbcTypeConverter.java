@@ -25,6 +25,7 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 
+import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
@@ -35,25 +36,25 @@ import de.dbload.misc.NumberUtils;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class JdbcTypeConverter {
+public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
     private DecimalFormat decimalFormat;
 
     /**
      * Creates a type converter with the default locale.
      */
-    public JdbcTypeConverter() {
+    public DefaultJdbcTypeConverter() {
         decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
     }
 
     /**
      * Creates a type converter with the specified locale.
      *
-     * @param _locale
+     * @param locale
      *            a locale
      */
-    public JdbcTypeConverter(Locale _locale) {
-        decimalFormat = NumberUtils.createDecimalFormatter(_locale);
+    public DefaultJdbcTypeConverter(Locale locale) {
+        decimalFormat = NumberUtils.createDecimalFormatter(locale);
     }
 
     /**
@@ -63,19 +64,14 @@ public class JdbcTypeConverter {
      * @param _decimalFormat
      *            a decimal formatter
      */
-    public JdbcTypeConverter(DecimalFormat _decimalFormat) {
+    public DefaultJdbcTypeConverter(DecimalFormat _decimalFormat) {
         decimalFormat = _decimalFormat;
     }
 
-    /**
-     * Convert a String value to the associated column type.
-     *
-     * @param columnMetaData
-     *            meta data of the database column
-     * @param value
-     *            the String value to convert
-     * @return the converted value (String, Number, Date)
+    /* (non-Javadoc)
+     * @see de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData, java.lang.String)
      */
+    @Override
     public Object convert(ColumnMetaData columnMetaData, String value) {
         Object returnValue = null;
         switch (columnMetaData.getColumnType()) {
@@ -110,6 +106,10 @@ public class JdbcTypeConverter {
         return returnValue;
     }
 
+    /* (non-Javadoc)
+     * @see de.dbload.jdbc.JdbcTypeConverter#setTypedValue(java.sql.PreparedStatement, int, de.dbload.meta.ColumnMetaData, java.lang.Object)
+     */
+    @Override
     public void setTypedValue(PreparedStatement stmt, int index,
             ColumnMetaData columnMetaData, Object value) throws SQLException {
 

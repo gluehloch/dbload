@@ -26,12 +26,13 @@ import java.util.Locale;
 import org.joda.time.DateTime;
 import org.junit.Test;
 
+import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
 
 /**
- * A test for {@link JdbcTypeConverter}.
+ * A test for {@link DefaultJdbcTypeConverter}.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
@@ -39,7 +40,7 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToNumberInteger() {
-        JdbcTypeConverter converter = new JdbcTypeConverter(Locale.GERMANY);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER_INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711");
@@ -55,7 +56,7 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToNumberDecimal() {
-        JdbcTypeConverter converter = new JdbcTypeConverter(Locale.GERMANY);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER_DECIMAL);
 
         Object value = converter.convert(columnMetaData, "4711,11");
@@ -71,7 +72,7 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToString() {
-        JdbcTypeConverter converter = new JdbcTypeConverter(Locale.GERMANY);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.STRING);
         Object value = converter.convert(columnMetaData, "4711");
 
@@ -82,7 +83,7 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToDate() {
-        JdbcTypeConverter converter = new JdbcTypeConverter(Locale.GERMANY);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.DATE);
         Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
 

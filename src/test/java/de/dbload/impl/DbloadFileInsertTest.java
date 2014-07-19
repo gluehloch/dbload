@@ -22,12 +22,12 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
 
-import de.dbload.DataRow;
 import de.dbload.Dbload;
 import de.dbload.impl.DbloadFileInsert;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**

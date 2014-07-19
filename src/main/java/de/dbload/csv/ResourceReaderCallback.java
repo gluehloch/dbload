@@ -16,7 +16,7 @@
 
 package de.dbload.csv;
 
-import de.dbload.DataRow;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**

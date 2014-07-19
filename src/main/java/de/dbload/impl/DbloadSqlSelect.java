@@ -19,9 +19,9 @@ package de.dbload.impl;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
 import de.dbload.jdbc.PreparedSqlSelectStatement;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**

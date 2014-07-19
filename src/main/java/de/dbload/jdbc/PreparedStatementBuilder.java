@@ -19,13 +19,15 @@ package de.dbload.jdbc;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
+import de.dbload.JdbcTypeConverter;
+import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Creates a {@link PreparedStatement} by {@link DbloadContext} and
+ * Creates a {@link PreparedStatement} by {@link DefaultDbloadContext} and
  * {@link TableMetaData}.
  *
  * @author Andre Winkler. http://www.andre-winkler.de

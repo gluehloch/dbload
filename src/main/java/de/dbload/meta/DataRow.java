@@ -14,13 +14,13 @@
  * the License.
  */
 
-package de.dbload;
+package de.dbload.meta;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * A row of data.
+ * A row of data or a container for key/values.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */

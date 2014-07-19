@@ -23,9 +23,9 @@ import java.sql.SQLException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
 import de.dbload.jdbc.PreparedStatementBuilder;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**

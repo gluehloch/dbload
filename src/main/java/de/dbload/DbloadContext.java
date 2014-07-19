@@ -18,48 +18,25 @@ package de.dbload;
 
 import java.sql.Connection;
 
-import de.dbload.jdbc.JdbcTypeConverter;
-
 /**
- * Holds the database connection.
+ * Defines JDBC connection and JDBC type converter.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadContext {
-
-    private final Connection conn;
-    private final JdbcTypeConverter jdbcTypeConverter;
+public interface DbloadContext {
 
     /**
-     * Constructor. Here we use a default JdbcTypeConverters (with a default
-     * locale).
+     * Returns a JDBC connection.
      *
-     * @param _conn
-     *            a jdbc database connection
+     * @return a JDBC connection
      */
-    public DbloadContext(Connection _conn) {
-        this(_conn, new JdbcTypeConverter());
-    }
+    public Connection getConnection();
 
     /**
-     * Constructor.
+     * Returns a JDBC type converter
      *
-     * @param _conn
-     *            a jdbc database connection
-     * @param _jdbcTypeConverter
-     *            a jdbc type converter
+     * @return a JDBC type converter
      */
-    public DbloadContext(Connection _conn, JdbcTypeConverter _jdbcTypeConverter) {
-        conn = _conn;
-        jdbcTypeConverter = _jdbcTypeConverter;
-    }
-
-    public Connection getConnection() {
-        return conn;
-    }
-
-    public JdbcTypeConverter getJdbcTypeConverter() {
-        return jdbcTypeConverter;
-    }
+    public JdbcTypeConverter getJdbcTypeConverter();
 
 }

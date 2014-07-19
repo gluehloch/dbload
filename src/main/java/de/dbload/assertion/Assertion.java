@@ -21,14 +21,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
-import de.dbload.DbloadException;
 import de.dbload.csv.ResourceDataReader;
 import de.dbload.csv.ResourceReader;
 import de.dbload.csv.ResourceReaderCallback;
+import de.dbload.impl.DbloadException;
 import de.dbload.jdbc.PreparedStatementBuilder;
 import de.dbload.jdbc.SqlSelectStatementBuilder;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
@@ -37,6 +37,10 @@ import de.dbload.meta.TableMetaData;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class Assertion {
+
+    private Assertion() {
+        // Do not instantiate me!
+    }
 
     public static void assertExists(final DbloadContext context, Class<?> clazz) {
         try (ResourceDataReader rdr = new ResourceDataReader(clazz)) {

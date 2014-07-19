@@ -25,8 +25,8 @@ import java.sql.SQLException;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.dbload.DataRow;
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;

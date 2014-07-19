@@ -22,7 +22,7 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.dbload.DataRow;
+import de.dbload.meta.DataRow;
 
 /**
  * Read a resource.

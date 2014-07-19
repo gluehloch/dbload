@@ -16,17 +16,7 @@
 
 package de.dbload;
 
-import java.io.IOException;
-import java.sql.SQLException;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import de.dbload.csv.ResourceDataReader;
-import de.dbload.csv.ResourceReader;
-import de.dbload.csv.ResourceReaderCallback;
-import de.dbload.impl.DbloadSqlInsert;
-import de.dbload.meta.TableMetaData;
+import de.dbload.impl.DefaultDbloadImpl;
 
 /**
  * Entry point for uploading data to the database.
@@ -35,7 +25,9 @@ import de.dbload.meta.TableMetaData;
  */
 public class Dbload {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Dbload.class);
+    private Dbload() {
+        // Private!!!
+    }
 
     /**
      * Start upload.
@@ -44,40 +36,10 @@ public class Dbload {
      *            the context for dbload
      * @param clazz
      *            used as classloader root for the data file
-     * @throws DbloadException
-     *             Some problems with files or datasources
      */
-    public static void start(DbloadContext context, Class<?> clazz)
-            throws DbloadException {
-
-        try (ResourceDataReader rdr = new ResourceDataReader(clazz);
-                DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
-
-            ResourceReader resourceReader = new ResourceReader();
-            resourceReader.start(rdr, new ResourceReaderCallback() {
-                @Override
-                public void newTableMetaData(TableMetaData tableMetaData) {
-                    try {
-                        dbloadSqlInsert.newTableMetaData(tableMetaData);
-                    } catch (SQLException ex) {
-                        throw new DbloadException(ex);
-                    }
-                }
-
-                @Override
-                public void newDataRow(DataRow dataRow) {
-                    try {
-                        dbloadSqlInsert.execute(dataRow);
-                    } catch (SQLException ex) {
-                        throw new DbloadException(ex);
-                    }
-                }
-            });
-
-        } catch (IOException ex) {
-            LOG.error("Dbload has an IOException problem...", ex);
-            throw new DbloadException(ex);
-        }
+    public static void start(DbloadContext context, Class<?> clazz) {
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.start(context, clazz);
     }
 
 }

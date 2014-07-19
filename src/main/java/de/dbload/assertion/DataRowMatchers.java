@@ -21,7 +21,7 @@ import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import de.dbload.DataRow;
+import de.dbload.meta.DataRow;
 
 /**
  * A hamcrest matcher for {@link DataRow}.

@@ -28,8 +28,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
+import de.dbload.impl.DefaultDbloadContext;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
@@ -47,7 +48,7 @@ public class AssertionTest {
 
     @Before
     public void before() throws SQLException {
-        context = new DbloadContext(
+        context = new DefaultDbloadContext(
                 TestConnectionFactory.connectToTestDatabase());
         Statement stmt = context.getConnection().createStatement();
         stmt.execute("INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00')");

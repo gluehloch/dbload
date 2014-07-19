@@ -18,10 +18,10 @@ package de.dbload.impl;
 
 import java.sql.SQLException;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
 import de.dbload.jdbc.AbstractPreparedSqlStatement;
-import de.dbload.jdbc.PreparedSqlSelectStatement;
+import de.dbload.jdbc.PreparedSqlInsertStatement;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
@@ -51,7 +51,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
             preparedSqlStatement.close();
         }
 
-        preparedSqlStatement = new PreparedSqlSelectStatement(context,
+        preparedSqlStatement = new PreparedSqlInsertStatement(context,
                 tableMetaData);
     }
 

@@ -19,8 +19,8 @@ package de.dbload.csv;
 import java.io.IOException;
 import java.util.List;
 
-import de.dbload.DataRow;
 import de.dbload.meta.ColumnsMetaData;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**

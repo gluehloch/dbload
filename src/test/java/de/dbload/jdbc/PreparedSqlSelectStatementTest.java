@@ -28,8 +28,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.dbload.DataRow;
 import de.dbload.DbloadContext;
+import de.dbload.impl.DefaultDbloadContext;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
@@ -47,7 +48,7 @@ public class PreparedSqlSelectStatementTest {
     @Before
     public void before() {
         Connection connection = TestConnectionFactory.connectToTestDatabase();
-        dbloadContext = new DbloadContext(connection);
+        dbloadContext = new DefaultDbloadContext(connection);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
     }
 

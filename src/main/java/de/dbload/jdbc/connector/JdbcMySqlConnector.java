@@ -22,7 +22,7 @@ import java.sql.SQLException;
 
 import org.apache.commons.lang.StringUtils;
 
-import de.dbload.DbloadException;
+import de.dbload.impl.DbloadException;
 
 /**
  * Some utility methods to create a {@link Connection} to a MySQL database.

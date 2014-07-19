@@ -25,7 +25,7 @@ import java.util.List;
 
 import org.junit.Test;
 
-import de.dbload.DataRow;
+import de.dbload.meta.DataRow;
 
 /**
  * Test fuer {@link ResourceParser}.

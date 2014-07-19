@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload;
+package de.dbload.impl;
 
 /**
  * {@link RuntimeException} for some DBLoad problems.
