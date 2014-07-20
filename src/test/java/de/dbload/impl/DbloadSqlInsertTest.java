@@ -59,8 +59,6 @@ public class DbloadSqlInsertTest {
 
     @Test
     public void testDbloadSqlInsert() throws SQLException {
-        Connection connection = TestConnectionFactory.connectToTestDatabase();
-        DbloadContext dbloadContext = new DefaultDbloadContext(connection);
         try (DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(dbloadContext)) {
             dbloadSqlInsert.newTableMetaData(tableMetaData);
             DataRow dataRow = new DataRow();
@@ -71,7 +69,7 @@ public class DbloadSqlInsertTest {
             dbloadSqlInsert.execute(dataRow);
         }
 
-        Statement stmt = connection.createStatement();
+        Statement stmt = dbloadContext.getConnection().createStatement();
         ResultSet resultSet = stmt.executeQuery("select id, name, vorname, age from person");
         assertThat(resultSet.next(), is(true));
         assertThat(resultSet.getInt("id"), is(1));

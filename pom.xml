@@ -64,7 +64,7 @@
           <check>
             <branchRate>85</branchRate>
             <lineRate>85</lineRate>
-            <haltOnFailure>true</haltOnFailure>
+            <haltOnFailure>false</haltOnFailure>
             <totalBranchRate>85</totalBranchRate>
             <totalLineRate>85</totalLineRate>
             <packageLineRate>85</packageLineRate>
@@ -72,14 +72,16 @@
             <regexes>
               <regex>
                 <pattern>de.dbload.*</pattern>
-                <branchRate>90</branchRate>
-                <lineRate>80</lineRate>
+                <branchRate>85</branchRate>
+                <lineRate>85</lineRate>
               </regex>
+              <!--
               <regex>
                 <pattern>com.example.boringcode.*</pattern>
                 <branchRate>40</branchRate>
                 <lineRate>30</lineRate>
               </regex>
+              -->
             </regexes>
           </check>
         </configuration>
