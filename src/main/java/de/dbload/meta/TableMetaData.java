@@ -16,10 +16,13 @@
 
 package de.dbload.meta;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * Holds the database table meta data.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class TableMetaData {
@@ -29,7 +32,7 @@ public class TableMetaData {
 
     /**
      * Constructor
-     * 
+     *
      * @param _tableName the table name
      * @param _columns the columns of the table
      */
