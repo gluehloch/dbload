@@ -16,7 +16,11 @@
 
 package de.dbload;
 
+import java.sql.Connection;
+
+import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.impl.DefaultDbloadImpl;
+import de.dbload.jdbc.JdbcUtils;
 
 /**
  * Entry point for uploading data to the database.
@@ -38,6 +42,20 @@ public class Dbload {
      *            used as classloader root for the data file
      */
     public static void start(DbloadContext context, Class<?> clazz) {
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.start(context, clazz);
+    }
+
+    /**
+     * Start upload
+     *
+     * @param connection
+     *            the database JDBC connection
+     * @param clazz
+     *            used as classloader root for the data file
+     */
+    public static void start(Connection connection, Class<?> clazz) {
+        DefaultDbloadContext context = new DefaultDbloadContext(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.start(context, clazz);
     }

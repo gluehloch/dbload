@@ -122,7 +122,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-project-info-reports-plugin</artifactId>
         <version>2.7</version>
-       <reportSets>
+        <reportSets>
           <reportSet>
             <reports>
               <report>dependencies</report>
@@ -165,21 +165,15 @@
           <reportSet>
             <reports>
               <report>changes-report</report>
+              <report>github-report</report>
             </reports>
           </reportSet>
         </reportSets>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.10</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>github-report</report>
-            </reports>
-          </reportSet>
-        </reportSets>
+        <artifactId>maven-changelog-plugin</artifactId>
+        <version>2.3</version>
       </plugin>
     </plugins>
   </reporting>
@@ -211,7 +205,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.11</version>
-      <scope>compile</scope>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.hamcrest</groupId>
@@ -266,6 +260,11 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.kohsuke</groupId>
+      <artifactId>doxia-module-markdown</artifactId>
+      <version>1.0</version>
+    </dependency>
   </dependencies>
 
   <distributionManagement>

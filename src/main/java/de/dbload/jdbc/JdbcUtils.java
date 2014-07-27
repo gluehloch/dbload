@@ -42,9 +42,21 @@ public class JdbcUtils {
         }
     }
 
+    public static void delete(Connection conn, String tableName) {
+        String delete = String.format("DELETE FROM %s", tableName);
+
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(delete);
+        } catch (SQLException ex) {
+            throw new IllegalArgumentException(ex);
+        }
+    }
+
     public static ResultSetMetaData findMetaData(Connection conn,
             String tableName) {
-        String sql = "SELECT * FROM " + tableName + " WHERE 1 = 0";
+
+        String sql = String.format("SELECT * FROM %s WHERE 1 = 0",tableName);
 
         try {
             Statement stmt = conn.createStatement();
