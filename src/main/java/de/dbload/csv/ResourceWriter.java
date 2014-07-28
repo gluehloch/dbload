@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -17,33 +17,49 @@
 package de.dbload.csv;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.codehaus.plexus.util.IOUtil;
+
+import de.dbload.impl.DbloadException;
+import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
+/**
+ * Write some SQL results to a <code>.dat</code> file.
+ * 
+ * @author Andre Winkler. http://www.andre-winkler.de
+ */
 public class ResourceWriter {
+    
+    private final File file;
+    private final Charset utf8;
+    private final String linefeet;
 
-    private Writer writer;
+    public ResourceWriter(File _file) {
+        file = _file;
+        utf8 = Charset.forName("UTF-8");
+        IOU
+    }
 
     public void start() {
-        OutputStream newOutputStream = Files.newOutputStream(null, null);
-
-        Path path = new Path(); Paths.get(null, null)
         try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(
-                StandardOpenOption.CREATE))) {
+                file.toPath(), StandardOpenOption.CREATE));
+                Writer writer = new OutputStreamWriter(out, utf8)) {
 
-            out.write(data, 0, data.length);
-        } catch (IOException x) {
-            System.err.println(x);
+            writer.append("string");
+        } catch (IOException ex) {
+            throw new DbloadException(ex);
         }
     }
 
@@ -57,15 +73,24 @@ public class ResourceWriter {
 
     public class Callback implements ResourceReaderCallback {
 
+        private final Writer writer;
+        
+        public Callback(Writer _writer) {
+            writer = _writer;
+        }
+        
         /**
          * Inspected a new {@link TableMetaData} description.
-         *
+         * 
          * @param tableMetaData
          *            table meta data description
          */
         public void newTableMetaData(TableMetaData tableMetaData) {
+            ColumnsMetaData columnsMetaData = tableMetaData.getColumns();
+            List<String> columnNames = columnsMetaData.getColumnNames();
+            
             try {
-                ResourceWriter.this.writer.write("### ");
+                writer.write("### ");
                 writer.write(tableMetaData.getTableName());
             } catch (IOException ex) {
 
@@ -74,7 +99,7 @@ public class ResourceWriter {
 
         /**
          * Inspected a new {@link DataRow} for the last finded table.
-         *
+         * 
          * @param dataRow
          *            a new data row
          */
