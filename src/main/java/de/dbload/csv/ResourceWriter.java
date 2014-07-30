@@ -17,6 +17,7 @@
 package de.dbload.csv;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -26,11 +27,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 import de.dbload.impl.DbloadException;
-import de.dbload.jdbc.PreparedSqlSelectStatement;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
@@ -52,15 +56,51 @@ public class ResourceWriter {
         linefeet = System.getProperty("line.separator").toString();
     }
 
-    public void start(Connection conn, String sqlSelectStatement, boolean append) {
+    public void start(Connection conn, String sqlSelectStatement, boolean append)
+            throws SQLException {
+
+        if (!append) {
+            File file = path.toFile();
+            if (file.exists()) {
+                file.delete();
+            }
+        }
+
         try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(
-                path, append ? StandardOpenOption.APPEND : StandardOpenOption.CREATE));
+                path, append ? StandardOpenOption.APPEND
+                        : StandardOpenOption.CREATE));
                 Writer writer = new OutputStreamWriter(out, utf8)) {
 
+            try (Statement stmt = conn.createStatement()) {
+                try (ResultSet resultSet = stmt
+                        .executeQuery(sqlSelectStatement)) {
 
-            PreparedSqlSelectStatement stmt = new PreparedSqlSelectStatement(null, null);
+                    ResultSetMetaData metaData = resultSet.getMetaData();
+                    writer.append("### TAB ");
+                    writer.append(metaData.getTableName(1));
+                    writer.append(linefeet);
+                    writer.append("### ");
 
-            writer.append("string");
+                    for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                        writer.append(metaData.getColumnName(i));
+                        if (i < metaData.getColumnCount()) {
+                            writer.append(" | ");
+                        }
+                    }
+                    writer.append(linefeet);
+
+                    while (resultSet.next()) {
+                        for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                            writer.append(resultSet.getString(i));
+                            if (i < metaData.getColumnCount()) {
+                                writer.append(" | ");
+                            }
+                        }
+                        writer.append(linefeet);
+                    }
+                }
+            }
+
         } catch (IOException ex) {
             throw new DbloadException(ex);
         }
