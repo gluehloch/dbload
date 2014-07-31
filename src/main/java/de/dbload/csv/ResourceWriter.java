@@ -56,7 +56,7 @@ public class ResourceWriter {
         linefeet = System.getProperty("line.separator").toString();
     }
 
-    public void start(Connection conn, String sqlSelectStatement, boolean append)
+    public void start(Connection conn, String sqlSelect, boolean append)
             throws SQLException {
 
         if (!append) {
@@ -72,8 +72,7 @@ public class ResourceWriter {
                 Writer writer = new OutputStreamWriter(out, utf8)) {
 
             try (Statement stmt = conn.createStatement()) {
-                try (ResultSet resultSet = stmt
-                        .executeQuery(sqlSelectStatement)) {
+                try (ResultSet resultSet = stmt.executeQuery(sqlSelect)) {
 
                     ResultSetMetaData metaData = resultSet.getMetaData();
                     writer.append("### TAB ");
@@ -104,14 +103,6 @@ public class ResourceWriter {
         } catch (IOException ex) {
             throw new DbloadException(ex);
         }
-    }
-
-    private List<String> toList(String... strings) {
-        List<String> list = new ArrayList<>();
-        for (String str : strings) {
-            list.add(str);
-        }
-        return list;
     }
 
     public class Callback implements ResourceReaderCallback {
