@@ -23,9 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.dbload.DbloadContext;
-import de.dbload.csv.ResourceDataReader;
-import de.dbload.csv.ResourceReader;
-import de.dbload.csv.ResourceReaderCallback;
+import de.dbload.csv.reader.ResourceDataReader;
+import de.dbload.csv.reader.ResourceReader;
+import de.dbload.csv.reader.ResourceReaderCallback;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 

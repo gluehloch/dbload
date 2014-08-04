@@ -14,7 +14,7 @@
  * the License.
  */
 
-package de.dbload.csv;
+package de.dbload.csv.reader;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 
+import de.dbload.csv.reader.ColumnTypeParser;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 

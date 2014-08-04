@@ -14,13 +14,14 @@
  * the License.
  */
 
-package de.dbload.csv;
+package de.dbload.csv.writer;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -31,9 +32,9 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
+import de.dbload.csv.reader.ResourceReaderCallback;
 import de.dbload.impl.DbloadException;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.DataRow;
@@ -70,32 +71,34 @@ public class ResourceWriter {
                 path, append ? StandardOpenOption.APPEND
                         : StandardOpenOption.CREATE));
                 Writer writer = new OutputStreamWriter(out, utf8)) {
-
+            
+            PrintWriter pw = new PrintWriter(writer, true);
             try (Statement stmt = conn.createStatement()) {
                 try (ResultSet resultSet = stmt.executeQuery(sqlSelect)) {
 
                     ResultSetMetaData metaData = resultSet.getMetaData();
-                    writer.append("### TAB ");
-                    writer.append(metaData.getTableName(1));
-                    writer.append(linefeet);
-                    writer.append("### ");
+                    
+                    pw.print("### TAB ");
+                    pw.print(metaData.getTableName(1));
+                    pw.println(linefeet);
+                    pw.print("### ");
 
                     for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                        writer.append(metaData.getColumnName(i));
+                        pw.print(metaData.getColumnName(i));
                         if (i < metaData.getColumnCount()) {
-                            writer.append(" | ");
+                            pw.print(" | ");
                         }
                     }
-                    writer.append(linefeet);
+                    pw.println();
 
                     while (resultSet.next()) {
                         for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                            writer.append(resultSet.getString(i));
+                            pw.print(resultSet.getString(i));
                             if (i < metaData.getColumnCount()) {
-                                writer.append(" | ");
+                                pw.print(" | ");
                             }
                         }
-                        writer.append(linefeet);
+                        pw.println();
                     }
                 }
             }

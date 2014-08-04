@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.dbload.csv;
+package de.dbload.csv.reader;
 
 import static org.hamcrest.core.IsNull.nullValue;
 import static org.junit.Assert.assertEquals;
@@ -25,6 +25,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import de.dbload.csv.reader.ResourceParser;
 import de.dbload.meta.DataRow;
 
 /**

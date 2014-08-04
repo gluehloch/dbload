@@ -22,9 +22,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.dbload.DbloadContext;
-import de.dbload.csv.ResourceDataReader;
-import de.dbload.csv.ResourceReader;
-import de.dbload.csv.ResourceReaderCallback;
+import de.dbload.csv.reader.ResourceDataReader;
+import de.dbload.csv.reader.ResourceReader;
+import de.dbload.csv.reader.ResourceReaderCallback;
 import de.dbload.impl.DbloadException;
 import de.dbload.jdbc.PreparedStatementBuilder;
 import de.dbload.jdbc.SqlSelectStatementBuilder;

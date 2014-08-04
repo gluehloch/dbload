@@ -14,7 +14,7 @@
  * the License.
  */
 
-package de.dbload.csv;
+package de.dbload.csv.reader;
 
 import java.util.List;
 
