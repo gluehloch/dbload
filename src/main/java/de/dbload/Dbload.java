@@ -20,7 +20,6 @@ import java.sql.Connection;
 
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.impl.DefaultDbloadImpl;
-import de.dbload.jdbc.JdbcUtils;
 
 /**
  * Entry point for uploading data to the database.
