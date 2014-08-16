@@ -52,7 +52,7 @@ public class SqlSelectStatementBuilder implements SqlStatementBuilder {
      */
     @Override
     public String createSql() {
-        StringBuffer stmt = new StringBuffer("SELECT ");
+        StringBuilder stmt = new StringBuilder("SELECT ");
         stmt.append(SqlStatementBuilderUtils
                 .createColumnDescription(tableMetaData.getColumns()));
         stmt.append(" FROM ");

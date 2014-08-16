@@ -59,7 +59,16 @@ public class ResourceWriter {
     public void start(Connection conn, String sqlSelect, boolean append)
             throws SQLException {
 
-        if (!append) {
+        if (append) {
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException ex) {
+                    throw new DbloadException("Unable to create export file.",
+                            ex);
+                }
+            }
+        } else {
             if (file.exists()) {
                 file.delete();
             }
