@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
 
 /**
  * Reads the data resource.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ResourceDataReader implements Closeable {
@@ -39,7 +39,7 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Constructor
-     * 
+     *
      * @param resourceName
      *            a classpath resource
      */
@@ -49,7 +49,7 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Constructor
-     * 
+     *
      * @param resourceName
      *            name of a classpath resource
      * @param resourceClass
@@ -60,13 +60,19 @@ public class ResourceDataReader implements Closeable {
         this.resourceClass = resourceClass;
     }
 
+    /**
+     * Constructor.
+     *
+     * @param resourceClass
+     *            a classpath resource
+     */
     public ResourceDataReader(Class<?> resourceClass) {
         this(resourceClass.getSimpleName() + ".dat", resourceClass);
     }
 
     /**
      * Opens the resource.
-     * 
+     *
      * @throws IOException
      *             Ups
      */
@@ -82,7 +88,7 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Read one line of the resource.
-     * 
+     *
      * @return line of data
      * @throws IOException
      *             Ups
@@ -94,7 +100,7 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Reached end of file?
-     * 
+     *
      * @return Returns <code>true</code>, if reached end of file
      */
     public boolean endOfFile() {

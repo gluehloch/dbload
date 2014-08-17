@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -22,8 +22,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import de.dbload.csv.writer.ResourceWriter;
 import de.dbload.impl.DbloadException;
 import de.dbload.impl.DefaultDbloadContext;
@@ -31,7 +29,7 @@ import de.dbload.impl.DefaultDbloadImpl;
 
 /**
  * Entry point for uploading data to the database.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class Dbload {
@@ -42,7 +40,7 @@ public class Dbload {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param clazz
@@ -55,7 +53,7 @@ public class Dbload {
 
     /**
      * Start upload
-     * 
+     *
      * @param connection
      *            the database JDBC connection
      * @param clazz
@@ -67,9 +65,15 @@ public class Dbload {
         dbload.start(context, clazz);
     }
 
+    public static void read(Connection connection, File readFromFile) {
+        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.start(context, readFromFile);
+    }
+
     /**
      * Export all tables to a file.
-     * 
+     *
      * @param connection
      *            the database JDBC connection
      * @param writeToFile
@@ -90,7 +94,7 @@ public class Dbload {
 
     /**
      * Export all tables to a file.
-     * 
+     *
      * @param connection
      *            the database JDBC connection
      * @param writeToFile

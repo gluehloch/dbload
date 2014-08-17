@@ -16,6 +16,7 @@
 
 package de.dbload.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
@@ -37,6 +38,20 @@ import de.dbload.meta.TableMetaData;
 public class DefaultDbloadImpl {
 
     private static final Logger LOG = LoggerFactory.getLogger(DefaultDbloadImpl.class);
+
+    /**
+     * Start upload.
+     *
+     * @param context
+     *            the context for dbload
+     * @param readFromFile
+     *            read the data from this file
+     * @throws DbloadException
+     *             Some problems with files or datasources
+     */
+    public void start(DbloadContext context, File readFromFile) {
+
+    }
 
     /**
      * Start upload.
