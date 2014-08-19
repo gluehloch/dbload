@@ -36,7 +36,7 @@ public class DbloadTest {
         Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
                 "dbload", "127.0.0.1", "dbload");
         DbloadContext context = new DefaultDbloadContext(conn);
-        Dbload.start(context, DbloadTest.class);
+        Dbload.read(context, DbloadTest.class);
 
         Assertion.assertExists(context, DbloadTest.class);
     }
