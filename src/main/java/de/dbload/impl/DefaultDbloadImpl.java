@@ -22,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +32,7 @@ import de.dbload.DbloadContext;
 import de.dbload.csv.reader.ResourceDataReader;
 import de.dbload.csv.reader.ResourceReader;
 import de.dbload.csv.reader.ResourceReaderCallback;
+import de.dbload.csv.writer.ResourceWriter;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
@@ -106,6 +109,52 @@ public class DefaultDbloadImpl {
 
         } catch (IOException ex) {
             LOG.error("Dbload throws an error.", ex);
+            throw new DbloadException(ex);
+        }
+    }
+
+    /**
+     * Export all tables to a file.
+     * 
+     * @param context
+     *            the database JDBC connection
+     * @param writeToFile
+     *            the file to write to
+     * @param tableNames
+     *            the database tables to export
+     */
+    public void writeToFile(DbloadContext context, File writeToFile,
+            String[] tableNames) {
+
+        List<String> list = new ArrayList<String>();
+        for (String tableName : tableNames) {
+            list.add(tableName);
+        }
+
+        writeToFile(context, writeToFile, list);
+    }
+
+    /**
+     * Export all tables to a file.
+     * 
+     * @param context
+     *            the database JDBC connection
+     * @param writeToFile
+     *            the file to write to
+     * @param tableNames
+     *            the database tables to export
+     */
+    public void writeToFile(DbloadContext context, File writeToFile,
+            List<String> tableNames) {
+
+        ResourceWriter rw = new ResourceWriter(writeToFile);
+        try {
+            for (String tableName : tableNames) {
+                String select = String.format("SELECT * FROM %s", tableName);
+                rw.start(context.getConnection(), select, true);
+            }
+        } catch (SQLException ex) {
+            LOG.error("Unable to write export file!", ex);
             throw new DbloadException(ex);
         }
     }

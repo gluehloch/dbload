@@ -18,12 +18,8 @@ package de.dbload;
 
 import java.io.File;
 import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import de.dbload.csv.writer.ResourceWriter;
-import de.dbload.impl.DbloadException;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.impl.DefaultDbloadImpl;
 
@@ -92,12 +88,9 @@ public class Dbload {
     public static void write(Connection connection, File writeToFile,
             String[] tableNames) {
 
-        List<String> list = new ArrayList<String>();
-        for (String tableName : tableNames) {
-            list.add(tableName);
-        }
-
-        Dbload.write(connection, writeToFile, list);
+        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.writeToFile(context, writeToFile, tableNames);
     }
 
     /**
@@ -113,15 +106,9 @@ public class Dbload {
     public static void write(Connection connection, File writeToFile,
             List<String> tableNames) {
 
-        ResourceWriter rw = new ResourceWriter(writeToFile);
-        try {
-            for (String tableName : tableNames) {
-                String select = String.format("SELECT * FROM %s", tableName);
-                rw.start(connection, select, true);
-            }
-        } catch (SQLException ex) {
-            throw new DbloadException("Unable to write export file!", ex);
-        }
+        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.writeToFile(context, writeToFile, tableNames);
     }
 
 }
