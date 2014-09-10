@@ -34,9 +34,15 @@ public class ColumnMetaData {
         /** varchar */
         STRING,
 
-        /** number with no decimals
+        /** Bit information: Something like 010010010101... */
+        BIT,
+
+        /**
+         * TODO Is this useful?
+         * number with no decimals
         NUMBER_BIT,
-        
+        */
+
         /** number with no decimals like byte, short, int or long */
         NUMBER_INTEGER,
 

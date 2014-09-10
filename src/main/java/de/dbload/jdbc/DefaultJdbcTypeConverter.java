@@ -76,6 +76,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         Object returnValue = null;
         switch (columnMetaData.getColumnType()) {
         case STRING:
+        case BIT:
             if (value != null) {
                 returnValue = value;
             }

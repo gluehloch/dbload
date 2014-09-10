@@ -5,6 +5,7 @@ create table person (
     age integer,
     sex varchar(1),
     birthday datetime,
+    human bit,
     primary key (id)
 ) ENGINE=InnoDB;
 
@@ -28,11 +29,11 @@ create table account (
 ) ENGINE=InnoDB;
 
 alter table address
-    add index fk_address_person_id (fk_person_id), 
+    add index fk_address_person_id (fk_person_id),
     add constraint cst_address_person_id
-    foreign key (fk_person_id) 
+    foreign key (fk_person_id)
     references person (id);
-    
+
 alter table account
     add index fk_account_person_id (fk_person_id),
     add constraint cst_account_person_id

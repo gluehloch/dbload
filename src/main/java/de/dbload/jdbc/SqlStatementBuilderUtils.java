@@ -17,6 +17,7 @@
 package de.dbload.jdbc;
 
 import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 
 /**
@@ -96,6 +97,7 @@ class SqlStatementBuilderUtils {
             if (!first) {
                 insertSqlCommand.append(", ");
             }
+
             insertSqlCommand.append(columnIterator.get(column));
             first = false;
         }
@@ -114,7 +116,12 @@ class SqlStatementBuilderUtils {
 
     private static class QuestionMarkIterator implements ColumnIterator {
         public String get(ColumnMetaData column) {
-            return "?";
+            // TODO Is this MySQL specific?
+            if (column.getColumnType().equals(Type.BIT)) {
+                return "b?";
+            } else {
+                return "?";
+            }
         }
     }
 
