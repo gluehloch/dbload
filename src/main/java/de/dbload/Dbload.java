@@ -48,6 +48,23 @@ public class Dbload {
     }
 
     /**
+     * Start upload.
+     * 
+     * @param context
+     *            the context for dbload
+     * @param clazz
+     *            used as classloader root for the data file
+     * @param resource
+     *            the resource to load with the classloader
+     */
+    public static void read(DbloadContext context, Class<?> clazz,
+            String resource) {
+
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.readFromClasspathResource(context, clazz, resource);
+    }
+
+    /**
      * Start upload
      * 
      * @param connection
@@ -59,6 +76,22 @@ public class Dbload {
         DefaultDbloadContext context = new DefaultDbloadContext(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.readFromClasspathResource(context, clazz);
+    }
+
+    /**
+     * Start upload
+     * 
+     * @param connection
+     *            the database JDBC connection
+     * @param clazz
+     *            used as classloader root for the data file
+     * @param resource
+     *            the resource to load with the classloader
+     */
+    public static void read(Connection connection, Class<?> clazz, String resource) {
+        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.readFromClasspathResource(context, clazz, resource);
     }
 
     /**

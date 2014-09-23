@@ -72,6 +72,22 @@ public class DefaultDbloadImpl {
      * @param context
      *            the context for dbload
      * @param clazz
+     *            used as classloader for the resource
+     * @param resource
+     *            the resource to load from the classpath
+     */
+    public void readFromClasspathResource(DbloadContext context,
+            Class<?> clazz, String resource) {
+        InputStream is = clazz.getResourceAsStream(resource);
+        startReading(is, context);
+    }
+
+    /**
+     * Start upload.
+     * 
+     * @param context
+     *            the context for dbload
+     * @param clazz
      *            used as classloader root for the data file
      * @throws DbloadException
      *             Some problems with files or datasources
