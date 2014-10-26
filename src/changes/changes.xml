@@ -5,7 +5,7 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-    <release version="dbload-0.1.0" date="2014-05-01"
+    <release version="dbload-0.1.0" date="2014-10-25"
          description="Project start.">
       <action dev="andrewinkler" type="add" date="2014-05-01">
         Project setup.
