@@ -42,7 +42,8 @@ interface DbloadSqlStatement extends Closeable {
      * Exceute a SQL statement with <code>data</code> as parameter.
      * 
      * @param data
-     *            the data to use
+     *            Holds the data
+     * @throws SQLException
      */
     void execute(DataRow data) throws SQLException;
 
