@@ -17,6 +17,9 @@
       <action dev="andrewinkler" type="add" date="2014-10-31">
         TODO: The SQL-Insert class should detect the affected column types.
       </action>
+      <action dev="andrewinkler" type="update" date="2014-11-01">
+        The test class should not use the default locale if german is expected.
+      </action>
     </release>
 
     <release version="dbload-0.1.0" date="2014-10-25"
