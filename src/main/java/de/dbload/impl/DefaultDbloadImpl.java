@@ -107,6 +107,9 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
+                        
+                        // TODO asfd
+                        
                         dbloadSqlInsert.newTableMetaData(tableMetaData);
                     } catch (SQLException ex) {
                         throw new DbloadException(ex);

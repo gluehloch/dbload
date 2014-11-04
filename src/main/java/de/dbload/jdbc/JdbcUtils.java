@@ -71,7 +71,7 @@ public class JdbcUtils {
      * TODO Da muss ich noch mal ran...
      *
      * @param resultSetMetaData
-     * @return
+     * @return A description of the table columns.
      * @throws SQLException
      */
     public static TableMetaData toTableMetaData(

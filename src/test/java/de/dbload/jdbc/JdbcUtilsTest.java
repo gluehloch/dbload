@@ -57,6 +57,20 @@ public class JdbcUtilsTest {
         assertThat(metaData.getColumnLabel(7), equalTo("human"));
         
         assertThat(metaData.getColumnTypeName(1), equalTo("BIGINT"));
+        assertThat(metaData.getColumnTypeName(2), equalTo("VARCHAR"));
+        assertThat(metaData.getColumnTypeName(3), equalTo("VARCHAR"));
+        assertThat(metaData.getColumnTypeName(4), equalTo("INT"));
+        assertThat(metaData.getColumnTypeName(5), equalTo("VARCHAR"));
+        assertThat(metaData.getColumnTypeName(6), equalTo("DATETIME"));
+        assertThat(metaData.getColumnTypeName(7), equalTo("BIT"));
+        
+        assertThat(metaData.getColumnType(1), equalTo(java.sql.Types.BIGINT));
+        assertThat(metaData.getColumnType(2), equalTo(java.sql.Types.VARCHAR));
+        assertThat(metaData.getColumnType(3), equalTo(java.sql.Types.VARCHAR));
+        assertThat(metaData.getColumnType(4), equalTo(java.sql.Types.INTEGER));
+        assertThat(metaData.getColumnType(5), equalTo(java.sql.Types.VARCHAR));
+        assertThat(metaData.getColumnType(6), equalTo(java.sql.Types.TIMESTAMP));
+        assertThat(metaData.getColumnType(7), equalTo(java.sql.Types.BIT));
     }
 
 }
