@@ -22,9 +22,13 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
 import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import de.dbload.meta.ColumnsMetaData;
+import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestConnectionFactory;
 
 /**
@@ -34,11 +38,14 @@ import de.dbload.utils.TestConnectionFactory;
  */
 public class JdbcUtilsTest {
 
+    private Connection connection;
+
     @Test
     public void testJdbcUtilsMetadataFinder() throws Exception {
         Connection connection = TestConnectionFactory.connectToTestDatabase();
-        ResultSetMetaData metaData = JdbcUtils.findMetaData(connection, "person");
-        
+        ResultSetMetaData metaData = JdbcUtils.findMetaData(connection,
+                "person");
+
         assertThat(metaData, notNullValue());
         assertThat(metaData.getColumnCount(), equalTo(7));
         assertThat(metaData.getColumnName(1), equalTo("id"));
@@ -55,7 +62,7 @@ public class JdbcUtilsTest {
         assertThat(metaData.getColumnLabel(6), equalTo("birthday"));
         assertThat(metaData.getColumnName(7), equalTo("human"));
         assertThat(metaData.getColumnLabel(7), equalTo("human"));
-        
+
         assertThat(metaData.getColumnTypeName(1), equalTo("BIGINT"));
         assertThat(metaData.getColumnTypeName(2), equalTo("VARCHAR"));
         assertThat(metaData.getColumnTypeName(3), equalTo("VARCHAR"));
@@ -63,7 +70,7 @@ public class JdbcUtilsTest {
         assertThat(metaData.getColumnTypeName(5), equalTo("VARCHAR"));
         assertThat(metaData.getColumnTypeName(6), equalTo("DATETIME"));
         assertThat(metaData.getColumnTypeName(7), equalTo("BIT"));
-        
+
         assertThat(metaData.getColumnType(1), equalTo(java.sql.Types.BIGINT));
         assertThat(metaData.getColumnType(2), equalTo(java.sql.Types.VARCHAR));
         assertThat(metaData.getColumnType(3), equalTo(java.sql.Types.VARCHAR));
@@ -71,6 +78,41 @@ public class JdbcUtilsTest {
         assertThat(metaData.getColumnType(5), equalTo(java.sql.Types.VARCHAR));
         assertThat(metaData.getColumnType(6), equalTo(java.sql.Types.TIMESTAMP));
         assertThat(metaData.getColumnType(7), equalTo(java.sql.Types.BIT));
+    }
+
+    @Test
+    public void testJdbcUtils() throws SQLException {
+        ResultSetMetaData metaData = JdbcUtils.findMetaData(connection,
+                "person");
+
+        TableMetaData data = JdbcUtils.toTableMetaData(metaData);
+        ColumnsMetaData columns = data.getColumns();
+
+        assertThat(columns.size(), equalTo(7));
+        assertThat(columns.get(0).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.BIGINT));
+        assertThat(columns.get(1).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.VARCHAR));
+        assertThat(columns.get(2).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.VARCHAR));
+        assertThat(columns.get(3).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.INTEGER));
+        assertThat(columns.get(4).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.VARCHAR));
+        assertThat(columns.get(5).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.TIMESTAMP));
+        assertThat(columns.get(6).getColumnType().getJavaSqlType(),
+                equalTo(java.sql.Types.BIT));
+    }
+
+    @Before
+    public void before() {
+        connection = TestConnectionFactory.connectToTestDatabase();
+    }
+
+    public void after() throws SQLException {
+        connection.rollback();
+        connection.close();
     }
 
 }
