@@ -48,6 +48,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
     @Override
     public void newTableMetaData(TableMetaData tableMetaData)
             throws SQLException {
+
         if (preparedSqlStatement != null) {
             preparedSqlStatement.close();
         }

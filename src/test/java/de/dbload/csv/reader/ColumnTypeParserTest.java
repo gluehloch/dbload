@@ -39,7 +39,7 @@ public class ColumnTypeParserTest {
 
         columnMetaData = ColumnTypeParser.parseColumnMetaData("hello");
         assertThat(columnMetaData.getColumnName(), equalTo("hello"));
-        assertThat(columnMetaData.getColumnType(), equalTo(Type.DEFAULT));
+        assertThat(columnMetaData.getColumnType(), equalTo(Type.VARCHAR));
 
         columnMetaData = ColumnTypeParser.parseColumnMetaData("hello(date)");
         assertThat(columnMetaData.getColumnName(), equalTo("hello"));
@@ -53,7 +53,7 @@ public class ColumnTypeParserTest {
         assertThat(ColumnTypeParser.findType("thisismycolumn (date)"),
                 is(Type.DATE_TIME));
         assertThat(ColumnTypeParser.findType("thisismycolumn"),
-                is(Type.DEFAULT));
+                is(Type.VARCHAR));
     }
 
 }

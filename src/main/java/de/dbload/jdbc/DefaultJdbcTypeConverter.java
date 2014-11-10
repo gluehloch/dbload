@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -19,6 +19,7 @@ package de.dbload.jdbc;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -68,32 +69,29 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         decimalFormat = _decimalFormat;
     }
 
-    /* (non-Javadoc)
-     * @see de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData,
+     * java.lang.String)
      */
     @Override
     public Object convert(ColumnMetaData columnMetaData, String value) {
         Object returnValue = null;
         switch (columnMetaData.getColumnType()) {
-        case STRING:
+        case VARCHAR:
+            returnValue = value;
+            break;
         case BIT:
-            if (value != null) {
-                returnValue = value;
-            }
+            System.out.println("Find a bit!!!" + columnMetaData + " " + value);
+            // TODO BIT?
             break;
-        case NUMBER_INTEGER:
-            if (value != null) {
-                returnValue = NumberUtils.toNumber(value, decimalFormat);
-            }
-            break;
-        case NUMBER_DECIMAL:
-            if (value != null) {
-                returnValue = NumberUtils.toNumber(value, decimalFormat);
-            }
-            break;
-        case DATE:
-            // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
 
+        case TIME:
+        case DATE:
+        case DATE_TIME:
+            // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             if (value != null) {
                 DateTime jodaDateTime = DateTimeUtils.toJodaDateTime(value);
                 Date date = jodaDateTime.toDate();
@@ -101,30 +99,66 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 returnValue = new java.sql.Timestamp(dateAsLong);
             }
             break;
+
+        case DECIMAL:
+        case INTEGER:
+            if (value != null) {
+                returnValue = NumberUtils.toNumber(value, decimalFormat);
+            }
+            break;
+        case LONG:
+            if (value != null) {
+                returnValue = NumberUtils.toNumber(value, decimalFormat);
+            }
+            break;
+
         default:
             returnValue = value;
         }
         return returnValue;
     }
 
-    /* (non-Javadoc)
-     * @see de.dbload.jdbc.JdbcTypeConverter#setTypedValue(java.sql.PreparedStatement, int, de.dbload.meta.ColumnMetaData, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * de.dbload.jdbc.JdbcTypeConverter#setTypedValue(java.sql.PreparedStatement
+     * , int, de.dbload.meta.ColumnMetaData, java.lang.Object)
      */
     @Override
     public void setTypedValue(PreparedStatement stmt, int index,
             ColumnMetaData columnMetaData, Object value) throws SQLException {
 
         switch (columnMetaData.getColumnType()) {
-        case STRING:
+        case VARCHAR:
             if (value == null) {
                 stmt.setNull(index, java.sql.Types.VARCHAR);
             } else {
                 stmt.setString(index, value.toString());
             }
             break;
-        case NUMBER_INTEGER:
+        case BIT:
+            System.out.println("Find a bit!!!" + columnMetaData + " " + value);
+            break;
+
+        case DECIMAL:
             if (value == null) {
-                stmt.setNull(index, java.sql.Types.INTEGER);
+                stmt.setNull(index, java.sql.Types.DECIMAL);
+            } else if (value instanceof Float) {
+                stmt.setFloat(index, ((Float) value));
+            } else if (value instanceof Double) {
+                stmt.setDouble(index, ((Double) value));
+            } else if (value instanceof BigDecimal) {
+                stmt.setBigDecimal(index, ((BigDecimal) value));
+            } else {
+                throw new IllegalStateException("Unknown decimal type "
+                        + columnMetaData.getColumnName());
+            }
+            break;
+        case INTEGER:
+        case LONG:
+            if (value == null) {
+                stmt.setNull(index, java.sql.Types.BIGINT);
             } else if (value instanceof Integer) {
                 stmt.setInt(index, (Integer) value);
             } else if (value instanceof Long) {
@@ -139,20 +173,9 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                         + value);
             }
             break;
-        case NUMBER_DECIMAL:
-            if (value == null) {
-                stmt.setNull(index, java.sql.Types.DECIMAL);
-            } else if (value instanceof Float) {
-                stmt.setFloat(index, ((Float) value));
-            } else if (value instanceof Double) {
-                stmt.setDouble(index, ((Double) value));
-            } else if (value instanceof BigDecimal) {
-                stmt.setBigDecimal(index, ((BigDecimal) value));
-            } else {
-                throw new IllegalStateException("Unknown decimal type "
-                        + columnMetaData.getColumnName());
-            }
-            break;
+
+        case DATE:
+        case TIME:
         case DATE_TIME:
             if (value == null) {
                 stmt.setNull(index, java.sql.Types.TIMESTAMP);
@@ -163,24 +186,22 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                         date.getTime());
                 stmt.setTimestamp(index, sqlDate);
             } else if (value instanceof Date) {
+                // TODO This code was created from a drunken train passenger.
+                // It is a good idea to check this tomorrow!
                 java.sql.Date sqlDate = new java.sql.Date(
                         ((Date) value).getTime());
-                stmt.setDate(index, sqlDate);
+                Timestamp timestamp = new Timestamp(sqlDate.getTime());
+                stmt.setTimestamp(index, timestamp);
             } else {
                 throw new IllegalStateException("Unknown decimal type "
                         + columnMetaData.getColumnName());
             }
             // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             break;
-        case DATE:
-            if (value == null) {
-                stmt.setNull(index, java.sql.Types.DATE);
-            }
-            // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
-            break;
+
         default:
             if (value == null) {
-                // TODO Is this ok?
+                // TODO Is this ok? I don´t know. Remove this todo if everything works.
                 stmt.setNull(index, java.sql.Types.NULL);
             } else {
                 stmt.setObject(index, value);

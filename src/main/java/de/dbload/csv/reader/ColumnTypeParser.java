@@ -73,7 +73,8 @@ public class ColumnTypeParser {
         } else if (containsBit(columnDescription)) {
             return Type.BIT;
         } else {
-            return Type.DEFAULT;
+            // Is this the default?
+            return Type.VARCHAR;
         }
     }
 
