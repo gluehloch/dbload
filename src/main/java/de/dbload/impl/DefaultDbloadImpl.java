@@ -21,15 +21,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.mysql.fabric.xmlrpc.base.Data;
 
 import de.dbload.DbloadContext;
 import de.dbload.csv.reader.ResourceDataReader;
@@ -111,14 +108,11 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        ResultSetMetaData metaData = JdbcUtils.findMetaData(
-                                context.getConnection(),
-                                tableMetaData.getTableName());
-                        
-                        // read the meta Data
-                        // TODO asfd
-
-                        dbloadSqlInsert.newTableMetaData(tableMetaData);
+                        TableMetaData metaData = JdbcUtils
+                                .toTableMetaData(JdbcUtils.findMetaData(
+                                        context.getConnection(),
+                                        tableMetaData.getTableName()));
+                        dbloadSqlInsert.newTableMetaData(metaData);
                     } catch (SQLException ex) {
                         throw new DbloadException(ex);
                     }

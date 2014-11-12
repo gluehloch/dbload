@@ -53,11 +53,6 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
             preparedSqlStatement.close();
         }
 
-        //
-        // TODO Read the meta data from the database to get a better
-        // understanding of the column types.
-        //
-
         preparedSqlStatement = new PreparedSqlInsertStatement(context,
                 tableMetaData);
     }

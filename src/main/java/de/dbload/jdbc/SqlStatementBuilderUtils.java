@@ -116,9 +116,10 @@ class SqlStatementBuilderUtils {
 
     private static class QuestionMarkIterator implements ColumnIterator {
         public String get(ColumnMetaData column) {
-            // TODO Is this MySQL specific?
             if (column.getColumnType().equals(Type.BIT)) {
-                return "b?";
+                // TODO Is this MySQL specific?
+                // return "b?";
+                return "?";
             } else {
                 return "?";
             }

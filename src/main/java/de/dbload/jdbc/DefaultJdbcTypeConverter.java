@@ -39,6 +39,9 @@ import de.dbload.misc.NumberUtils;
  */
 public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
+    private static final Integer ONE = Integer.valueOf(1);
+    private static final Integer ZERO = Integer.valueOf(0);
+
     private DecimalFormat decimalFormat;
 
     /**
@@ -84,8 +87,25 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             returnValue = value;
             break;
         case BIT:
-            System.out.println("Find a bit!!!" + columnMetaData + " " + value);
-            // TODO BIT?
+            switch (value) {
+            case "J":
+                returnValue = ONE;
+                break;
+            case "Y":
+                returnValue = ONE;
+                break;
+            case "1":
+                returnValue = ONE;
+                break;
+            case "0":
+                returnValue = ZERO;
+                break;
+            case "":
+                returnValue = null;
+                break;
+            default:
+                returnValue = value;
+            }
             break;
 
         case TIME:
@@ -118,13 +138,6 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         return returnValue;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * de.dbload.jdbc.JdbcTypeConverter#setTypedValue(java.sql.PreparedStatement
-     * , int, de.dbload.meta.ColumnMetaData, java.lang.Object)
-     */
     @Override
     public void setTypedValue(PreparedStatement stmt, int index,
             ColumnMetaData columnMetaData, Object value) throws SQLException {
@@ -138,7 +151,11 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             }
             break;
         case BIT:
-            System.out.println("Find a bit!!!" + columnMetaData + " " + value);
+            if (value == null) {
+                stmt.setNull(index, java.sql.Types.BIT);
+            } else {
+                stmt.setInt(index, (Integer) value);
+            }
             break;
 
         case DECIMAL:
@@ -201,7 +218,8 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
         default:
             if (value == null) {
-                // TODO Is this ok? I don´t know. Remove this todo if everything works.
+                // TODO Is this ok? I don´t know. Remove this todo if everything
+                // works.
                 stmt.setNull(index, java.sql.Types.NULL);
             } else {
                 stmt.setObject(index, value);
