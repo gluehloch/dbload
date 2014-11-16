@@ -21,13 +21,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.sql.SQLException;
 
 import org.apache.commons.lang.StringUtils;
 
 import de.dbload.meta.ColumnMetaData;
-import de.dbload.meta.DataRow;
 import de.dbload.meta.ColumnMetaData.Type;
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 
@@ -80,9 +79,8 @@ public class DbloadFileInsert implements DbloadSqlStatement {
     /**
      * Set the current table name.
      *
-     * @param tableMetaData
+     * @param _tableMetaData
      *            table name.
-     * @throws SQLException
      */
     @Override
     public void newTableMetaData(TableMetaData _tableMetaData) {
