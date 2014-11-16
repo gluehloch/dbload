@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -39,7 +39,7 @@ import de.dbload.meta.TableMetaData;
 
 /**
  * The worker!
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class DefaultDbloadImpl {
@@ -49,7 +49,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param readFromFile
@@ -69,7 +69,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param clazz
@@ -85,7 +85,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param clazz
@@ -123,6 +123,9 @@ public class DefaultDbloadImpl {
                     try {
                         dbloadSqlInsert.execute(dataRow);
                     } catch (SQLException ex) {
+                        LOG.error("Unable to execute INSERT ["
+                                + dbloadSqlInsert.toString()
+                                + "] statement with params [" + dataRow + "]");
                         throw new DbloadException(ex);
                     }
                 }
@@ -136,7 +139,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Export all tables to a file.
-     * 
+     *
      * @param context
      *            the database JDBC connection
      * @param writeToFile
@@ -157,7 +160,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Export all tables to a file.
-     * 
+     *
      * @param context
      *            the database JDBC connection
      * @param writeToFile
