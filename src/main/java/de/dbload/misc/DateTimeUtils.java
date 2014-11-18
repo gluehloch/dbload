@@ -61,4 +61,15 @@ public class DateTimeUtils {
         return dateTime;
     }
 
+    /**
+     * Returns the milliseconds of {@link DateTime}.
+     * 
+     * @param datetime
+     *            the Joda date and time object
+     * @return milliseconds
+     */
+    public static long toLong(DateTime datetime) {
+        return datetime.toDate().getTime();
+    }
+
 }

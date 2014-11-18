@@ -112,9 +112,10 @@ public class DefaultDbloadImpl {
                                 .toTableMetaData(JdbcUtils.findMetaData(
                                         context.getConnection(),
                                         tableMetaData.getTableName()));
-                        // TODO Less column data then meta data???
-                        tableMetaData.
 
+                        // TODO Less column data then meta data???
+                        //tableMetaData.
+                        //
 
                         dbloadSqlInsert.newTableMetaData(metaData);
                     } catch (SQLException ex) {

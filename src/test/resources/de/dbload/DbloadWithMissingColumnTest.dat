@@ -1,0 +1,5 @@
+### TAB person
+### id | name    | age | sex | birthday (date)     | human
+   100 | Winkler | 43  | M   | 1971-03-24 06:38:00 | 1
+   101 | Winkler | 40  | M   | 1974-06-01 07:00:12 | 0
+   102 | Winkler |     | M   | 1974-06-01 07:00:12 | 0

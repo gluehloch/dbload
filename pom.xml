@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <parent>
     <groupId>de.awtools</groupId>
     <artifactId>master-pom</artifactId>
@@ -30,16 +30,41 @@
   <build>
     <plugins>
       <!-- Site Deployment -->
-      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.1</version> <executions> <execution> <id>ftp</id> <phase>deploy</phase>
-        <goals> <goal>run</goal> </goals> <configuration> <tasks> <ftp server="${site.ftp.server}"
-        remotedir="${site.ftp.remotedir.betoffice-storage}" userid="${site.ftp.user}"
-        password="${site.ftp.password}"> <fileset dir="${project.build.directory}/site"
-        /> </ftp> </tasks> </configuration> </execution> </executions> <dependencies>
-        <dependency> <groupId>ant</groupId> <artifactId>ant-commons-net</artifactId>
-        <version>1.6.5</version> </dependency> <dependency> <groupId>commons-net</groupId>
-        <artifactId>commons-net</artifactId> <version>1.4.1</version> </dependency>
-        </dependencies> </plugin> -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>1.7</version>
+        <executions>
+          <execution>
+            <id>ftp</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <ftp server="${site.ftp.server}"
+                  remotedir="${site.ftp.remotedir.misc.dbload}"
+                  userid="${site.ftp.user}" password="${site.ftp.password}">
+                  <fileset dir="${project.build.directory}/site" />
+                </ftp>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+        <dependencies>
+          <dependency>
+            <groupId>ant</groupId>
+            <artifactId>ant-commons-net</artifactId>
+            <version>1.6.5</version>
+          </dependency>
+          <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.3</version>
+          </dependency>
+        </dependencies>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
@@ -62,7 +87,7 @@
           </reportSet>
           <reportSet><!-- aggregate reportSet, to define in poms having modules -->
             <id>aggregate</id>
-            <inherited>false</inherited><!-- don't run aggregate in child
+            <inherited>false</inherited><!-- don't run aggregate in child 
               modules -->
             <reports>
               <report>aggregate</report>

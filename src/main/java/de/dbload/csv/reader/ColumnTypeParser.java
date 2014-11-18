@@ -56,7 +56,7 @@ public class ColumnTypeParser {
     public static ColumnMetaData parseColumnMetaData(String columnNameAndType) {
         Type columnType = ColumnTypeParser.findType(columnNameAndType);
         String normalizedColumnName = StringUtils.substringBefore(
-                columnNameAndType, "(");
+                columnNameAndType, "(").trim();
         return new ColumnMetaData(normalizedColumnName, columnType);
     }
 
