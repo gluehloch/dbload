@@ -24,6 +24,7 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 
 import de.dbload.JdbcTypeConverter;
@@ -41,6 +42,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
     private static final Integer ONE = Integer.valueOf(1);
     private static final Integer ZERO = Integer.valueOf(0);
+    private static final String NULL = "NULL";
 
     private DecimalFormat decimalFormat;
 
@@ -103,6 +105,12 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             case "":
                 returnValue = null;
                 break;
+            case NULL:
+                returnValue = null;
+                break;
+            case "null":
+                returnValue = null;
+                break;
             default:
                 returnValue = value;
             }
@@ -123,12 +131,20 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         case DECIMAL:
         case INTEGER:
             if (value != null) {
-                returnValue = NumberUtils.toNumber(value, decimalFormat);
+                if (StringUtils.equalsIgnoreCase(value, NULL)) {
+                    returnValue = null;
+                } else {
+                    returnValue = NumberUtils.toNumber(value, decimalFormat);
+                }
             }
             break;
         case LONG:
             if (value != null) {
-                returnValue = NumberUtils.toNumber(value, decimalFormat);
+                if (StringUtils.equalsIgnoreCase(value, NULL)) {
+                    returnValue = null;
+                } else {
+                    returnValue = NumberUtils.toNumber(value, decimalFormat);
+                }
             }
             break;
 

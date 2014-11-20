@@ -17,6 +17,7 @@
 package de.dbload.misc;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
@@ -62,6 +63,16 @@ public class DateTimeUtils {
                 DEFAULT_FORMATTER_FOR_JODA_DATETIME);
         return dateTime;
     }
+
+    public static DateTime toDateJodaTime(Timestamp timestamp) {
+        Date date = new Date(timestamp.getTime());
+        DateTime dateTime = new DateTime(date);
+    }
+
+//    Timestamp timestamp = resultSet.getTimestamp(i);
+//    Date date = new Date(timestamp.getTime());
+//    DateTime dateTime = new DateTime(date);
+//    print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
 
     /**
      * Returns the milliseconds of {@link DateTime}.

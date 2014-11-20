@@ -19,6 +19,9 @@ package de.dbload.misc;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 
