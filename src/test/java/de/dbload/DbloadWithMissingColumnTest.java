@@ -32,13 +32,16 @@ import de.dbload.jdbc.connector.JdbcMySqlConnector;
 public class DbloadWithMissingColumnTest {
 
     @Test
-    public void testDbload() {
+    public void testDbload() throws Exception {
         Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
                 "dbload", "127.0.0.1", "dbload");
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, DbloadWithMissingColumnTest.class);
 
         Assertion.assertExists(context, DbloadWithMissingColumnTest.class);
+        
+        conn.rollback();
+        conn.close();
     }
 
 }

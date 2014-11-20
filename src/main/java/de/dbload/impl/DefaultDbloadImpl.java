@@ -100,8 +100,9 @@ public class DefaultDbloadImpl {
     }
 
     private void startReading(final InputStream is, final DbloadContext context) {
-        try (ResourceDataReader rdr = new ResourceDataReader(is);
-                DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
+        try (ResourceDataReader rdr = new ResourceDataReader(is)) {
+
+            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);
 
             ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {
@@ -113,8 +114,9 @@ public class DefaultDbloadImpl {
                                         context.getConnection(),
                                         tableMetaData.getTableName()));
 
+                        //
                         // TODO Less column data then meta data???
-                        //tableMetaData.
+                        // tableMetaData.
                         //
 
                         dbloadSqlInsert.newTableMetaData(metaData);
@@ -135,6 +137,9 @@ public class DefaultDbloadImpl {
                     }
                 }
             });
+            
+            // Autoclose does not work here. But on exception, there is no close!
+            dbloadSqlInsert.close();
 
         } catch (IOException ex) {
             LOG.error("Dbload throws an error.", ex);

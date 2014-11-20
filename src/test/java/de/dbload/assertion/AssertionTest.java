@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -32,15 +32,15 @@ import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
-import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
+import de.dbload.utils.TransactionalTest;
 
 /**
  * Test for class {@link Assertion}.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class AssertionTest {
+public class AssertionTest extends TransactionalTest {
 
     private DbloadContext context;
 
@@ -48,19 +48,20 @@ public class AssertionTest {
 
     @Before
     public void before() throws SQLException {
-        context = new DefaultDbloadContext(
-                TestConnectionFactory.connectToTestDatabase());
-        Statement stmt = context.getConnection().createStatement();
-        stmt.execute("INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00', b'1')");
-        stmt.execute("INSERT INTO person VALUES (2, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00', b'0')");
+        super.before();
+        context = new DefaultDbloadContext(conn);
+
+        try (Statement stmt = context.getConnection().createStatement()) {
+            stmt.execute("INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00', b'1')");
+            stmt.execute("INSERT INTO person VALUES (2, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00', b'0')");
+        }
 
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
     }
-
+    
     @After
     public void after() throws SQLException {
-        context.getConnection().rollback();
-        context.getConnection().close();
+        super.after();
     }
 
     @Test

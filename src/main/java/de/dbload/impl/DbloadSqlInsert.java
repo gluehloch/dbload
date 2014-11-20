@@ -49,10 +49,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
     public void newTableMetaData(TableMetaData tableMetaData)
             throws SQLException {
 
-        if (preparedSqlStatement != null) {
-            preparedSqlStatement.close();
-        }
-
+        close();
         preparedSqlStatement = new PreparedSqlInsertStatement(context,
                 tableMetaData);
     }
@@ -64,7 +61,9 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
 
     @Override
     public void close() {
-        preparedSqlStatement.close();
+        if (preparedSqlStatement != null) {
+            preparedSqlStatement.close();
+        }
     }
 
     @Override

@@ -24,6 +24,7 @@ import java.sql.Connection;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -110,6 +111,7 @@ public class JdbcUtilsTest {
         connection = TestConnectionFactory.connectToTestDatabase();
     }
 
+    @After
     public void after() throws SQLException {
         connection.rollback();
         connection.close();

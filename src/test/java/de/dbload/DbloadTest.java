@@ -31,6 +31,7 @@ import de.dbload.assertion.Assertion;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.misc.DateTimeUtils;
+import de.dbload.utils.TestConnectionFactory;
 
 /**
  * Test Dbload. The whole!
@@ -41,24 +42,31 @@ public class DbloadTest {
 
     @Test
     public void testDbload() throws Exception {
-        Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
-                "dbload", "127.0.0.1", "dbload");
+        Connection conn = TestConnectionFactory.connectToTestDatabase();
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, DbloadTest.class);
 
         Assertion.assertExists(context, DbloadTest.class);
 
-        Statement stmt = conn.createStatement();
-        // ResultSet resultSet = stmt
-        // .executeQuery("SELECT * FROM xxx WHERE birthday = '1971-03-24 05:55:55'");
-        ResultSet resultSet = stmt
-                .executeQuery("SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'");
-        assertThat(resultSet.next(), equalTo(true));
+        try (Statement stmt = conn.createStatement()) {
+            // ResultSet resultSet = stmt
+            // .executeQuery("SELECT * FROM xxx WHERE birthday = '1971-03-24 05:55:55'");
+            try (ResultSet resultSet = stmt
+                    .executeQuery("SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
+                assertThat(resultSet.next(), equalTo(true));
 
-        DateTime datetime = DateTimeUtils.toJodaDateTime("1971-03-24 06:38:00");
+                DateTime datetime = DateTimeUtils
+                        .toJodaDateTime("1971-03-24 06:38:00");
 
-        Timestamp expectedTimestamp = new Timestamp(datetime.toDate().getTime());
-        assertThat(resultSet.getTimestamp("birthday"), equalTo(null));
+                Timestamp expectedTimestamp = new Timestamp(datetime.toDate()
+                        .getTime());
+                assertThat(resultSet.getTimestamp("birthday"),
+                        equalTo(expectedTimestamp));
+            }
+        }
+        
+        conn.rollback();
+        conn.close();
     }
 
 }

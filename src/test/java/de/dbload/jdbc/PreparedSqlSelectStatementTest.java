@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -79,22 +80,24 @@ public class PreparedSqlSelectStatementTest {
             dataRowB.put("birthday", "1971-03-24 01:00:00");
             sql.execute(dataRowB);
 
-            assertThat(sql.getResultSet().next(), is(true));
-            assertThat(sql.getResultSet().getString("name"), equalTo("winkler"));
-            assertThat(sql.getResultSet().getString("vorname"), equalTo("andre"));
+            try (ResultSet rs = sql.getResultSet()) {
+                assertThat(rs.next(), is(true));
+                assertThat(rs.getString("name"), equalTo("winkler"));
+                assertThat(rs.getString("vorname"), equalTo("andre"));
 
-            DataRow dataRowA = new DataRow();
-            dataRowA.put("id",  "2");
-            dataRowA.put("name", "winkler");
-            dataRowA.put("vorname", "lars");
-            dataRowA.put("age", "40");
-            dataRowA.put("sex", "0");
-            dataRowA.put("birthday", "1971-03-24 01:00:00");
-            sql.execute(dataRowA);
+                DataRow dataRowA = new DataRow();
+                dataRowA.put("id",  "2");
+                dataRowA.put("name", "winkler");
+                dataRowA.put("vorname", "lars");
+                dataRowA.put("age", "40");
+                dataRowA.put("sex", "0");
+                dataRowA.put("birthday", "1971-03-24 01:00:00");
+                sql.execute(dataRowA);
 
-            assertThat(sql.getResultSet().next(), is(true));
-            assertThat(sql.getResultSet().getString("name"), equalTo("winkler"));
-            assertThat(sql.getResultSet().getString("vorname"), equalTo("lars"));
+                assertThat(rs.next(), is(true));
+                assertThat(rs.getString("name"), equalTo("winkler"));
+                assertThat(rs.getString("vorname"), equalTo("lars"));
+            }
         }
     }
 

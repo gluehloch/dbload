@@ -59,10 +59,10 @@ public class JdbcUtils {
 
         String sql = String.format("SELECT * FROM %s WHERE 1 = 0", tableName);
 
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet resultSet = stmt.executeQuery(sql);
-            return resultSet.getMetaData();
+        try (Statement stmt = conn.createStatement()) {
+            try (ResultSet resultSet = stmt.executeQuery(sql)) {
+                return resultSet.getMetaData();   
+            }
         } catch (SQLException ex) {
             throw new IllegalArgumentException(ex);
         }

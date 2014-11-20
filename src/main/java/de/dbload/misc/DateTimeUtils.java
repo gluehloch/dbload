@@ -16,6 +16,8 @@
 
 package de.dbload.misc;
 
+import java.sql.Timestamp;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.DateTimeFormatterBuilder;
@@ -70,6 +72,17 @@ public class DateTimeUtils {
      */
     public static long toLong(DateTime datetime) {
         return datetime.toDate().getTime();
+    }
+
+    /**
+     * Returns the SQL <code>Timestamp</code> for a Joda DateTime object.
+     * 
+     * @param datetime
+     *            the joda date and time object
+     * @return a SQL Timestamp.
+     */
+    public static Timestamp toTimestamp(DateTime datetime) {
+        return new Timestamp(datetime.toDate().getTime());
     }
 
 }
