@@ -20,32 +20,25 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Connection;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
-import de.dbload.utils.TestConnectionFactory;
+import de.dbload.utils.TransactionalTest;
 
 /**
  * A test for {@link JdbcUtils}.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class JdbcUtilsTest {
-
-    private Connection connection;
+public class JdbcUtilsTest extends TransactionalTest {
 
     @Test
     public void testJdbcUtilsMetadataFinder() throws Exception {
-        Connection connection = TestConnectionFactory.connectToTestDatabase();
-        ResultSetMetaData metaData = JdbcUtils.findMetaData(connection,
-                "person");
+        ResultSetMetaData metaData = JdbcUtils.findMetaData(conn, "person");
 
         assertThat(metaData, notNullValue());
         assertThat(metaData.getColumnCount(), equalTo(7));
@@ -83,8 +76,7 @@ public class JdbcUtilsTest {
 
     @Test
     public void testJdbcUtils() throws SQLException {
-        ResultSetMetaData metaData = JdbcUtils.findMetaData(connection,
-                "person");
+        ResultSetMetaData metaData = JdbcUtils.findMetaData(conn, "person");
 
         TableMetaData data = JdbcUtils.toTableMetaData(metaData);
         ColumnsMetaData columns = data.getColumns();
@@ -104,17 +96,6 @@ public class JdbcUtilsTest {
                 equalTo(java.sql.Types.TIMESTAMP));
         assertThat(columns.get(6).getColumnType().getJavaSqlType(),
                 equalTo(java.sql.Types.BIT));
-    }
-
-    @Before
-    public void before() {
-        connection = TestConnectionFactory.connectToTestDatabase();
-    }
-
-    @After
-    public void after() throws SQLException {
-        connection.rollback();
-        connection.close();
     }
 
 }

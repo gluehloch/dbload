@@ -19,7 +19,6 @@ package de.dbload;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
@@ -29,20 +28,18 @@ import org.junit.Test;
 
 import de.dbload.assertion.Assertion;
 import de.dbload.impl.DefaultDbloadContext;
-import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.misc.DateTimeUtils;
-import de.dbload.utils.TestConnectionFactory;
+import de.dbload.utils.TransactionalTest;
 
 /**
  * Test Dbload. The whole!
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadTest {
+public class DbloadTest extends TransactionalTest {
 
     @Test
     public void testDbload() throws Exception {
-        Connection conn = TestConnectionFactory.connectToTestDatabase();
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, DbloadTest.class);
 
@@ -64,9 +61,6 @@ public class DbloadTest {
                         equalTo(expectedTimestamp));
             }
         }
-        
-        conn.rollback();
-        conn.close();
     }
 
 }

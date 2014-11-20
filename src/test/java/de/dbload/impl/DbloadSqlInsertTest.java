@@ -31,30 +31,23 @@ import org.junit.Test;
 import de.dbload.DbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
-import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
+import de.dbload.utils.TransactionalTest;
 
 /**
  * Test for class {@link DbloadSqlInsert}.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadSqlInsertTest {
+public class DbloadSqlInsertTest extends TransactionalTest {
 
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
 
     @Before
     public void before() {
-        Connection connection = TestConnectionFactory.connectToTestDatabase();
-        dbloadContext = new DefaultDbloadContext(connection);
+        dbloadContext = new DefaultDbloadContext(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
-    }
-
-    @After
-    public void after() throws SQLException {
-        dbloadContext.getConnection().rollback();
-        dbloadContext.getConnection().close();
     }
 
     @Test

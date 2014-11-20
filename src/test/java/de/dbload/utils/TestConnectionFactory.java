@@ -25,14 +25,14 @@ import de.dbload.jdbc.connector.JdbcMySqlConnector;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class TestConnectionFactory {
+class TestConnectionFactory {
 
     /**
      * Create a connection to the test database.
      *
      * @return a JDBC connection
      */
-    public static Connection connectToTestDatabase() {
+    static Connection connectToTestDatabase() {
         return JdbcMySqlConnector.createMySqlConnection("dbload", "dbload",
                 "localhost", "dbload");
     }

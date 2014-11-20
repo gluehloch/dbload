@@ -48,7 +48,6 @@ public class AssertionTest extends TransactionalTest {
 
     @Before
     public void before() throws SQLException {
-        super.before();
         context = new DefaultDbloadContext(conn);
 
         try (Statement stmt = context.getConnection().createStatement()) {
@@ -61,7 +60,6 @@ public class AssertionTest extends TransactionalTest {
     
     @After
     public void after() throws SQLException {
-        super.after();
     }
 
     @Test
