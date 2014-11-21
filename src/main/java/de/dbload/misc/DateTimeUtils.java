@@ -64,15 +64,23 @@ public class DateTimeUtils {
         return dateTime;
     }
 
+    /**
+     * Convert a JDBC <code>Timestamp</code> object to a Joda
+     * <code>DateTime</code> object.
+     * 
+     * @param timestamp
+     *            a JDBC time stamp
+     * @return a Joda {@link DateTime}
+     */
     public static DateTime toDateJodaTime(Timestamp timestamp) {
         Date date = new Date(timestamp.getTime());
-        DateTime dateTime = new DateTime(date);
+        return new DateTime(date);
     }
 
-//    Timestamp timestamp = resultSet.getTimestamp(i);
-//    Date date = new Date(timestamp.getTime());
-//    DateTime dateTime = new DateTime(date);
-//    print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
+    // Timestamp timestamp = resultSet.getTimestamp(i);
+    // Date date = new Date(timestamp.getTime());
+    // DateTime dateTime = new DateTime(date);
+    // print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
 
     /**
      * Returns the milliseconds of {@link DateTime}.
