@@ -51,7 +51,7 @@ public class DateTimeUtilsTest {
         System.out.println(birthday);
         System.out.println(timestamp);
         
-        System.out.println(String.format("%tY-%tm-%td", birthday));
+        System.out.println(String.format("%tY-%tm-%td", birthday, birthday, birthday));
     }
 
 }
