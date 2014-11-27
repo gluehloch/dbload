@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -94,8 +94,21 @@ public class DefaultDbloadImpl {
      *             Some problems with files or datasources
      */
     public void readFromClasspathResource(DbloadContext context, Class<?> clazz) {
-        InputStream is = clazz.getResourceAsStream(clazz.getSimpleName()
-                + ".dat");
+        final String classpathResourceName = clazz.getSimpleName() + ".dat";
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Loading dat file: classpath=[{}], resource=[{}].",
+                    clazz.getName(), classpathResourceName);
+        }
+
+        InputStream is = clazz.getResourceAsStream(classpathResourceName);
+
+        if (is == null) {
+            LOG.error("There is no classpath resource for {}.",
+                    classpathResourceName);
+            throw new IllegalArgumentException(classpathResourceName);
+        }
+
         startReading(is, context);
     }
 
@@ -137,8 +150,9 @@ public class DefaultDbloadImpl {
                     }
                 }
             });
-            
-            // Autoclose does not work here. But on exception, there is no close!
+
+            // Autoclose does not work here. But on exception, there is no
+            // close!
             dbloadSqlInsert.close();
 
         } catch (IOException ex) {

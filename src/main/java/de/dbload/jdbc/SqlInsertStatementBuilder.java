@@ -46,7 +46,7 @@ public class SqlInsertStatementBuilder implements SqlStatementBuilder {
      */
     @Override
     public String createSql() {
-        StringBuffer stmt = new StringBuffer("INSERT INTO ");
+        StringBuilder stmt = new StringBuilder("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());
 
         String columnDescription = SqlStatementBuilderUtils

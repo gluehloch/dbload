@@ -70,7 +70,7 @@ public class ColumnsMetaData implements Iterable<ColumnMetaData> {
 
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer("ColumnsMetaData [columns=");
+        StringBuilder buf = new StringBuilder("ColumnsMetaData [columns=");
         for (int i = 0; i < columns.size(); i++) {
             buf.append(columns.get(i));
             if (i < columns.size() - 1) {

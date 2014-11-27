@@ -41,6 +41,9 @@ public class ResourceDataReader implements Closeable {
      *            the dat resource as stream
      */
     public ResourceDataReader(InputStream inputStream) {
+        if (inputStream == null) {
+            throw new IllegalStateException("The inputStream is not defined.");
+        }
         resourceAsStream = inputStream;
     }
 
@@ -51,7 +54,10 @@ public class ResourceDataReader implements Closeable {
      *             Ups
      */
     public void open() throws IOException {
-        inputStreamReader = new InputStreamReader(resourceAsStream);
+        if (resourceAsStream == null) {
+            throw new IllegalStateException("The inputStream is not defined.");
+        }
+        inputStreamReader = new InputStreamReader(resourceAsStream, "UTF-8");
         bufferedReader = new BufferedReader(inputStreamReader);
     }
 

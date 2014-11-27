@@ -101,7 +101,7 @@ public class DbloadFileInsert implements DbloadSqlStatement {
      */
     @Override
     public void execute(DataRow data) {
-        StringBuffer insertSqlCommand = new StringBuffer("INSERT INTO ");
+        StringBuilder insertSqlCommand = new StringBuilder("INSERT INTO ");
         insertSqlCommand.append(tableMetaData.getTableName());
         insertSqlCommand.append('(');
 

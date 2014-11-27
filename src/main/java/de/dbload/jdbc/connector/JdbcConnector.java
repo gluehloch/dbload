@@ -49,7 +49,9 @@ public class JdbcConnector {
             conn.setAutoCommit(false);
         } catch (SQLException ex) {
             throw new DbloadException(String.format(
-                    "Unable to connect to database with url '%s'", dbUrl), ex);
+                    "Unable to connect to database with url=[%s] and "
+                            + "user/password=[%s/%s]", dbUrl, user, password),
+                    ex);
         }
         return conn;
     }
