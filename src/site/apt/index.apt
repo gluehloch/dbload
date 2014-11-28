@@ -2,6 +2,17 @@ The DBLOAD project
 
   A project for simple loading database tables.
 
+  If you need some informations where all the time goes by:
+  
+  Enable the info log for the following classes:
+  
+  de.dbload.impl.DbloadSqlInsert logs on info the name of the table, number of rows
+  and the time for the inserts.
+  
+  de.dbload.jdbc.PreparedSqlInsertStatement logs on debug the data and the insert
+  statement.
+
+
   Domänenklassen und Persistenzfunktionalität der Betoffice Anwendung.
 
 

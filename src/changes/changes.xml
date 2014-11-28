@@ -21,6 +21,9 @@
       <action dev="andrewinkler" type="update" date="2014-11-01">
         The test class should not use the default locale if german is expected.
       </action>
+      <action dev="andrewinkler" type="add" date="2014-11-28">
+        Added some peformance measurement.
+      </action>
     </release>
 
     <release version="dbload-0.1.0" date="2014-10-25"
