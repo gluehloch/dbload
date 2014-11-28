@@ -38,4 +38,8 @@ public class StopWatch {
         return endTime - startTime;
     }
 
+    public long getSeconds() {
+        return getTime() / 1000;
+    }
+
 }
