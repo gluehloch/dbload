@@ -1,44 +1,25 @@
 The DBLOAD project
 
-  A project for simple loading database tables.
+  A project for loading database tables.
 
   If you need some informations where all the time goes by:
   
-  Enable the info log for the following classes:
+  Enable the log for the following classes:
   
-  de.dbload.impl.DbloadSqlInsert logs on info the name of the table, number of rows
-  and the time for the inserts.
+  * <<<de.dbload.impl.DbloadSqlInsert>>> logs on info the name of the table,
+    number of rows and the time for the inserts.
   
-  de.dbload.jdbc.PreparedSqlInsertStatement logs on debug the data and the insert
-  statement.
+  * <<<de.dbload.jdbc.PreparedSqlInsertStatement>>> logs on debug the data
+    and the insert statement.
+  
+  Here is an example for the log4j logger:
 
-
-  Domänenklassen und Persistenzfunktionalität der Betoffice Anwendung.
-
-
-* Implementierungs FAQ
-
-  * Wie erhalte ich Zugriff auf ein Betoffice-Service Objekt?
-
-    Der Zugriff erfolgt über Spring. Dazu ist ein ClassPathXmlApplicationContext
-    Objekt anzulegen. Die Default-Konfiguration sieht so aus:
-
-+---------------------------------------------------------------------------+
-ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
-    new String[] { "betoffice.xml" } );
-Object databaseMaintenanceService = context
-    .getBean("databaseMaintenanceService");
++---------------------------------------------------------------------------+  
+log4j.logger.de.betoffice.database.data = info
+log4j.logger.de.dbload.jdbc.PreparedSqlInsertStatement = debug
 +---------------------------------------------------------------------------+
 
-    In diesem Fall werden die Dateien
-    <<<src/main/resources/betoffice-persistence.xml>>>,
-    <<<src/main/resources/betoffice-datasource.xml>>>,
-    <<<src/main/resources/betoffice.properties>>> herangezogen. Die Property
-    Definitionen in der <<<betoffice.properties>>> Datei ersetzen die
-    Platzhalter in den restlichen Spring-Konfigurationsdateien.
 
-    Um die Konfiguration an die entsprechende Umgebung anzupassen, empfiehlt
-    sich eher der folgende Aufruf:
 
 +---------------------------------------------------------------------------+
 ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext(
