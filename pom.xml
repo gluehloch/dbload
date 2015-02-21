@@ -29,42 +29,6 @@
 
   <build>
     <plugins>
-      <!-- Site Deployment -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.7</version>
-        <executions>
-          <execution>
-            <id>ftp</id>
-            <phase>deploy</phase>
-            <goals>
-              <goal>run</goal>
-            </goals>
-            <configuration>
-              <tasks>
-                <ftp server="${site.ftp.server}"
-                  remotedir="${site.ftp.remotedir.misc.dbload}"
-                  userid="${site.ftp.user}" password="${site.ftp.password}">
-                  <fileset dir="${project.build.directory}/site" />
-                </ftp>
-              </tasks>
-            </configuration>
-          </execution>
-        </executions>
-        <dependencies>
-          <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-commons-net</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-          <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.3</version>
-          </dependency>
-        </dependencies>
-      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
