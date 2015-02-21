@@ -146,4 +146,11 @@
     </dependency>
   </dependencies>
 
+  <distributionManagement>
+    <site>
+      <id>gluehloch-repository</id>
+      <url>scp://maven.gluehloch.de/var/www/projects.gluehloch/misc/dbload</url>
+    </site>
+  </distributionManagement>
+
 </project>
