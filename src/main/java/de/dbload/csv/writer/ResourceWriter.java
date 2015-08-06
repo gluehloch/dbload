@@ -42,8 +42,6 @@ import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
 
-;
-
 /**
  * Write some SQL results to a <code>.dat</code> file.
  *
