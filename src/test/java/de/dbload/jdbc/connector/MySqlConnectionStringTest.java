@@ -19,6 +19,7 @@ package de.dbload.jdbc.connector;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -38,6 +39,7 @@ public class MySqlConnectionStringTest {
      * @throws Exception Ups
      */
     @Test
+    @Ignore
     public void testMySqlConnectionStringWithAutoCommit() throws Exception {
         String dbUrl = "jdbc:mysql://localhost/dbload?user=dbload&password=dbload";
         Connection conn = DriverManager.getConnection(dbUrl);

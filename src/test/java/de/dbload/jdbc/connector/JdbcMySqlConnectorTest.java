@@ -45,19 +45,20 @@ public class JdbcMySqlConnectorTest {
 
     @Test
     public void testJdbcMySqlConnectorCreateUrl() {
-        assertThat(JdbcMySqlConnector.createUrl("localhost", "myDatabase"),
+        assertThat(
+                new JdbcMySqlConnector().createUrl("localhost", "myDatabase"),
                 equalTo("jdbc:mysql://localhost/myDatabase"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testJdbcMySqlConnectorCreateUrlWithBlankParam() {
-        assertThat(JdbcMySqlConnector.createUrl(" ", "myDatabase"),
+        assertThat(new JdbcMySqlConnector().createUrl(" ", "myDatabase"),
                 equalTo("jdbc:mysql://localhost/myDatabase"));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void testJdbcMySqlConnectorCreateUrlWithNullParam() {
-        assertThat(JdbcMySqlConnector.createUrl(null, "myDatabase"),
+        assertThat(new JdbcMySqlConnector().createUrl(null, "myDatabase"),
                 equalTo("jdbc:mysql://localhost/myDatabase"));
     }
 

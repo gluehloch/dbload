@@ -18,7 +18,7 @@ package de.dbload.utils;
 
 import java.sql.Connection;
 
-import de.dbload.jdbc.connector.JdbcMySqlConnector;
+import de.dbload.jdbc.connector.JdbcMariaDbConnector;
 
 /**
  * Creates a connection for the test database.
@@ -33,8 +33,10 @@ class TestConnectionFactory {
      * @return a JDBC connection
      */
     static Connection connectToTestDatabase() {
-        return JdbcMySqlConnector.createMySqlConnection("dbload", "dbload",
-                "localhost", "dbload");
+        // return JdbcMySqlConnector.createMySqlConnection("dbload", "dbload",
+        // "dev-hafenstrassse", "dbload");
+        return JdbcMariaDbConnector.createMariaDbConnection("dbload", "dbload",
+                "dev-hafenstrasse", 3306, "dbload");
     }
 
 }

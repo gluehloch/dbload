@@ -18,45 +18,42 @@ package de.dbload.jdbc.connector;
 
 import java.sql.Connection;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * Some utility methods to create a {@link Connection} to a MySQL database. All
  * connections are created with <code>autocommit=false</code>.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class JdbcMySqlConnector {
+class JdbcMySqlConnector extends AbstractJdbcConnector {
 
-    public static Connection createMySqlConnection(String user,
-            String password, String server, int port, String databaseName) {
+    /** The MariaDB connection string. */
+    private static final String MYSQL_CONNECTION = "jdbc:mysql://%s/%s";
 
-        return JdbcConnector.createConnection(user, password,
-                createUrl(server, port, databaseName));
-    }
+    private static JdbcMySqlConnector jdbcMySqlConnector;
 
-    public static Connection createMySqlConnection(String user,
-            String password, String server, String databaseName) {
+    public JdbcMySqlConnector() {
+        super(MYSQL_CONNECTION);    }
 
-        return JdbcConnector.createConnection(user, password,
-                createUrl(server, databaseName));
-    }
-
-    public static String createUrl(String server, String databaseName) {
-        if (StringUtils.isBlank(server) || StringUtils.isBlank(databaseName)) {
-            throw new IllegalArgumentException();
+    private static JdbcMySqlConnector connector() {
+        synchronized (JdbcMySqlConnector.class) {
+            if (jdbcMySqlConnector == null) {
+                jdbcMySqlConnector = new JdbcMySqlConnector();
+            }
         }
-
-        return String.format("jdbc:mysql://%s/%s", server, databaseName);
+        return jdbcMySqlConnector;
     }
 
-    public static String createUrl(String server, int port, String databaseName) {
-        if (StringUtils.isBlank(server) || StringUtils.isBlank(databaseName)) {
-            throw new IllegalArgumentException();
-        }
+    public static Connection createMySqlConnection(String user, String password,
+            String server, int port, String databaseName) {
 
-        // TODO "jdbc:mysql://localhost/test?user=monty&password=greatsqldb
-        return String.format("jdbc:mysql://%s:%d/%s", server, port,
+        return connector().createConnection(user, password, server, port,
+                databaseName);
+    }
+
+    public static Connection createMySqlConnection(String user, String password,
+            String server, String databaseName) {
+
+        return connector().createConnection(user, password, server,
                 databaseName);
     }
 

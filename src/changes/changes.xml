@@ -12,6 +12,9 @@
         TODO: Remove the database assertions to another project. DBLoad is
         only for reading and writing from files/strings to database tables.
       </action>
+      <action dev="andrewinkler" type="add" date="2016-04-16">
+        Add support for MariaDB.
+      </action>
       <action dev="andrewinkler" type="add" date="2014-11-18">
         Started project site report. This point is under construction.
       </action>

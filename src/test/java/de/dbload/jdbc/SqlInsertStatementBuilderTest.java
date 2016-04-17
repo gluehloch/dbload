@@ -20,7 +20,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,18 +30,18 @@ import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.dbload.jdbc.connector.JdbcMySqlConnector;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
+import de.dbload.utils.TransactionalTest;
 
 /**
  * Test for building an INSERT statement.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlInsertStatementBuilderTest {
+public class SqlInsertStatementBuilderTest extends TransactionalTest {
 
     private TableMetaData tableMetaData;
 
@@ -69,9 +68,6 @@ public class SqlInsertStatementBuilderTest {
 
     @Test
     public void testExecuteSqlStatement() throws SQLException {
-        Connection conn = JdbcMySqlConnector.createMySqlConnection("dbload",
-                "dbload", "localhost", "dbload");
-
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");
@@ -118,9 +114,6 @@ public class SqlInsertStatementBuilderTest {
             assertThat(resultSet.getString("vorname"), equalTo("lars"));
             assertThat(resultSet.next(), is(false));
         }
-
-        conn.rollback();
-        conn.close();
     }
 
 }
