@@ -1,2 +1,2 @@
 # dbload
-Prepare you database with data.
+Prepare your database with data.
