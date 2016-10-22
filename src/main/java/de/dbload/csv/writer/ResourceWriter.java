@@ -79,59 +79,59 @@ public class ResourceWriter {
             }
         }
 
-        try (OutputStream out = new BufferedOutputStream(Files.newOutputStream(
-                file.toPath(), append ? StandardOpenOption.APPEND
-                        : StandardOpenOption.CREATE));
+        try (OutputStream out = new BufferedOutputStream(
+                Files.newOutputStream(file.toPath(),
+                        append ? StandardOpenOption.APPEND
+                                : StandardOpenOption.CREATE));
                 Writer writer = new OutputStreamWriter(out, utf8)) {
 
             PrintWriter pw = new PrintWriter(writer, true);
-            try (Statement stmt = conn.createStatement()) {
-                try (ResultSet resultSet = stmt.executeQuery(sqlSelect)) {
+            try (Statement stmt = conn.createStatement();
+                    ResultSet resultSet = stmt.executeQuery(sqlSelect)) {
 
-                    ResultSetMetaData metaData = resultSet.getMetaData();
+                ResultSetMetaData metaData = resultSet.getMetaData();
 
-                    pw.print("### TAB ");
-                    pw.println(metaData.getTableName(1));
-                    pw.print("### ");
+                pw.print("### TAB ");
+                pw.println(metaData.getTableName(1));
+                pw.print("### ");
 
+                for (int i = 1; i <= metaData.getColumnCount(); i++) {
+                    pw.print(metaData.getColumnName(i));
+                    if (i < metaData.getColumnCount()) {
+                        pw.print(" | ");
+                    }
+                }
+                pw.println();
+
+                while (resultSet.next()) {
                     for (int i = 1; i <= metaData.getColumnCount(); i++) {
-                        pw.print(metaData.getColumnName(i));
+
+                        String print = null;
+                        int type = resultSet.getMetaData().getColumnType(i);
+                        Type columnType = ColumnMetaData.Type.valueOf(type);
+                        switch (columnType) {
+                        case DATE:
+                        case TIME:
+                        case DATE_TIME:
+                            Timestamp timestamp = resultSet.getTimestamp(i);
+                            Date date = new Date(timestamp.getTime());
+                            DateTime dateTime = new DateTime(date);
+                            print = dateTime
+                                    .toString(DateTimeUtils.DATE_FORMAT);
+                            break;
+                        default:
+                            print = resultSet.getString(i);
+                        }
+
+                        pw.print(print);
                         if (i < metaData.getColumnCount()) {
                             pw.print(" | ");
                         }
                     }
                     pw.println();
-
-                    while (resultSet.next()) {
-                        for (int i = 1; i <= metaData.getColumnCount(); i++) {
-
-                            String print = null;
-                            int type = resultSet.getMetaData().getColumnType(i);
-                            Type columnType = ColumnMetaData.Type.valueOf(type);
-                            switch (columnType) {
-                            case DATE:
-                            case TIME:
-                            case DATE_TIME:
-                                Timestamp timestamp = resultSet.getTimestamp(i);
-                                Date date = new Date(timestamp.getTime());
-                                DateTime dateTime = new DateTime(date);
-                                print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
-                                break;
-                            default:
-                                print = resultSet.getString(i);
-                            }
-
-                            pw.print(print);
-                            if (i < metaData.getColumnCount()) {
-                                pw.print(" | ");
-                            }
-                        }
-                        pw.println();
-                    }
-                    pw.println();
                 }
+                pw.println();
             }
-
         } catch (IOException ex) {
             throw new DbloadException(ex);
         }
