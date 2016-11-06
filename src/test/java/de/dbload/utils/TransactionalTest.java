@@ -17,10 +17,13 @@
 package de.dbload.utils;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 
 import org.junit.After;
 import org.junit.Before;
+
+import de.dbload.jdbc.connector.DatabasePropertyReader;
 
 /**
  * Open and close a JDBC connection for a JUnit test case.
@@ -32,8 +35,11 @@ public abstract class TransactionalTest {
     protected Connection conn;
 
     @Before
-    public void openConnection() throws SQLException {
-        conn = TestConnectionFactory.connectToTestDatabase();
+    public void openConnection() throws Exception {
+        DatabasePropertyReader dpr = new DatabasePropertyReader();
+        String url = dpr.getDatabaseUrl(dpr.read());
+        conn = DriverManager.getConnection(url);
+        conn.setAutoCommit(false);
     }
 
     @After
