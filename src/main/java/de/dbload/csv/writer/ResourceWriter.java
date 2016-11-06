@@ -114,10 +114,14 @@ public class ResourceWriter {
                         case TIME:
                         case DATE_TIME:
                             Timestamp timestamp = resultSet.getTimestamp(i);
-                            Date date = new Date(timestamp.getTime());
-                            DateTime dateTime = new DateTime(date);
-                            print = dateTime
-                                    .toString(DateTimeUtils.DATE_FORMAT);
+                            if (timestamp == null) {
+                                print = "";
+                            } else {
+                                Date date = new Date(timestamp.getTime());
+                                DateTime dateTime = new DateTime(date);
+                                print = dateTime
+                                        .toString(DateTimeUtils.DATE_FORMAT);
+                            }
                             break;
                         default:
                             print = resultSet.getString(i);

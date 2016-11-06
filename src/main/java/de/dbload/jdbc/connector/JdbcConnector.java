@@ -49,4 +49,30 @@ public class JdbcConnector {
         return conn;
     }
 
+    /**
+     * Creates a JDBC connection.
+     * 
+     * @param user
+     *            the user name
+     * @param password
+     *            the password
+     * @param databaseUrl
+     *            the database url
+     * @return a JDBC connection
+     */
+    public static Connection createConnection(String user, String password,
+            String databaseUrl) {
+
+        Connection conn = null;
+        try {
+            conn = DriverManager.getConnection(databaseUrl, user, password);
+            conn.setAutoCommit(false);
+        } catch (SQLException ex) {
+            throw new DbloadException(String.format(
+                    "Unable to connect to database with url=[%s], user=[%s], password=[%s]",
+                    databaseUrl, user, password), ex);
+        }
+        return conn;
+    }
+
 }
