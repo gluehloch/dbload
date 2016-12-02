@@ -48,11 +48,12 @@ public class ResourceReader {
 
         String currentTableName = null;
         TableMetaData currentTableMetaData = null;
+        int lineNo = 1;
         String line = null;
 
         do {
             line = resourceDataReader.readLine();
-            switch (resourceParser.parse(line)) {
+            switch (resourceParser.parse(lineNo, line)) {
             case COLUMN_DEFINITION:
                 if (currentTableName == null) {
                     throw new IllegalStateException(
@@ -73,7 +74,7 @@ public class ResourceReader {
                 break;
             case DATA_DEFINITION:
                 DataRow dataRow = resourceParser.readRow(currentTableMetaData
-                        .getColumns().getColumnNames(), line);
+                        .getColumns().getColumnNames(), lineNo, line);
 
                 resourceReaderCallback.newDataRow(dataRow);
 
@@ -84,6 +85,8 @@ public class ResourceReader {
             default:
                 break;
             }
+            
+            lineNo++;
         } while (!resourceDataReader.endOfFile());
     }
 

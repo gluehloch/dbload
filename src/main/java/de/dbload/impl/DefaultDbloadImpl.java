@@ -77,8 +77,8 @@ public class DefaultDbloadImpl {
      * @param resource
      *            the resource to load from the classpath
      */
-    public void readFromClasspathResource(DbloadContext context,
-            Class<?> clazz, String resource) {
+    public void readFromClasspathResource(DbloadContext context, Class<?> clazz,
+            String resource) {
         InputStream is = clazz.getResourceAsStream(resource);
         startReading(is, context);
     }
@@ -93,7 +93,8 @@ public class DefaultDbloadImpl {
      * @throws DbloadException
      *             Some problems with files or datasources
      */
-    public void readFromClasspathResource(DbloadContext context, Class<?> clazz) {
+    public void readFromClasspathResource(DbloadContext context,
+            Class<?> clazz) {
         final String classpathResourceName = clazz.getSimpleName() + ".dat";
 
         if (LOG.isDebugEnabled()) {
@@ -112,19 +113,20 @@ public class DefaultDbloadImpl {
         startReading(is, context);
     }
 
-    private void startReading(final InputStream is, final DbloadContext context) {
+    private void startReading(final InputStream is,
+            final DbloadContext context) {
         try (ResourceDataReader rdr = new ResourceDataReader(is)) {
 
-            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);
+            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(
+                    context);
 
             ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        TableMetaData metaData = JdbcUtils
-                                .toTableMetaData(JdbcUtils.findMetaData(
-                                        context.getConnection(),
+                        TableMetaData metaData = JdbcUtils.toTableMetaData(
+                                JdbcUtils.findMetaData(context.getConnection(),
                                         tableMetaData.getTableName()));
 
                         //
@@ -143,10 +145,11 @@ public class DefaultDbloadImpl {
                     try {
                         dbloadSqlInsert.execute(dataRow);
                     } catch (SQLException ex) {
-                        LOG.error("Unable to execute INSERT ["
+                        String error = "Unable to execute INSERT ["
                                 + dbloadSqlInsert.toString()
-                                + "] statement with params [" + dataRow + "]");
-                        throw new DbloadException(ex);
+                                + "] statement with params [" + dataRow + "]";
+                        LOG.error(error);
+                        throw new DbloadException(error, ex);
                     }
                 }
             });
