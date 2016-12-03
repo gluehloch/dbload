@@ -35,11 +35,11 @@ public class SqlSelectStatementBuilderTest {
     @Test
     public void tesSqlSelectStatement() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.column("id", Type.NUMBER_INTEGER);
-        columns.column("name", Type.STRING);
-        columns.column("vorname", Type.STRING);
-        columns.column("age", Type.NUMBER_INTEGER);
-        columns.column("sex", Type.NUMBER_INTEGER);
+        columns.column("id", Type.LONG);
+        columns.column("name", Type.VARCHAR);
+        columns.column("vorname", Type.VARCHAR);
+        columns.column("age", Type.INTEGER);
+        columns.column("sex", Type.INTEGER);
         columns.column("birthday", Type.DATE);
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
@@ -55,7 +55,7 @@ public class SqlSelectStatementBuilderTest {
     @Test
     public void tesSqlSelectStatementWithSingleColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.column("id", Type.NUMBER_INTEGER);
+        columns.column("id", Type.INTEGER);
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
         SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(

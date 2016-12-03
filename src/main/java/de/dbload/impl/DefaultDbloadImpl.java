@@ -33,12 +33,13 @@ import de.dbload.csv.reader.ResourceDataReader;
 import de.dbload.csv.reader.ResourceReader;
 import de.dbload.csv.reader.ResourceReaderCallback;
 import de.dbload.csv.writer.ResourceWriter;
+import de.dbload.jdbc.JdbcUtils;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
  * The worker!
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class DefaultDbloadImpl {
@@ -48,7 +49,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param readFromFile
@@ -68,7 +69,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param clazz
@@ -76,15 +77,15 @@ public class DefaultDbloadImpl {
      * @param resource
      *            the resource to load from the classpath
      */
-    public void readFromClasspathResource(DbloadContext context,
-            Class<?> clazz, String resource) {
+    public void readFromClasspathResource(DbloadContext context, Class<?> clazz,
+            String resource) {
         InputStream is = clazz.getResourceAsStream(resource);
         startReading(is, context);
     }
 
     /**
      * Start upload.
-     * 
+     *
      * @param context
      *            the context for dbload
      * @param clazz
@@ -92,22 +93,48 @@ public class DefaultDbloadImpl {
      * @throws DbloadException
      *             Some problems with files or datasources
      */
-    public void readFromClasspathResource(DbloadContext context, Class<?> clazz) {
-        InputStream is = clazz.getResourceAsStream(clazz.getSimpleName()
-                + ".dat");
+    public void readFromClasspathResource(DbloadContext context,
+            Class<?> clazz) {
+        final String classpathResourceName = clazz.getSimpleName() + ".dat";
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Loading dat file: classpath=[{}], resource=[{}].",
+                    clazz.getName(), classpathResourceName);
+        }
+
+        InputStream is = clazz.getResourceAsStream(classpathResourceName);
+
+        if (is == null) {
+            LOG.error("There is no classpath resource for {}.",
+                    classpathResourceName);
+            throw new IllegalArgumentException(classpathResourceName);
+        }
+
         startReading(is, context);
     }
 
-    private void startReading(InputStream is, DbloadContext context) {
-        try (ResourceDataReader rdr = new ResourceDataReader(is);
-                DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
+    private void startReading(final InputStream is,
+            final DbloadContext context) {
+        try (ResourceDataReader rdr = new ResourceDataReader(is)) {
+
+            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(
+                    context);
 
             ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        dbloadSqlInsert.newTableMetaData(tableMetaData);
+                        TableMetaData metaData = JdbcUtils.toTableMetaData(
+                                JdbcUtils.findMetaData(context.getConnection(),
+                                        tableMetaData.getTableName()));
+
+                        //
+                        // TODO Less column data then meta data???
+                        // tableMetaData.
+                        //
+
+                        dbloadSqlInsert.newTableMetaData(metaData);
                     } catch (SQLException ex) {
                         throw new DbloadException(ex);
                     }
@@ -118,10 +145,18 @@ public class DefaultDbloadImpl {
                     try {
                         dbloadSqlInsert.execute(dataRow);
                     } catch (SQLException ex) {
-                        throw new DbloadException(ex);
+                        String error = "Unable to execute INSERT ["
+                                + dbloadSqlInsert.toString()
+                                + "] statement with params [" + dataRow + "]";
+                        LOG.error(error);
+                        throw new DbloadException(error, ex);
                     }
                 }
             });
+
+            // Autoclose does not work here. But on exception, there is no
+            // close!
+            dbloadSqlInsert.close();
 
         } catch (IOException ex) {
             LOG.error("Dbload throws an error.", ex);
@@ -131,7 +166,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Export all tables to a file.
-     * 
+     *
      * @param context
      *            the database JDBC connection
      * @param writeToFile
@@ -152,7 +187,7 @@ public class DefaultDbloadImpl {
 
     /**
      * Export all tables to a file.
-     * 
+     *
      * @param context
      *            the database JDBC connection
      * @param writeToFile

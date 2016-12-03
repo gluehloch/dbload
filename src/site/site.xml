@@ -21,24 +21,21 @@
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
   </skin>
 
   <publishDate format="dd MMM yyyy" />
   <body>
     <links>
+      <item name="andrewinkler" href="http://www.andre-winkler.de"/>
       <item name="Gluehloch" href="http://www.gluehloch.de"/>
-      <item name="LogoLars" href="http://www.logolars.de"/>
-      <item name="Maven" href="http://maven.apache.org/"/>
+      <item name="Logolars" href="http://logolars.de/"/>
     </links>
     <head>
-      <meta name="project" content="betoffice-storage"/>
+      <meta name="project" content="dbload"/>
     </head>
-    <menu name="betoffice-storage">
+    <menu name="Manuals">
       <item name="Index"  href="index.html"/>
-      <item name="Test"   href="test.html"/>
-      <item name="Backup" href="backup.html"/>
-      <item name="mysql"  href="mysql.html"/>
     </menu>
     <!-- http://maven.apache.org/images/logos/maven-brewed.png -->
     <menu ref="reports" />

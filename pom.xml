@@ -2,9 +2,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
+  <parent>
+    <groupId>de.awtools</groupId>
+    <artifactId>master-pom</artifactId>
+    <version>2</version>
+  </parent>
+
   <groupId>de.winkler.dbload</groupId>
   <artifactId>dbload</artifactId>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <packaging>jar</packaging>
 
   <name>dbload</name>
@@ -22,120 +28,16 @@
   </issueManagement>
 
   <build>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <configuration>
-            <source>1.7</source>
-            <target>1.7</target>
-            <encoding>${compiler.encoding}</encoding>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-resources-plugin</artifactId>
-          <configuration>
-            <encoding>${compiler.encoding}</encoding>
-          </configuration>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>sonar-maven-plugin</artifactId>
-          <version>2.4</version>
-        </plugin>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>cobertura-maven-plugin</artifactId>
-          <version>2.6</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
     <plugins>
-      <!-- Site Deployment -->
-      <!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.1</version> <executions> <execution> <id>ftp</id> <phase>deploy</phase>
-        <goals> <goal>run</goal> </goals> <configuration> <tasks> <ftp server="${site.ftp.server}"
-        remotedir="${site.ftp.remotedir.betoffice-storage}" userid="${site.ftp.user}"
-        password="${site.ftp.password}"> <fileset dir="${project.build.directory}/site"
-        /> </ftp> </tasks> </configuration> </execution> </executions> <dependencies>
-        <dependency> <groupId>ant</groupId> <artifactId>ant-commons-net</artifactId>
-        <version>1.6.5</version> </dependency> <dependency> <groupId>commons-net</groupId>
-        <artifactId>commons-net</artifactId> <version>1.4.1</version> </dependency>
-        </dependencies> </plugin> -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
       </plugin>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <configuration>
-          <check>
-            <branchRate>85</branchRate>
-            <lineRate>85</lineRate>
-            <haltOnFailure>false</haltOnFailure>
-            <totalBranchRate>85</totalBranchRate>
-            <totalLineRate>85</totalLineRate>
-            <packageLineRate>85</packageLineRate>
-            <packageBranchRate>85</packageBranchRate>
-            <regexes>
-              <regex>
-                <pattern>de.dbload.*</pattern>
-                <branchRate>85</branchRate>
-                <lineRate>85</lineRate>
-              </regex>
-              <!-- <regex> <pattern>com.example.boringcode.*</pattern> <branchRate>40</branchRate>
-                <lineRate>30</lineRate> </regex> -->
-            </regexes>
-          </check>
-        </configuration>
-        <executions>
-          <execution>
-            <goals>
-              <goal>clean</goal>
-              <goal>check</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
     </plugins>
-
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-ftp</artifactId>
-        <version>2.2</version>
-      </extension>
-    </extensions>
   </build>
 
   <reporting>
     <plugins>
-      <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>cobertura-maven-plugin</artifactId>
-        <version>2.6</version>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
-        <version>2.7</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>dependencies</report>
-              <report>project-team</report>
-              <report>mailing-list</report>
-              <report>cim</report>
-              <report>issue-tracking</report>
-              <report>license</report>
-              <report>scm</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
@@ -149,7 +51,7 @@
           </reportSet>
           <reportSet><!-- aggregate reportSet, to define in poms having modules -->
             <id>aggregate</id>
-            <inherited>false</inherited><!-- don't run aggregate in child
+            <inherited>false</inherited><!-- don't run aggregate in child 
               modules -->
             <reports>
               <report>aggregate</report>
@@ -170,16 +72,10 @@
           </reportSet>
         </reportSets>
       </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changelog-plugin</artifactId>
-        <version>2.3</version>
-      </plugin>
     </plugins>
   </reporting>
 
   <dependencies>
-
     <dependency>
       <groupId>commons-lang</groupId>
       <artifactId>commons-lang</artifactId>
@@ -228,23 +124,6 @@
       <scope>test</scope>
     </dependency>
 
-    <!-- Springframework. <dependency> <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId> <version>${org.springframework.version}</version>
-      <scope>test</scope> </dependency> <dependency> <groupId>org.springframework</groupId>
-      <artifactId>spring-core</artifactId> <version>${org.springframework.version}</version>
-      <scope>compile</scope> </dependency> <dependency> <groupId>org.springframework</groupId>
-      <artifactId>spring-tx</artifactId> <version>${org.springframework.version}</version>
-      </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context</artifactId>
-      <version>${org.springframework.version}</version> </dependency> <dependency>
-      <groupId>org.springframework</groupId> <artifactId>spring-aop</artifactId>
-      <version>${org.springframework.version}</version> </dependency> <dependency>
-      <groupId>org.springframework</groupId> <artifactId>spring-orm</artifactId>
-      <version>${org.springframework.version}</version> </dependency> <dependency>
-      <groupId>org.springframework</groupId> <artifactId>spring-jdbc</artifactId>
-      <version>${org.springframework.version}</version> </dependency> <dependency>
-      <groupId>aspectj</groupId> <artifactId>aspectjweaver</artifactId> <version>1.5.3</version>
-      </dependency> -->
-
     <!-- MySQL Datenbank Treiber -->
     <dependency>
       <groupId>mysql</groupId>
@@ -268,23 +147,10 @@
   </dependencies>
 
   <distributionManagement>
-    <repository>
+    <site>
       <id>gluehloch-repository</id>
-      <name>Gluehloch Repository</name>
-      <url>ftp://gluehloch.de/www/maven2</url>
-    </repository>
-    <snapshotRepository>
-      <id>gluehloch-repository-snap</id>
-      <name>Gluehloch Snapshot Repository</name>
-      <url>ftp://gluehloch.de/www/maven2-snap</url>
-    </snapshotRepository>
+      <url>scp://maven.gluehloch.de/var/www/projects.gluehloch/misc/dbload</url>
+    </site>
   </distributionManagement>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <org.springframework.version>3.1.2.RELEASE</org.springframework.version>
-    <!-- unitils -->
-    <spring.version>3.1.2.RELEASE</spring.version>
-  </properties>
 
 </project>

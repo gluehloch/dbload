@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -31,10 +31,12 @@ import de.dbload.meta.TableMetaData;
 public class ResourceReader {
 
     /**
-     * Start data file parsing.
+     * Start file parsing.
      *
      * @param resourceDataReader
-     *            The resource to read froms
+     *            The resource to read from.
+     * @param resourceReaderCallback
+     *            Send this callback handler the current parsing state.
      * @throws IOException
      *             Ups
      */
@@ -46,11 +48,12 @@ public class ResourceReader {
 
         String currentTableName = null;
         TableMetaData currentTableMetaData = null;
+        int lineNo = 1;
         String line = null;
 
         do {
             line = resourceDataReader.readLine();
-            switch (resourceParser.parse(line)) {
+            switch (resourceParser.parse(lineNo, line)) {
             case COLUMN_DEFINITION:
                 if (currentTableName == null) {
                     throw new IllegalStateException(
@@ -71,7 +74,7 @@ public class ResourceReader {
                 break;
             case DATA_DEFINITION:
                 DataRow dataRow = resourceParser.readRow(currentTableMetaData
-                        .getColumns().getColumnNames(), line);
+                        .getColumns().getColumnNames(), lineNo, line);
 
                 resourceReaderCallback.newDataRow(dataRow);
 
@@ -82,6 +85,8 @@ public class ResourceReader {
             default:
                 break;
             }
+            
+            lineNo++;
         } while (!resourceDataReader.endOfFile());
     }
 

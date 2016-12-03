@@ -41,7 +41,7 @@ public class JdbcTypeConverterTest {
     @Test
     public void testJdbcTypeConverterToNumberInteger() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER_INTEGER);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711");
         assertThat(value, instanceOf(Number.class));
@@ -57,7 +57,7 @@ public class JdbcTypeConverterTest {
     @Test
     public void testJdbcTypeConverterToNumberDecimal() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.NUMBER_DECIMAL);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711,11");
         assertThat(value, instanceOf(Number.class));
@@ -73,7 +73,7 @@ public class JdbcTypeConverterTest {
     @Test
     public void testJdbcTypeConverterToString() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.STRING);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.VARCHAR);
         Object value = converter.convert(columnMetaData, "4711");
 
         assertThat(value, instanceOf(String.class));

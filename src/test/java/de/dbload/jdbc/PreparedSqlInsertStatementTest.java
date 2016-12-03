@@ -19,14 +19,12 @@ package de.dbload.jdbc;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,30 +33,23 @@ import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
-import de.dbload.utils.TestConnectionFactory;
 import de.dbload.utils.TestMetaDataFactory;
+import de.dbload.utils.TransactionalTest;
 
 /**
  * A test case for {@link AbstractPreparedSqlStatement}.
  * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class PreparedSqlInsertStatementTest {
+public class PreparedSqlInsertStatementTest extends TransactionalTest {
 
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
 
     @Before
     public void before() {
-        Connection connection = TestConnectionFactory.connectToTestDatabase();
-        dbloadContext = new DefaultDbloadContext(connection);
+        dbloadContext = new DefaultDbloadContext(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
-    }
-
-    @After
-    public void after() throws SQLException {
-        dbloadContext.getConnection().rollback();
-        dbloadContext.getConnection().close();
     }
 
     @Test
@@ -87,21 +78,22 @@ public class PreparedSqlInsertStatementTest {
         }
 
         try (Statement stmt = dbloadContext.getConnection().createStatement()) {
-            ResultSet resultSet = stmt
-                    .executeQuery("select * from person order by id");
-            resultSet.next();
+            try (ResultSet resultSet = stmt
+                    .executeQuery("select * from person order by id")) {
+                resultSet.next();
 
-            assertThat(resultSet.getLong("id"), equalTo(1L));
-            assertThat(resultSet.getString("name"), equalTo("Winkler"));
-            assertThat(resultSet.getString("vorname"), equalTo("Andre"));
+                assertThat(resultSet.getLong("id"), equalTo(1L));
+                assertThat(resultSet.getString("name"), equalTo("Winkler"));
+                assertThat(resultSet.getString("vorname"), equalTo("Andre"));
 
-            Date date = resultSet.getTimestamp("birthday");
-            DateTime dateTime = new DateTime(date.getTime());
+                Date date = resultSet.getTimestamp("birthday");
+                DateTime dateTime = new DateTime(date.getTime());
 
-            DateTime date_19710324 = DateTimeUtils
-                    .toJodaDateTime("1971-03-24 06:41:11");
+                DateTime date_19710324 = DateTimeUtils
+                        .toJodaDateTime("1971-03-24 06:41:11");
 
-            assertThat(dateTime, equalTo(date_19710324));
+                assertThat(dateTime, equalTo(date_19710324));
+            }
         }
     }
 

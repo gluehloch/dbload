@@ -19,6 +19,9 @@ package de.dbload.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dbload.DbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
@@ -29,6 +32,9 @@ import de.dbload.meta.TableMetaData;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
+
+    private static final Logger LOG = LoggerFactory
+            .getLogger(PreparedSqlSelectStatement.class);
 
     private boolean preparedStatementReturnsWithResultSet;
     private ResultSet resultSet;
@@ -44,6 +50,12 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     @Override
     public void execute(DataRow data) throws SQLException {
         applyParams(data);
+        
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Executing \n\t[{}] with data \n\t[{}]",
+                    getPreparedStatement(), data);
+        }
+
         preparedStatementReturnsWithResultSet = getPreparedStatement()
                 .execute();
         resultSet = getPreparedStatement().getResultSet();

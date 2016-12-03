@@ -56,7 +56,7 @@ public class ColumnTypeParser {
     public static ColumnMetaData parseColumnMetaData(String columnNameAndType) {
         Type columnType = ColumnTypeParser.findType(columnNameAndType);
         String normalizedColumnName = StringUtils.substringBefore(
-                columnNameAndType, "(");
+                columnNameAndType, "(").trim();
         return new ColumnMetaData(normalizedColumnName, columnType);
     }
 
@@ -73,7 +73,8 @@ public class ColumnTypeParser {
         } else if (containsBit(columnDescription)) {
             return Type.BIT;
         } else {
-            return Type.DEFAULT;
+            // Is this the default?
+            return Type.VARCHAR;
         }
     }
 

@@ -87,21 +87,21 @@ public class SqlStatementBuilderTest {
 
     private ColumnsMetaData createSingleColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
+        columns.addColumn(new ColumnMetaData("col1", Type.VARCHAR));
         return columns;
     }
 
     private ColumnsMetaData createTwoColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
+        columns.addColumn(new ColumnMetaData("col1", Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData("col2", Type.VARCHAR));
         return columns;
     }
 
     private ColumnsMetaData createThreeColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.DEFAULT));
-        columns.addColumn(new ColumnMetaData("col2", Type.DEFAULT));
+        columns.addColumn(new ColumnMetaData("col1", Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData("col2", Type.VARCHAR));
         columns.addColumn(new ColumnMetaData("col3", Type.DATE));
         return columns;
     }

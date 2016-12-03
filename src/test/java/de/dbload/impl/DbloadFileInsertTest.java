@@ -43,11 +43,11 @@ public class DbloadFileInsertTest {
     @Test
     public void testResourceFileInsert() throws Exception {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("id", Type.NUMBER_INTEGER));
-        columns.addColumn(new ColumnMetaData("name", Type.STRING));
-        columns.addColumn(new ColumnMetaData("vorname", Type.STRING));
-        columns.addColumn(new ColumnMetaData("age", Type.NUMBER_INTEGER));
-        columns.addColumn(new ColumnMetaData("sex", Type.NUMBER_INTEGER));
+        columns.addColumn(new ColumnMetaData("id", Type.LONG));
+        columns.addColumn(new ColumnMetaData("name", Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData("vorname", Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData("age", Type.INTEGER));
+        columns.addColumn(new ColumnMetaData("sex", Type.INTEGER));
         columns.addColumn(new ColumnMetaData("birthday", Type.DATE));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 

@@ -1,3 +1,4 @@
+drop table if exists person;
 create table person (
     id bigint not null auto_increment,
     name varchar(40),
@@ -9,6 +10,7 @@ create table person (
     primary key (id)
 ) ENGINE=InnoDB;
 
+drop table if exists address;
 create table address (
     id bigint not null auto_increment,
     street varchar(10),
@@ -19,6 +21,7 @@ create table address (
     primary key (id)
 ) ENGINE=InnoDB;
 
+drop table if exists account;
 create table account (
     id bigint not null auto_increment,
     accountnr varchar(10),

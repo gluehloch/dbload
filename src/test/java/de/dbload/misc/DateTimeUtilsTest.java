@@ -19,6 +19,9 @@ package de.dbload.misc;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 
+import java.sql.Timestamp;
+import java.util.Date;
+
 import org.joda.time.DateTime;
 import org.junit.Test;
 
@@ -33,6 +36,22 @@ public class DateTimeUtilsTest {
     public void testDateTimeUtils() {
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
         assertThat(1971, equalTo(jodaDateTime.getYear()));
+    }
+
+    @Test
+    public void testDateTimeVersusJavaSqlTimestamp() {
+        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
+        Date birthday = jodaDateTime.toDate();
+        Timestamp timestamp = new Timestamp(birthday.getTime());
+
+        assertThat(birthday.getTime(), equalTo(timestamp.getTime()));
+        assertThat(birthday.getTime(), equalTo(jodaDateTime.getMillis()));
+
+        System.out.println(jodaDateTime);
+        System.out.println(birthday);
+        System.out.println(timestamp);
+        System.out.println(String.format("%tY-%tm-%td", birthday, birthday, birthday));
+        System.out.println(jodaDateTime.toString("yyyy-MM-dd HH:mm:ss"));
     }
 
 }

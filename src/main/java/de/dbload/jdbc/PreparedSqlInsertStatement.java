@@ -19,17 +19,23 @@ package de.dbload.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dbload.DbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
  * Holds a prepared INSERT statement.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
 
+    private static final Logger LOG = LoggerFactory
+            .getLogger(PreparedSqlInsertStatement.class);
+    
     private boolean preparedStatementReturnsWithResultSet;
 
     public PreparedSqlInsertStatement(DbloadContext _context,
@@ -43,12 +49,19 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     @Override
     public void execute(DataRow data) throws SQLException {
         applyParams(data);
-        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
+
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Executing \n\t[{}] with data \n\t[{}]",
+                    getPreparedStatement(), data);
+        }
+
+        preparedStatementReturnsWithResultSet = getPreparedStatement()
+                .execute();
     }
 
     /**
      * Returns the execution result.
-     * 
+     *
      * @return Returns <code>true</code>, if the executed statement returns a
      *         {@link ResultSet} object. Returns <code>false</code>, if the
      *         executed statement returns the count of executed updates.

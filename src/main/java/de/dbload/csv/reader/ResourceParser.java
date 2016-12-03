@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -70,11 +70,13 @@ public class ResourceParser {
     /**
      * Reads the table definition
      *
+     * @param lineNo
+     *            the line number (for better error messages)
      * @param line
      *            One line from the resource
      * @return ParserState
      */
-    public ParserState parse(String line) {
+    public ParserState parse(int lineNo, String line) {
         String currentLine = StringUtils.trimToEmpty(line);
 
         if (currentLine.startsWith("### TAB")) {
@@ -87,7 +89,7 @@ public class ResourceParser {
                 || StringUtils.isBlank(currentLine)) {
             parserState = ParserState.COMMENT_OR_EMPTY;
         } else if (!StringUtils.isBlank(currentLine)) {
-            readRow(columns, line);
+            readRow(columns, lineNo, line);
             parserState = ParserState.DATA_DEFINITION;
         }
         return parserState;
@@ -96,11 +98,16 @@ public class ResourceParser {
     /**
      * Reading a line of data.
      *
+     * @param _columns
+     *            The name of the columns. The parsed line element will be
+     *            associated with a column.
+     * @param _lineNo
+     *            the line number (for better error messages)
      * @param line
-     *            the data
+     *            The data line. Will be parsed to one or many columns.
      * @return list with data
      */
-    public DataRow readRow(List<String> _columns, String line) {
+    public DataRow readRow(List<String> _columns, int _lineNo, String line) {
         data = new DataRow();
         StringTokenizer stok = new StringTokenizer(line, "|", true);
         boolean lastTokenIsDelim = false;
@@ -120,23 +127,28 @@ public class ResourceParser {
             } else {
                 // Check, if more data than defined columns
                 if (index >= _columns.size()) {
-                    throw new IllegalStateException("More data than columns!");
+                    throwIllegalColumnSizeException(_lineNo, line);
                 }
 
-                data.put(_columns.get(index++), (token == null ? null
-                        : StringUtils.trimToNull(token)));
+                data.put(_columns.get(index++),
+                        (token == null ? null : StringUtils.trimToNull(token)));
                 lastTokenIsDelim = false;
             }
         }
 
         if (lastTokenIsDelim) {
             if (index >= _columns.size()) {
-                throw new IllegalStateException("More data than columns!");
+                throwIllegalColumnSizeException(_lineNo, line);
             }
             data.put(_columns.get(index), null);
         }
 
         return data;
+    }
+
+    private void throwIllegalColumnSizeException(int _lineNo, String line) {
+        throw new IllegalStateException("More data than columns! Check line nr "
+                + _lineNo + " with data [" + line + "]");
     }
 
     /**

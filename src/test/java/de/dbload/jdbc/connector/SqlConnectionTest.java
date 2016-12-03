@@ -14,27 +14,30 @@
  * the License.
  */
 
-package de.dbload.utils;
+package de.dbload.jdbc.connector;
+
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
-import de.dbload.jdbc.connector.JdbcMySqlConnector;
+import org.junit.Test;
 
 /**
- * Creates a connection for the test database.
- *
+ * Test for the MySql JDBC connection string.
+ * 
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class TestConnectionFactory {
+public class SqlConnectionTest {
 
-    /**
-     * Create a connection to the test database.
-     *
-     * @return a JDBC connection
-     */
-    public static Connection connectToTestDatabase() {
-        return JdbcMySqlConnector.createMySqlConnection("dbload", "dbload",
-                "localhost", "dbload");
+    @Test
+    public void testMySqlConnectionStringWithAutoCommit() throws Exception {
+        DatabasePropertyReader dpr = new DatabasePropertyReader();
+        String url = dpr.getDatabaseUrl(dpr.read());
+
+        Connection conn = DriverManager.getConnection(url);
+        assertThat(conn, notNullValue());
     }
 
 }

@@ -16,10 +16,6 @@
 
 package de.dbload.meta;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 /**
  * Holds the database table meta data.
  *
