@@ -5,12 +5,17 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-    <release version="dbload-0.2.0" date="2016-??-??"
-         description="Project report and column type detector.">
-         
+<!--
       <action dev="andrewinkler" type="remove" date="2014-??-??">
         TODO: Remove the database assertions to another project. DBLoad is
         only for reading and writing from files/strings to database tables.
+      </action> 
+-->
+
+    <release version="dbload-0.2.0" date="2016-12-03"
+         description="Project report and column type detector.">
+      <action dev="andrewinkler" type="update" date="2016-11-06">
+        Better error message with a line number for invalid dat files.
       </action>
       <action dev="andrewinkler" type="update" date="2016-11-06">
         Rework of the connector package. Don´t bind database connections to
