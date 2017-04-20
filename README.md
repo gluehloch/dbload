@@ -1,7 +1,7 @@
 # dbload 
-Loading data from a csv file to a database. Great.
+Loading data from a csv file to a database. Great. Here comes the example.
 
-### The csv file
+### The csv file. The file is accessible by the classpath and is called 'DbloadTest.dat'
 
     ### TAB person
     ### id | name    | vorname | age | sex | birthday (date)     | human (bit)
