@@ -2,7 +2,7 @@
 Loading data from a csv file to a database. Great. Here comes the example. The CSV file is accessible
 by the classpath and is called 'DbloadTest.dat'
 
-### The csv file DbloadTest.dat.
+### The csv file DbloadTest.dat
 
     ### TAB person
     ### id | name    | vorname | age | sex | birthday (date)     | human (bit)
