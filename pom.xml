@@ -5,12 +5,12 @@
   <parent>
     <groupId>de.awtools</groupId>
     <artifactId>master-pom</artifactId>
-    <version>2</version>
+    <version>4-SNAPSHOT</version>
   </parent>
 
   <groupId>de.winkler.dbload</groupId>
   <artifactId>dbload</artifactId>
-  <version>0.2.0</version>
+  <version>0.3.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>dbload</name>
@@ -32,6 +32,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.1</version>
       </plugin>
     </plugins>
   </build>
@@ -42,6 +43,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <version>2.9</version>
+        <configuration>
+          <failOnError>false</failOnError>
+        </configuration>
         <reportSets>
           <reportSet><!-- by default, id = "default" -->
             <reports><!-- select non-aggregate reports -->
@@ -55,19 +59,6 @@
               modules -->
             <reports>
               <report>aggregate</report>
-            </reports>
-          </reportSet>
-        </reportSets>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-changes-plugin</artifactId>
-        <version>2.10</version>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>changes-report</report>
-              <report>github-report</report>
             </reports>
           </reportSet>
         </reportSets>
