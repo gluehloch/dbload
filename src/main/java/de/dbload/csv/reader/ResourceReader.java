@@ -85,7 +85,7 @@ public class ResourceReader {
             default:
                 break;
             }
-            
+
             lineNo++;
         } while (!resourceDataReader.endOfFile());
     }

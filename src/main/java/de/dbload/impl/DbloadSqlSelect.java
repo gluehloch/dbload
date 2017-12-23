@@ -54,7 +54,7 @@ public class DbloadSqlSelect implements DbloadSqlStatement {
         if (preparedSqlStatement != null) {
             preparedSqlStatement.close();
         }
-        
+
         preparedSqlStatement = new PreparedSqlSelectStatement(context,
                 tableMetaData);
     }

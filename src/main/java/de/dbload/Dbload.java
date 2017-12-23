@@ -88,7 +88,8 @@ public class Dbload {
      * @param resource
      *            the resource to load with the classloader
      */
-    public static void read(Connection connection, Class<?> clazz, String resource) {
+    public static void read(Connection connection, Class<?> clazz,
+            String resource) {
         DefaultDbloadContext context = new DefaultDbloadContext(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.readFromClasspathResource(context, clazz, resource);

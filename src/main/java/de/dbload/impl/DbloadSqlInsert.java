@@ -80,7 +80,8 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
             stopWatch.stop();
 
             if (LOG.isInfoEnabled()) {
-                LOG.info("DBLOAD stats:  Tablename: {}, Number of rows: {}, Time [ms]: {}",
+                LOG.info(
+                        "DBLOAD stats:  Tablename: {}, Number of rows: {}, Time [ms]: {}",
                         new Object[] { currentTableMetaData.getTableName(),
                                 numberOfRows, stopWatch.getTime() });
             }

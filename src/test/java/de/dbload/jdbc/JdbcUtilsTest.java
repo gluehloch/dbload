@@ -70,7 +70,8 @@ public class JdbcUtilsTest extends TransactionalTest {
         assertThat(metaData.getColumnType(3), equalTo(java.sql.Types.VARCHAR));
         assertThat(metaData.getColumnType(4), equalTo(java.sql.Types.INTEGER));
         assertThat(metaData.getColumnType(5), equalTo(java.sql.Types.VARCHAR));
-        assertThat(metaData.getColumnType(6), equalTo(java.sql.Types.TIMESTAMP));
+        assertThat(metaData.getColumnType(6),
+                equalTo(java.sql.Types.TIMESTAMP));
         assertThat(metaData.getColumnType(7), equalTo(java.sql.Types.BIT));
     }
 

@@ -61,7 +61,7 @@ public class JdbcUtils {
 
         try (Statement stmt = conn.createStatement()) {
             try (ResultSet resultSet = stmt.executeQuery(sql)) {
-                return resultSet.getMetaData();   
+                return resultSet.getMetaData();
             }
         } catch (SQLException ex) {
             throw new IllegalArgumentException(ex);
@@ -71,9 +71,11 @@ public class JdbcUtils {
     /**
      * Create the dbload meta data of a {@link ResultSetMetaData}.
      *
-     * @param resultSetMetaData the java sql meta data
+     * @param resultSetMetaData
+     *            the java sql meta data
      * @return A description of the table columns for dbload
-     * @throws SQLException Something is wrong
+     * @throws SQLException
+     *             Something is wrong
      */
     public static TableMetaData toTableMetaData(
             ResultSetMetaData resultSetMetaData) throws SQLException {

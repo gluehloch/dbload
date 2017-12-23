@@ -40,8 +40,10 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToNumberInteger() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.INTEGER);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
+                Locale.GERMANY);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1",
+                Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711");
         assertThat(value, instanceOf(Number.class));
@@ -56,8 +58,10 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToNumberDecimal() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.INTEGER);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
+                Locale.GERMANY);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1",
+                Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711,11");
         assertThat(value, instanceOf(Number.class));
@@ -72,8 +76,10 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToString() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.VARCHAR);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
+                Locale.GERMANY);
+        ColumnMetaData columnMetaData = new ColumnMetaData("col1",
+                Type.VARCHAR);
         Object value = converter.convert(columnMetaData, "4711");
 
         assertThat(value, instanceOf(String.class));
@@ -83,13 +89,16 @@ public class JdbcTypeConverterTest {
 
     @Test
     public void testJdbcTypeConverterToDate() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
+                Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.DATE);
         Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
 
         assertThat(value, instanceOf(Timestamp.class));
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2011-03-24 06:34:11");
-        assertThat(((Timestamp) value).getTime() , equalTo(jodaDateTime.toDate().getTime()));
+        DateTime jodaDateTime = DateTimeUtils
+                .toJodaDateTime("2011-03-24 06:34:11");
+        assertThat(((Timestamp) value).getTime(),
+                equalTo(jodaDateTime.toDate().getTime()));
     }
 
 }

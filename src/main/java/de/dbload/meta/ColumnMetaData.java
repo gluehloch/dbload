@@ -35,7 +35,7 @@ public class ColumnMetaData {
 
         /** A big integer type. */
         LONG(java.sql.Types.BIGINT),
-        
+
         /** number with no decimals like byte, short, int */
         INTEGER(java.sql.Types.INTEGER),
 

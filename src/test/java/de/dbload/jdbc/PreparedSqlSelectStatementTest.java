@@ -53,10 +53,12 @@ public class PreparedSqlSelectStatementTest extends TransactionalTest {
     @Test
     public void testPreparedSqlSelectStatement() throws SQLException {
         try (Statement stmt = dbloadContext.getConnection().createStatement()) {
-            stmt.execute("INSERT INTO person(id, name, vorname, age, sex, birthday) "
-                    + "VALUES(1, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00')");
-            stmt.execute("INSERT INTO person(id, name, vorname, age, sex, birthday) "
-                    + "VALUES(2, 'winkler', 'lars', 40, 0, '1971-03-24 01:00:00')");
+            stmt.execute(
+                    "INSERT INTO person(id, name, vorname, age, sex, birthday) "
+                            + "VALUES(1, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00')");
+            stmt.execute(
+                    "INSERT INTO person(id, name, vorname, age, sex, birthday) "
+                            + "VALUES(2, 'winkler', 'lars', 40, 0, '1971-03-24 01:00:00')");
         }
 
         try (PreparedSqlSelectStatement sql = new PreparedSqlSelectStatement(

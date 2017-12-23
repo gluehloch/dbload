@@ -32,8 +32,8 @@ public class NumberUtilsTest {
 
     @Test
     public void testNumberUtilsToInteger() {
-    	System.out.println(Locale.getDefault().toLanguageTag());
-    	
+        System.out.println(Locale.getDefault().toLanguageTag());
+
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.GERMANY);

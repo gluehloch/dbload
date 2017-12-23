@@ -43,11 +43,11 @@ public class Assertion {
         // Do not instantiate me!
     }
 
-    public static void assertExists(final DbloadContext context, Class<?> clazz) {
+    public static void assertExists(final DbloadContext context,
+            Class<?> clazz) {
         InputStream is = clazz.getResourceAsStream(clazz.getSimpleName()
                 + ".dat");
         try (ResourceDataReader rdr = new ResourceDataReader(is)) {
-
             final TableMetaDataHolder tableMetaDataHolder = new TableMetaDataHolder();
 
             ResourceReader resourceReader = new ResourceReader();
@@ -105,7 +105,8 @@ public class Assertion {
     }
 
     public static boolean assertExists(DbloadContext _context,
-            TableMetaData _tableMetaData, DataRow _dataRow) throws SQLException {
+            TableMetaData _tableMetaData, DataRow _dataRow)
+            throws SQLException {
 
         SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(
                 _tableMetaData);

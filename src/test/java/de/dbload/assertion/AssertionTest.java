@@ -51,13 +51,15 @@ public class AssertionTest extends TransactionalTest {
         context = new DefaultDbloadContext(conn);
 
         try (Statement stmt = context.getConnection().createStatement()) {
-            stmt.execute("INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00', b'1')");
-            stmt.execute("INSERT INTO person VALUES (2, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00', b'0')");
+            stmt.execute(
+                    "INSERT INTO person VALUES (1, 'winkler', 'lars', 40, 0, '1972-01-01 01:00:00', b'1')");
+            stmt.execute(
+                    "INSERT INTO person VALUES (2, 'winkler', 'andre', 43, 0, '1971-03-24 01:00:00', b'0')");
         }
 
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
     }
-    
+
     @After
     public void after() throws SQLException {
     }

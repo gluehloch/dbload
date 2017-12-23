@@ -38,7 +38,8 @@ public class ColumnTypeParser {
      *            The names and types some columns.
      * @return the column meta data
      */
-    public static ColumnsMetaData parseColumnsMetaData(List<String> columnNames) {
+    public static ColumnsMetaData parseColumnsMetaData(
+            List<String> columnNames) {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
         for (String columnNameAndType : columnNames) {
             columnsMetaData.addColumn(parseColumnMetaData(columnNameAndType));
@@ -85,6 +86,5 @@ public class ColumnTypeParser {
     protected static boolean containsBit(String string) {
         return (StringUtils.containsIgnoreCase(string, "(bit)"));
     }
-
 
 }

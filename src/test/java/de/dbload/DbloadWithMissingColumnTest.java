@@ -42,7 +42,7 @@ public class DbloadWithMissingColumnTest extends TransactionalTest {
         InputStream resourceAsStream = DbloadWithMissingColumnTest.class
                 .getResourceAsStream("DbloadWithMissingColumnTest.dat");
         assertThat(resourceAsStream, notNullValue());
-        
+
         Assertion.assertExists(context, DbloadWithMissingColumnTest.class);
     }
 

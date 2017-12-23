@@ -35,7 +35,7 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(PreparedSqlInsertStatement.class);
-    
+
     private boolean preparedStatementReturnsWithResultSet;
 
     public PreparedSqlInsertStatement(DbloadContext _context,

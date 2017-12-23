@@ -59,7 +59,8 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
 
     @Test
     public void testSqlInsertStatementBuilder() {
-        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
+        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(
+                tableMetaData);
 
         assertThat(
                 sqlStatement.createSql(),
@@ -68,15 +69,19 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
 
     @Test
     public void testExecuteSqlStatement() throws SQLException {
-        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
+        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(
+                tableMetaData);
 
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");
+        DateTime jodaDateTime = DateTimeUtils
+                .toJodaDateTime("2014-03-24 06:05:00");
         Date date = jodaDateTime.toDate();
 
-        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
+        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(
+                date.getTime());
         java.sql.Time sqlTime = new java.sql.Time(date.getTime());
 
-        PreparedStatement stmt = conn.prepareStatement(sqlStatement.createSql());
+        PreparedStatement stmt = conn
+                .prepareStatement(sqlStatement.createSql());
         stmt.setInt(1, 1);
         stmt.setString(2, "winkler");
         stmt.setString(3, "andre");
@@ -93,19 +98,21 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
         stmt.setTime(6, sqlTime);
         stmt.execute();
 
-        /* I get the following result from the MySql command line:
-        +----+---------+---------+------+------+---------------------+
-        | id | name    | vorname | age  | sex  | birthday            |
-        +----+---------+---------+------+------+---------------------+
-        |  1 | winkler | andre   |   43 |      | 2014-03-24 06:05:00 |
-        |  2 | winkler | andre   |   43 |      | 2006-05-00 00:00:00 |
-        +----+---------+---------+------+------+---------------------+
-        The type java.sql.Time delivers an unexpected result: Hours and
-        minutes are moved to year and month? No! Time ist only time!!!
+        /*
+         * I get the following result from the MySql command line:
+         * +----+---------+---------+------+------+---------------------+ | id |
+         * name | vorname | age | sex | birthday |
+         * +----+---------+---------+------+------+---------------------+ | 1 |
+         * winkler | andre | 43 | | 2014-03-24 06:05:00 | | 2 | winkler | andre
+         * | 43 | | 2006-05-00 00:00:00 |
+         * +----+---------+---------+------+------+---------------------+ The
+         * type java.sql.Time delivers an unexpected result: Hours and minutes
+         * are moved to year and month? No! Time ist only time!!!
          */
 
         try (Statement selectStmt = conn.createStatement()) {
-            ResultSet resultSet = selectStmt.executeQuery("select * from person order by id");
+            ResultSet resultSet = selectStmt
+                    .executeQuery("select * from person order by id");
             assertThat(resultSet.next(), is(true));
             assertThat(resultSet.getString("name"), equalTo("winkler"));
             assertThat(resultSet.getString("vorname"), equalTo("andre"));

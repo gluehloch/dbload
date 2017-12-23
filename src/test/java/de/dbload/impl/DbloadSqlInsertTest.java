@@ -65,7 +65,8 @@ public class DbloadSqlInsertTest extends TransactionalTest {
 
         try (Statement stmt = dbloadContext.getConnection().createStatement()) {
             try (ResultSet resultSet = stmt
-                    .executeQuery("select id, name, vorname, age from person")) {
+                    .executeQuery(
+                            "select id, name, vorname, age from person")) {
                 assertThat(resultSet.next(), is(true));
                 assertThat(resultSet.getInt("id"), is(1));
                 assertThat(resultSet.getString("name"), is("winkler"));

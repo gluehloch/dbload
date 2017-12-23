@@ -47,9 +47,11 @@ public class DbloadTest extends TransactionalTest {
 
         try (Statement stmt = conn.createStatement()) {
             // ResultSet resultSet = stmt
-            // .executeQuery("SELECT * FROM xxx WHERE birthday = '1971-03-24 05:55:55'");
+            // .executeQuery("SELECT * FROM xxx WHERE birthday = '1971-03-24
+            // 05:55:55'");
             try (ResultSet resultSet = stmt
-                    .executeQuery("SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
+                    .executeQuery(
+                            "SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
                 assertThat(resultSet.next(), equalTo(true));
 
                 DateTime datetime = DateTimeUtils
