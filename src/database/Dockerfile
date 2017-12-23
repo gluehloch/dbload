@@ -1,6 +1,8 @@
 #FROM gluehloch/mariadb-awi:latest
 FROM mariadb:latest
 # RUN apt-get -y update && apt-get install -y vim
+
+# TODO Does not work ... cure me!
 COPY *.sql /tmp/
 
 # RUN /bin/bash -c 'mysql -u root << /tmp/create_mysql.sql'
