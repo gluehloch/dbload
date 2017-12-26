@@ -9,6 +9,9 @@ CREATE_MARIADB_SCHEMA='create_mysql_test_schema.sql'
 
 docker cp ${CREATE_MARIADB_USER} ${DOCKER_CONTAINER_ID}:/tmp/${CREATE_MARIADB_USER}
 docker cp ${CREATE_MARIADB_SCHEMA} ${DOCKER_CONTAINER_ID}:/tmp/${CREATE_MARIADB_SCHEMA}
+docker cp prepare-database.sh  ${DOCKER_CONTAINER_ID}:/tmp/prepare-database.sh
+
+docker exec ${DOCKER_NAME} /tmp/prepare-database.sh
 
 #mysql -u root --password=root -h $DOCKER_DB_HOST < create_mysql.sql
 #mysql -u root --password=root -h $DOCKER_DB_HOST < create_mysql_test_schema.sql
