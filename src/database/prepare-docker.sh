@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 export DOCKER_NAME='dbloaddb'
 export DOCKER_DB_HOST='192.168.99.100'
 docker run --expose=3306 -p 3306:3306 --name ${DOCKER_NAME} -e MYSQL_ROOT_PASSWORD=root -d mariadb:latest
