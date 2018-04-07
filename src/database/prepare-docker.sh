@@ -1,7 +1,10 @@
 #!/bin/bash
-export DOCKER_NAME='dbloaddb'
+export DOCKER_NAME='dbload'
 export DOCKER_DB_HOST='192.168.99.100'
-docker run --expose=3306 -p 3306:3306 --name ${DOCKER_NAME} -e MYSQL_ROOT_PASSWORD=root -d mariadb:latest
+
+# Die Testdatenbank laueft unter Port 3310. Damit gehe ich dem Konflikt mit
+# der betoffice Datenbank aus dem Weg.
+docker run --expose=3306 -p 3310:3306 --name ${DOCKER_NAME} -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
 
 export DOCKER_CONTAINER_ID=$(docker inspect -f '{{.Id}}' ${DOCKER_NAME})
 CREATE_MARIADB_USER='create_mysql.sql'

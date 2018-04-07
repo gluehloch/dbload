@@ -127,7 +127,12 @@ public class ResourceWriter {
                             print = resultSet.getString(i);
                         }
 
-                        pw.print(print);
+                        if (print == null) {
+                            pw.print("");
+                        } else {
+                            pw.print(print);
+                        }
+
                         if (i < metaData.getColumnCount()) {
                             pw.print(" | ");
                         }
