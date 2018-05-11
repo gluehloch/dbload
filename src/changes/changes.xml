@@ -5,10 +5,26 @@
     <author email="andre.winkler@web.de">Andre Winkler</author>
   </properties>
   <body>
-    <!-- <action dev="andrewinkler" type="remove" date="2014-??-??"> TODO: 
-      Remove the database assertions to another project. DBLoad is only for reading 
-      and writing from files/strings to database tables. </action> -->
+<!--
+      <action dev="andrewinkler" type="remove" date="2014-??-??">
+        TODO: Remove the database assertions to another project. DBLoad is
+        only for reading and writing from files/strings to database tables.
+      </action> 
+-->
+    <!-- Under construction -->
+    
+    <!-- RELEASED -->
+    <release version="dbload-0.3.0" date="2018-05-11"
+      description="Use Docker container as test database.">
+      <action dev="andrewinkler" type="fix" date="2018-04-07">
+        Don´t write a NULL for an empty VARCHAR column. 
+      </action>
+      <action dev="andrewinkler" type="update" date="2017-01-03">
+        Use a Docker container for the JUnit tests. 
+      </action>
+    </release>
 
+    <!-- RELEASED -->
     <release version="dbload-0.2.0" date="2016-12-03"
       description="Project report and column type detector.">
       <action dev="andrewinkler" type="update" date="2016-11-06">
