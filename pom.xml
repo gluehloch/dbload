@@ -10,7 +10,7 @@
 
   <groupId>de.winkler.dbload</groupId>
   <artifactId>dbload</artifactId>
-  <version>0.4.0_java10-SNAPSHOT</version>
+  <version>0.4.0-java10-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>dbload</name>
