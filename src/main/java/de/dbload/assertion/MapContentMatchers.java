@@ -67,8 +67,8 @@ import org.hamcrest.core.IsEqual;
  * @author Iwein Fuld
  * @author Gunnar Hillert
  *
- * @param <T>
- * @param <V>
+ * @param <T> Type T
+ * @param <V> Type V
  *
  */
 public class MapContentMatchers<T, V> extends

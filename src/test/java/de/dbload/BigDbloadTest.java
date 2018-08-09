@@ -16,19 +16,9 @@
 
 package de.dbload;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
-
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.sql.Timestamp;
-
-import org.joda.time.DateTime;
 import org.junit.Test;
 
-import de.dbload.assertion.Assertion;
 import de.dbload.impl.DefaultDbloadContext;
-import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TransactionalTest;
 
 /**

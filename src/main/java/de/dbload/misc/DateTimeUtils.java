@@ -31,12 +31,12 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 public class DateTimeUtils {
 
     /**
-     * Konvertierungsformat Oracle-Date-Type -> String
+     * Konvertierungsformat {@code Oracle-Date-Type} to {@code String}.
      */
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     /**
-     * Konvertierungsformat String -> Oracle-Date-Type
+     * Konvertierungsformat {@code String} to {@code Oracle-Date-Type}
      */
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
