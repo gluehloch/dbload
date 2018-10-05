@@ -18,5 +18,5 @@ docker run --expose=3306 -p 3310:3306 --name ${DOCKER_NAME} -e MYSQL_ALLOW_EMPTY
 
 #docker exec ${DOCKER_NAME} /tmp/prepare-database.sh
 
-mysql -u root --password=root -h $DOCKER_DB_HOST < create_mysql.sql
-mysql -u root --password=root -h $DOCKER_DB_HOST -D dbload < create_mysql_test_schema.sql
+mysql -u root -h $DOCKER_DB_HOST -P 3310 < create_mysql.sql
+mysql -u root -h $DOCKER_DB_HOST -P 3310 -D dbload < create_mysql_test_schema.sql
