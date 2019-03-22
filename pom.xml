@@ -5,12 +5,12 @@
   <parent>
     <groupId>de.awtools</groupId>
     <artifactId>master-pom</artifactId>
-    <version>6-java10</version>
+    <version>7-java11</version>
   </parent>
 
   <groupId>de.winkler.dbload</groupId>
   <artifactId>dbload</artifactId>
-  <version>0.4.0-java10-SNAPSHOT</version>
+  <version>0.4.0-java11</version>
   <packaging>jar</packaging>
 
   <name>dbload</name>
