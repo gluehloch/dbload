@@ -16,13 +16,10 @@
 
 package de.dbload.csv.reader;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import de.dbload.csv.reader.ColumnTypeParser;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 
@@ -38,22 +35,22 @@ public class ColumnTypeParserTest {
         ColumnMetaData columnMetaData = null;
 
         columnMetaData = ColumnTypeParser.parseColumnMetaData("hello");
-        assertThat(columnMetaData.getColumnName(), equalTo("hello"));
-        assertThat(columnMetaData.getColumnType(), equalTo(Type.VARCHAR));
+        assertThat(columnMetaData.getColumnName()).isEqualTo("hello");
+        assertThat(columnMetaData.getColumnType()).isEqualTo(Type.VARCHAR);
 
         columnMetaData = ColumnTypeParser.parseColumnMetaData("hello(date)");
-        assertThat(columnMetaData.getColumnName(), equalTo("hello"));
-        assertThat(columnMetaData.getColumnType(), equalTo(Type.DATE_TIME));
+        assertThat(columnMetaData.getColumnName()).isEqualTo("hello");
+        assertThat(columnMetaData.getColumnType()).isEqualTo(Type.DATE_TIME);
     }
 
     @Test
     public void testColumnTypeParser() {
-        assertThat(ColumnTypeParser.findType("thisismycolumn(date)"),
-                is(Type.DATE_TIME));
-        assertThat(ColumnTypeParser.findType("thisismycolumn (date)"),
-                is(Type.DATE_TIME));
-        assertThat(ColumnTypeParser.findType("thisismycolumn"),
-                is(Type.VARCHAR));
+        assertThat(ColumnTypeParser.findType("thisismycolumn(date)"))
+                .isEqualTo(Type.DATE_TIME);
+        assertThat(ColumnTypeParser.findType("thisismycolumn (date)"))
+                .isEqualTo(Type.DATE_TIME);
+        assertThat(ColumnTypeParser.findType("thisismycolumn"))
+                .isEqualTo(Type.VARCHAR);
     }
 
 }

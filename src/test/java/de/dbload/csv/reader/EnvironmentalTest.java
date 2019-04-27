@@ -16,12 +16,11 @@
 
 package de.dbload.csv.reader;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.nio.charset.Charset;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Check the environment.
@@ -33,7 +32,7 @@ public class EnvironmentalTest {
     @Test
     public void testUTF8Charset() {
         Charset charset = Charset.forName("UTF-8");
-        assertThat(charset, notNullValue());
+        assertThat(charset).isNotNull();
     }
 
 }
