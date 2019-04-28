@@ -16,10 +16,10 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
@@ -37,28 +37,30 @@ public class SqlStatementBuilderTest {
         ColumnsMetaData columns = createThreeColumnTable();
         String andCondition = SqlStatementBuilderUtils
                 .createAndCondition(columns);
-        assertThat(andCondition, equalTo("col1 = ? AND col2 = ? AND col3 = ?"));
+        assertThat(andCondition)
+                .isEqualTo("col1 = ? AND col2 = ? AND col3 = ?");
     }
 
     @Test
     public void testSqlStatementBuilderCreateColumn() {
         ColumnsMetaData columns = createThreeColumnTable();
         String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
-        assertThat(desc, equalTo("col1, col2, col3"));
+        assertThat(desc).isEqualTo("col1, col2, col3");
     }
 
     @Test
     public void testSqlStatementBuilderCreateColumnWithSingleColumn() {
         ColumnsMetaData columns = createSingleColumnTable();
         String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
-        assertThat(desc, equalTo("col1"));
+        assertThat(desc).isEqualTo("col1");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSqlStatementBuilderCreateColumnWithNoColumns() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
-        assertThat(desc, equalTo(""));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ColumnsMetaData columns = new ColumnsMetaData();
+            SqlStatementBuilderUtils.createColumnDescription(columns);
+        });
     }
 
     @Test
@@ -66,7 +68,7 @@ public class SqlStatementBuilderTest {
         ColumnsMetaData columns = createTwoColumnTable();
         String desc = SqlStatementBuilderUtils
                 .createQuestionMarkPerColumn(columns);
-        assertThat(desc, equalTo("?, ?"));
+        assertThat(desc).isEqualTo("?, ?");
     }
 
     @Test
@@ -74,15 +76,15 @@ public class SqlStatementBuilderTest {
         ColumnsMetaData columns = createSingleColumnTable();
         String desc = SqlStatementBuilderUtils
                 .createQuestionMarkPerColumn(columns);
-        assertThat(desc, equalTo("?"));
+        assertThat(desc).isEqualTo("?");
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testSqlStatementBuilderCreateColumnValueWithNoColumns() {
-        ColumnsMetaData columns = new ColumnsMetaData();
-        String desc = SqlStatementBuilderUtils
-                .createQuestionMarkPerColumn(columns);
-        assertThat(desc, equalTo(""));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            ColumnsMetaData columns = new ColumnsMetaData();
+            SqlStatementBuilderUtils.createQuestionMarkPerColumn(columns);
+        });
     }
 
     private ColumnsMetaData createSingleColumnTable() {

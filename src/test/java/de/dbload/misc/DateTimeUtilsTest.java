@@ -16,14 +16,13 @@
 
 package de.dbload.misc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for class {@link DateTimeUtils}.
@@ -36,7 +35,7 @@ public class DateTimeUtilsTest {
     public void testDateTimeUtils() {
         DateTime jodaDateTime = DateTimeUtils
                 .toJodaDateTime("1971-03-24 06:34:55");
-        assertThat(1971, equalTo(jodaDateTime.getYear()));
+        assertThat(jodaDateTime.getYear()).isEqualTo(1971);
     }
 
     @Test
@@ -46,8 +45,8 @@ public class DateTimeUtilsTest {
         Date birthday = jodaDateTime.toDate();
         Timestamp timestamp = new Timestamp(birthday.getTime());
 
-        assertThat(birthday.getTime(), equalTo(timestamp.getTime()));
-        assertThat(birthday.getTime(), equalTo(jodaDateTime.getMillis()));
+        assertThat(birthday.getTime()).isEqualTo(timestamp.getTime());
+        assertThat(birthday.getTime()).isEqualTo(jodaDateTime.getMillis());
 
         System.out.println(jodaDateTime);
         System.out.println(birthday);

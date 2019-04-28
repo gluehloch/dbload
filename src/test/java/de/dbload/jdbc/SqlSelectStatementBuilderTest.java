@@ -16,10 +16,9 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -45,11 +44,10 @@ public class SqlSelectStatementBuilderTest {
 
         SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(
                 tableMetaData);
-        assertThat(
-                sqlSelectStatement.createSql(),
-                equalTo("SELECT id, name, vorname, age, sex, birthday "
+        assertThat(sqlSelectStatement.createSql())
+                .isEqualTo("SELECT id, name, vorname, age, sex, birthday "
                         + "FROM person "
-                        + "WHERE id = ? AND name = ? AND vorname = ? AND age = ? AND sex = ? AND birthday = ?"));
+                        + "WHERE id = ? AND name = ? AND vorname = ? AND age = ? AND sex = ? AND birthday = ?");
     }
 
     @Test
@@ -60,8 +58,8 @@ public class SqlSelectStatementBuilderTest {
 
         SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(
                 tableMetaData);
-        assertThat(sqlSelectStatement.createSql(),
-                equalTo("SELECT id FROM person WHERE id = ?"));
+        assertThat(sqlSelectStatement.createSql())
+                .isEqualTo("SELECT id FROM person WHERE id = ?");
     }
 
 }

@@ -20,8 +20,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 
 import de.dbload.jdbc.connector.DatabasePropertyReader;
 
@@ -34,7 +34,7 @@ public abstract class TransactionalTest {
 
     protected Connection conn;
 
-    @Before
+    @BeforeEach
     public void openConnection() throws Exception {
         DatabasePropertyReader dpr = new DatabasePropertyReader();
         String url = dpr.getDatabaseUrl(dpr.read());
@@ -42,7 +42,7 @@ public abstract class TransactionalTest {
         conn.setAutoCommit(false);
     }
 
-    @After
+    @AfterEach
     public void closeConnection() throws SQLException {
         SQLException exe = null;
         try {

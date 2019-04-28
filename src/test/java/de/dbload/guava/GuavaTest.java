@@ -16,12 +16,11 @@
 
 package de.dbload.guava;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.*;
 
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.collect.Lists;
 
@@ -35,9 +34,9 @@ public class GuavaTest {
     @Test
     public void testArraysToList() {
         ArrayList<String> list = Lists.newArrayList("a", "b", "c");
-        assertThat(list.get(0), equalTo("a"));
-        assertThat(list.get(1), equalTo("b"));
-        assertThat(list.get(2), equalTo("c"));
+        assertThat(list.get(0)).isEqualTo("a");
+        assertThat(list.get(1)).isEqualTo("b");
+        assertThat(list.get(2)).isEqualTo("c");
     }
 
 }

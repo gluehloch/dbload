@@ -16,9 +16,7 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -27,8 +25,8 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -45,7 +43,7 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
 
     private TableMetaData tableMetaData;
 
-    @Before
+    @BeforeEach
     public void setup() {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.column("id", Type.LONG);
@@ -62,9 +60,8 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(
                 tableMetaData);
 
-        assertThat(
-                sqlStatement.createSql(),
-                equalTo("INSERT INTO person(id, name, vorname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)"));
+        assertThat(sqlStatement.createSql()).isEqualTo(
+                "INSERT INTO person(id, name, vorname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)");
     }
 
     @Test
@@ -113,13 +110,13 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
         try (Statement selectStmt = conn.createStatement()) {
             ResultSet resultSet = selectStmt
                     .executeQuery("select * from person order by id");
-            assertThat(resultSet.next(), is(true));
-            assertThat(resultSet.getString("name"), equalTo("winkler"));
-            assertThat(resultSet.getString("vorname"), equalTo("andre"));
-            assertThat(resultSet.next(), is(true));
-            assertThat(resultSet.getString("name"), equalTo("winkler"));
-            assertThat(resultSet.getString("vorname"), equalTo("lars"));
-            assertThat(resultSet.next(), is(false));
+            assertThat(resultSet.next()).isTrue();
+            assertThat(resultSet.getString("name")).isEqualTo("winkler");
+            assertThat(resultSet.getString("vorname")).isEqualTo("andre");
+            assertThat(resultSet.next()).isTrue();
+            assertThat(resultSet.getString("name")).isEqualTo("winkler");
+            assertThat(resultSet.getString("vorname")).isEqualTo("lars");
+            assertThat(resultSet.next()).isFalse();
         }
     }
 

@@ -16,8 +16,7 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,8 +24,8 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
@@ -46,7 +45,7 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
 
-    @Before
+    @BeforeEach
     public void before() {
         dbloadContext = new DefaultDbloadContext(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
@@ -82,9 +81,9 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
                     .executeQuery("select * from person order by id")) {
                 resultSet.next();
 
-                assertThat(resultSet.getLong("id"), equalTo(1L));
-                assertThat(resultSet.getString("name"), equalTo("Winkler"));
-                assertThat(resultSet.getString("vorname"), equalTo("Andre"));
+                assertThat(resultSet.getLong("id")).isEqualTo(1L);
+                assertThat(resultSet.getString("name")).isEqualTo("Winkler");
+                assertThat(resultSet.getString("vorname")).isEqualTo("Andre");
 
                 Date date = resultSet.getTimestamp("birthday");
                 DateTime dateTime = new DateTime(date.getTime());
@@ -92,7 +91,7 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
                 DateTime date_19710324 = DateTimeUtils
                         .toJodaDateTime("1971-03-24 06:41:11");
 
-                assertThat(dateTime, equalTo(date_19710324));
+                assertThat(dateTime).isEqualTo(date_19710324);
             }
         }
     }

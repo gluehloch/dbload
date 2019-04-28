@@ -16,13 +16,12 @@
 
 package de.dbload.jdbc.connector;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for the MySql JDBC connection string.
@@ -37,7 +36,7 @@ public class SqlConnectionTest {
         String url = dpr.getDatabaseUrl(dpr.read());
 
         Connection conn = DriverManager.getConnection(url);
-        assertThat(conn, notNullValue());
+        assertThat(conn).isNotNull();
     }
 
 }

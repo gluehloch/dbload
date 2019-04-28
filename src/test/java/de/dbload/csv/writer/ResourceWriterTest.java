@@ -19,8 +19,8 @@ package de.dbload.csv.writer;
 import java.io.File;
 import java.sql.SQLException;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import de.dbload.BigDbloadTest;
 import de.dbload.Dbload;
@@ -35,7 +35,7 @@ import de.dbload.utils.TransactionalTest;
  */
 public class ResourceWriterTest extends TransactionalTest {
 
-    @Ignore
+    @Disabled
     @Test
     public void testResourceWriter() throws SQLException {
         DbloadContext context = new DefaultDbloadContext(conn);

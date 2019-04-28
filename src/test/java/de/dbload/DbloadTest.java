@@ -16,17 +16,15 @@
 
 package de.dbload;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 
 import org.joda.time.DateTime;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import de.dbload.assertion.Assertion;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TransactionalTest;
@@ -43,7 +41,7 @@ public class DbloadTest extends TransactionalTest {
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, DbloadTest.class);
 
-        Assertion.assertExists(context, DbloadTest.class);
+        assertThat(context).isInstanceOf(DefaultDbloadContext.class);
 
         try (Statement stmt = conn.createStatement()) {
             // ResultSet resultSet = stmt
@@ -52,15 +50,15 @@ public class DbloadTest extends TransactionalTest {
             try (ResultSet resultSet = stmt
                     .executeQuery(
                             "SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
-                assertThat(resultSet.next(), equalTo(true));
+                assertThat(resultSet.next()).isTrue();
 
                 DateTime datetime = DateTimeUtils
                         .toJodaDateTime("1971-03-24 06:38:00");
 
                 Timestamp expectedTimestamp = new Timestamp(datetime.toDate()
                         .getTime());
-                assertThat(resultSet.getTimestamp("birthday"),
-                        equalTo(expectedTimestamp));
+                assertThat(resultSet.getTimestamp("birthday"))
+                        .isEqualTo(expectedTimestamp);
             }
         }
     }

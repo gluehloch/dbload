@@ -16,14 +16,12 @@
 
 package de.dbload;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.InputStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import de.dbload.assertion.Assertion;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.utils.TransactionalTest;
 
@@ -41,9 +39,8 @@ public class DbloadWithMissingColumnTest extends TransactionalTest {
 
         InputStream resourceAsStream = DbloadWithMissingColumnTest.class
                 .getResourceAsStream("DbloadWithMissingColumnTest.dat");
-        assertThat(resourceAsStream, notNullValue());
-
-        Assertion.assertExists(context, DbloadWithMissingColumnTest.class);
+        assertThat(resourceAsStream).isNotNull();
+        assertThat(context).isInstanceOf(DefaultDbloadContext.class);
     }
 
 }

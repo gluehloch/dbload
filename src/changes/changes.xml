@@ -12,6 +12,11 @@
       </action> 
 -->
     <!-- Under construction -->
+    <release version="dbload-0.5.0" date="2019-??-??">
+      <action dev="andrewinkler" type="update" date="2019-04-28">
+        Update to JUnit 5. Removed the assertions package. Was never used.
+      </action>
+    </release>
     
     <!-- RELEASED -->
     <release version="dbload-0.4.0" date="2019-03-22">

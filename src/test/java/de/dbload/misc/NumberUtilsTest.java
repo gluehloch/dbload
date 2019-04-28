@@ -16,12 +16,11 @@
 
 package de.dbload.misc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Locale;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link NumberUtils}.
@@ -37,19 +36,19 @@ public class NumberUtilsTest {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.GERMANY);
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
 
         number = NumberUtils.toNumber("4711,00", Locale.GERMANY);
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
 
         number = NumberUtils.toNumber("4711.00", Locale.GERMANY);
-        assertThat(number.intValue(), equalTo(471100));
+        assertThat(number.intValue()).isEqualTo(471100);
 
         number = NumberUtils.toNumber("4.711", Locale.GERMANY);
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
 
         number = NumberUtils.toNumber("4711,1", Locale.GERMANY);
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
     }
 
     @Test
@@ -57,19 +56,19 @@ public class NumberUtilsTest {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.GERMANY);
-        assertThat(number.doubleValue(), equalTo(4711.));
+        assertThat(number.doubleValue()).isEqualTo(4711.);
 
         number = NumberUtils.toNumber("4711,00", Locale.GERMANY);
-        assertThat(number.doubleValue(), equalTo(4711.));
+        assertThat(number.doubleValue()).isEqualTo(4711.);
 
         number = NumberUtils.toNumber("4711.00", Locale.GERMANY);
-        assertThat(number.doubleValue(), equalTo(471100.));
+        assertThat(number.doubleValue()).isEqualTo(471100.);
 
         number = NumberUtils.toNumber("4.711", Locale.GERMANY);
-        assertThat(number.doubleValue(), equalTo(4711.));
+        assertThat(number.doubleValue()).isEqualTo(4711.);
 
         number = NumberUtils.toNumber("4711,1", Locale.GERMANY);
-        assertThat(number.doubleValue(), equalTo(4711.1));
+        assertThat(number.doubleValue()).isEqualTo(4711.1);
     }
 
     @Test
@@ -77,19 +76,19 @@ public class NumberUtilsTest {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.ENGLISH);
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
 
         number = NumberUtils.toNumber("4711,00", Locale.ENGLISH);
-        assertThat(number.intValue(), equalTo(471100));
+        assertThat(number.intValue()).isEqualTo(471100);
 
         number = NumberUtils.toNumber("4711.00", Locale.ENGLISH);
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
 
         number = NumberUtils.toNumber("4.711", Locale.ENGLISH);
-        assertThat(number.intValue(), equalTo(4));
+        assertThat(number.intValue()).isEqualTo(4);
 
         number = NumberUtils.toNumber("4711,1", Locale.ENGLISH);
-        assertThat(number.intValue(), equalTo(47111));
+        assertThat(number.intValue()).isEqualTo(47111);
     }
 
     @Test
@@ -97,19 +96,19 @@ public class NumberUtilsTest {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.ENGLISH);
-        assertThat(number.doubleValue(), equalTo(4711.));
+        assertThat(number.doubleValue()).isEqualTo(4711.);
 
         number = NumberUtils.toNumber("4711,00", Locale.ENGLISH);
-        assertThat(number.doubleValue(), equalTo(471100.));
+        assertThat(number.doubleValue()).isEqualTo(471100.);
 
         number = NumberUtils.toNumber("4711.00", Locale.ENGLISH);
-        assertThat(number.doubleValue(), equalTo(4711.));
+        assertThat(number.doubleValue()).isEqualTo(4711.);
 
         number = NumberUtils.toNumber("4.711", Locale.ENGLISH);
-        assertThat(number.doubleValue(), equalTo(4.711));
+        assertThat(number.doubleValue()).isEqualTo(4.711);
 
         number = NumberUtils.toNumber("4711,1", Locale.ENGLISH);
-        assertThat(number.doubleValue(), equalTo(47111.));
+        assertThat(number.doubleValue()).isEqualTo(47111.);
     }
 
 }

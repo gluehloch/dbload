@@ -17,13 +17,14 @@
 package de.dbload.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import de.dbload.Dbload;
-import de.dbload.impl.DbloadFileInsert;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -37,8 +38,12 @@ import de.dbload.meta.TableMetaData;
  */
 public class DbloadFileInsertTest {
 
-    @Rule
-    public TemporaryFolder folder = new TemporaryFolder();
+    private Path tempDir;
+
+    @BeforeEach
+    public void before() throws IOException {
+        tempDir = Files.createTempDirectory("dbload");
+    }
 
     @Test
     public void testResourceFileInsert() throws Exception {
@@ -59,7 +64,7 @@ public class DbloadFileInsertTest {
         data.put("sex", "0");
         data.put("birthday", "1971-03-24 06:41:11");
 
-        File directory = folder.newFolder();
+        File directory = tempDir.toFile();
         try (DbloadFileInsert rfi = new DbloadFileInsert(directory,
                 Dbload.class)) {
 
