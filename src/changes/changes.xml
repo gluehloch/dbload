@@ -12,9 +12,11 @@
       </action> 
 -->
     <!-- Under construction -->
-    <release version="dbload-0.4.0" date="2018-??-??">
+    
+    <!-- RELEASED -->
+    <release version="dbload-0.4.0" date="2019-03-22">
       <action dev="andrewinkler" type="update" date="2018-08-09">
-        Update to Java 10.
+        Update to Java 11.
       </action>
     </release>
     
