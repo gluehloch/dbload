@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Reads the database properties.
  * 
@@ -35,7 +37,14 @@ public class DatabasePropertyReader {
      *             Ups
      */
     public Properties read() throws IOException {
-        return read("/db.properties");
+        String systemSpecificDatabaseUrl = System.getenv("dbload.database.url");
+        if (StringUtils.isBlank(systemSpecificDatabaseUrl)) {
+            return read("/db.properties");
+        } else {
+            Properties properties = new Properties();
+            properties.put("dbload.database.url", systemSpecificDatabaseUrl);
+            return properties;
+        }
     }
 
     /**

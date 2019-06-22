@@ -16,6 +16,11 @@
       <action dev="andrewinkler" type="update" date="2019-04-28">
         Update to JUnit 5. Removed the assertions package. Was never used.
       </action>
+      <action dev="andrewinkler" type="add" date="2019-06-22">
+        Take enviroment variable as database url for the test cases, if 
+        it is defined. The env variable overrules the
+        test/resource/db.properties settings.
+      </action>
     </release>
     
     <!-- RELEASED -->
