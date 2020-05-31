@@ -20,6 +20,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.codehaus.plexus.util.StringUtils;
+
+import de.dbload.impl.DbloadException;
+
 /**
  * Reads the database properties.
  * 
@@ -27,29 +31,39 @@ import java.util.Properties;
  */
 public class DatabasePropertyReader {
 
+    private static final String DBLOAD_DATABASE_URL_KEY = "dbload.database.url";
+
+    private final Properties properties = new Properties();
+
     /**
-     * Read the properties from the default file <code>/db.properties</code>
-     * 
-     * @return the database properties
-     * @throws IOException
-     *             Ups
+     * Read the properties from the default file <code>/db.properties</code> or
+     * from the system environment. Env wins about file.
      */
-    public Properties read() throws IOException {
-        return read("/db.properties");
+    private Properties read() {
+        try {
+            Properties propertiesFromFile = readFromClasspathFile("/db.properties");
+            properties.putAll(propertiesFromFile);
+        } catch (IOException ex) {
+            throw new DbloadException(ex);
+        }
+
+        String propertyFromEnv = System.getenv(DBLOAD_DATABASE_URL_KEY);
+        if (StringUtils.isNotBlank(propertyFromEnv)) {
+            properties.put(DBLOAD_DATABASE_URL_KEY, propertyFromEnv);
+        }
+
+        return properties;
     }
 
     /**
      * Read the properties.
      * 
-     * @param resource
-     *            the resource path name
+     * @param resource the resource path name
      * @return the database properties
-     * @throws IOException
-     *             Ups
+     * @throws IOException Unable to read the property file.
      */
-    public Properties read(String resource) throws IOException {
-        InputStream is = DatabasePropertyReader.class
-                .getResourceAsStream(resource);
+    private Properties readFromClasspathFile(String resource) throws IOException {
+        InputStream is = DatabasePropertyReader.class.getResourceAsStream(resource);
         Properties properties = new Properties();
         properties.load(is);
         return properties;
@@ -57,13 +71,11 @@ public class DatabasePropertyReader {
 
     /**
      * Get the database url.
-     * 
-     * @param properties
-     *            the database properties
+     *
      * @return the database url
      */
-    public String getDatabaseUrl(Properties properties) {
-        return properties.getProperty("dbload.database.url");
+    public String getDatabaseUrl() {
+        return read().getProperty(DBLOAD_DATABASE_URL_KEY);
     }
 
 }

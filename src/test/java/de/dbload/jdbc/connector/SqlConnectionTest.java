@@ -34,7 +34,7 @@ public class SqlConnectionTest {
     @Test
     public void testMySqlConnectionStringWithAutoCommit() throws Exception {
         DatabasePropertyReader dpr = new DatabasePropertyReader();
-        String url = dpr.getDatabaseUrl(dpr.read());
+        String url = dpr.getDatabaseUrl();
 
         Connection conn = DriverManager.getConnection(url);
         assertThat(conn, notNullValue());
