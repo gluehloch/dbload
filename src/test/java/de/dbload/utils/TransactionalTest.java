@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import de.dbload.impl.DbloadException;
 import de.dbload.jdbc.connector.DatabasePropertyReader;
 
 /**
@@ -37,7 +38,10 @@ public abstract class TransactionalTest {
     @BeforeEach
     public void openConnection() throws Exception {
         DatabasePropertyReader dpr = new DatabasePropertyReader();
-        String url = dpr.getDatabaseUrl(dpr.read());
+        String url = dpr.getDatabaseUrl();
+        if (url == null) {
+            throw new DbloadException("Databse URL property not found.");
+        }
         conn = DriverManager.getConnection(url);
         conn.setAutoCommit(false);
     }
