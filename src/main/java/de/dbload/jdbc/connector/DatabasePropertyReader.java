@@ -16,6 +16,7 @@
 
 package de.dbload.jdbc.connector;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -31,21 +32,22 @@ import de.dbload.impl.DbloadException;
  */
 public class DatabasePropertyReader {
 
+    private static final String DB_PROPERTIES_FILE = "/db.properties";
+    private static final String DB_PROPERTIES_FILE_MY = "/my-db.properties";
+    
     private static final String DBLOAD_DATABASE_URL_KEY = "dbload.database.url";
 
     private final Properties properties = new Properties();
 
     /**
-     * Read the properties from the default file <code>/db.properties</code> or
-     * from the system environment. Env wins about file.
+     * Read the properties from the default file <code>/db.properties</code>, or
+     * from <code>/my-db.properties</code> or
+     * from the system environment. Environment variable wins before file! The
+     * <code>my-db.properties</code> file wins before <code>/db.properties</code>.
      */
     private Properties read() {
-        try {
-            Properties propertiesFromFile = readFromClasspathFile("/db.properties");
-            properties.putAll(propertiesFromFile);
-        } catch (IOException ex) {
-            throw new DbloadException(ex);
-        }
+        Properties properties = readFromFile(new Properties(), DB_PROPERTIES_FILE);
+        readFromFile(properties, DB_PROPERTIES_FILE_MY);
 
         String propertyFromEnv = System.getenv(DBLOAD_DATABASE_URL_KEY);
         if (StringUtils.isNotBlank(propertyFromEnv)) {
@@ -55,6 +57,18 @@ public class DatabasePropertyReader {
         return properties;
     }
 
+    private Properties readFromFile(Properties properties, String fileName) {
+        try {
+            Properties propertiesFromFile = readFromClasspathFile(fileName);
+            properties.putAll(propertiesFromFile);
+        } catch (FileNotFoundException ex) {
+            // ignore me
+        } catch (IOException ex) {
+            throw new DbloadException(ex);
+        }
+        return properties;
+    }
+    
     /**
      * Read the properties.
      * 

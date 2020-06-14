@@ -7,3 +7,6 @@ dbload.iml
 .settings
 .vscode
 
+# Local files
+my-db.properties
+

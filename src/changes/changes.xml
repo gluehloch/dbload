@@ -19,7 +19,9 @@
       <action dev="andrewinkler" type="add" date="2019-06-22">
         Take enviroment variable as database url for the test cases, if 
         it is defined. The env variable overrules the
-        test/resource/db.properties settings.
+        test/resource/db.properties settings. Alternatively you
+        can create a file test/resource/my-db.properties (ignored
+        by Git) with a local specfic JDBC URL.
       </action>
     </release>
     
