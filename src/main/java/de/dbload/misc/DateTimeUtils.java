@@ -40,6 +40,7 @@ public class DateTimeUtils {
      */
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
+    /** DateTimeFormatter: '2020-03-24 18:10:33' */
     private static DateTimeFormatter DEFAULT_FORMATTER_FOR_JODA_DATETIME = new DateTimeFormatterBuilder()
             .appendYear(4, 4).appendLiteral("-").appendMonthOfYear(2)
             .appendLiteral("-").appendDayOfMonth(2).appendLiteral(" ")
