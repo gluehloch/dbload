@@ -1,10 +1,10 @@
 #!/bin/bash
 export DOCKER_NAME='dbload'
-export DOCKER_DB_HOST='192.168.99.100'
+export DOCKER_DB_HOST='127.0.0.1'
 
 # Die Testdatenbank laueft unter Port 3310. Damit gehe ich dem Konflikt mit
 # der betoffice Datenbank aus dem Weg.
-docker run --expose=3306 -p 3310:3306 --name ${DOCKER_NAME} -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
+# docker run --expose=3306 -p 3310:3306 --name ${DOCKER_NAME} -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
 
 #export DOCKER_CONTAINER_ID=$(docker inspect -f '{{.Id}}' ${DOCKER_NAME})
 #CREATE_MARIADB_USER='create_mysql.sql'
@@ -18,5 +18,5 @@ docker run --expose=3306 -p 3310:3306 --name ${DOCKER_NAME} -e MYSQL_ALLOW_EMPTY
 
 #docker exec ${DOCKER_NAME} /tmp/prepare-database.sh
 
-mysql -u root -h $DOCKER_DB_HOST -P 3310 < create_mysql.sql
-mysql -u root -h $DOCKER_DB_HOST -P 3310 -D dbload < create_mysql_test_schema.sql
+mysql -u root -h $DOCKER_DB_HOST < create_mysql.sql
+mysql -u root -h $DOCKER_DB_HOST -D dbload < create_mysql_test_schema.sql
