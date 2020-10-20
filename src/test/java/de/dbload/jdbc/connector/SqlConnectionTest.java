@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test for the MySql JDBC connection string.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class SqlConnectionTest {

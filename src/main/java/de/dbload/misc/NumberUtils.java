@@ -22,18 +22,23 @@ import java.text.ParseException;
 import java.util.Locale;
 
 /**
- *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class NumberUtils {
 
-    /** The default format. */
+    /**
+     * The default format.
+     */
     public static final String DEFAULT_DECIMAL_FORMAT = "###,###.##";
 
-    /** The default format. */
+    /**
+     * The default format.
+     */
     public static final String DEFAULT_ZERO_FORMAT = "##,##0.00";
 
-    /** The default locale. */
+    /**
+     * The default locale.
+     */
     private static final Locale DEFAULT_LOCALE = Locale.getDefault();
 
     public static Number toNumber(final String value) {

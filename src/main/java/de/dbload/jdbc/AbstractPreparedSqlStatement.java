@@ -39,14 +39,10 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     /**
      * Constructor.
      *
-     * @param _context
-     *            dbload context
-     * @param _tableMetaData
-     *            table meta data
-     * @param preparedStatement
-     *            A JDBC prepared statement
-     * @throws SQLException
-     *             Something is wrong
+     * @param _context          dbload context
+     * @param _tableMetaData    table meta data
+     * @param preparedStatement A JDBC prepared statement
+     * @throws SQLException Something is wrong
      */
     public AbstractPreparedSqlStatement(DbloadContext _context,
             TableMetaData _tableMetaData, PreparedStatement preparedStatement)
@@ -87,10 +83,8 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     /**
      * Execute the SQL statement with the given parameters (data).
      *
-     * @param data
-     *            the data to use as parameters for the query
-     * @throws SQLException
-     *             Something is wrong
+     * @param data the data to use as parameters for the query
+     * @throws SQLException Something is wrong
      */
     public abstract void execute(DataRow data) throws SQLException;
 
@@ -98,8 +92,8 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      * Returns the execution result.
      *
      * @return Returns <code>true</code>, if the executed statement returns a
-     *         {@link ResultSet} object. Returns <code>false</code>, if the
-     *         executed statement returns the count of executed updates.
+     * {@link ResultSet} object. Returns <code>false</code>, if the
+     * executed statement returns the count of executed updates.
      */
     abstract boolean hasResultSet();
 

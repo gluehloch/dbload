@@ -37,13 +37,10 @@ public class PreparedStatementBuilder {
     /**
      * Creates a {@link PreparedStatement}.
      *
-     * @param _context
-     *            dbload context (database connection)
-     * @param sqlStatement
-     *            The SQL statement (INSERT, SELECT or UPDATE)
+     * @param _context     dbload context (database connection)
+     * @param sqlStatement The SQL statement (INSERT, SELECT or UPDATE)
      * @return a PreparedStatement
-     * @throws SQLException
-     *             that was not ok!
+     * @throws SQLException that was not ok!
      */
     public static PreparedStatement prepareStatement(DbloadContext _context,
             SqlStatementBuilder sqlStatement) throws SQLException {
@@ -55,16 +52,11 @@ public class PreparedStatementBuilder {
     /**
      * Apply some data to the parameters of a JDBC prepared statement.
      *
-     * @param _data
-     *            the data to apply to the params
-     * @param _tableMetaData
-     *            the table meta data
-     * @param _jdbcTypeConverter
-     *            a jdbc type converter
-     * @param _stmt
-     *            a JDBC prepared statement
-     * @throws SQLException
-     *             that was not ok!
+     * @param _data              the data to apply to the params
+     * @param _tableMetaData     the table meta data
+     * @param _jdbcTypeConverter a jdbc type converter
+     * @param _stmt              a JDBC prepared statement
+     * @throws SQLException that was not ok!
      */
     public static void applyParams(DataRow _data, TableMetaData _tableMetaData,
             JdbcTypeConverter _jdbcTypeConverter, PreparedStatement _stmt)

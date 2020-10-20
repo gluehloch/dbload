@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -23,10 +23,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-import org.joda.time.DateTime;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.meta.DataRow;
@@ -34,10 +30,13 @@ import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestMetaDataFactory;
 import de.dbload.utils.TransactionalTest;
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * A test case for {@link AbstractPreparedSqlStatement}.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class PreparedSqlInsertStatementTest extends TransactionalTest {

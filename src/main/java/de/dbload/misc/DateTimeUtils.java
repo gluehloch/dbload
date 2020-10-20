@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -40,7 +40,9 @@ public class DateTimeUtils {
      */
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
-    /** DateTimeFormatter: '2020-03-24 18:10:33' */
+    /**
+     * DateTimeFormatter: '2020-03-24 18:10:33'
+     */
     private static DateTimeFormatter DEFAULT_FORMATTER_FOR_JODA_DATETIME = new DateTimeFormatterBuilder()
             .appendYear(4, 4).appendLiteral("-").appendMonthOfYear(2)
             .appendLiteral("-").appendDayOfMonth(2).appendLiteral(" ")
@@ -50,13 +52,12 @@ public class DateTimeUtils {
     /**
      * Creates a Joda DateTime object. The following date and time pattern will
      * be used:
-     * 
+     *
      * <pre>
      * yyyy-MM-dd HH24:MI:ss
      * </pre>
      *
-     * @param dateAsString
-     *            a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
+     * @param dateAsString a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
      * @return A Joda {@link DateTime}
      */
     public static DateTime toJodaDateTime(String dateAsString) {
@@ -68,9 +69,8 @@ public class DateTimeUtils {
     /**
      * Convert a JDBC <code>Timestamp</code> object to a Joda
      * <code>DateTime</code> object.
-     * 
-     * @param timestamp
-     *            a JDBC time stamp
+     *
+     * @param timestamp a JDBC time stamp
      * @return a Joda {@link DateTime}
      */
     public static DateTime toDateJodaTime(Timestamp timestamp) {
@@ -85,9 +85,8 @@ public class DateTimeUtils {
 
     /**
      * Returns the milliseconds of {@link DateTime}.
-     * 
-     * @param datetime
-     *            the Joda date and time object
+     *
+     * @param datetime the Joda date and time object
      * @return milliseconds
      */
     public static long toLong(DateTime datetime) {
@@ -96,9 +95,8 @@ public class DateTimeUtils {
 
     /**
      * Returns the SQL <code>Timestamp</code> for a Joda DateTime object.
-     * 
-     * @param datetime
-     *            the joda date and time object
+     *
+     * @param datetime the joda date and time object
      * @return a SQL Timestamp.
      */
     public static Timestamp toTimestamp(DateTime datetime) {

@@ -34,8 +34,7 @@ public class SqlSelectStatementBuilder implements SqlStatementBuilder {
     /**
      * Constructor.
      *
-     * @param _tableMetaData
-     *            the meta data of a database table
+     * @param _tableMetaData the meta data of a database table
      */
     public SqlSelectStatementBuilder(TableMetaData _tableMetaData) {
         tableMetaData = _tableMetaData;

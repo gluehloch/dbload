@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -30,25 +30,39 @@ public class ColumnMetaData {
     public static enum Type {
         VARCHAR(java.sql.Types.VARCHAR),
 
-        /** Bit information. Very small. */
+        /**
+         * Bit information. Very small.
+         */
         BIT(java.sql.Types.BIT),
 
-        /** A big integer type. */
+        /**
+         * A big integer type.
+         */
         LONG(java.sql.Types.BIGINT),
 
-        /** number with no decimals like byte, short, int */
+        /**
+         * number with no decimals like byte, short, int
+         */
         INTEGER(java.sql.Types.INTEGER),
 
-        /** number with decimals like float, double or BigDecimal */
+        /**
+         * number with decimals like float, double or BigDecimal
+         */
         DECIMAL(java.sql.Types.DECIMAL),
 
-        /** date (date without time) */
+        /**
+         * date (date without time)
+         */
         DATE(java.sql.Types.DATE),
 
-        /** time (time without date) */
+        /**
+         * time (time without date)
+         */
         TIME(java.sql.Types.TIME),
 
-        /** date and time */
+        /**
+         * date and time
+         */
         DATE_TIME(java.sql.Types.TIMESTAMP);
 
         private int javaSqlType;
@@ -75,10 +89,8 @@ public class ColumnMetaData {
     /**
      * Constructor
      *
-     * @param columnName
-     *            column name
-     * @param columnType
-     *            column type
+     * @param columnName column name
+     * @param columnType column type
      */
     public ColumnMetaData(String columnName, Type columnType) {
         this.columnName = columnName;

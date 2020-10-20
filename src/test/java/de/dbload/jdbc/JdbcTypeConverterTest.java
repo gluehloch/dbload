@@ -21,13 +21,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.Timestamp;
 import java.util.Locale;
 
-import org.joda.time.DateTime;
-import org.junit.jupiter.api.Test;
-
 import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.Test;
 
 /**
  * A test for {@link DefaultJdbcTypeConverter}.

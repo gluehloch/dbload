@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,17 +16,10 @@
 
 package de.dbload.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import de.dbload.DbloadContext;
 import de.dbload.csv.reader.ResourceDataReader;
@@ -36,6 +29,8 @@ import de.dbload.csv.writer.ResourceWriter;
 import de.dbload.jdbc.JdbcUtils;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * The worker!
@@ -50,12 +45,9 @@ public class DefaultDbloadImpl {
     /**
      * Start upload.
      *
-     * @param context
-     *            the context for dbload
-     * @param readFromFile
-     *            read the data from this file
-     * @throws DbloadException
-     *             Some problems with files or datasources
+     * @param context      the context for dbload
+     * @param readFromFile read the data from this file
+     * @throws DbloadException Some problems with files or datasources
      */
     public void readFromFile(DbloadContext context, File readFromFile) {
         try {
@@ -70,12 +62,9 @@ public class DefaultDbloadImpl {
     /**
      * Start upload.
      *
-     * @param context
-     *            the context for dbload
-     * @param clazz
-     *            used as classloader for the resource
-     * @param resource
-     *            the resource to load from the classpath
+     * @param context  the context for dbload
+     * @param clazz    used as classloader for the resource
+     * @param resource the resource to load from the classpath
      */
     public void readFromClasspathResource(DbloadContext context, Class<?> clazz,
             String resource) {
@@ -86,12 +75,9 @@ public class DefaultDbloadImpl {
     /**
      * Start upload.
      *
-     * @param context
-     *            the context for dbload
-     * @param clazz
-     *            used as classloader root for the data file
-     * @throws DbloadException
-     *             Some problems with files or datasources
+     * @param context the context for dbload
+     * @param clazz   used as classloader root for the data file
+     * @throws DbloadException Some problems with files or datasources
      */
     public void readFromClasspathResource(DbloadContext context,
             Class<?> clazz) {
@@ -167,12 +153,9 @@ public class DefaultDbloadImpl {
     /**
      * Export all tables to a file.
      *
-     * @param context
-     *            the database JDBC connection
-     * @param writeToFile
-     *            the file to write to
-     * @param tableNames
-     *            the database tables to export
+     * @param context     the database JDBC connection
+     * @param writeToFile the file to write to
+     * @param tableNames  the database tables to export
      */
     public void writeToFile(DbloadContext context, File writeToFile,
             String[] tableNames) {
@@ -188,12 +171,9 @@ public class DefaultDbloadImpl {
     /**
      * Export all tables to a file.
      *
-     * @param context
-     *            the database JDBC connection
-     * @param writeToFile
-     *            the file to write to
-     * @param tableNames
-     *            the database tables to export
+     * @param context     the database JDBC connection
+     * @param writeToFile the file to write to
+     * @param tableNames  the database tables to export
      */
     public void writeToFile(DbloadContext context, File writeToFile,
             List<String> tableNames) {

@@ -29,17 +29,15 @@ public interface ResourceReaderCallback {
     /**
      * Inspected a new {@link TableMetaData} description.
      *
-     * @param tableMetaData
-     *            table meta data description
+     * @param tableMetaData table meta data description
      */
-    public void newTableMetaData(TableMetaData tableMetaData);
+    void newTableMetaData(TableMetaData tableMetaData);
 
     /**
      * Inspected a new {@link DataRow} for the last finded table.
      *
-     * @param dataRow
-     *            a new data row
+     * @param dataRow a new data row
      */
-    public void newDataRow(DataRow dataRow);
+    void newDataRow(DataRow dataRow);
 
 }

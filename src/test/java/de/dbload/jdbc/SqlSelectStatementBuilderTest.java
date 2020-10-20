@@ -18,11 +18,10 @@ package de.dbload.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
-
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
+import org.junit.jupiter.api.Test;
 
 /**
  * A test class for {@link SqlSelectStatementBuilder}.

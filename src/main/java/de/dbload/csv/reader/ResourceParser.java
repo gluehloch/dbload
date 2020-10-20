@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -20,9 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.apache.commons.lang.StringUtils;
-
 import de.dbload.meta.DataRow;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Read a resource.
@@ -70,10 +69,8 @@ public class ResourceParser {
     /**
      * Reads the table definition
      *
-     * @param lineNo
-     *            the line number (for better error messages)
-     * @param line
-     *            One line from the resource
+     * @param lineNo the line number (for better error messages)
+     * @param line   One line from the resource
      * @return ParserState
      */
     public ParserState parse(int lineNo, String line) {
@@ -98,13 +95,10 @@ public class ResourceParser {
     /**
      * Reading a line of data.
      *
-     * @param _columns
-     *            The name of the columns. The parsed line element will be
-     *            associated with a column.
-     * @param _lineNo
-     *            the line number (for better error messages)
-     * @param line
-     *            The data line. Will be parsed to one or many columns.
+     * @param _columns The name of the columns. The parsed line element will be
+     *                 associated with a column.
+     * @param _lineNo  the line number (for better error messages)
+     * @param line     The data line. Will be parsed to one or many columns.
      * @return list with data
      */
     public DataRow readRow(List<String> _columns, int _lineNo, String line) {
@@ -154,8 +148,7 @@ public class ResourceParser {
     /**
      * Read the column definition
      *
-     * @param columnDefinition
-     *            column definitions
+     * @param columnDefinition column definitions
      * @return column description
      */
     public List<String> readColumnNames(String columnDefinition) {
@@ -180,8 +173,7 @@ public class ResourceParser {
     /**
      * Read the table definition
      *
-     * @param tableDefinition
-     *            the table definition
+     * @param tableDefinition the table definition
      * @return the table name
      */
     public String readTableDefinition(String tableDefinition) {

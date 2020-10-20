@@ -21,27 +21,26 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.dbload.impl.DbloadException;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Reads the database properties.
- * 
+ * <p>
  * Read the properties from the default file <code>/db.properties</code>, or
  * from <code>/my-db.properties</code> or
  * from the system environment. Environment variable wins before file! The
  * <code>my-db.properties</code> file wins before <code>/db.properties</code>.
- * 
+ * <p>
  * The database URL can be found under the key {@code dbload.database.url}.
- * 
+ *
  * @author Andre Winkler. https://www.andre-winkler.de
  */
 public class DatabasePropertyReader {
 
     private static final String DB_PROPERTIES_FILE = "/db.properties";
     private static final String DB_PROPERTIES_FILE_MY = "/my-db.properties";
-    
+
     private static final String DBLOAD_DATABASE_URL_KEY = "dbload.database.url";
 
     /**
@@ -75,10 +74,10 @@ public class DatabasePropertyReader {
         }
         return properties;
     }
-    
+
     /**
      * Read the properties.
-     * 
+     *
      * @param resource the resource path name
      * @return the database properties
      * @throws IOException Unable to read the property file.

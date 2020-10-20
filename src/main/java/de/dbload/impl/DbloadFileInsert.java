@@ -16,19 +16,14 @@
 
 package de.dbload.impl;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
-
-import org.apache.commons.lang.StringUtils;
+import java.io.*;
 
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Writes the insert sql script to the file system.
@@ -45,10 +40,8 @@ public class DbloadFileInsert implements DbloadSqlStatement {
     /**
      * Constructor
      *
-     * @param directory
-     *            export directory
-     * @param clazz
-     *            the classpath resource
+     * @param directory export directory
+     * @param clazz     the classpath resource
      */
     public DbloadFileInsert(File directory, Class<?> clazz) {
         this(directory, clazz.getName());
@@ -57,10 +50,8 @@ public class DbloadFileInsert implements DbloadSqlStatement {
     /**
      * Constructor
      *
-     * @param directory
-     *            export directory
-     * @param testcase
-     *            the name of the testcase
+     * @param directory export directory
+     * @param testcase  the name of the testcase
      */
     public DbloadFileInsert(File directory, String testcase) {
         sqlOutputFile = new File(directory, testcase + ".sql");
@@ -79,8 +70,7 @@ public class DbloadFileInsert implements DbloadSqlStatement {
     /**
      * Set the current table name.
      *
-     * @param _tableMetaData
-     *            table name.
+     * @param _tableMetaData table name.
      */
     @Override
     public void newTableMetaData(TableMetaData _tableMetaData) {
@@ -96,8 +86,7 @@ public class DbloadFileInsert implements DbloadSqlStatement {
     /**
      * Insert a new row of data.
      *
-     * @param data
-     *            the data to insert
+     * @param data the data to insert
      */
     @Override
     public void execute(DataRow data) {

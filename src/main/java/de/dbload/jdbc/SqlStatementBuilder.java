@@ -28,6 +28,6 @@ public interface SqlStatementBuilder {
      *
      * @return A sql statement as String.
      */
-    public String createSql();
+    String createSql();
 
 }

@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 
 /**
  * Test for {@link NumberUtils}.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class NumberUtilsTest {

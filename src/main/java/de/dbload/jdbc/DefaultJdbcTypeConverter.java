@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -24,13 +24,12 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-
 import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
+import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 
 /**
  * Convert a Java type to the associated JDBC type. Don´t share this converter
@@ -56,8 +55,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     /**
      * Creates a type converter with the specified locale.
      *
-     * @param locale
-     *            a locale
+     * @param locale a locale
      */
     public DefaultJdbcTypeConverter(Locale locale) {
         decimalFormat = NumberUtils.createDecimalFormatter(locale);
@@ -67,8 +65,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
      * Creates a type converter. But here you define your own
      * {@link DecimalFormat}.
      *
-     * @param _decimalFormat
-     *            a decimal formatter
+     * @param _decimalFormat a decimal formatter
      */
     public DefaultJdbcTypeConverter(DecimalFormat _decimalFormat) {
         decimalFormat = _decimalFormat;
@@ -76,7 +73,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData,
      * java.lang.String)

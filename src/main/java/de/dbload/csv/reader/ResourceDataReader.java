@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,15 +16,11 @@
 
 package de.dbload.csv.reader;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * Reads the data resource.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class ResourceDataReader implements Closeable {
@@ -36,9 +32,8 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Constructor.
-     * 
-     * @param inputStream
-     *            the dat resource as stream
+     *
+     * @param inputStream the dat resource as stream
      */
     public ResourceDataReader(InputStream inputStream) {
         if (inputStream == null) {
@@ -49,9 +44,8 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Opens the resource.
-     * 
-     * @throws IOException
-     *             Ups
+     *
+     * @throws IOException Ups
      */
     public void open() throws IOException {
         if (resourceAsStream == null) {
@@ -63,10 +57,9 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Read one line of the resource.
-     * 
+     *
      * @return line of data
-     * @throws IOException
-     *             Ups
+     * @throws IOException Ups
      */
     public String readLine() throws IOException {
         line = bufferedReader.readLine();
@@ -75,7 +68,7 @@ public class ResourceDataReader implements Closeable {
 
     /**
      * Reached end of file?
-     * 
+     *
      * @return Returns <code>true</code>, if reached end of file
      */
     public boolean endOfFile() {
