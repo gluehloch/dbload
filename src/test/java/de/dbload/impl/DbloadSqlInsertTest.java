@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,21 +16,19 @@
 
 package de.dbload.impl;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import de.dbload.DbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestMetaDataFactory;
 import de.dbload.utils.TransactionalTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for class {@link DbloadSqlInsert}.
@@ -42,7 +40,7 @@ public class DbloadSqlInsertTest extends TransactionalTest {
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
 
-    @Before
+    @BeforeEach
     public void before() {
         dbloadContext = new DefaultDbloadContext(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
@@ -65,11 +63,11 @@ public class DbloadSqlInsertTest extends TransactionalTest {
             try (ResultSet resultSet = stmt
                     .executeQuery(
                             "select id, name, vorname, age from person")) {
-                assertThat(resultSet.next(), is(true));
-                assertThat(resultSet.getInt("id"), is(1));
-                assertThat(resultSet.getString("name"), is("winkler"));
-                assertThat(resultSet.getString("vorname"), is("andre"));
-                assertThat(resultSet.getInt("age"), is(55));
+                assertThat(resultSet.next()).isTrue();
+                assertThat(resultSet.getInt("id")).isEqualTo(1);
+                assertThat(resultSet.getString("name")).isEqualTo("winkler");
+                assertThat(resultSet.getString("vorname")).isEqualTo("andre");
+                assertThat(resultSet.getInt("age")).isEqualTo(55);
             }
         }
     }

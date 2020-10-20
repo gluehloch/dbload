@@ -18,7 +18,7 @@ package de.dbload.impl;
 
 /**
  * {@link RuntimeException} for some DBLoad problems.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class DbloadException extends RuntimeException {

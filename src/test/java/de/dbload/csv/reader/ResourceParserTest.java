@@ -16,17 +16,13 @@
 
 package de.dbload.csv.reader;
 
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
-import de.dbload.csv.reader.ResourceParser;
 import de.dbload.meta.DataRow;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test fuer {@link ResourceParser}.
@@ -43,7 +39,7 @@ public class ResourceParserTest {
         ResourceParser resourceParser = new ResourceParser();
         String readTableDefinition = resourceParser
                 .readTableDefinition("### TAB table_name");
-        assertEquals("table_name", readTableDefinition);
+        assertThat(readTableDefinition).isEqualTo("table_name");
     }
 
     /**
@@ -55,11 +51,11 @@ public class ResourceParserTest {
         List<String> columns = resourceParser
                 .readColumnNames("### col1 | col2(date) | col3");
 
-        assertEquals("col1", columns.get(0));
-        assertEquals("col2(date)", columns.get(1));
+        assertThat(columns.get(0)).isEqualTo("col1");
+        assertThat(columns.get(1)).isEqualTo("col2(date)");
         // assertEquals(ColumnMetaData.Type.DATE,
         // columns.get(1).getColumnType());
-        assertEquals("col3", columns.get(2));
+        assertThat(columns.get(2)).isEqualTo("col3");
     }
 
     /**
@@ -76,22 +72,22 @@ public class ResourceParserTest {
         data = resourceParser.readRow(sixColumnNames, 1,
                 "dat1 | dat2|dat3  | dat4 | | ");
 
-        assertEquals("dat1", data.get("col1"));
-        assertEquals("dat2", data.get("col2"));
-        assertEquals("dat3", data.get("col3"));
-        assertEquals("dat4", data.get("col4"));
-        assertThat(data.get("col5"), nullValue());
-        assertThat(data.get("col6"), nullValue());
+        assertThat(data.get("col1")).isEqualTo("dat1");
+        assertThat(data.get("col2")).isEqualTo("dat2");
+        assertThat(data.get("col3")).isEqualTo("dat3");
+        assertThat(data.get("col4")).isEqualTo("dat4");
+        assertThat(data.get("col5")).isNull();
+        assertThat(data.get("col6")).isNull();
 
         data = resourceParser.readRow(sixColumnNames, 1,
                 "dat1 | dat2|dat3  | dat4 || ");
 
-        assertEquals("dat1", data.get("col1"));
-        assertEquals("dat2", data.get("col2"));
-        assertEquals("dat3", data.get("col3"));
-        assertEquals("dat4", data.get("col4"));
-        assertThat(data.get("col5"), nullValue());
-        assertThat(data.get("col6"), nullValue());
+        assertThat(data.get("col1")).isEqualTo("dat1");
+        assertThat(data.get("col2")).isEqualTo("dat2");
+        assertThat(data.get("col3")).isEqualTo("dat3");
+        assertThat(data.get("col4")).isEqualTo("dat4");
+        assertThat(data.get("col5")).isNull();
+        assertThat(data.get("col6")).isNull();
 
         List<String> sevenColumnNames = Arrays.asList("col1", "col2", "col3",
                 "col4", "col5", "col6", "col7");
@@ -99,13 +95,13 @@ public class ResourceParserTest {
         data = resourceParser.readRow(sevenColumnNames, 1,
                 "dat1 | dat2|dat3  | dat4 ||  |");
 
-        assertEquals("dat1", data.get("col1"));
-        assertEquals("dat2", data.get("col2"));
-        assertEquals("dat3", data.get("col3"));
-        assertEquals("dat4", data.get("col4"));
-        assertThat(data.get("col5"), nullValue());
-        assertThat(data.get("col6"), nullValue());
-        assertThat(data.get("col7"), nullValue());
+        assertThat(data.get("col1")).isEqualTo("dat1");
+        assertThat(data.get("col2")).isEqualTo("dat2");
+        assertThat(data.get("col3")).isEqualTo("dat3");
+        assertThat(data.get("col4")).isEqualTo("dat4");
+        assertThat(data.get("col5")).isNull();
+        assertThat(data.get("col6")).isNull();
+        assertThat(data.get("col7")).isNull();
     }
 
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,11 +16,7 @@
 
 package de.dbload.jdbc;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -71,11 +67,9 @@ public class JdbcUtils {
     /**
      * Create the dbload meta data of a {@link ResultSetMetaData}.
      *
-     * @param resultSetMetaData
-     *            the java sql meta data
+     * @param resultSetMetaData the java sql meta data
      * @return A description of the table columns for dbload
-     * @throws SQLException
-     *             Something is wrong
+     * @throws SQLException Something is wrong
      */
     public static TableMetaData toTableMetaData(
             ResultSetMetaData resultSetMetaData) throws SQLException {

@@ -16,20 +16,17 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.IsInstanceOf.instanceOf;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Timestamp;
 import java.util.Locale;
-
-import org.joda.time.DateTime;
-import org.junit.Test;
 
 import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.Test;
 
 /**
  * A test for {@link DefaultJdbcTypeConverter}.
@@ -46,14 +43,14 @@ public class JdbcTypeConverterTest {
                 Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711");
-        assertThat(value, instanceOf(Number.class));
+        assertThat(value).isInstanceOf(Number.class);
         Number number = (Number) value;
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
 
         value = converter.convert(columnMetaData, "4711,1");
-        assertThat(value, instanceOf(Number.class));
+        assertThat(value).isInstanceOf(Number.class);
         number = (Number) value;
-        assertThat(number.intValue(), equalTo(4711));
+        assertThat(number.intValue()).isEqualTo(4711);
     }
 
     @Test
@@ -64,14 +61,14 @@ public class JdbcTypeConverterTest {
                 Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711,11");
-        assertThat(value, instanceOf(Number.class));
+        assertThat(value).isInstanceOf(Number.class);
         Number number = (Number) value;
-        assertThat(number.doubleValue(), equalTo(4711.11));
+        assertThat(number.doubleValue()).isEqualTo(4711.11);
 
         value = converter.convert(columnMetaData, "4711");
-        assertThat(value, instanceOf(Number.class));
+        assertThat(value).isInstanceOfAny(Number.class);
         number = (Number) value;
-        assertThat(number.doubleValue(), equalTo(4711d));
+        assertThat(number.doubleValue()).isEqualTo(4711d);
     }
 
     @Test
@@ -82,9 +79,9 @@ public class JdbcTypeConverterTest {
                 Type.VARCHAR);
         Object value = converter.convert(columnMetaData, "4711");
 
-        assertThat(value, instanceOf(String.class));
+        assertThat(value).isInstanceOf(String.class);
         String str = (String) value;
-        assertThat(str, equalTo("4711"));
+        assertThat(str).isEqualTo("4711");
     }
 
     @Test
@@ -94,11 +91,11 @@ public class JdbcTypeConverterTest {
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.DATE);
         Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
 
-        assertThat(value, instanceOf(Timestamp.class));
+        assertThat(value).isInstanceOfAny(Timestamp.class);
         DateTime jodaDateTime = DateTimeUtils
                 .toJodaDateTime("2011-03-24 06:34:11");
-        assertThat(((Timestamp) value).getTime(),
-                equalTo(jodaDateTime.toDate().getTime()));
+        assertThat(((Timestamp) value).getTime())
+                .isEqualTo(jodaDateTime.toDate().getTime());
     }
 
 }

@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,16 +16,11 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
@@ -33,6 +28,8 @@ import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestMetaDataFactory;
 import de.dbload.utils.TransactionalTest;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for class {@link PreparedSqlSelectStatement}.
@@ -44,7 +41,7 @@ public class PreparedSqlSelectStatementTest extends TransactionalTest {
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
 
-    @Before
+    @BeforeEach
     public void before() {
         dbloadContext = new DefaultDbloadContext(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
@@ -74,9 +71,9 @@ public class PreparedSqlSelectStatementTest extends TransactionalTest {
             sql.execute(dataRowB);
 
             try (ResultSet rs = sql.getResultSet()) {
-                assertThat(rs.next(), is(true));
-                assertThat(rs.getString("name"), equalTo("winkler"));
-                assertThat(rs.getString("vorname"), equalTo("andre"));
+                assertThat(rs.next()).isEqualTo(true);
+                assertThat(rs.getString("name")).isEqualTo("winkler");
+                assertThat(rs.getString("vorname")).isEqualTo("andre");
 
                 DataRow dataRowA = new DataRow();
                 dataRowA.put("id", "2");
@@ -88,9 +85,9 @@ public class PreparedSqlSelectStatementTest extends TransactionalTest {
                 sql.execute(dataRowA);
 
                 try (ResultSet rs2 = sql.getResultSet()) {
-                    assertThat(rs2.next(), is(true));
-                    assertThat(rs2.getString("name"), equalTo("winkler"));
-                    assertThat(rs2.getString("vorname"), equalTo("lars"));
+                    assertThat(rs2.next()).isTrue();
+                    assertThat(rs2.getString("name")).isEqualTo("winkler");
+                    assertThat(rs2.getString("vorname")).isEqualTo("lars");
                 }
             }
         }

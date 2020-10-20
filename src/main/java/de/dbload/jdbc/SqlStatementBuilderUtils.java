@@ -31,8 +31,7 @@ class SqlStatementBuilderUtils {
      * Creates a list of column names like "col1, col2, col3" from a meta
      * description.
      *
-     * @param columns
-     *            the column description
+     * @param columns the column description
      * @return a String
      */
     public static String createColumnDescription(ColumnsMetaData columns) {
@@ -44,8 +43,7 @@ class SqlStatementBuilderUtils {
      * Creates a String like "?, ?, ?" with number of question marks equal to
      * the number of columns.
      *
-     * @param columns
-     *            colum description
+     * @param columns colum description
      * @return Something like "?, ?, ?"
      */
     public static String createQuestionMarkPerColumn(ColumnsMetaData columns) {
@@ -56,8 +54,7 @@ class SqlStatementBuilderUtils {
     /**
      * Creates an AND condition with all columns.
      *
-     * @param columns
-     *            column description
+     * @param columns column description
      * @return c1 = ? AND c2 = ? AND c3 = ?
      */
     public static String createAndCondition(ColumnsMetaData columns) {
@@ -82,10 +79,8 @@ class SqlStatementBuilderUtils {
     /**
      * Joins the columns.
      *
-     * @param columns
-     *            the columns to join
-     * @param columnIterator
-     *            column iterator
+     * @param columns        the columns to join
+     * @param columnIterator column iterator
      * @return the joined columns
      */
     private static StringBuilder joinColumns(ColumnsMetaData columns,

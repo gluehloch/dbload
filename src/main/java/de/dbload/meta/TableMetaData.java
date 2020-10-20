@@ -29,10 +29,8 @@ public class TableMetaData {
     /**
      * Constructor
      *
-     * @param _tableName
-     *            the table name
-     * @param _columns
-     *            the columns of the table
+     * @param _tableName the table name
+     * @param _columns   the columns of the table
      */
     public TableMetaData(String _tableName, ColumnsMetaData _columns) {
         tableName = _tableName;

@@ -16,54 +16,79 @@
 
 package de.dbload.jdbc.connector;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import de.dbload.impl.DbloadException;
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * Reads the database properties.
- * 
- * @author Andre Winkler. http://www.andre-winkler.de
+ * <p>
+ * Read the properties from the default file <code>/db.properties</code>, or
+ * from <code>/my-db.properties</code> or
+ * from the system environment. Environment variable wins before file! The
+ * <code>my-db.properties</code> file wins before <code>/db.properties</code>.
+ * <p>
+ * The database URL can be found under the key {@code dbload.database.url}.
+ *
+ * @author Andre Winkler. https://www.andre-winkler.de
  */
 public class DatabasePropertyReader {
 
-    /**
-     * Read the properties from the default file <code>/db.properties</code>
-     * 
-     * @return the database properties
-     * @throws IOException
-     *             Ups
-     */
-    public Properties read() throws IOException {
-        return read("/db.properties");
-    }
+    private static final String DB_PROPERTIES_FILE = "/db.properties";
+    private static final String DB_PROPERTIES_FILE_MY = "/my-db.properties";
+
+    private static final String DBLOAD_DATABASE_URL_KEY = "dbload.database.url";
 
     /**
-     * Read the properties.
-     * 
-     * @param resource
-     *            the resource path name
-     * @return the database properties
-     * @throws IOException
-     *             Ups
+     * Get the database url.
+     *
+     * @return the database url
      */
-    public Properties read(String resource) throws IOException {
-        InputStream is = DatabasePropertyReader.class
-                .getResourceAsStream(resource);
-        Properties properties = new Properties();
-        properties.load(is);
+    public String getDatabaseUrl() {
+        return read().getProperty(DBLOAD_DATABASE_URL_KEY);
+    }
+
+    private Properties read() {
+        Properties properties = readFromClasspathFile(new Properties(), DB_PROPERTIES_FILE);
+        readFromClasspathFile(properties, DB_PROPERTIES_FILE_MY);
+
+        String propertyFromEnv = System.getenv(DBLOAD_DATABASE_URL_KEY);
+        if (StringUtils.isNotBlank(propertyFromEnv)) {
+            properties.put(DBLOAD_DATABASE_URL_KEY, propertyFromEnv);
+        }
+
+        return properties;
+    }
+
+    private Properties readFromClasspathFile(Properties properties, String fileName) {
+        try {
+            properties.putAll(readFromClasspathFile(fileName));
+        } catch (FileNotFoundException ex) {
+            // ignore me
+        } catch (IOException ex) {
+            throw new DbloadException(ex);
+        }
         return properties;
     }
 
     /**
-     * Get the database url.
-     * 
-     * @param properties
-     *            the database properties
-     * @return the database url
+     * Read the properties.
+     *
+     * @param resource the resource path name
+     * @return the database properties
+     * @throws IOException Unable to read the property file.
      */
-    public String getDatabaseUrl(Properties properties) {
-        return properties.getProperty("dbload.database.url");
+    private Properties readFromClasspathFile(String resource) throws IOException {
+        InputStream is = DatabasePropertyReader.class.getResourceAsStream(resource);
+        Properties properties = new Properties();
+        if (is != null) {
+            properties.load(is);
+        }
+        return properties;
     }
 
 }

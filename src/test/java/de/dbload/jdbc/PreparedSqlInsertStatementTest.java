@@ -1,12 +1,12 @@
 /*
  * Copyright 2014 Andre Winkler
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -16,17 +16,12 @@
 
 package de.dbload.jdbc;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
-
-import org.joda.time.DateTime;
-import org.junit.Before;
-import org.junit.Test;
 
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
@@ -35,10 +30,13 @@ import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestMetaDataFactory;
 import de.dbload.utils.TransactionalTest;
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * A test case for {@link AbstractPreparedSqlStatement}.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class PreparedSqlInsertStatementTest extends TransactionalTest {
@@ -46,7 +44,7 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
 
-    @Before
+    @BeforeEach
     public void before() {
         dbloadContext = new DefaultDbloadContext(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
@@ -82,9 +80,9 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
                     .executeQuery("select * from person order by id")) {
                 resultSet.next();
 
-                assertThat(resultSet.getLong("id"), equalTo(1L));
-                assertThat(resultSet.getString("name"), equalTo("Winkler"));
-                assertThat(resultSet.getString("vorname"), equalTo("Andre"));
+                assertThat(resultSet.getLong("id")).isEqualTo(1L);
+                assertThat(resultSet.getString("name")).isEqualTo("Winkler");
+                assertThat(resultSet.getString("vorname")).isEqualTo("Andre");
 
                 Date date = resultSet.getTimestamp("birthday");
                 DateTime dateTime = new DateTime(date.getTime());
@@ -92,7 +90,7 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
                 DateTime date_19710324 = DateTimeUtils
                         .toJodaDateTime("1971-03-24 06:41:11");
 
-                assertThat(dateTime, equalTo(date_19710324));
+                assertThat(dateTime).isEqualTo(date_19710324);
             }
         }
     }

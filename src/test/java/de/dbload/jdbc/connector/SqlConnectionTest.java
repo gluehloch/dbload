@@ -16,17 +16,16 @@
 
 package de.dbload.jdbc.connector;
 
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test for the MySql JDBC connection string.
- * 
+ *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class SqlConnectionTest {
@@ -34,10 +33,10 @@ public class SqlConnectionTest {
     @Test
     public void testMySqlConnectionStringWithAutoCommit() throws Exception {
         DatabasePropertyReader dpr = new DatabasePropertyReader();
-        String url = dpr.getDatabaseUrl(dpr.read());
+        String url = dpr.getDatabaseUrl();
 
         Connection conn = DriverManager.getConnection(url);
-        assertThat(conn, notNullValue());
+        assertThat(conn).isNotNull();
     }
 
 }

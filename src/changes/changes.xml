@@ -12,6 +12,23 @@
       </action> 
 -->
     <!-- Under construction -->
+
+    <!-- RELEASED -->
+    <release version="dbload-0.5.0" date="2020-10-20">
+      <action dev="andrewinkler" type="update" date="2020-10-20">
+        Update the JDBC driver. Moved from mysql to mariadb.
+      </action>
+      <action dev="andrewinkler" type="update" date="2019-04-28">
+        Update to JUnit 5. Removed the assertions package. Was never used.
+      </action>
+      <action dev="andrewinkler" type="add" date="2019-06-22">
+        Take enviroment variable as database url for the test cases, if 
+        it is defined. The env variable overrules the
+        test/resource/db.properties settings. Alternatively you
+        can create a file test/resource/my-db.properties (ignored
+        by Git) with a local specfic JDBC URL.
+      </action>
+    </release>
     
     <!-- RELEASED -->
     <release version="dbload-0.4.0" date="2019-03-22">

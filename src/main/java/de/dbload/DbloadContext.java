@@ -30,13 +30,13 @@ public interface DbloadContext {
      *
      * @return a JDBC connection
      */
-    public Connection getConnection();
+    Connection getConnection();
 
     /**
      * Returns a JDBC type converter
      *
      * @return a JDBC type converter
      */
-    public JdbcTypeConverter getJdbcTypeConverter();
+    JdbcTypeConverter getJdbcTypeConverter();
 
 }
