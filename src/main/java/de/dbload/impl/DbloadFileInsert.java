@@ -16,14 +16,19 @@
 
 package de.dbload.impl;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+
+import org.apache.commons.lang.StringUtils;
 
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Writes the insert sql script to the file system.

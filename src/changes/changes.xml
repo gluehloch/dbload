@@ -12,6 +12,11 @@
       </action> 
 -->
     <!-- Under construction -->
+    <release version="dbload-0.5.0" date="2021-02-05">
+      <action dev="andrewinkler" type="update" date="2021-02-05">
+        JDK 15
+      </action>
+    </release>
 
     <!-- RELEASED -->
     <release version="dbload-0.5.0" date="2020-10-20">
