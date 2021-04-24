@@ -8,6 +8,11 @@ Loading data from a csv file to a database. Great.
     DbloadContext context = new DefaultDbloadContext(conn);
     Dbload.read(context, DbloadTest.class);
 
+### Development Setup
+```
+mvn clean liquibase:update install
+```
+
 ### TODO
  * Tutorial to setup a docker container
  * Dockerfile to create docker image​
