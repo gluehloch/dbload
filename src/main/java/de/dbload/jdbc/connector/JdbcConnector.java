@@ -56,8 +56,7 @@ public class JdbcConnector {
      * @param databaseUrl the database url
      * @return a JDBC connection
      */
-    public static Connection createConnection(String user, String password,
-            String databaseUrl) {
+    public static Connection createConnection(String user, String password, String databaseUrl) {
 
         Connection conn = null;
         try {

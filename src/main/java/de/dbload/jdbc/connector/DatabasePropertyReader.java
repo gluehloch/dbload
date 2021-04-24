@@ -27,10 +27,9 @@ import org.apache.commons.lang3.StringUtils;
 /**
  * Reads the database properties.
  * <p>
- * Read the properties from the default file <code>/db.properties</code>, or
- * from <code>/my-db.properties</code> or
- * from the system environment. Environment variable wins before file! The
- * <code>my-db.properties</code> file wins before <code>/db.properties</code>.
+ * Read the properties from the default file <code>/db.properties</code>, or from <code>/my-db.properties</code> or from
+ * the system environment. Environment variable wins before file! The <code>my-db.properties</code> file wins before
+ * <code>/db.properties</code>.
  * <p>
  * The database URL can be found under the key {@code dbload.database.url}.
  *
@@ -78,8 +77,8 @@ public class DatabasePropertyReader {
     /**
      * Read the properties.
      *
-     * @param resource the resource path name
-     * @return the database properties
+     * @param  resource    the resource path name
+     * @return             the database properties
      * @throws IOException Unable to read the property file.
      */
     private Properties readFromClasspathFile(String resource) throws IOException {

@@ -8,9 +8,11 @@
             http://www.liquibase.org/xml/ns/pro
             http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">  
 
+<!--
     <preConditions>  
         <runningAs username="dbload"/>  
-    </preConditions>  
+    </preConditions>
+-->
 
     <changeSet id="1" author="winkler">  
         <createTable tableName="person">  

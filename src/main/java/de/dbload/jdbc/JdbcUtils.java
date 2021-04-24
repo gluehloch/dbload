@@ -50,9 +50,7 @@ public class JdbcUtils {
         }
     }
 
-    public static ResultSetMetaData findMetaData(Connection conn,
-            String tableName) {
-
+    public static ResultSetMetaData findMetaData(Connection conn, String tableName) {
         String sql = String.format("SELECT * FROM %s WHERE 1 = 0", tableName);
 
         try (Statement stmt = conn.createStatement()) {
@@ -67,13 +65,11 @@ public class JdbcUtils {
     /**
      * Create the dbload meta data of a {@link ResultSetMetaData}.
      *
-     * @param resultSetMetaData the java sql meta data
-     * @return A description of the table columns for dbload
-     * @throws SQLException Something is wrong
+     * @param  resultSetMetaData the java sql meta data
+     * @return                   A description of the table columns for dbload
+     * @throws SQLException      Something is wrong
      */
-    public static TableMetaData toTableMetaData(
-            ResultSetMetaData resultSetMetaData) throws SQLException {
-
+    public static TableMetaData toTableMetaData(ResultSetMetaData resultSetMetaData) throws SQLException {
         if (resultSetMetaData.getColumnCount() < 1) {
             throw new IllegalArgumentException("Min column count is one.");
         }
