@@ -39,37 +39,39 @@ public class JdbcUtilsTest extends TransactionalTest {
 
         assertThat(metaData).isNotNull();
         assertThat(metaData.getColumnCount()).isEqualTo(7);
-        assertThat(metaData.getColumnName(1)).isEqualTo("id");
-        assertThat(metaData.getColumnLabel(1)).isEqualTo("id");
-        assertThat(metaData.getColumnName(2)).isEqualTo("name");
-        assertThat(metaData.getColumnLabel(2)).isEqualTo("name");
-        assertThat(metaData.getColumnName(3)).isEqualTo("vorname");
-        assertThat(metaData.getColumnLabel(3)).isEqualTo("vorname");
-        assertThat(metaData.getColumnName(4)).isEqualTo("age");
-        assertThat(metaData.getColumnLabel(4)).isEqualTo("age");
-        assertThat(metaData.getColumnName(5)).isEqualTo("sex");
-        assertThat(metaData.getColumnLabel(5)).isEqualTo("sex");
-        assertThat(metaData.getColumnName(6)).isEqualTo("birthday");
-        assertThat(metaData.getColumnLabel(6)).isEqualTo("birthday");
-        assertThat(metaData.getColumnName(7)).isEqualTo("human");
-        assertThat(metaData.getColumnLabel(7)).isEqualTo("human");
+        assertThat(metaData.getColumnName(1)).isEqualToIgnoringCase("id");
+        assertThat(metaData.getColumnLabel(1)).isEqualToIgnoringCase("id");
+        assertThat(metaData.getColumnName(2)).isEqualToIgnoringCase("firstname");
+        assertThat(metaData.getColumnLabel(2)).isEqualToIgnoringCase("firstname");
+        assertThat(metaData.getColumnName(3)).isEqualToIgnoringCase("lastname");
+        assertThat(metaData.getColumnLabel(3)).isEqualToIgnoringCase("lastname");
+        assertThat(metaData.getColumnName(4)).isEqualToIgnoringCase("age");
+        assertThat(metaData.getColumnLabel(4)).isEqualToIgnoringCase("age");
+        assertThat(metaData.getColumnName(5)).isEqualToIgnoringCase("sex");
+        assertThat(metaData.getColumnLabel(5)).isEqualToIgnoringCase("sex");
+        assertThat(metaData.getColumnName(6)).isEqualToIgnoringCase("birthday");
+        assertThat(metaData.getColumnLabel(6)).isEqualToIgnoringCase("birthday");
+        assertThat(metaData.getColumnName(7)).isEqualToIgnoringCase("human");
+        assertThat(metaData.getColumnLabel(7)).isEqualToIgnoringCase("human");
 
         assertThat(metaData.getColumnTypeName(1)).isEqualTo("BIGINT");
         assertThat(metaData.getColumnTypeName(2)).isEqualTo("VARCHAR");
         assertThat(metaData.getColumnTypeName(3)).isEqualTo("VARCHAR");
         assertThat(metaData.getColumnTypeName(4)).isEqualTo("INTEGER");
         assertThat(metaData.getColumnTypeName(5)).isEqualTo("VARCHAR");
-        assertThat(metaData.getColumnTypeName(6)).isEqualTo("DATETIME");
-        assertThat(metaData.getColumnTypeName(7)).isEqualTo("BIT");
+        assertThat(metaData.getColumnTypeName(6)).isEqualTo("TIMESTAMP"); // H2
+        // assertThat(metaData.getColumnTypeName(6)).isEqualTo("DATETIME"); // MariaDB
+        assertThat(metaData.getColumnTypeName(7)).isEqualTo("BOOLEAN"); // H2
+        // assertThat(metaData.getColumnTypeName(7)).isEqualTo("BIT"); // MariaDB
 
         assertThat(metaData.getColumnType(1)).isEqualTo(java.sql.Types.BIGINT);
         assertThat(metaData.getColumnType(2)).isEqualTo(java.sql.Types.VARCHAR);
         assertThat(metaData.getColumnType(3)).isEqualTo(java.sql.Types.VARCHAR);
         assertThat(metaData.getColumnType(4)).isEqualTo(java.sql.Types.INTEGER);
         assertThat(metaData.getColumnType(5)).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(metaData.getColumnType(6))
-                .isEqualTo(java.sql.Types.TIMESTAMP);
-        assertThat(metaData.getColumnType(7)).isEqualTo(java.sql.Types.BIT);
+        assertThat(metaData.getColumnType(6)).isEqualTo(java.sql.Types.TIMESTAMP);
+        assertThat(metaData.getColumnTypeName(7)).isEqualTo("BOOLEAN"); // H2
+        // assertThat(metaData.getColumnType(7)).isEqualTo(java.sql.Types.BIT); // MariaDB
     }
 
     @Test
@@ -80,20 +82,14 @@ public class JdbcUtilsTest extends TransactionalTest {
         ColumnsMetaData columns = data.getColumns();
 
         assertThat(columns.size()).isEqualTo(7);
-        assertThat(columns.get(0).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.BIGINT);
-        assertThat(columns.get(1).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(columns.get(2).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(columns.get(3).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.INTEGER);
-        assertThat(columns.get(4).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(columns.get(5).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.TIMESTAMP);
-        assertThat(columns.get(6).getColumnType().getJavaSqlType())
-                .isEqualTo(java.sql.Types.BIT);
+        assertThat(columns.get(0).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.BIGINT);
+        assertThat(columns.get(1).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(columns.get(2).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(columns.get(3).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.INTEGER);
+        assertThat(columns.get(4).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(columns.get(5).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.TIMESTAMP);
+        assertThat(columns.get(6).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.BOOLEAN); // H2
+        // assertThat(columns.get(6).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.BIT); // MariaDB
     }
 
 }

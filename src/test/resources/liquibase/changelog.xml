@@ -16,7 +16,7 @@
 
     <changeSet id="1" author="winkler">  
         <createTable tableName="person">  
-            <column name="id" type="int" autoIncrement="true">  
+            <column name="id" type="bigint" autoIncrement="true">  
                 <constraints primaryKey="true" nullable="false"/>  
             </column>
             <column name="firstname" type="varchar(50)"/>  
@@ -29,14 +29,14 @@
             <column name="human" type="bit"/>
         </createTable>
         <createTable tableName="address">
-            <column name="id" type="int" autoIncrement="true">  
+            <column name="id" type="bigint" autoIncrement="true">  
                 <constraints primaryKey="true" nullable="false"/>  
             </column>
             <column name="street" type="varchar(100)"/>
             <column name="housenumber" type="varchar(20)"/>
             <column name="plz" type="varchar(20)"/>
             <column name="city" type="varchar(50)"/>
-            <column name="fk_person" type="int">
+            <column name="fk_person" type="bigint">
                 <constraints nullable="false"
                     foreignKeyName="fk_address_person"
                     references="person"
@@ -44,7 +44,7 @@
             </column>
         </createTable>
         <createTable tableName="account">
-            <column name="id" type="int" autoIncrement="true">  
+            <column name="id" type="bigint" autoIncrement="true">  
                 <constraints primaryKey="true" nullable="false"/>  
             </column>
             <column name="accountnr" type="varchar(10)">
@@ -52,9 +52,9 @@
             </column>
             <column name="bic" type="varchar(20)"/>
             <column name="iban" type="varchar(20)"/>
-            <column name="fk_person" type="int">
+            <column name="fk_person" type="bigint">
                 <constraints nullable="false"
-                    foreignKeyName="fk_address_person"
+                    foreignKeyName="fk_account_person"
                     references="person"
                     referencedColumnNames="id"/>
             </column>

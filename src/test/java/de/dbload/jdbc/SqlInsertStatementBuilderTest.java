@@ -46,8 +46,8 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
     public void setup() {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.column("id", Type.LONG);
-        columns.column("name", Type.VARCHAR);
-        columns.column("vorname", Type.VARCHAR);
+        columns.column("lastname", Type.VARCHAR);
+        columns.column("firstname", Type.VARCHAR);
         columns.column("age", Type.INTEGER);
         columns.column("sex", Type.INTEGER);
         columns.column("birthday", Type.DATE);
@@ -60,24 +60,20 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
                 tableMetaData);
 
         assertThat(sqlStatement.createSql()).isEqualTo(
-                "INSERT INTO person(id, name, vorname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)");
+                "INSERT INTO person(id, lastname, firstname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)");
     }
 
     @Test
     public void testExecuteSqlStatement() throws SQLException {
-        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(
-                tableMetaData);
+        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
-        DateTime jodaDateTime = DateTimeUtils
-                .toJodaDateTime("2014-03-24 06:05:00");
+        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");
         Date date = jodaDateTime.toDate();
 
-        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(
-                date.getTime());
+        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
         java.sql.Time sqlTime = new java.sql.Time(date.getTime());
 
-        PreparedStatement stmt = conn
-                .prepareStatement(sqlStatement.createSql());
+        PreparedStatement stmt = conn.prepareStatement(sqlStatement.createSql());
         stmt.setInt(1, 1);
         stmt.setString(2, "winkler");
         stmt.setString(3, "andre");
@@ -97,7 +93,7 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
         /*
          * I get the following result from the MySql command line:
          * +----+---------+---------+------+------+---------------------+ | id |
-         * name | vorname | age | sex | birthday |
+         * lastname | firstname| age | sex | birthday |
          * +----+---------+---------+------+------+---------------------+ | 1 |
          * winkler | andre | 43 | | 2014-03-24 06:05:00 | | 2 | winkler | andre
          * | 43 | | 2006-05-00 00:00:00 |
@@ -107,14 +103,13 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
          */
 
         try (Statement selectStmt = conn.createStatement()) {
-            ResultSet resultSet = selectStmt
-                    .executeQuery("select * from person order by id");
+            ResultSet resultSet = selectStmt.executeQuery("select * from person order by id");
             assertThat(resultSet.next()).isTrue();
-            assertThat(resultSet.getString("name")).isEqualTo("winkler");
-            assertThat(resultSet.getString("vorname")).isEqualTo("andre");
+            assertThat(resultSet.getString("lastname")).isEqualTo("winkler");
+            assertThat(resultSet.getString("firstname")).isEqualTo("andre");
             assertThat(resultSet.next()).isTrue();
-            assertThat(resultSet.getString("name")).isEqualTo("winkler");
-            assertThat(resultSet.getString("vorname")).isEqualTo("lars");
+            assertThat(resultSet.getString("lastname")).isEqualTo("winkler");
+            assertThat(resultSet.getString("firstname")).isEqualTo("lars");
             assertThat(resultSet.next()).isFalse();
         }
     }

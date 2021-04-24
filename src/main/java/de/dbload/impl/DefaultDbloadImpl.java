@@ -112,8 +112,7 @@ public class DefaultDbloadImpl {
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
                         TableMetaData metaData = JdbcUtils.toTableMetaData(
-                                JdbcUtils.findMetaData(context.getConnection(),
-                                        tableMetaData.getTableName()));
+                                JdbcUtils.findMetaData(context.getConnection(), tableMetaData.getTableName()));
 
                         //
                         // TODO Less column data then meta data???

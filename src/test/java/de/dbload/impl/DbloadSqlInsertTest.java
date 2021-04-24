@@ -48,25 +48,22 @@ public class DbloadSqlInsertTest extends TransactionalTest {
 
     @Test
     public void testDbloadSqlInsert() throws SQLException {
-        try (DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(
-                dbloadContext)) {
+        try (DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(dbloadContext)) {
             dbloadSqlInsert.newTableMetaData(tableMetaData);
             DataRow dataRow = new DataRow();
             dataRow.put("id", "1");
-            dataRow.put("name", "winkler");
-            dataRow.put("vorname", "andre");
+            dataRow.put("lastname", "winkler");
+            dataRow.put("firstname", "andre");
             dataRow.put("age", "55");
             dbloadSqlInsert.execute(dataRow);
         }
 
         try (Statement stmt = dbloadContext.getConnection().createStatement()) {
-            try (ResultSet resultSet = stmt
-                    .executeQuery(
-                            "select id, name, vorname, age from person")) {
+            try (ResultSet resultSet = stmt.executeQuery("select id, lastname, firstname, age from person")) {
                 assertThat(resultSet.next()).isTrue();
                 assertThat(resultSet.getInt("id")).isEqualTo(1);
-                assertThat(resultSet.getString("name")).isEqualTo("winkler");
-                assertThat(resultSet.getString("vorname")).isEqualTo("andre");
+                assertThat(resultSet.getString("lastname")).isEqualTo("winkler");
+                assertThat(resultSet.getString("firstname")).isEqualTo("andre");
                 assertThat(resultSet.getInt("age")).isEqualTo(55);
             }
         }

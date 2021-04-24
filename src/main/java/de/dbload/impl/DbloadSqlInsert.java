@@ -34,8 +34,7 @@ import org.slf4j.LoggerFactory;
  */
 public class DbloadSqlInsert implements DbloadSqlStatement {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(DbloadSqlInsert.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DbloadSqlInsert.class);
 
     private final DbloadContext context;
     private final StopWatch stopWatch = new StopWatch();

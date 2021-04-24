@@ -1,5 +1,5 @@
 ### TAB person
-### id | name    | vorname | age | sex | birthday            | human
-   100 | Winkler | Andre   | 43  | M   | 1971-03-24 06:38:00 | 1
-   101 | Winkler | Lars    | 40  | M   | 1974-06-01 07:00:12 | 0
-   102 | Winkler | Lars    |     | M   | 1974-06-01 07:00:12 | 0
+### id | lastname| firstname | age | sex | birthday            | human
+   100 | Winkler | Andre     | 43  | M   | 1971-03-24 06:38:00 | 1
+   101 | Winkler | Lars      | 40  | M   | 1974-06-01 07:00:12 | 0
+   102 | Winkler | Lars      |     | M   | 1974-06-01 07:00:12 | 0

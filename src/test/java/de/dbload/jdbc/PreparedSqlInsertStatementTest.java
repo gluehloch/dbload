@@ -54,41 +54,37 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
     public void dbloadInsert() throws SQLException {
         DataRow dataRow1 = new DataRow();
         dataRow1.put("id", "1");
-        dataRow1.put("name", "Winkler");
-        dataRow1.put("vorname", "Andre");
+        dataRow1.put("lastname", "Winkler");
+        dataRow1.put("firstname", "Andre");
         dataRow1.put("age", "43");
         dataRow1.put("sex", "0");
         dataRow1.put("birthday", "1971-03-24 06:41:11");
 
         DataRow dataRow2 = new DataRow();
         dataRow2.put("id", "2");
-        dataRow2.put("name", "Winkler");
-        dataRow2.put("vorname", "Lars");
+        dataRow2.put("lastname", "Winkler");
+        dataRow2.put("firstname", "Lars");
         dataRow2.put("age", "40");
         dataRow2.put("sex", "0");
         dataRow2.put("birthday", "1974-06-02 10:00:00");
 
-        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(
-                dbloadContext, tableMetaData)) {
-
+        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(dbloadContext, tableMetaData)) {
             dbloadInsert.execute(dataRow1);
             dbloadInsert.execute(dataRow2);
         }
 
         try (Statement stmt = dbloadContext.getConnection().createStatement()) {
-            try (ResultSet resultSet = stmt
-                    .executeQuery("select * from person order by id")) {
+            try (ResultSet resultSet = stmt.executeQuery("select * from person order by id")) {
                 resultSet.next();
 
                 assertThat(resultSet.getLong("id")).isEqualTo(1L);
-                assertThat(resultSet.getString("name")).isEqualTo("Winkler");
-                assertThat(resultSet.getString("vorname")).isEqualTo("Andre");
+                assertThat(resultSet.getString("lastname")).isEqualTo("Winkler");
+                assertThat(resultSet.getString("firstname")).isEqualTo("Andre");
 
                 Date date = resultSet.getTimestamp("birthday");
                 DateTime dateTime = new DateTime(date.getTime());
 
-                DateTime date_19710324 = DateTimeUtils
-                        .toJodaDateTime("1971-03-24 06:41:11");
+                DateTime date_19710324 = DateTimeUtils.toJodaDateTime("1971-03-24 06:41:11");
 
                 assertThat(dateTime).isEqualTo(date_19710324);
             }

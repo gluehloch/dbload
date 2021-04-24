@@ -63,7 +63,12 @@ public class ColumnMetaData {
         /**
          * date and time
          */
-        DATE_TIME(java.sql.Types.TIMESTAMP);
+        DATE_TIME(java.sql.Types.TIMESTAMP),
+        
+        /**
+         * Boolean
+         */
+        BOOLEAN(java.sql.Types.BOOLEAN);
 
         private int javaSqlType;
 
