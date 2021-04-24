@@ -57,6 +57,33 @@
 		</plugins>
 	</reporting>
 
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>4.3.4</version>
+				<configuration>
+					<changeLogFile>src/test/resources/liquibase/changelog.xml</changeLogFile>
+					<driver>org.h2.Driver</driver>
+					<url>jdbc:h2:./target/liquibase/h2dbload</url>
+					<username>liquibaseTest</username>
+					<password>pass</password>
+				</configuration>
+				<!--
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+					</execution>
+				</executions>
+				-->
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -132,7 +159,6 @@
 			<artifactId>liquibase-maven-plugin</artifactId>
 			<version>4.3.4</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>org.kohsuke</groupId>
