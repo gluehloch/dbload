@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<databaseChangeLog  
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"  
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"  
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.3.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.3.xsd">  
+
+    <preConditions>  
+        <runningAs username="dbload"/>  
+    </preConditions>  
+
+    <changeSet id="1" author="winkler">  
+        <createTable tableName="person">  
+            <column name="id" type="int" autoIncrement="true">  
+                <constraints primaryKey="true" nullable="false"/>  
+            </column>
+            <column name="firstname" type="varchar(50)"/>  
+            <column name="lastname" type="varchar(50)">  
+                <constraints nullable="false"/>  
+            </column>  
+            <column name="age" type="int"/>
+            <column name="sex" type="varchar(1)"/>
+            <column name="birthday" type="datetime"/>
+            <column name="human" type="bit"/>
+        </createTable>
+        <createTable tableName="address">
+            <column name="id" type="int" autoIncrement="true">  
+                <constraints primaryKey="true" nullable="false"/>  
+            </column>
+            <column name="street" type="varchar(100)"/>
+            <column name="housenumber" type="varchar(20)"/>
+            <column name="plz" type="varchar(20)"/>
+            <column name="city" type="varchar(50)"/>
+            <column name="fk_person" type="int">
+                <constraints nullable="false"
+                    foreignKeyName="fk_address_person"
+                    references="person"
+                    referencedColumnNames="id"/>
+            </column>
+        </createTable>
+        <createTable tableName="account">
+            <column name="id" type="int" autoIncrement="true">  
+                <constraints primaryKey="true" nullable="false"/>  
+            </column>
+            <column name="accountnr" type="varchar(10)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="bic" type="varchar(20)"/>
+            <column name="iban" type="varchar(20)"/>
+            <column name="fk_person" type="int">
+                <constraints nullable="false"
+                    foreignKeyName="fk_address_person"
+                    references="person"
+                    referencedColumnNames="id"/>
+            </column>
+        </createTable>  
+    </changeSet>  
+</databaseChangeLog>
