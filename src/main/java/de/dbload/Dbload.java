@@ -102,7 +102,6 @@ public class Dbload {
      * @param tableNames  the database tables to export
      */
     public static void write(Connection connection, File writeToFile, String[] tableNames) {
-
         DefaultDbloadContext context = new DefaultDbloadContext(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.writeToFile(context, writeToFile, tableNames);
