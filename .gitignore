@@ -6,7 +6,10 @@ dbload.iml
 .project
 .settings
 .vscode
+.gitignore
 
 # Local files
 my-db.properties
 
+/.apt_generated/
+/.apt_generated_tests/

@@ -53,8 +53,10 @@ public class JdbcUtils {
     public static ResultSetMetaData findMetaData(Connection conn, String tableName) {
         String sql = String.format("SELECT * FROM %s WHERE 1 = 0", tableName);
 
-        
+
+        //
         // TODO Wann wird jetzt das Statement geschlossen?
+        //
         try {
             Statement stmt = conn.createStatement();
             ResultSet resultSet = stmt.executeQuery(sql);
