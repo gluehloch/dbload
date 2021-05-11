@@ -16,6 +16,13 @@
       <action dev="andrewinkler" type="update" date="2021-04-24">
         JDK 15, JDK 16
       </action>
+      <action dev="andrewinkler" type="fix" date="2021-05-11">
+        Der H2 JDBC Treiber zeigt ein anderes Verhalten als der MariaDB Treiber
+        beim Auslesen der Meta-Informationen einer SQL Abfrage. Wird das Statement
+        vom H2 Treiber geschlossen, kann auf die Meta-Information nicht mehr
+        zugegriffen werden. Der MariaDB Treiber verhält sich an die Spezifikation
+        und erlaubt das Auslesen nach Statement#close().
+      </action>
     </release>
 
     <!-- RELEASED -->

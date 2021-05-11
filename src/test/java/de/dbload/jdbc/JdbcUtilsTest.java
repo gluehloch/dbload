@@ -18,13 +18,12 @@ package de.dbload.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
-import de.dbload.meta.ColumnsMetaData;
+import org.junit.jupiter.api.Test;
+
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TransactionalTest;
-import org.junit.jupiter.api.Test;
 
 /**
  * A test for {@link JdbcUtils}.
@@ -35,7 +34,7 @@ public class JdbcUtilsTest extends TransactionalTest {
 
     @Test
     public void testJdbcUtilsMetadataFinder() throws Exception {
-        ResultSetMetaData metaData = JdbcUtils.findMetaData(conn, "person");
+        TableMetaData metaData = JdbcUtils.findMetaData(conn, "person");
 
         assertThat(metaData).isNotNull();
         assertThat(metaData.getColumnCount()).isEqualTo(7);
@@ -54,41 +53,38 @@ public class JdbcUtilsTest extends TransactionalTest {
         assertThat(metaData.getColumnName(7)).isEqualToIgnoringCase("human");
         assertThat(metaData.getColumnLabel(7)).isEqualToIgnoringCase("human");
 
-        assertThat(metaData.getColumnTypeName(1)).isEqualTo("BIGINT");
+        assertThat(metaData.getColumnTypeName(1)).isEqualTo("LONG");
         assertThat(metaData.getColumnTypeName(2)).isEqualTo("VARCHAR");
         assertThat(metaData.getColumnTypeName(3)).isEqualTo("VARCHAR");
         assertThat(metaData.getColumnTypeName(4)).isEqualTo("INTEGER");
         assertThat(metaData.getColumnTypeName(5)).isEqualTo("VARCHAR");
-        assertThat(metaData.getColumnTypeName(6)).isEqualTo("TIMESTAMP"); // H2
+        assertThat(metaData.getColumnTypeName(6)).isEqualTo("DATE_TIME"); // H2
         // assertThat(metaData.getColumnTypeName(6)).isEqualTo("DATETIME"); // MariaDB
         assertThat(metaData.getColumnTypeName(7)).isEqualTo("BOOLEAN"); // H2
         // assertThat(metaData.getColumnTypeName(7)).isEqualTo("BIT"); // MariaDB
 
-        assertThat(metaData.getColumnType(1)).isEqualTo(java.sql.Types.BIGINT);
-        assertThat(metaData.getColumnType(2)).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(metaData.getColumnType(3)).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(metaData.getColumnType(4)).isEqualTo(java.sql.Types.INTEGER);
-        assertThat(metaData.getColumnType(5)).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(metaData.getColumnType(6)).isEqualTo(java.sql.Types.TIMESTAMP);
+        assertThat(metaData.getColumnType(1).getJavaSqlType()).isEqualTo(java.sql.Types.BIGINT);
+        assertThat(metaData.getColumnType(2).getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(metaData.getColumnType(3).getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(metaData.getColumnType(4).getJavaSqlType()).isEqualTo(java.sql.Types.INTEGER);
+        assertThat(metaData.getColumnType(5).getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(metaData.getColumnType(6).getJavaSqlType()).isEqualTo(java.sql.Types.TIMESTAMP);
         assertThat(metaData.getColumnTypeName(7)).isEqualTo("BOOLEAN"); // H2
         // assertThat(metaData.getColumnType(7)).isEqualTo(java.sql.Types.BIT); // MariaDB
     }
 
     @Test
     public void testJdbcUtils() throws SQLException {
-        ResultSetMetaData metaData = JdbcUtils.findMetaData(conn, "person");
+        TableMetaData metaData = JdbcUtils.findMetaData(conn, "person");
 
-        TableMetaData data = JdbcUtils.toTableMetaData(metaData);
-        ColumnsMetaData columns = data.getColumns();
-
-        assertThat(columns.size()).isEqualTo(7);
-        assertThat(columns.get(0).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.BIGINT);
-        assertThat(columns.get(1).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(columns.get(2).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(columns.get(3).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.INTEGER);
-        assertThat(columns.get(4).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
-        assertThat(columns.get(5).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.TIMESTAMP);
-        assertThat(columns.get(6).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.BOOLEAN); // H2
+        assertThat(metaData.getColumnCount()).isEqualTo(7);
+        assertThat(metaData.getColumnType(1).getJavaSqlType()).isEqualTo(java.sql.Types.BIGINT);
+        assertThat(metaData.getColumnType(2).getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(metaData.getColumnType(3).getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(metaData.getColumnType(4).getJavaSqlType()).isEqualTo(java.sql.Types.INTEGER);
+        assertThat(metaData.getColumnType(5).getJavaSqlType()).isEqualTo(java.sql.Types.VARCHAR);
+        assertThat(metaData.getColumnType(6).getJavaSqlType()).isEqualTo(java.sql.Types.TIMESTAMP);
+        assertThat(metaData.getColumnType(7).getJavaSqlType()).isEqualTo(java.sql.Types.BOOLEAN); // H2
         // assertThat(columns.get(6).getColumnType().getJavaSqlType()).isEqualTo(java.sql.Types.BIT); // MariaDB
     }
 

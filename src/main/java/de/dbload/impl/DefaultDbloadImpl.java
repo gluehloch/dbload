@@ -16,10 +16,17 @@
 
 package de.dbload.impl;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.dbload.DbloadContext;
 import de.dbload.csv.reader.ResourceDataReader;
@@ -29,8 +36,6 @@ import de.dbload.csv.writer.ResourceWriter;
 import de.dbload.jdbc.JdbcUtils;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The worker!
@@ -45,8 +50,8 @@ public class DefaultDbloadImpl {
     /**
      * Start upload.
      *
-     * @param context      the context for dbload
-     * @param readFromFile read the data from this file
+     * @param  context         the context for dbload
+     * @param  readFromFile    read the data from this file
      * @throws DbloadException Some problems with files or datasources
      */
     public void readFromFile(DbloadContext context, File readFromFile) {
@@ -66,8 +71,7 @@ public class DefaultDbloadImpl {
      * @param clazz    used as classloader for the resource
      * @param resource the resource to load from the classpath
      */
-    public void readFromClasspathResource(DbloadContext context, Class<?> clazz,
-            String resource) {
+    public void readFromClasspathResource(DbloadContext context, Class<?> clazz, String resource) {
         InputStream is = clazz.getResourceAsStream(resource);
         startReading(is, context);
     }
@@ -75,8 +79,8 @@ public class DefaultDbloadImpl {
     /**
      * Start upload.
      *
-     * @param context the context for dbload
-     * @param clazz   used as classloader root for the data file
+     * @param  context         the context for dbload
+     * @param  clazz           used as classloader root for the data file
      * @throws DbloadException Some problems with files or datasources
      */
     public void readFromClasspathResource(DbloadContext context,
@@ -99,20 +103,18 @@ public class DefaultDbloadImpl {
         startReading(is, context);
     }
 
-    private void startReading(final InputStream is,
-            final DbloadContext context) {
+    private void startReading(final InputStream is, final DbloadContext context) {
         try (ResourceDataReader rdr = new ResourceDataReader(is)) {
 
-            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(
-                    context);
+            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);
 
             ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        TableMetaData metaData = JdbcUtils.toTableMetaData(
-                                JdbcUtils.findMetaData(context.getConnection(), tableMetaData.getTableName()));
+                        TableMetaData metaData = JdbcUtils.findMetaData(context.getConnection(),
+                                tableMetaData.getTableName());
 
                         //
                         // TODO Less column data then meta data???
