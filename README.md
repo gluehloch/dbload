@@ -16,3 +16,8 @@ mvn clean liquibase:update install
 ### TODO
  * Tutorial to setup a docker container
  * Dockerfile to create docker image​
+
+###
+```
+dbload.database.url = jdbc:h2:./target/liquibase/h2dbload;USER=liquibaseTest;PASSWORD=pass
+```
