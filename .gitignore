@@ -1,15 +1,21 @@
-/target
-/bin
-.idea
-dbload.iml
-.classpath
-.project
-.settings
-.vscode
-.gitignore
-
 # Local files
 my-db.properties
 
+# Mavean
+/target
 /.apt_generated/
 /.apt_generated_tests/
+
+# Eclipse
+/bin
+.idea
+.classpath
+.project
+.settings
+
+# Visual Code
+.vscode
+
+# Unknown
+.factorypath
+dbload.iml
