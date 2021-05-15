@@ -20,8 +20,8 @@
         Der H2 JDBC Treiber zeigt ein anderes Verhalten als der MariaDB Treiber
         beim Auslesen der Meta-Informationen einer SQL Abfrage. Wird das Statement
         vom H2 Treiber geschlossen, kann auf die Meta-Information nicht mehr
-        zugegriffen werden. Der MariaDB Treiber verhält sich an die Spezifikation
-        und erlaubt das Auslesen nach Statement#close().
+        zugegriffen werden. Der MariaDB Treiber verhält sich wie in der Spezifikation
+        beschrieben und erlaubt das Auslesen nach Statement#close().
       </action>
     </release>
 
