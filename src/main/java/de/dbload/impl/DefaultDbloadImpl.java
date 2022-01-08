@@ -83,20 +83,17 @@ public class DefaultDbloadImpl {
      * @param  clazz           used as classloader root for the data file
      * @throws DbloadException Some problems with files or datasources
      */
-    public void readFromClasspathResource(DbloadContext context,
-            Class<?> clazz) {
+    public void readFromClasspathResource(DbloadContext context, Class<?> clazz) {
         final String classpathResourceName = clazz.getSimpleName() + ".dat";
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Loading dat file: classpath=[{}], resource=[{}].",
-                    clazz.getName(), classpathResourceName);
+            LOG.debug("Loading dat file: classpath=[{}], resource=[{}].", clazz.getName(), classpathResourceName);
         }
 
         InputStream is = clazz.getResourceAsStream(classpathResourceName);
 
         if (is == null) {
-            LOG.error("There is no classpath resource for {}.",
-                    classpathResourceName);
+            LOG.error("There is no classpath resource for {}.", classpathResourceName);
             throw new IllegalArgumentException(classpathResourceName);
         }
 

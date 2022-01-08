@@ -52,13 +52,11 @@ public class SqlSelectStatementBuilder implements SqlStatementBuilder {
     @Override
     public String createSql() {
         StringBuilder stmt = new StringBuilder("SELECT ");
-        stmt.append(SqlStatementBuilderUtils
-                .createColumnDescription(tableMetaData.getColumns()));
+        stmt.append(SqlStatementBuilderUtils.createColumnDescription(tableMetaData.getColumns()));
         stmt.append(" FROM ");
         stmt.append(tableMetaData.getTableName());
         stmt.append(" WHERE ");
-        stmt.append(SqlStatementBuilderUtils.createAndCondition(tableMetaData
-                .getColumns()));
+        stmt.append(SqlStatementBuilderUtils.createAndCondition(tableMetaData.getColumns()));
         return stmt.toString();
     }
 

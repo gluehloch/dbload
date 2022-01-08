@@ -45,8 +45,7 @@ public class PreparedStatementBuilder {
     public static PreparedStatement prepareStatement(DbloadContext _context,
             SqlStatementBuilder sqlStatement) throws SQLException {
 
-        return _context.getConnection().prepareStatement(
-                sqlStatement.createSql());
+        return _context.getConnection().prepareStatement(sqlStatement.createSql());
     }
 
     /**
@@ -64,12 +63,9 @@ public class PreparedStatementBuilder {
 
         int index = 1; // JDBC parameter index starts with 1
         for (ColumnMetaData columnMetaData : _tableMetaData.getColumns()) {
-            String value = _data.get(columnMetaData.getColumnName()
-                    .toLowerCase());
-            Object typedValue = _jdbcTypeConverter.convert(columnMetaData,
-                    value);
-            _jdbcTypeConverter.setTypedValue(_stmt, index, columnMetaData,
-                    typedValue);
+            String value = _data.get(columnMetaData.getColumnName().toLowerCase());
+            Object typedValue = _jdbcTypeConverter.convert(columnMetaData, value);
+            _jdbcTypeConverter.setTypedValue(_stmt, index, columnMetaData, typedValue);
             index++;
         }
     }

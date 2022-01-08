@@ -37,8 +37,7 @@ public class ResourceReader {
      * @param resourceReaderCallback Send this callback handler the current parsing state.
      * @throws IOException Ups
      */
-    public void start(ResourceDataReader resourceDataReader,
-            ResourceReaderCallback resourceReaderCallback) throws IOException {
+    public void start(ResourceDataReader resourceDataReader, ResourceReaderCallback resourceReaderCallback) throws IOException {
 
         resourceDataReader.open();
         ResourceParser resourceParser = new ResourceParser();
@@ -53,16 +52,12 @@ public class ResourceReader {
             switch (resourceParser.parse(lineNo, line)) {
             case COLUMN_DEFINITION:
                 if (currentTableName == null) {
-                    throw new IllegalStateException(
-                            "Find column description without a table name!");
+                    throw new IllegalStateException("Find column description without a table name!");
                 }
 
-                List<String> currentColumnNames = resourceParser
-                        .readColumnNames(line);
-                ColumnsMetaData columnsMetaData = ColumnTypeParser
-                        .parseColumnsMetaData(currentColumnNames);
-                currentTableMetaData = new TableMetaData(currentTableName,
-                        columnsMetaData);
+                List<String> currentColumnNames = resourceParser.readColumnNames(line);
+                ColumnsMetaData columnsMetaData = ColumnTypeParser.parseColumnsMetaData(currentColumnNames);
+                currentTableMetaData = new TableMetaData(currentTableName,columnsMetaData);
 
                 resourceReaderCallback.newTableMetaData(currentTableMetaData);
 
@@ -70,8 +65,7 @@ public class ResourceReader {
             case COMMENT_OR_EMPTY:
                 break;
             case DATA_DEFINITION:
-                DataRow dataRow = resourceParser.readRow(currentTableMetaData
-                        .getColumns().getColumnNames(), lineNo, line);
+                DataRow dataRow = resourceParser.readRow(currentTableMetaData.getColumns().getColumnNames(), lineNo, line);
 
                 resourceReaderCallback.newDataRow(dataRow);
 

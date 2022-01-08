@@ -44,12 +44,9 @@ public class ColumnTypeParserTest {
 
     @Test
     public void testColumnTypeParser() {
-        assertThat(ColumnTypeParser.findType("thisismycolumn(date)"))
-                .isEqualTo(Type.DATE_TIME);
-        assertThat(ColumnTypeParser.findType("thisismycolumn (date)"))
-                .isEqualTo(Type.DATE_TIME);
-        assertThat(ColumnTypeParser.findType("thisismycolumn"))
-                .isEqualTo(Type.VARCHAR);
+        assertThat(ColumnTypeParser.findType("thisismycolumn(date)")).isEqualTo(Type.DATE_TIME);
+        assertThat(ColumnTypeParser.findType("thisismycolumn (date)")).isEqualTo(Type.DATE_TIME);
+        assertThat(ColumnTypeParser.findType("thisismycolumn")).isEqualTo(Type.VARCHAR);
     }
 
 }

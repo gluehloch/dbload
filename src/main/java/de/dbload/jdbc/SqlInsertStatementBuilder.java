@@ -49,8 +49,7 @@ public class SqlInsertStatementBuilder implements SqlStatementBuilder {
         StringBuilder stmt = new StringBuilder("INSERT INTO ");
         stmt.append(tableMetaData.getTableName());
 
-        String columnDescription = SqlStatementBuilderUtils
-                .createColumnDescription(tableMetaData.getColumns());
+        String columnDescription = SqlStatementBuilderUtils.createColumnDescription(tableMetaData.getColumns());
         stmt.append("(").append(columnDescription).append(") VALUES(");
 
         String questionMarkPerColumn = SqlStatementBuilderUtils
