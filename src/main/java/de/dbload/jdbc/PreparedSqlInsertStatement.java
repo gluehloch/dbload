@@ -50,12 +50,10 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
         applyParams(data);
 
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Executing \n\t[{}] with data \n\t[{}]",
-                    getPreparedStatement(), data);
+            LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
         }
 
-        preparedStatementReturnsWithResultSet = getPreparedStatement()
-                .execute();
+        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
     }
 
     /**

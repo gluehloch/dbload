@@ -42,11 +42,9 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      * @param  _context          dbload context
      * @param  _tableMetaData    table meta data
      * @param  preparedStatement A JDBC prepared statement
-     * @throws SQLException      Something is wrong
      */
     public AbstractPreparedSqlStatement(DbloadContext _context,
-            TableMetaData _tableMetaData, PreparedStatement preparedStatement)
-            throws SQLException {
+            TableMetaData _tableMetaData, PreparedStatement preparedStatement) {
 
         dbloadContext = _context;
         tableMetaData = _tableMetaData;

@@ -19,6 +19,7 @@ package de.dbload.meta;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import de.dbload.meta.ColumnMetaData.Type;
 
@@ -29,7 +30,7 @@ import de.dbload.meta.ColumnMetaData.Type;
  */
 public class ColumnsMetaData implements Iterable<ColumnMetaData> {
 
-    private List<ColumnMetaData> columns = new ArrayList<>();
+    private final List<ColumnMetaData> columns = new ArrayList<>();
 
     public ColumnsMetaData() {
     }
@@ -61,11 +62,7 @@ public class ColumnsMetaData implements Iterable<ColumnMetaData> {
      * @return a list of column names
      */
     public List<String> getColumnNames() {
-        List<String> columnNames = new ArrayList<String>();
-        for (ColumnMetaData column : columns) {
-            columnNames.add(column.getColumnName());
-        }
-        return columnNames;
+        return columns.stream().map(ColumnMetaData::getColumnName).collect(Collectors.toList());
     }
 
     @Override

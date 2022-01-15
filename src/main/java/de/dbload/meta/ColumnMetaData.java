@@ -27,7 +27,7 @@ public class ColumnMetaData {
 
     private final Type columnType;
 
-    public static enum Type {
+    public enum Type {
         VARCHAR(java.sql.Types.VARCHAR),
 
         /**
@@ -122,7 +122,7 @@ public class ColumnMetaData {
 
     @Override
     public String toString() {
-        return columnName + "[" + columnType + "]";
+        return String.format("%s[%s]", columnName, columnType);
     }
 
 }
