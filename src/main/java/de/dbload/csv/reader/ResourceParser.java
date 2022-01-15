@@ -30,6 +30,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ResourceParser {
 
+    public static final String COMMENT_START = "###";
     private String tableName;
     private List<String> columns;
     private DataRow data;
@@ -182,7 +183,7 @@ public class ResourceParser {
         StringTokenizer stok = new StringTokenizer(tableDefinition);
         if (stok.hasMoreTokens()) {
             String token = stok.nextToken();
-            if (!StringUtils.equals(token, "###")) {
+            if (!StringUtils.equals(token, COMMENT_START)) {
                 throw new IllegalStateException("Expected ###");
             }
         }
