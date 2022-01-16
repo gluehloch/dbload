@@ -18,6 +18,8 @@ package de.dbload.meta;
 
 import de.dbload.meta.ColumnMetaData.Type;
 
+import java.util.Optional;
+
 /**
  * Holds the database table meta data.
  *
@@ -60,6 +62,11 @@ public class TableMetaData {
     public String getColumnName(int index) {
         return columnsMetaData.get(index - 1).getColumnName();
     }
+
+    public Optional<ColumnMetaData> getColumn(String columnName) {
+        return columnsMetaData.getColumn(columnName);
+    }
+
     
     public String getColumnLabel(int index) {
         return getColumnName(index);

@@ -133,16 +133,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             break;
 
         case DECIMAL:
-        case INTEGER:
-            if (value != null) {
-                if (StringUtils.equalsIgnoreCase(value, NULL)) {
-                    returnValue = null;
-                } else {
-                    returnValue = NumberUtils.toNumber(value, decimalFormat);
-                }
-            }
-            break;
-        case LONG:
+        case INTEGER, LONG:
             if (value != null) {
                 if (StringUtils.equalsIgnoreCase(value, NULL)) {
                     returnValue = null;
@@ -159,8 +150,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     }
 
     @Override
-    public void setTypedValue(PreparedStatement stmt, int index,
-            ColumnMetaData columnMetaData, Object value)
+    public void setTypedValue(PreparedStatement stmt, int index, ColumnMetaData columnMetaData, Object value)
             throws SQLException {
 
         switch (columnMetaData.getColumnType()) {
@@ -193,8 +183,8 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                         + columnMetaData.getColumnName());
             }
             break;
-        case INTEGER:
-        case LONG:
+
+        case INTEGER, LONG:
             if (value == null) {
                 stmt.setNull(index, java.sql.Types.BIGINT);
             } else if (value instanceof Integer) {
@@ -212,9 +202,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             }
             break;
 
-        case DATE:
-        case TIME:
-        case DATE_TIME:
+        case DATE, TIME, DATE_TIME:
             if (value == null) {
                 stmt.setNull(index, java.sql.Types.TIMESTAMP);
             } else if (value instanceof String) {

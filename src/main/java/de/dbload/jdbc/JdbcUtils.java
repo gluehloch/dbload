@@ -21,6 +21,7 @@ import java.sql.*;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Jdbc Utilities. Only for internal DBLoad use.
@@ -50,13 +51,22 @@ public class JdbcUtils {
         }
     }
 
-    public static TableMetaData findMetaData(Connection conn, String tableName) {
-        String sql = String.format("SELECT * FROM %s WHERE 1 = 0", tableName);
+    /**
+     * Die Tabellen Metadaten aus der CSV Datei werden mit den Metadaten aus der JDBC Connection abgeglichen.
+     * Die CSV Metadaten sind dabei führend zu betrachten. D.h. werden aus der JDBC Connection für die Tabelle
+     * mehr Spalten ermittelt, die nicht in den Metadaten der CSV Datei stehen, dann sind diese zu ignorieren.
+     *
+     * @param conn JDBC Connection
+     * @param csvTableMetaData Die Tabellen Metadaten, wie sie aus der CSV Datei ermittelt wurden.
+     * @return Entspricht den CSV Metadaten. Angereichert mit Typ-Informationen.
+     */
+    public static TableMetaData findMetaData(Connection conn, TableMetaData csvTableMetaData) {
+        String sql = String.format("SELECT * FROM %s WHERE 1 = 0", csvTableMetaData.getTableName());
 
         try (Statement stmt = conn.createStatement()) {
             ResultSet resultSet = stmt.executeQuery(sql);
             ResultSetMetaData metaData = resultSet.getMetaData();
-            return toTableMetaData(metaData);
+            return toTableMetaData(csvTableMetaData, metaData);
         } catch (SQLException ex) {
             throw new IllegalArgumentException(ex);
         }
@@ -65,29 +75,37 @@ public class JdbcUtils {
     /**
      * Create the dbload meta data of a {@link ResultSetMetaData}.
      *
+     * @param  csvTableMetaData  Die Metadaten aus der CSV Datei.
      * @param  resultSetMetaData the java sql meta data
      * @return                   A description of the table columns for dbload
      * @throws SQLException      Something is wrong
      */
-    private static TableMetaData toTableMetaData(ResultSetMetaData resultSetMetaData) throws SQLException {
+    private static TableMetaData toTableMetaData(TableMetaData csvTableMetaData, ResultSetMetaData resultSetMetaData) throws SQLException {
         if (resultSetMetaData.getColumnCount() < 1) {
             throw new IllegalArgumentException("Min column count is one.");
         }
 
         String tableName = resultSetMetaData.getTableName(1);
+        if (!StringUtils.equalsIgnoreCase(csvTableMetaData.getTableName(), tableName)) {
+            throw new IllegalStateException("Table names csv vs jdbc are not equal");
+        }
+
         for (int i = 2; i <= resultSetMetaData.getColumnCount(); i++) {
             if (!resultSetMetaData.getTableName(i).equals(tableName)) {
-                throw new IllegalArgumentException(
-                        "All columns must be of table '" + tableName + "'.");
+                throw new IllegalArgumentException(String.format("All columns must be of table %s.", tableName));
             }
         }
 
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
         int numberOfColumns = resultSetMetaData.getColumnCount();
+
         for (int i = 1; i <= numberOfColumns; i++) {
             String columnName = resultSetMetaData.getColumnName(i);
             Type columnType = Type.valueOf(resultSetMetaData.getColumnType(i));
-            columnsMetaData.column(columnName, columnType);
+
+            if (csvTableMetaData.getColumn(columnName).isPresent()) {
+                columnsMetaData.column(columnName, columnType);
+            }
         }
 
         return new TableMetaData(tableName, columnsMetaData);

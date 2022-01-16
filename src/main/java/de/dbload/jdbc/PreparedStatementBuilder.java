@@ -65,6 +65,7 @@ public class PreparedStatementBuilder {
         for (ColumnMetaData columnMetaData : _tableMetaData.getColumns()) {
             String value = _data.get(columnMetaData.getColumnName().toLowerCase());
             Object typedValue = _jdbcTypeConverter.convert(columnMetaData, value);
+
             _jdbcTypeConverter.setTypedValue(_stmt, index, columnMetaData, typedValue);
             index++;
         }

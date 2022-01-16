@@ -110,8 +110,7 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        TableMetaData metaData = JdbcUtils.findMetaData(context.getConnection(),
-                                tableMetaData.getTableName());
+                        TableMetaData metaData = JdbcUtils.findMetaData(context.getConnection(), tableMetaData);
 
                         //
                         // TODO Less column data then meta data???

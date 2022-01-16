@@ -57,7 +57,7 @@ public class ResourceReader {
 
                 List<String> currentColumnNames = resourceParser.readColumnNames(line);
                 ColumnsMetaData columnsMetaData = ColumnTypeParser.parseColumnsMetaData(currentColumnNames);
-                currentTableMetaData = new TableMetaData(currentTableName,columnsMetaData);
+                currentTableMetaData = new TableMetaData(currentTableName, columnsMetaData);
 
                 resourceReaderCallback.newTableMetaData(currentTableMetaData);
 

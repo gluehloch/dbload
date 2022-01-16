@@ -74,8 +74,7 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     }
 
     protected void applyParams(DataRow dataRow) throws SQLException {
-        PreparedStatementBuilder.applyParams(dataRow, tableMetaData,
-                dbloadContext.getJdbcTypeConverter(), stmt);
+        PreparedStatementBuilder.applyParams(dataRow, tableMetaData, dbloadContext.getJdbcTypeConverter(), stmt);
     }
 
     /**

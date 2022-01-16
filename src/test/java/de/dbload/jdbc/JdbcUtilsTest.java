@@ -20,6 +20,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 
+import de.dbload.meta.ColumnMetaData;
+import de.dbload.meta.ColumnsMetaData;
 import org.junit.jupiter.api.Test;
 
 import de.dbload.meta.TableMetaData;
@@ -34,7 +36,17 @@ public class JdbcUtilsTest extends TransactionalTest {
 
     @Test
     public void testJdbcUtilsMetadataFinder() throws Exception {
-        TableMetaData metaData = JdbcUtils.findMetaData(conn, "person");
+        ColumnsMetaData columnsMetaData = new ColumnsMetaData();
+        columnsMetaData.addColumn(new ColumnMetaData("id", ColumnMetaData.Type.LONG));
+        columnsMetaData.addColumn(new ColumnMetaData("firstname", ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData("lastname", ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData("age", ColumnMetaData.Type.INTEGER));
+        columnsMetaData.addColumn(new ColumnMetaData("sex", ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData("birthday", ColumnMetaData.Type.DATE));
+        columnsMetaData.addColumn(new ColumnMetaData("human", ColumnMetaData.Type.BIT));
+        TableMetaData csvMetaData = new TableMetaData("person", columnsMetaData);
+
+        TableMetaData metaData = JdbcUtils.findMetaData(conn, csvMetaData);
 
         assertThat(metaData).isNotNull();
         assertThat(metaData.getColumnCount()).isEqualTo(7);
@@ -75,7 +87,17 @@ public class JdbcUtilsTest extends TransactionalTest {
 
     @Test
     public void testJdbcUtils() throws SQLException {
-        TableMetaData metaData = JdbcUtils.findMetaData(conn, "person");
+        ColumnsMetaData columnsMetaData = new ColumnsMetaData();
+        columnsMetaData.addColumn(new ColumnMetaData("id", ColumnMetaData.Type.LONG));
+        columnsMetaData.addColumn(new ColumnMetaData("firstname", ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData("lastname", ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData("age", ColumnMetaData.Type.INTEGER));
+        columnsMetaData.addColumn(new ColumnMetaData("sex", ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData("birthday", ColumnMetaData.Type.DATE));
+        columnsMetaData.addColumn(new ColumnMetaData("human", ColumnMetaData.Type.BIT));
+        TableMetaData csvMetaData = new TableMetaData("person", columnsMetaData);
+
+        TableMetaData metaData = JdbcUtils.findMetaData(conn, csvMetaData);
 
         assertThat(metaData.getColumnCount()).isEqualTo(7);
         assertThat(metaData.getColumnType(1).getJavaSqlType()).isEqualTo(java.sql.Types.BIGINT);

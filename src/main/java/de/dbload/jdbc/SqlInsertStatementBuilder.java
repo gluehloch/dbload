@@ -16,6 +16,7 @@
 
 package de.dbload.jdbc;
 
+import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
@@ -29,7 +30,7 @@ import de.dbload.meta.TableMetaData;
  */
 public class SqlInsertStatementBuilder implements SqlStatementBuilder {
 
-    private TableMetaData tableMetaData;
+    private final TableMetaData tableMetaData;
 
     public SqlInsertStatementBuilder(TableMetaData _tableMetaData) {
         tableMetaData = _tableMetaData;

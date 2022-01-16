@@ -41,8 +41,7 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
             TableMetaData _tableMetaData) throws SQLException {
 
         super(_context, _tableMetaData, PreparedStatementBuilder
-                .prepareStatement(_context, new SqlInsertStatementBuilder(
-                        _tableMetaData)));
+                .prepareStatement(_context, new SqlInsertStatementBuilder(_tableMetaData)));
     }
 
     @Override
