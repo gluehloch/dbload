@@ -19,26 +19,26 @@ package de.dbload.csv.writer;
 import java.io.File;
 import java.sql.SQLException;
 
-import de.dbload.BigDbloadTest;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+
 import de.dbload.Dbload;
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.utils.TransactionalTest;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 
 /**
  * Write a database table to a file.
  *
  * @author Andre Winkler
  */
-public class ResourceWriterTest extends TransactionalTest {
+class ResourceWriterTest extends TransactionalTest {
 
     @Disabled
     @Test
-    public void testResourceWriter() throws SQLException {
+    void testResourceWriter() throws SQLException {
         DbloadContext context = new DefaultDbloadContext(conn);
-        Dbload.read(context, BigDbloadTest.class);
+        Dbload.read(context, ClasspathFileMarker.class);
 
         File file = new File("E:/projects/tmp/dbload.dat");
         ResourceWriter resourceWriter = new ResourceWriter(file);

@@ -38,7 +38,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlInsertStatementBuilderTest extends TransactionalTest {
+class SqlInsertStatementBuilderTest extends TransactionalTest {
 
     private TableMetaData tableMetaData;
 
@@ -55,7 +55,7 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
     }
 
     @Test
-    public void testSqlInsertStatementBuilder() {
+    void testSqlInsertStatementBuilder() {
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(
                 tableMetaData);
 
@@ -64,7 +64,7 @@ public class SqlInsertStatementBuilderTest extends TransactionalTest {
     }
 
     @Test
-    public void testExecuteSqlStatement() throws SQLException {
+    void testExecuteSqlStatement() throws SQLException {
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
         DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");

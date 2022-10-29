@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlStatementBuilderTest {
+class SqlStatementBuilderTest {
 
     @Test
-    public void testSqlStatementBuilderAndCondition() {
+    void testSqlStatementBuilderAndCondition() {
         ColumnsMetaData columns = createThreeColumnTable();
         String andCondition = SqlStatementBuilderUtils
                 .createAndCondition(columns);
@@ -41,21 +41,21 @@ public class SqlStatementBuilderTest {
     }
 
     @Test
-    public void testSqlStatementBuilderCreateColumn() {
+    void testSqlStatementBuilderCreateColumn() {
         ColumnsMetaData columns = createThreeColumnTable();
         String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
         assertThat(desc).isEqualTo("col1, col2, col3");
     }
 
     @Test
-    public void testSqlStatementBuilderCreateColumnWithSingleColumn() {
+    void testSqlStatementBuilderCreateColumnWithSingleColumn() {
         ColumnsMetaData columns = createSingleColumnTable();
         String desc = SqlStatementBuilderUtils.createColumnDescription(columns);
         assertThat(desc).isEqualTo("col1");
     }
 
     @Test
-    public void testSqlStatementBuilderCreateColumnWithNoColumns() {
+    void testSqlStatementBuilderCreateColumnWithNoColumns() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             ColumnsMetaData columns = new ColumnsMetaData();
             SqlStatementBuilderUtils.createColumnDescription(columns);
@@ -63,7 +63,7 @@ public class SqlStatementBuilderTest {
     }
 
     @Test
-    public void testSqlStatementBuilderCreateValueColumn() {
+    void testSqlStatementBuilderCreateValueColumn() {
         ColumnsMetaData columns = createTwoColumnTable();
         String desc = SqlStatementBuilderUtils
                 .createQuestionMarkPerColumn(columns);
@@ -71,7 +71,7 @@ public class SqlStatementBuilderTest {
     }
 
     @Test
-    public void testSqlStatementBuilderCreateValueColumnWithSingleColumn() {
+    void testSqlStatementBuilderCreateValueColumnWithSingleColumn() {
         ColumnsMetaData columns = createSingleColumnTable();
         String desc = SqlStatementBuilderUtils
                 .createQuestionMarkPerColumn(columns);
@@ -79,7 +79,7 @@ public class SqlStatementBuilderTest {
     }
 
     @Test
-    public void testSqlStatementBuilderCreateColumnValueWithNoColumns() {
+    void testSqlStatementBuilderCreateColumnValueWithNoColumns() {
         Assertions.assertThrows(IllegalArgumentException.class, () -> {
             ColumnsMetaData columns = new ColumnsMetaData();
             SqlStatementBuilderUtils.createQuestionMarkPerColumn(columns);

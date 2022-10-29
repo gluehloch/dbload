@@ -16,7 +16,6 @@
 
 package de.dbload.jdbc;
 
-import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**

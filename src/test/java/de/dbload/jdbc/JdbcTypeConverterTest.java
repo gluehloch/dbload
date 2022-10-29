@@ -33,10 +33,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class JdbcTypeConverterTest {
+class JdbcTypeConverterTest {
 
     @Test
-    public void testJdbcTypeConverterToNumberInteger() {
+    void testJdbcTypeConverterToNumberInteger() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1",
@@ -54,7 +54,7 @@ public class JdbcTypeConverterTest {
     }
 
     @Test
-    public void testJdbcTypeConverterToNumberDecimal() {
+    void testJdbcTypeConverterToNumberDecimal() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1",
@@ -72,7 +72,7 @@ public class JdbcTypeConverterTest {
     }
 
     @Test
-    public void testJdbcTypeConverterToString() {
+    void testJdbcTypeConverterToString() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1",
@@ -85,7 +85,7 @@ public class JdbcTypeConverterTest {
     }
 
     @Test
-    public void testJdbcTypeConverterToDate() {
+    void testJdbcTypeConverterToDate() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.DATE);

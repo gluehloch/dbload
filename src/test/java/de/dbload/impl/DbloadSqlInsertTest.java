@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadSqlInsertTest extends TransactionalTest {
+class DbloadSqlInsertTest extends TransactionalTest {
 
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
@@ -47,7 +47,7 @@ public class DbloadSqlInsertTest extends TransactionalTest {
     }
 
     @Test
-    public void testDbloadSqlInsert() throws SQLException {
+    void testDbloadSqlInsert() throws SQLException {
         try (DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(dbloadContext)) {
             dbloadSqlInsert.newTableMetaData(tableMetaData);
             DataRow dataRow = new DataRow();

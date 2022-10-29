@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadWithMissingColumnTest extends TransactionalTest {
+class DbloadWithMissingColumnTest extends TransactionalTest {
 
     @Test
-    public void testDbload() throws Exception {
+    void testDbload() throws Exception {
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, DbloadWithMissingColumnTest.class);
 

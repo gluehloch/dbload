@@ -32,10 +32,10 @@ import de.dbload.utils.TransactionalTest;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class JdbcUtilsTest extends TransactionalTest {
+class JdbcUtilsTest extends TransactionalTest {
 
     @Test
-    public void testJdbcUtilsMetadataFinder() throws Exception {
+    void testJdbcUtilsMetadataFinder() throws Exception {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
         columnsMetaData.addColumn(new ColumnMetaData("id", ColumnMetaData.Type.LONG));
         columnsMetaData.addColumn(new ColumnMetaData("firstname", ColumnMetaData.Type.VARCHAR));
@@ -86,7 +86,7 @@ public class JdbcUtilsTest extends TransactionalTest {
     }
 
     @Test
-    public void testJdbcUtils() throws SQLException {
+    void testJdbcUtils() throws SQLException {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
         columnsMetaData.addColumn(new ColumnMetaData("id", ColumnMetaData.Type.LONG));
         columnsMetaData.addColumn(new ColumnMetaData("firstname", ColumnMetaData.Type.VARCHAR));

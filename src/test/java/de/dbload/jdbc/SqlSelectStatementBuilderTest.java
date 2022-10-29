@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlSelectStatementBuilderTest {
+class SqlSelectStatementBuilderTest {
 
     @Test
-    public void tesSqlSelectStatement() {
+    void tesSqlSelectStatement() {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.column("id", Type.LONG);
         columns.column("name", Type.VARCHAR);
@@ -50,7 +50,7 @@ public class SqlSelectStatementBuilderTest {
     }
 
     @Test
-    public void tesSqlSelectStatementWithSingleColumnTable() {
+    void tesSqlSelectStatementWithSingleColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.column("id", Type.INTEGER);
         TableMetaData tableMetaData = new TableMetaData("person", columns);

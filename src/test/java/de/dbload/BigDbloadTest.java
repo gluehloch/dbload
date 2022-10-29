@@ -25,10 +25,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class BigDbloadTest extends TransactionalTest {
+class BigDbloadTest extends TransactionalTest {
 
     @Test
-    public void testDbload() throws Exception {
+    void testDbload() throws Exception {
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, BigDbloadTest.class);
         Dbload.read(context, BigDbloadTest.class);

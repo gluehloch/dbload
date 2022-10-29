@@ -29,17 +29,17 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DateTimeUtilsTest {
+class DateTimeUtilsTest {
 
     @Test
-    public void testDateTimeUtils() {
+    void testDateTimeUtils() {
         DateTime jodaDateTime = DateTimeUtils
                 .toJodaDateTime("1971-03-24 06:34:55");
         assertThat(jodaDateTime.getYear()).isEqualTo(1971);
     }
 
     @Test
-    public void testDateTimeVersusJavaSqlTimestamp() {
+    void testDateTimeVersusJavaSqlTimestamp() {
         DateTime jodaDateTime = DateTimeUtils
                 .toJodaDateTime("1971-03-24 06:34:55");
         Date birthday = jodaDateTime.toDate();
@@ -51,8 +51,7 @@ public class DateTimeUtilsTest {
         System.out.println(jodaDateTime);
         System.out.println(birthday);
         System.out.println(timestamp);
-        System.out.println(
-                String.format("%tY-%tm-%td", birthday, birthday, birthday));
+        System.out.println(String.format("%tY-%tm-%td", birthday, birthday, birthday));
         System.out.println(jodaDateTime.toString("yyyy-MM-dd HH:mm:ss"));
     }
 

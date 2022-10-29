@@ -35,7 +35,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class DbloadFileInsertTest {
+class DbloadFileInsertTest {
 
     private Path tempDir;
 
@@ -45,7 +45,7 @@ public class DbloadFileInsertTest {
     }
 
     @Test
-    public void testResourceFileInsert() throws Exception {
+    void testResourceFileInsert() throws Exception {
         ColumnsMetaData columns = new ColumnsMetaData();
         columns.addColumn(new ColumnMetaData("id", Type.LONG));
         columns.addColumn(new ColumnMetaData("name", Type.VARCHAR));

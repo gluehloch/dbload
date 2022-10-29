@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class EnvironmentalTest {
+class EnvironmentalTest {
 
     @Test
-    public void testUTF8Charset() {
+    void testUTF8Charset() {
         Charset charset = Charset.forName("UTF-8");
         assertThat(charset).isNotNull();
     }

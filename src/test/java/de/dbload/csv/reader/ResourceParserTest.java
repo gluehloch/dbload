@@ -31,7 +31,7 @@ import org.junit.jupiter.api.Test;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 @Tag("csv")
-public class ResourceParserTest {
+class ResourceParserTest {
 
     /**
      * Test {@link ResourceParser#readTableDefinition(String)}

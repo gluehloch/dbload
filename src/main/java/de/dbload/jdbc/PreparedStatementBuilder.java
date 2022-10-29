@@ -51,11 +51,11 @@ public class PreparedStatementBuilder {
     /**
      * Apply some data to the parameters of a JDBC prepared statement.
      *
-     * @param _data              the data to apply to the params
-     * @param _tableMetaData     the table meta data
-     * @param _jdbcTypeConverter a jdbc type converter
-     * @param _stmt              a JDBC prepared statement
-     * @throws SQLException that was not ok!
+     * @param  _data              the data to apply to the params
+     * @param  _tableMetaData     the table meta data
+     * @param  _jdbcTypeConverter a jdbc type converter
+     * @param  _stmt              a JDBC prepared statement
+     * @throws SQLException       that was not ok!
      */
     public static void applyParams(DataRow _data, TableMetaData _tableMetaData,
             JdbcTypeConverter _jdbcTypeConverter, PreparedStatement _stmt)

@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class NumberUtilsTest {
+class NumberUtilsTest {
 
     @Test
-    public void testNumberUtilsToInteger() {
+    void testNumberUtilsToInteger() {
         System.out.println(Locale.getDefault().toLanguageTag());
 
         Number number = null;
@@ -52,7 +52,7 @@ public class NumberUtilsTest {
     }
 
     @Test
-    public void testNumberUtilsToDouble() {
+    void testNumberUtilsToDouble() {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.GERMANY);
@@ -72,7 +72,7 @@ public class NumberUtilsTest {
     }
 
     @Test
-    public void testNumberUtilsToIntegerWithEnglishLocale() {
+    void testNumberUtilsToIntegerWithEnglishLocale() {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.ENGLISH);
@@ -92,7 +92,7 @@ public class NumberUtilsTest {
     }
 
     @Test
-    public void testNumberUtilsToDoubleWithEnglishLocale() {
+    void testNumberUtilsToDoubleWithEnglishLocale() {
         Number number = null;
 
         number = NumberUtils.toNumber("4711", Locale.ENGLISH);

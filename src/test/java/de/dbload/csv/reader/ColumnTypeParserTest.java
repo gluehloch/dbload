@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class ColumnTypeParserTest {
+class ColumnTypeParserTest {
 
     @Test
-    public void testColumnNameAndTypeParser() {
+    void testColumnNameAndTypeParser() {
         ColumnMetaData columnMetaData = null;
 
         columnMetaData = ColumnTypeParser.parseColumnMetaData("hello");
@@ -43,7 +43,7 @@ public class ColumnTypeParserTest {
     }
 
     @Test
-    public void testColumnTypeParser() {
+    void testColumnTypeParser() {
         assertThat(ColumnTypeParser.findType("thisismycolumn(date)")).isEqualTo(Type.DATE_TIME);
         assertThat(ColumnTypeParser.findType("thisismycolumn (date)")).isEqualTo(Type.DATE_TIME);
         assertThat(ColumnTypeParser.findType("thisismycolumn")).isEqualTo(Type.VARCHAR);

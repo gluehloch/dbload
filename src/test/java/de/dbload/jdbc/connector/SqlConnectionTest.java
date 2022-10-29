@@ -28,10 +28,10 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class SqlConnectionTest {
+class SqlConnectionTest {
 
     @Test
-    public void testMySqlConnectionStringWithAutoCommit() throws Exception {
+    void testMySqlConnectionStringWithAutoCommit() throws Exception {
         DatabasePropertyReader dpr = new DatabasePropertyReader();
         String url = dpr.getDatabaseUrl();
 

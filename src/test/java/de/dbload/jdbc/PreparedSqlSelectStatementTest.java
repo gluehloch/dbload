@@ -36,7 +36,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class PreparedSqlSelectStatementTest extends TransactionalTest {
+class PreparedSqlSelectStatementTest extends TransactionalTest {
 
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
@@ -48,7 +48,7 @@ public class PreparedSqlSelectStatementTest extends TransactionalTest {
     }
 
     @Test
-    public void testPreparedSqlSelectStatement() throws SQLException {
+    void testPreparedSqlSelectStatement() throws SQLException {
         try (Statement stmt = dbloadContext.getConnection().createStatement()) {
             stmt.execute(
                     "INSERT INTO person(id, lastname, firstname, age, sex, birthday) "

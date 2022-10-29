@@ -39,7 +39,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Andre Winkler. http://www.andre-winkler.de
  */
-public class PreparedSqlInsertStatementTest extends TransactionalTest {
+class PreparedSqlInsertStatementTest extends TransactionalTest {
 
     private DbloadContext dbloadContext;
     private TableMetaData tableMetaData;
@@ -51,7 +51,7 @@ public class PreparedSqlInsertStatementTest extends TransactionalTest {
     }
 
     @Test
-    public void dbloadInsert() throws SQLException {
+    void dbloadInsert() throws SQLException {
         DataRow dataRow1 = new DataRow();
         dataRow1.put("id", "1");
         dataRow1.put("lastname", "Winkler");
