@@ -12,6 +12,13 @@
       </action> 
 -->
     <!-- Under construction -->
+    <release version="dbload-0.7.0" date="2022-10-29">
+      <action dev="andrewinkler" type="update" date="2022-10-29">
+        Adding Maven toolchain for JDK 16.
+      </action>
+    </release>
+    
+    <!-- RELEASED -->
     <release version="dbload-0.6.0" date="2022-01-16">
       <action dev="andrewinkler" type="update" date="2021-04-24">
         JDK 15, JDK 16
