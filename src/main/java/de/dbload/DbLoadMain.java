@@ -1,20 +1,23 @@
 package de.dbload;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import de.dbload.jdbc.connector.JdbcConnector;
 
 public class DbLoadMain {
 
     public static void main(String[] args) {
-        Options options = CommandLineParserConfig.create();
-        CommandLineParser parser = new DefaultParser();
+        DbloadCommandLineParser dclp = new DbloadCommandLineParser();
+        DbloadCommandLineArguments arguments = dclp.parse(args, System.out);
+
+        Connection connection = JdbcConnector.createConnection(
+                arguments.getUsername(), arguments.getPassword(), arguments.getJdbcUrl());
         try {
-            CommandLine cmd = parser.parse(options, args);
-        } catch (ParseException ex) {
-            ex.printStackTrace();
+            connection.isValid(0);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         }
     }
 
