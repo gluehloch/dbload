@@ -199,7 +199,9 @@
 			<groupId>org.mariadb.jdbc</groupId>
 			<artifactId>mariadb-java-client</artifactId>
 			<version>3.0.8</version>
+			<!--
 			<scope>test</scope>
+			-->
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->

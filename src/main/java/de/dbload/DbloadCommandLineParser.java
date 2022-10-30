@@ -62,39 +62,22 @@ public class DbloadCommandLineParser {
     public static final String COMMAND_CREATE = "createschema";
 
     private Options parseCommandLine(String[] args) {
-        Option exportOption = Option.builder()
+        Options options = new Options();
+
+        options.addOption("u", "user", true, "Database connection user name.");
+        options.addOption("p", "password", true, "Database connection password.");
+        options.addOption("d", "url", true, "Database connection JDBC url.");
+        
+        Option exportOption = Option.builder("export")
                 .argName("e")
                 .longOpt(COMMAND_EXPORT)
                 .desc("Export some tables of the database.")
                 .build();
 
-        Option importOption = Option.builder()
+        Option importOption = Option.builder("import")
                 .argName("i")
                 .longOpt(COMMAND_IMPORT)
                 .desc("Import some tables to the database.")
-                .build();
-
-        Option username = Option.builder()
-                .argName(USERNAME)
-                .longOpt(USER)
-                .required()
-                .hasArg()
-                .desc("Database connection user name.")
-                .build();
-
-        Option password = Option.builder()
-                .argName(PASSWORD)
-                .longOpt(USER_PASSWORD)
-                .required()
-                .desc("Database connection password.")
-                .build();
-
-        Option jdbcUrl = Option.builder()
-                .argName(JDBCURL)
-                .longOpt("url")
-                .required()
-                .hasArg()
-                .desc("Database connection JDBC url.")
                 .build();
 
         Option file = Option.builder()
@@ -116,13 +99,8 @@ public class DbloadCommandLineParser {
                 .desc("print this help")
                 .build();
 
-        Options options = new Options();
         options.addOption(exportOption);
         options.addOption(importOption);
-
-        options.addOption(username);
-        options.addOption(password);
-        options.addOption(jdbcUrl);
 
         options.addOption(file);
         options.addOption(tables);
