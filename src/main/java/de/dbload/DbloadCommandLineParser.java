@@ -57,10 +57,6 @@ public class DbloadCommandLineParser {
     public static final String SU = "su";
     public static final String SU_PASSWORD = "supassword";
 
-    public static final String COMMAND_EXPORT = "export";
-    public static final String COMMAND_IMPORT = "import";
-    public static final String COMMAND_CREATE = "createschema";
-
     private Options parseCommandLine(String[] args) {
         Options options = new Options();
 
@@ -68,32 +64,26 @@ public class DbloadCommandLineParser {
         options.addOption("p", "password", true, "Database connection password.");
         options.addOption("d", "url", true, "Database connection JDBC url.");
         
-        Option exportOption = Option.builder("export")
-                .argName("e")
-                .longOpt(COMMAND_EXPORT)
+        Option exportOption = Option.builder("EXPORT")
+                .longOpt("export")
                 .desc("Export some tables of the database.")
                 .build();
 
-        Option importOption = Option.builder("import")
-                .argName("i")
-                .longOpt(COMMAND_IMPORT)
+        Option importOption = Option.builder("IMPORT")
+                .longOpt("import")
                 .desc("Import some tables to the database.")
                 .build();
 
-        Option file = Option.builder()
-                .argName(FILE)
-                .longOpt("file")
-                .desc("File.")
-                .build();
+        options.addOption("f", "file", false, "Database export or import file.");
 
-        Option tables = Option.builder()
-                .argName(TABLES).longOpt("tables")
+        Option tablesOption = Option.builder("TABLES")
+                .longOpt("tables")
                 .hasArg()
                 .valueSeparator(',')
-                .desc("Tables to export.")
+                .desc("The database tables to export seperated with ','.")
                 .build();
 
-        Option help = Option.builder()
+        Option helpOption = Option.builder()
                 .argName(DbloadCommandLineParser.HELP)
                 .longOpt("help")
                 .desc("print this help")
@@ -101,10 +91,8 @@ public class DbloadCommandLineParser {
 
         options.addOption(exportOption);
         options.addOption(importOption);
-
-        options.addOption(file);
-        options.addOption(tables);
-        options.addOption(help);
+        options.addOption(tablesOption);
+        options.addOption(helpOption);
 
         return options;
     }
@@ -139,9 +127,9 @@ public class DbloadCommandLineParser {
         } else {
             edp = new DbloadCommandLineArguments();
             setupConnectionProperties(edp, commandLine);
-            if (commandLine.hasOption(COMMAND_EXPORT)) {
+            if (commandLine.hasOption("EXPORT")) {
                 edp.setCommand(Command.EXPORT);
-            } else if (commandLine.hasOption(COMMAND_IMPORT)) {
+            } else if (commandLine.hasOption("IMPORT")) {
                 edp.setCommand(Command.IMPORT);
             } else {
                 System.out.println("Missing command parameter.");

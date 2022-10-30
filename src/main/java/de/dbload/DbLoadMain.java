@@ -11,6 +11,7 @@ public class DbLoadMain {
         DbloadCommandLineParser dclp = new DbloadCommandLineParser();
         DbloadCommandLineArguments arguments = dclp.parse(args, System.out);
 
+        /*
         Connection connection = JdbcConnector.createConnection(
                 arguments.getUsername(), arguments.getPassword(), arguments.getJdbcUrl());
         try {
@@ -19,6 +20,10 @@ public class DbLoadMain {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        */
+        
+        ExportDatabase.start(arguments, System.out);
+        
     }
 
 }
