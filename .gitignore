@@ -17,6 +17,7 @@ my-db.properties
 .vscode
 
 # Unknown
-.factorypath
-dbload.iml
-dependency-reduced-pom.xml
+/.factorypath
+/dbload.iml
+/dependency-reduced-pom.xml
+/export.dat

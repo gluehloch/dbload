@@ -64,20 +64,21 @@ public class DbloadCommandLineParser {
         options.addOption("p", "password", true, "Database connection password.");
         options.addOption("d", "url", true, "Database connection JDBC url.");
         
-        Option exportOption = Option.builder("EXPORT")
+        Option exportOption = Option.builder("export")
                 .longOpt("export")
                 .desc("Export some tables of the database.")
                 .build();
 
-        Option importOption = Option.builder("IMPORT")
+        Option importOption = Option.builder("import")
                 .longOpt("import")
                 .desc("Import some tables to the database.")
                 .build();
 
         options.addOption("f", "file", true, "Database export or import file.");
 
-        Option tablesOption = Option.builder("TABLES")
+        Option tablesOption = Option.builder("tables")
                 .longOpt("tables")
+                .argName("tableNames")
                 .hasArgs()
                 .valueSeparator(',')
                 .desc("The database tables to export seperated with ','.")
@@ -127,9 +128,9 @@ public class DbloadCommandLineParser {
         } else {
             edp = new DbloadCommandLineArguments();
             setupConnectionProperties(edp, commandLine);
-            if (commandLine.hasOption("EXPORT")) {
+            if (commandLine.hasOption("export")) {
                 edp.setCommand(Command.EXPORT);
-            } else if (commandLine.hasOption("IMPORT")) {
+            } else if (commandLine.hasOption("import")) {
                 edp.setCommand(Command.IMPORT);
             } else {
                 System.out.println("Missing command parameter.");
@@ -147,7 +148,9 @@ public class DbloadCommandLineParser {
         }
         edp.setJdbcUrl(commandLine.getOptionValue(JDBCURL));
         edp.setFile(commandLine.getOptionValue(FILE));
-        edp.setTables(commandLine.getOptionValues(TABLES));
+        if (commandLine.hasOption("tables")) {
+            edp.setTables(commandLine.getOptionValues("tables"));
+        }
     }
 
     private void printHelp(Options options) {
