@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -154,9 +155,8 @@ public class DefaultDbloadImpl {
      * @param writeToFile the file to write to
      * @param tableNames  the database tables to export
      */
-    public void writeToFile(DbloadContext context, File writeToFile,
-            String[] tableNames) {
-
+    public void writeToFile(DbloadContext context, File writeToFile, String[] tableNames) {
+        Objects.requireNonNull(tableNames);
         List<String> list = new ArrayList<String>();
         for (String tableName : tableNames) {
             list.add(tableName);

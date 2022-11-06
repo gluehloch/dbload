@@ -78,7 +78,7 @@ public class DbloadCommandLineParser {
 
         Option tablesOption = Option.builder("TABLES")
                 .longOpt("tables")
-                .hasArg()
+                .hasArgs()
                 .valueSeparator(',')
                 .desc("The database tables to export seperated with ','.")
                 .build();

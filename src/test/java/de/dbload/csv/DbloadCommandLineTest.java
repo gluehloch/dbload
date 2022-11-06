@@ -11,7 +11,7 @@ class DbloadCommandLineTest {
         // -u betoffice -p betoffice -d jdbc:mariadb://127.0.0.1/betoffice --tables bo_session -f export.dat --export
         final String[] args = {"-u", "betoffice", "-p", "betoffice",
                 "-d", "jdbc:mariadb://127.0.0.1/betoffice",
-                "--tables", "bo_session",
+                "-tables", "bo_session",
                 "-f", "export.dat",
                 "--export"};
         DbloadMain.main(args);
