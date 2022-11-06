@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -157,12 +158,7 @@ public class DefaultDbloadImpl {
      */
     public void writeToFile(DbloadContext context, File writeToFile, String[] tableNames) {
         Objects.requireNonNull(tableNames);
-        List<String> list = new ArrayList<String>();
-        for (String tableName : tableNames) {
-            list.add(tableName);
-        }
-
-        writeToFile(context, writeToFile, list);
+        writeToFile(context, writeToFile, Arrays.asList(tableNames));
     }
 
     /**
