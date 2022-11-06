@@ -74,7 +74,7 @@ public class DbloadCommandLineParser {
                 .desc("Import some tables to the database.")
                 .build();
 
-        options.addOption("f", "file", false, "Database export or import file.");
+        options.addOption("f", "file", true, "Database export or import file.");
 
         Option tablesOption = Option.builder("TABLES")
                 .longOpt("tables")

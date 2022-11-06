@@ -6,19 +6,11 @@ public class DbloadMain {
         DbloadCommandLineParser dclp = new DbloadCommandLineParser();
         DbloadCommandLineArguments arguments = dclp.parse(args, System.out);
 
-        /*
-        Connection connection = JdbcConnector.createConnection(
-                arguments.getUsername(), arguments.getPassword(), arguments.getJdbcUrl());
-        try {
-            connection.isValid(0);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        switch (arguments.getCommand()) {
+            case EXPORT -> ExportDatabase.start(arguments, System.out);
+            case IMPORT -> ImportDatabase.start(arguments, System.out);
         }
-        */
-        
-        ExportDatabase.start(arguments, System.out);
-        
+
     }
 
 }

@@ -86,7 +86,7 @@ public class DbloadCommandLineArguments {
 
     public void setTables(String[] tables) {
         if (tables == null) {
-            this.tables = tables;
+            this.tables = null;
         } else {
             this.tables = Arrays.copyOf(tables, tables.length);
         }
