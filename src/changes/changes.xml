@@ -19,6 +19,9 @@
       <action dev="andrewinkler" type="update" date="2022-10-29">
         Adding Maven toolchain for JDK 16.
       </action>
+      <action dev="andrewinkler" type="add" date="2022-11-06">
+        Command line option to export some tables to a file.
+      </action>
     </release>
     
     <!-- RELEASED -->
