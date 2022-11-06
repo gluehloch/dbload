@@ -19,3 +19,4 @@ my-db.properties
 # Unknown
 .factorypath
 dbload.iml
+dependency-reduced-pom.xml

@@ -1,11 +1,6 @@
 package de.dbload;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
-import de.dbload.jdbc.connector.JdbcConnector;
-
-public class DbLoadMain {
+public class DbloadMain {
 
     public static void main(String[] args) {
         DbloadCommandLineParser dclp = new DbloadCommandLineParser();
