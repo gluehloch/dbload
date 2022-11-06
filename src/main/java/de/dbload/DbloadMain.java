@@ -9,6 +9,7 @@ public class DbloadMain {
         switch (arguments.getCommand()) {
             case EXPORT -> ExportDatabase.start(arguments, System.out);
             case IMPORT -> ImportDatabase.start(arguments, System.out);
+            case HELP -> System.out.println(".");
         }
 
     }

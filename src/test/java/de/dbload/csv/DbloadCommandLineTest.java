@@ -17,4 +17,10 @@ class DbloadCommandLineTest {
         DbloadMain.main(args);
     }
 
+    @Test
+    void dbloadCommandLinePrintHelp() {
+        final String[] args = {"--help"};
+        DbloadMain.main(args);
+    }
+
 }

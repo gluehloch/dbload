@@ -44,18 +44,11 @@ import de.dbload.DbloadCommandLineArguments.Command;
  */
 public class DbloadCommandLineParser {
 
-    public static final String TABLES = "t";
     public static final String FILE = "f";
     public static final String JDBCURL = "d";
     public static final String PASSWORD = "p";
     public static final String USERNAME = "u";
-    public static final String HELP = "h";
-
-    public static final String SCHEMANAME = "schema";
     public static final String USER = "user";
-    public static final String USER_PASSWORD = "password";
-    public static final String SU = "su";
-    public static final String SU_PASSWORD = "supassword";
 
     private Options parseCommandLine(String[] args) {
         Options options = new Options();
@@ -84,8 +77,7 @@ public class DbloadCommandLineParser {
                 .desc("The database tables to export seperated with ','.")
                 .build();
 
-        Option helpOption = Option.builder()
-                .argName(DbloadCommandLineParser.HELP)
+        Option helpOption = Option.builder("help")
                 .longOpt("help")
                 .desc("print this help")
                 .build();
@@ -106,9 +98,9 @@ public class DbloadCommandLineParser {
      * @return      The properties from the command line
      */
     public DbloadCommandLineArguments parse(String[] args, PrintStream ps) {
-        Options options = parseCommandLine(args);
-        CommandLineParser parser = new DefaultParser();
-        CommandLine commandLine = null;
+        final Options options = parseCommandLine(args);
+        final CommandLineParser parser = new DefaultParser();
+        final CommandLine commandLine;
 
         try {
             commandLine = parser.parse(options, args);
@@ -122,11 +114,11 @@ public class DbloadCommandLineParser {
             throw new RuntimeException(ex);
         }
 
-        DbloadCommandLineArguments edp = null;
-        if (commandLine.hasOption(DbloadCommandLineParser.HELP)) {
+        final DbloadCommandLineArguments edp = new DbloadCommandLineArguments();
+        if (commandLine.hasOption("help")) {
             printHelp(options);
+            edp.setCommand(Command.HELP);
         } else {
-            edp = new DbloadCommandLineArguments();
             setupConnectionProperties(edp, commandLine);
             if (commandLine.hasOption("export")) {
                 edp.setCommand(Command.EXPORT);
@@ -155,8 +147,7 @@ public class DbloadCommandLineParser {
 
     private void printHelp(Options options) {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("betoffice database csv import/export tool",
-                options);
+        formatter.printHelp("betoffice database csv import/export tool", options);
     }
 
 }
