@@ -20,4 +20,4 @@ my-db.properties
 /.factorypath
 /dbload.iml
 /dependency-reduced-pom.xml
-/export.dat
+/*.dat
