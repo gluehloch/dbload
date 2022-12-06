@@ -24,18 +24,20 @@ Beispiele:
   ```
   java -jar dbload-*.jar -u betoffice -p betoffice \
   -d jdbc:mariadb://127.0.0.1/betoffice \
-  --tables bo_session,bo_user,bo_team,bo_teamalias,\
+  --tables bo_user,bo_team,bo_teamalias,\
   bo_grouptype,bo_season,bo_group,bo_team_group,bo_player,bo_location,\
-  bo_gamelist,bo_game,bo_goal,bo_gametipp,bo_community,bo_community_user \
+  bo_gamelist,bo_game,bo_goal,bo_gametipp,bo_community,bo_community_user,\
+  bo_session \
   -f betoffice-all.dat --export
   ```
 * Export der Betoffice Datenbank ohne die Spieltipps.
   ```
   java -jar dbload-*.jar -u betoffice -p betoffice \
   -d jdbc:mariadb://127.0.0.1/betoffice \
-  --tables bo_session,bo_user,bo_team,bo_teamalias,\
+  --tables bo_user,bo_team,bo_teamalias,\
   bo_grouptype,bo_season,bo_group,bo_team_group,bo_player,bo_location,\
-  bo_gamelist,bo_game,bo_goal,bo_community,bo_community_user \
+  bo_gamelist,bo_game,bo_goal,bo_community,bo_community_user,\
+  bo_session \
   -f betoffice-all-games.dat --export
   ```
 * Export der Stammdaten der Betoffice Datenbank
