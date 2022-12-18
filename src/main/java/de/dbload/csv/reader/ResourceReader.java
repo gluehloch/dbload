@@ -44,10 +44,9 @@ public class ResourceReader {
         String currentTableName = null;
         TableMetaData currentTableMetaData = null;
         int lineNo = 1;
-        String line = null;
 
         do {
-            line = resourceDataReader.readLine();
+            String line = resourceDataReader.readLine();
             switch (resourceParser.parse(lineNo, line)) {
             case COLUMN_DEFINITION:
                 if (currentTableName == null) {

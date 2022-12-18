@@ -126,7 +126,6 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newDataRow(DataRow dataRow) {
                     try {
-                        System.out.println("Insert: " + dataRow);
                         dbloadSqlInsert.execute(dataRow);
                     } catch (SQLException ex) {
                         String error = "Unable to execute INSERT ["

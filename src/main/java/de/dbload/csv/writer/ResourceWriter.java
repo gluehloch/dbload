@@ -28,6 +28,7 @@ import de.dbload.impl.DbloadException;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 /**
@@ -94,7 +95,7 @@ public class ResourceWriter {
                 while (resultSet.next()) {
                     for (int i = 1; i <= metaData.getColumnCount(); i++) {
 
-                        String print = null;
+                        String print;
                         int type = resultSet.getMetaData().getColumnType(i);
                         Type columnType = ColumnMetaData.Type.valueOf(type);
                         switch (columnType) {
@@ -107,8 +108,7 @@ public class ResourceWriter {
                             } else {
                                 Date date = new Date(timestamp.getTime());
                                 DateTime dateTime = new DateTime(date);
-                                print = dateTime
-                                        .toString(DateTimeUtils.DATE_FORMAT);
+                                print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
                             }
                             break;
                         default:
@@ -118,6 +118,7 @@ public class ResourceWriter {
                         if (print == null) {
                             pw.print("");
                         } else {
+                            print = print.replaceAll("\\r|\\n", " ");
                             pw.print(print);
                         }
 
