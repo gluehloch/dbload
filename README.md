@@ -47,6 +47,19 @@ Beispiele:
   --tables bo_user,bo_team,bo_teamalias,bo_grouptype \
   -f betoffice-core.dat --export
   ```
+* Export der Tabelle `bo_player`
+  ```
+  java -jar dbload-*.jar -u betoffice -p betoffice \
+  -d jdbc:mariadb://127.0.0.1/betoffice \
+  --tables bo_player \
+  -f betoffice-player.dat --export
+  ```
+  ```
+  java -jar dbload-*.jar -u test -p test \
+  -d jdbc:mariadb://127.0.0.1/botest \
+  --file betoffice-player.dat \
+  -f betoffice-player.dat --import
+  ```  
 
 ### TODO
  * Tutorial to setup a docker container

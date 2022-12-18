@@ -30,7 +30,7 @@ import de.dbload.meta.TableMetaData;
  * Creates a {@link PreparedStatement} by {@link DefaultDbloadContext} and
  * {@link TableMetaData}.
  *
- * @author Andre Winkler. http://www.andre-winkler.de
+ * @author Andre Winkler. https://www.andre-winkler.de
  */
 public class PreparedStatementBuilder {
 

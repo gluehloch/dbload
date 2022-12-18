@@ -38,7 +38,6 @@ public class ResourceReader {
      * @throws IOException Ups
      */
     public void start(ResourceDataReader resourceDataReader, ResourceReaderCallback resourceReaderCallback) throws IOException {
-
         resourceDataReader.open();
         ResourceParser resourceParser = new ResourceParser();
 

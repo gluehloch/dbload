@@ -104,15 +104,13 @@ public class DefaultDbloadImpl {
 
     private void startReading(final InputStream is, final DbloadContext context) {
         try (ResourceDataReader rdr = new ResourceDataReader(is)) {
-
             final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);
-
-            ResourceReader resourceReader = new ResourceReader();
+            final ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        TableMetaData metaData = JdbcUtils.findMetaData(context.getConnection(), tableMetaData);
+                        final TableMetaData metaData = JdbcUtils.findMetaData(context.getConnection(), tableMetaData);
 
                         //
                         // TODO Less column data then meta data???
@@ -128,6 +126,7 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newDataRow(DataRow dataRow) {
                     try {
+                        System.out.println("Insert: " + dataRow);
                         dbloadSqlInsert.execute(dataRow);
                     } catch (SQLException ex) {
                         String error = "Unable to execute INSERT ["
