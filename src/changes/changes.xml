@@ -22,6 +22,9 @@
       <action dev="andrewinkler" type="add" date="2022-11-06">
         Command line option to export some tables to a file.
       </action>
+      <action dev="andrewinkler" type="fix" date="2022-12-18">
+        Removing all 'line-feeds' from varchar data.
+      </action>
     </release>
     
     <!-- RELEASED -->
