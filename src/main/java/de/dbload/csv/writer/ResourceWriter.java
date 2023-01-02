@@ -111,6 +111,12 @@ public class ResourceWriter {
                                 print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
                             }
                             break;
+                        case BIT:
+                            byte b = resultSet.getByte(i);
+                            print = Byte.toString(b);
+                        case BOOLEAN:
+                            boolean bool = resultSet.getBoolean(i);
+                            print = Boolean.toString(bool);
                         default:
                             print = resultSet.getString(i);
                         }

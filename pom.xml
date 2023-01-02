@@ -9,7 +9,7 @@
 
 	<groupId>de.winkler.dbload</groupId>
 	<artifactId>dbload</artifactId>
-	<version>0.7.1</version>
+	<version>0.7.2</version>
 	<packaging>jar</packaging>
 
 	<name>dbload</name>
