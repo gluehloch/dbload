@@ -180,7 +180,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                     if (bool.booleanValue()) {
                         stmt.setObject(index, Boolean.TRUE, Types.BOOLEAN);
                     } else {
-                        stmt.setObject(index, Boolean.TRUE, Types.BOOLEAN);
+                        stmt.setObject(index, Boolean.FALSE, Types.BOOLEAN);
                     }
                 } else {
                     stmt.setObject(index, value, java.sql.Types.BOOLEAN);
