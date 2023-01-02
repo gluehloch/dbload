@@ -12,7 +12,9 @@
       </action> 
 -->
     <!-- Under construction -->
-    <release version="dbload-0.7.0" date="2022-10-29">
+
+    <!-- RELEASED -->
+    <release version="dbload-0.7.0" date="2023-01-02">
       <action dev="andrewinkler" type="add" date="2022-10-29">
         Adding MANIFEST.MF to create an executable JAR.
       </action>   
