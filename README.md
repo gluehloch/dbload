@@ -20,6 +20,10 @@ mvn clean liquibase:update install
 ```
 
 Beispiele:
+* Import
+  ```
+  java -jar .\dbload-x.y.z.jar -u test -p test -d jdbc:mariadb://127.0.0.1/botest --import -f .\betoffice-complete.dat  
+  ```
 * Export der kompletten Betoffice Datenbank (Linux Shell Line Break!):
   ```
   java -jar dbload-*.jar -u betoffice -p betoffice \
