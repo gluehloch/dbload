@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.sql.Types;
 import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -93,29 +94,24 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 returnValue = ZERO;
             } else {
                 switch (value) {
-                case "J":
+                case "J", "1", "Y":
                     returnValue = ONE;
-                    break;
-                case "Y":
-                    returnValue = ONE;
-                    break;
-                case "1":
-                    returnValue = ONE;
-                    break;
-                case "0":
-                    returnValue = ZERO;
-                    break;
-                case "":
-                    returnValue = ZERO;
-                    break;
-                case NULL:
-                    returnValue = ZERO;
-                    break;
-                case "null":
-                    returnValue = ZERO;
                     break;
                 default:
                     returnValue = ZERO;
+                }
+            }
+            break;
+        case BOOLEAN:
+            if (value == null) {
+                returnValue = Boolean.FALSE;
+            } else {
+                switch (value) {
+                case "J", "1", "Y":
+                    returnValue = Boolean.TRUE;
+                    break;
+                default:
+                    returnValue = Boolean.FALSE;
                 }
             }
             break;
@@ -165,7 +161,30 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             if (value == null) {
                 stmt.setNull(index, java.sql.Types.BIT);
             } else {
-                stmt.setInt(index, (Integer) value);
+                if (value instanceof Number number) {
+                    if (number.intValue() == 1) {
+                        stmt.setObject(index, Boolean.TRUE, Types.BIT);
+                    } else {
+                        stmt.setObject(index, Boolean.TRUE, Types.BIT);
+                    }
+                } else {
+                    stmt.setObject(index, value, java.sql.Types.BIT);
+                }
+            }
+            break;
+        case BOOLEAN:
+            if (value == null) {
+                stmt.setNull(index, java.sql.Types.BOOLEAN);
+            } else {
+                if (value instanceof Boolean bool) {
+                    if (bool.booleanValue()) {
+                        stmt.setObject(index, Boolean.TRUE, Types.BOOLEAN);
+                    } else {
+                        stmt.setObject(index, Boolean.TRUE, Types.BOOLEAN);
+                    }
+                } else {
+                    stmt.setObject(index, value, java.sql.Types.BOOLEAN);
+                }                
             }
             break;
 
