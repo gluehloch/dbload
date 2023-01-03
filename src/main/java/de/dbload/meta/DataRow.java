@@ -26,9 +26,9 @@ import java.util.Map;
  */
 public class DataRow {
 
-    private final Map<String, String> map = new HashMap<>();
+    private final Map<ColumnKey, String> map = new HashMap<>();
 
-    public void put(String columnName, String value) {
+    public void put(ColumnKey columnName, String value) {
         map.put(columnName, value);
     }
 
@@ -36,11 +36,11 @@ public class DataRow {
         return map.size();
     }
 
-    public String get(String columnName) {
-        return map.get(columnName);
+    public String get(ColumnKey columnKey) {
+        return map.get(columnKey);
     }
 
-    public Map<String, String> asMap() {
+    public Map<ColumnKey, String> asMap() {
         return map;
     }
 

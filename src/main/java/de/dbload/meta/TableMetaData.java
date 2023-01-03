@@ -16,9 +16,9 @@
 
 package de.dbload.meta;
 
-import de.dbload.meta.ColumnMetaData.Type;
-
 import java.util.Optional;
+
+import de.dbload.meta.ColumnMetaData.Type;
 
 /**
  * Holds the database table meta data.
@@ -56,26 +56,25 @@ public class TableMetaData {
     /**
      * JDBC Column Index Logic: 1..N
      * 
-     * @param  index 1..N
+     * @param index 1..N
      * @return       The column name
      */
+    public ColumnKey getColumnKey(int index) {
+        return columnsMetaData.get(index - 1).getColumnKey();
+    }
+
+    public Optional<ColumnMetaData> getColumn(ColumnKey columnKey) {
+        return columnsMetaData.getColumn(columnKey);
+    }
+
     public String getColumnName(int index) {
-        return columnsMetaData.get(index - 1).getColumnName();
+        return getColumnKey(index).getColumnName();
     }
 
-    public Optional<ColumnMetaData> getColumn(String columnName) {
-        return columnsMetaData.getColumn(columnName);
-    }
-
-    
-    public String getColumnLabel(int index) {
-        return getColumnName(index);
-    }
-    
     public Type getColumnType(int index) {
-        return columnsMetaData.get(index -1).getColumnType();
+        return columnsMetaData.get(index - 1).getColumnType();
     }
-    
+
     public String getColumnTypeName(int index) {
         return columnsMetaData.get(index - 1).getColumnType().name();
     }

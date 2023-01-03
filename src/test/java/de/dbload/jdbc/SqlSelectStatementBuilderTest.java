@@ -19,6 +19,7 @@ package de.dbload.jdbc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.dbload.meta.ColumnMetaData.Type;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 import org.junit.jupiter.api.Test;
@@ -33,12 +34,12 @@ class SqlSelectStatementBuilderTest {
     @Test
     void tesSqlSelectStatement() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.column("id", Type.LONG);
-        columns.column("name", Type.VARCHAR);
-        columns.column("vorname", Type.VARCHAR);
-        columns.column("age", Type.INTEGER);
-        columns.column("sex", Type.INTEGER);
-        columns.column("birthday", Type.DATE);
+        columns.column(ColumnKey.of("id"), Type.LONG);
+        columns.column(ColumnKey.of("name"), Type.VARCHAR);
+        columns.column(ColumnKey.of("vorname"), Type.VARCHAR);
+        columns.column(ColumnKey.of("age"), Type.INTEGER);
+        columns.column(ColumnKey.of("sex"), Type.INTEGER);
+        columns.column(ColumnKey.of("birthday"), Type.DATE);
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
         SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(
@@ -52,7 +53,7 @@ class SqlSelectStatementBuilderTest {
     @Test
     void tesSqlSelectStatementWithSingleColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.column("id", Type.INTEGER);
+        columns.column(ColumnKey.of("id"), Type.INTEGER);
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
         SqlSelectStatementBuilder sqlSelectStatement = new SqlSelectStatementBuilder(

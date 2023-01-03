@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import de.dbload.Dbload;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -47,26 +48,24 @@ class DbloadFileInsertTest {
     @Test
     void testResourceFileInsert() throws Exception {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("id", Type.LONG));
-        columns.addColumn(new ColumnMetaData("name", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("vorname", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("age", Type.INTEGER));
-        columns.addColumn(new ColumnMetaData("sex", Type.INTEGER));
-        columns.addColumn(new ColumnMetaData("birthday", Type.DATE));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("id"), Type.LONG));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("name"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("vorname"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("age"), Type.INTEGER));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("sex"), Type.INTEGER));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("birthday"), Type.DATE));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
 
         DataRow data = new DataRow();
-        data.put("id", "0");
-        data.put("name", "Winkler");
-        data.put("vorname", "Andre");
-        data.put("age", "43");
-        data.put("sex", "0");
-        data.put("birthday", "1971-03-24 06:41:11");
+        data.put(ColumnKey.of("id"), "0");
+        data.put(ColumnKey.of("name"), "Winkler");
+        data.put(ColumnKey.of("vorname"), "Andre");
+        data.put(ColumnKey.of("age"), "43");
+        data.put(ColumnKey.of("sex"), "0");
+        data.put(ColumnKey.of("birthday"), "1971-03-24 06:41:11");
 
         File directory = tempDir.toFile();
-        try (DbloadFileInsert rfi = new DbloadFileInsert(directory,
-                Dbload.class)) {
-
+        try (DbloadFileInsert rfi = new DbloadFileInsert(directory, Dbload.class)) {
             rfi.newTableMetaData(tableMetaData);
             rfi.execute(data);
         }

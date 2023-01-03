@@ -16,6 +16,7 @@
 
 package de.dbload.utils;
 
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -35,12 +36,12 @@ public class TestMetaDataFactory {
      */
     public static TableMetaData createPersonMetaData() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("id", Type.LONG));
-        columns.addColumn(new ColumnMetaData("lastname", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("firstname", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("age", Type.INTEGER));
-        columns.addColumn(new ColumnMetaData("sex", Type.INTEGER));
-        columns.addColumn(new ColumnMetaData("birthday", Type.DATE_TIME));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("id"), Type.LONG));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("lastname"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("firstname"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("age"), Type.INTEGER));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("sex"), Type.INTEGER));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("birthday"), Type.DATE_TIME));
         TableMetaData tableMetaData = new TableMetaData("person", columns);
         return tableMetaData;
     }

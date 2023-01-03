@@ -18,6 +18,7 @@ package de.dbload.csv.reader;
 
 import java.util.List;
 
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -33,12 +34,12 @@ public class ColumnTypeParser {
     /**
      * Find name and type of a column description.
      *
-     * @param columnNames The names and types some columns.
+     * @param columnKeys The names and types some columns.
      * @return the column meta data
      */
-    public static ColumnsMetaData parseColumnsMetaData(List<String> columnNames) {
+    public static ColumnsMetaData parseColumnsMetaData(List<ColumnKey> columnKeys) {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
-        for (String columnNameAndType : columnNames) {
+        for (ColumnKey columnNameAndType : columnKeys) {
             columnsMetaData.addColumn(parseColumnMetaData(columnNameAndType));
         }
         return columnsMetaData;
@@ -50,11 +51,11 @@ public class ColumnTypeParser {
      * @param columnNameAndType a column description with name and type
      * @return the column meta data
      */
-    public static ColumnMetaData parseColumnMetaData(String columnNameAndType) {
+    public static ColumnMetaData parseColumnMetaData(ColumnKey columnNameAndType) {
         Type columnType = ColumnTypeParser.findType(columnNameAndType);
         String normalizedColumnName = StringUtils.substringBefore(
-                columnNameAndType, "(").trim();
-        return new ColumnMetaData(normalizedColumnName, columnType);
+                columnNameAndType.getColumnName(), "(").trim();
+        return new ColumnMetaData(ColumnKey.of(normalizedColumnName), columnType);
     }
 
     /**
@@ -63,7 +64,7 @@ public class ColumnTypeParser {
      * @param columnDescription the column description
      * @return the column type
      */
-    protected static ColumnMetaData.Type findType(String columnDescription) {
+    protected static ColumnMetaData.Type findType(ColumnKey columnDescription) {
         if (containsDate(columnDescription)) {
             return Type.DATE_TIME;
         } else if (containsBit(columnDescription)) {
@@ -74,12 +75,12 @@ public class ColumnTypeParser {
         }
     }
 
-    protected static boolean containsDate(String string) {
-        return (StringUtils.containsIgnoreCase(string, "(date)"));
+    protected static boolean containsDate(ColumnKey columnKey) {
+        return (StringUtils.containsIgnoreCase(columnKey.getColumnName(), "(date)"));
     }
 
-    protected static boolean containsBit(String string) {
-        return (StringUtils.containsIgnoreCase(string, "(bit)"));
+    protected static boolean containsBit(ColumnKey columnKey) {
+        return (StringUtils.containsIgnoreCase(columnKey.getColumnName(), "(bit)"));
     }
 
 }

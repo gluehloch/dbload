@@ -52,8 +52,8 @@ public class ColumnsMetaData implements Iterable<ColumnMetaData> {
         columns.add(column);
     }
 
-    public ColumnsMetaData column(String columnName, Type type) {
-        addColumn(new ColumnMetaData(columnName, type));
+    public ColumnsMetaData column(ColumnKey columnKey, Type type) {
+        addColumn(new ColumnMetaData(columnKey, type));
         return this;
     }
 
@@ -62,12 +62,12 @@ public class ColumnsMetaData implements Iterable<ColumnMetaData> {
      *
      * @return a list of column names
      */
-    public List<String> getColumnNames() {
-        return columns.stream().map(ColumnMetaData::getColumnName).collect(Collectors.toList());
+    public List<ColumnKey> getColumnKeys() {
+        return columns.stream().map(ColumnMetaData::getColumnKey).collect(Collectors.toList());
     }
 
-    public Optional<ColumnMetaData> getColumn(String columnName) {
-        return columns.stream().filter(c -> c.getColumnName().equalsIgnoreCase(columnName)).findFirst();
+    public Optional<ColumnMetaData> getColumn(ColumnKey columnKey) {
+        return columns.stream().filter(c -> c.getColumnKey().equals(columnKey)).findFirst();
     }
 
     @Override

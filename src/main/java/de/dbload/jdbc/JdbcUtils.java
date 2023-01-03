@@ -16,12 +16,18 @@
 
 package de.dbload.jdbc;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
 
+import org.apache.commons.lang.StringUtils;
+
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Jdbc Utilities. Only for internal DBLoad use.
@@ -100,11 +106,12 @@ public class JdbcUtils {
         int numberOfColumns = resultSetMetaData.getColumnCount();
 
         for (int i = 1; i <= numberOfColumns; i++) {
-            String columnName = resultSetMetaData.getColumnName(i);
+            String jdbcColumnName = resultSetMetaData.getColumnName(i);
             Type columnType = Type.valueOf(resultSetMetaData.getColumnType(i));
 
-            if (csvTableMetaData.getColumn(columnName).isPresent()) {
-                columnsMetaData.column(columnName, columnType);
+            ColumnKey columnKey = ColumnKey.of(jdbcColumnName);
+            if (csvTableMetaData.getColumn(columnKey).isPresent()) {
+                columnsMetaData.column(columnKey, columnType);
             }
         }
 

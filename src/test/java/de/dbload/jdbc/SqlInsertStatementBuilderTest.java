@@ -25,6 +25,7 @@ import java.sql.Statement;
 import java.util.Date;
 
 import de.dbload.meta.ColumnMetaData.Type;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
@@ -45,12 +46,12 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
     @BeforeEach
     public void setup() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.column("id", Type.LONG);
-        columns.column("lastname", Type.VARCHAR);
-        columns.column("firstname", Type.VARCHAR);
-        columns.column("age", Type.INTEGER);
-        columns.column("sex", Type.INTEGER);
-        columns.column("birthday", Type.DATE);
+        columns.column(ColumnKey.of("id"), Type.LONG);
+        columns.column(ColumnKey.of("lastname"), Type.VARCHAR);
+        columns.column(ColumnKey.of("firstname"), Type.VARCHAR);
+        columns.column(ColumnKey.of("age"), Type.INTEGER);
+        columns.column(ColumnKey.of("sex"), Type.INTEGER);
+        columns.column(ColumnKey.of("birthday"), Type.DATE);
         tableMetaData = new TableMetaData("person", columns);
     }
 

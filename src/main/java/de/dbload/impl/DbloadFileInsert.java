@@ -105,7 +105,7 @@ public class DbloadFileInsert implements DbloadSqlStatement {
             if (!first) {
                 insertSqlCommand.append(", ");
             }
-            insertSqlCommand.append(column.getColumnName());
+            insertSqlCommand.append(column.getColumnKey().getColumnName());
             first = false;
         }
 
@@ -117,12 +117,12 @@ public class DbloadFileInsert implements DbloadSqlStatement {
             }
             Object insertme;
             if (column.getColumnType() == Type.DATE) {
-                insertme = "to_date('" + data.get(column.getColumnName())
+                insertme = "to_date('" + data.get(column.getColumnKey())
                         + "', '" + DateTimeUtils.ORACLE_DATE_FORMAT + "')";
             } else {
                 // int[] types = jdbcInsert.getInsertTypes();
                 // insertme = InOutUtils.toString(types[i], data.get(i));
-                String val = data.get(column.getColumnName());
+                String val = data.get(column.getColumnKey());
                 if (StringUtils.isBlank(val)) {
                     insertme = "NULL";
                 } else {

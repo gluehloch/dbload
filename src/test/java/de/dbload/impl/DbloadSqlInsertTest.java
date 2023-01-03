@@ -23,6 +23,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import de.dbload.DbloadContext;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestMetaDataFactory;
@@ -51,10 +52,10 @@ class DbloadSqlInsertTest extends TransactionalTest {
         try (DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(dbloadContext)) {
             dbloadSqlInsert.newTableMetaData(tableMetaData);
             DataRow dataRow = new DataRow();
-            dataRow.put("id", "1");
-            dataRow.put("lastname", "winkler");
-            dataRow.put("firstname", "andre");
-            dataRow.put("age", "55");
+            dataRow.put(ColumnKey.of("id"), "1");
+            dataRow.put(ColumnKey.of("lastname"), "winkler");
+            dataRow.put(ColumnKey.of("firstname"), "andre");
+            dataRow.put(ColumnKey.of("age"), "55");
             dbloadSqlInsert.execute(dataRow);
         }
 

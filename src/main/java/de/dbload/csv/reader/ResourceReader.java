@@ -19,6 +19,7 @@ package de.dbload.csv.reader;
 import java.io.IOException;
 import java.util.List;
 
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
@@ -53,8 +54,8 @@ public class ResourceReader {
                     throw new IllegalStateException("Find column description without a table name!");
                 }
 
-                List<String> currentColumnNames = resourceParser.readColumnNames(line);
-                ColumnsMetaData columnsMetaData = ColumnTypeParser.parseColumnsMetaData(currentColumnNames);
+                List<ColumnKey> currentColumnKeys = resourceParser.readColumnNames(line);
+                ColumnsMetaData columnsMetaData = ColumnTypeParser.parseColumnsMetaData(currentColumnKeys);
                 currentTableMetaData = new TableMetaData(currentTableName, columnsMetaData);
 
                 resourceReaderCallback.newTableMetaData(currentTableMetaData);
@@ -63,7 +64,10 @@ public class ResourceReader {
             case COMMENT_OR_EMPTY:
                 break;
             case DATA_DEFINITION:
-                DataRow dataRow = resourceParser.readRow(currentTableMetaData.getColumns().getColumnNames(), lineNo, line);
+                if (currentTableMetaData == null) {
+                    throw new IllegalStateException("Found data without table definition.");
+                }
+                DataRow dataRow = resourceParser.readRow(currentTableMetaData.getColumns().getColumnKeys(), lineNo, line);
 
                 resourceReaderCallback.newDataRow(dataRow);
 

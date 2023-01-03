@@ -24,6 +24,7 @@ import java.sql.Statement;
 
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestMetaDataFactory;
@@ -62,12 +63,12 @@ class PreparedSqlSelectStatementTest extends TransactionalTest {
                 dbloadContext, tableMetaData)) {
 
             DataRow dataRowB = new DataRow();
-            dataRowB.put("id", "1");
-            dataRowB.put("lastname", "winkler");
-            dataRowB.put("firstname", "andre");
-            dataRowB.put("age", "43");
-            dataRowB.put("sex", "0");
-            dataRowB.put("birthday", "1971-03-24 01:00:00");
+            dataRowB.put(ColumnKey.of("id"), "1");
+            dataRowB.put(ColumnKey.of("lastname"), "winkler");
+            dataRowB.put(ColumnKey.of("firstname"), "andre");
+            dataRowB.put(ColumnKey.of("age"), "43");
+            dataRowB.put(ColumnKey.of("sex"), "0");
+            dataRowB.put(ColumnKey.of("birthday"), "1971-03-24 01:00:00");
             sql.execute(dataRowB);
 
             try (ResultSet rs = sql.getResultSet()) {
@@ -76,12 +77,12 @@ class PreparedSqlSelectStatementTest extends TransactionalTest {
                 assertThat(rs.getString("firstname")).isEqualTo("andre");
 
                 DataRow dataRowA = new DataRow();
-                dataRowA.put("id", "2");
-                dataRowA.put("lastname", "winkler");
-                dataRowA.put("firstname", "lars");
-                dataRowA.put("age", "40");
-                dataRowA.put("sex", "0");
-                dataRowA.put("birthday", "1971-03-24 01:00:00");
+                dataRowA.put(ColumnKey.of("id"), "2");
+                dataRowA.put(ColumnKey.of("lastname"), "winkler");
+                dataRowA.put(ColumnKey.of("firstname"), "lars");
+                dataRowA.put(ColumnKey.of("age"), "40");
+                dataRowA.put(ColumnKey.of("sex"), "0");
+                dataRowA.put(ColumnKey.of("birthday"), "1971-03-24 01:00:00");
                 sql.execute(dataRowA);
 
                 try (ResultSet rs2 = sql.getResultSet()) {

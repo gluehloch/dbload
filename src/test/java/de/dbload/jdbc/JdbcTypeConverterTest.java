@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 import java.util.Locale;
 
 import de.dbload.JdbcTypeConverter;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
@@ -39,7 +40,7 @@ class JdbcTypeConverterTest {
     void testJdbcTypeConverterToNumberInteger() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1",
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"),
                 Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711");
@@ -57,7 +58,7 @@ class JdbcTypeConverterTest {
     void testJdbcTypeConverterToNumberDecimal() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1",
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"),
                 Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711,11");
@@ -75,7 +76,7 @@ class JdbcTypeConverterTest {
     void testJdbcTypeConverterToString() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1",
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"),
                 Type.VARCHAR);
         Object value = converter.convert(columnMetaData, "4711");
 
@@ -88,7 +89,7 @@ class JdbcTypeConverterTest {
     void testJdbcTypeConverterToDate() {
         JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
                 Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData("col1", Type.DATE);
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.DATE);
         Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
 
         assertThat(value).isInstanceOfAny(Timestamp.class);

@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.SQLException;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -41,22 +42,33 @@ class ResourceWriterTest extends TransactionalTest {
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, ClasspathFileMarker.class);
 
-        Path temp = Files.createTempFile("dbload", ".dat");
+        Path temp1 = writeToFile("dbload1");
+        String fileContent1 = readFileToString(temp1);
+        System.out.println(fileContent1);
+
+        context.getConnection().createStatement().execute("DELETE person");
+
+        Dbload.read(context, temp1.toFile());
+
+        Path temp2 = writeToFile("dbload2");
+        String fileContent2 = readFileToString(temp2);
+        System.out.println(fileContent2);        
+    }
+
+    private Path writeToFile(String fileName) throws IOException, SQLException {
+        Path temp = Files.createTempFile(fileName, ".dat");
         ResourceWriter resourceWriter = new ResourceWriter(temp.toFile());
         resourceWriter.start(conn, "SELECT * FROM person", false);
+        return temp;
+    }
 
+    private String readFileToString(Path temp) {
         StringBuilder contentBuilder = new StringBuilder();
         try (Stream<String> stream = Files.lines(temp, StandardCharsets.UTF_8)) {
             stream.forEach(s -> contentBuilder.append(s).append("\n"));
         } catch (IOException ex) {
         }
-
-        String fileContent = contentBuilder.toString();
-        System.out.println(fileContent);
-        
-        context.getConnection().createStatement().execute("DELETE person");
-        
-        Dbload.read(context, temp.toFile());
+        return contentBuilder.toString();
     }
 
 }

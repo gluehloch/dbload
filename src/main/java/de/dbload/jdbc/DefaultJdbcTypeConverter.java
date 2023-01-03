@@ -199,7 +199,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setBigDecimal(index, ((BigDecimal) value));
             } else {
                 throw new IllegalStateException("Unknown decimal type "
-                        + columnMetaData.getColumnName());
+                        + columnMetaData.getColumnKey());
             }
             break;
 
@@ -239,7 +239,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setTimestamp(index, timestamp);
             } else {
                 throw new IllegalStateException("Unknown decimal type "
-                        + columnMetaData.getColumnName());
+                        + columnMetaData.getColumnKey().getColumnName());
             }
             // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             break;

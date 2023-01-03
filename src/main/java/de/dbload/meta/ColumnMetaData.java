@@ -23,7 +23,7 @@ package de.dbload.meta;
  */
 public class ColumnMetaData {
 
-    private final String columnName;
+    private final ColumnKey columnKey;
 
     private final Type columnType;
 
@@ -94,21 +94,21 @@ public class ColumnMetaData {
     /**
      * Constructor
      *
-     * @param columnName column name
+     * @param columnKey column key name
      * @param columnType column type
      */
-    public ColumnMetaData(String columnName, Type columnType) {
-        this.columnName = columnName;
+    public ColumnMetaData(ColumnKey columnKey, Type columnType) {
+        this.columnKey = columnKey;
         this.columnType = columnType;
     }
 
     /**
-     * Column name
+     * Column key name
      *
-     * @return Column name
+     * @return Column key name
      */
-    public String getColumnName() {
-        return columnName;
+    public ColumnKey getColumnKey() {
+        return columnKey;
     }
 
     /**
@@ -122,7 +122,7 @@ public class ColumnMetaData {
 
     @Override
     public String toString() {
-        return String.format("%s[%s]", columnName, columnType);
+        return String.format("%s[%s]", columnKey.getColumnName(), columnType);
     }
 
 }

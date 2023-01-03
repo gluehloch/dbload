@@ -24,7 +24,7 @@ import de.dbload.meta.ColumnsMetaData;
  * Creates SQL statements.
  *
  * @author Andre Winkler. http://www.andre-winkler.de
- */
+ */ 
 class SqlStatementBuilderUtils {
 
     /**
@@ -64,7 +64,7 @@ class SqlStatementBuilderUtils {
             if (!first) {
                 andCondition.append("AND ");
             }
-            andCondition.append(columnMetaData.getColumnName()).append(" = ? ");
+            andCondition.append(columnMetaData.getColumnKey().getColumnName()).append(" = ? ");
             first = false;
         }
         return andCondition.toString().trim();
@@ -105,7 +105,7 @@ class SqlStatementBuilderUtils {
 
     private static class ColumnNameIterator implements ColumnIterator {
         public String get(ColumnMetaData column) {
-            return column.getColumnName();
+            return column.getColumnKey().getColumnName();
         }
     }
 

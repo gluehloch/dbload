@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnsMetaData;
 import org.junit.jupiter.api.Test;
@@ -37,13 +38,13 @@ class JdbcUtilsTest extends TransactionalTest {
     @Test
     void testJdbcUtilsMetadataFinder() throws Exception {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
-        columnsMetaData.addColumn(new ColumnMetaData("id", ColumnMetaData.Type.LONG));
-        columnsMetaData.addColumn(new ColumnMetaData("firstname", ColumnMetaData.Type.VARCHAR));
-        columnsMetaData.addColumn(new ColumnMetaData("lastname", ColumnMetaData.Type.VARCHAR));
-        columnsMetaData.addColumn(new ColumnMetaData("age", ColumnMetaData.Type.INTEGER));
-        columnsMetaData.addColumn(new ColumnMetaData("sex", ColumnMetaData.Type.VARCHAR));
-        columnsMetaData.addColumn(new ColumnMetaData("birthday", ColumnMetaData.Type.DATE));
-        columnsMetaData.addColumn(new ColumnMetaData("human", ColumnMetaData.Type.BIT));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("id"), ColumnMetaData.Type.LONG));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("firstname"), ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("lastname"), ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("age"), ColumnMetaData.Type.INTEGER));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("sex"), ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("birthday"), ColumnMetaData.Type.DATE));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("human"), ColumnMetaData.Type.BIT));
         TableMetaData csvMetaData = new TableMetaData("person", columnsMetaData);
 
         TableMetaData metaData = JdbcUtils.findMetaData(conn, csvMetaData);
@@ -51,19 +52,19 @@ class JdbcUtilsTest extends TransactionalTest {
         assertThat(metaData).isNotNull();
         assertThat(metaData.getColumnCount()).isEqualTo(7);
         assertThat(metaData.getColumnName(1)).isEqualToIgnoringCase("id");
-        assertThat(metaData.getColumnLabel(1)).isEqualToIgnoringCase("id");
+        assertThat(metaData.getColumnName(1)).isEqualToIgnoringCase("id");
         assertThat(metaData.getColumnName(2)).isEqualToIgnoringCase("firstname");
-        assertThat(metaData.getColumnLabel(2)).isEqualToIgnoringCase("firstname");
+        assertThat(metaData.getColumnName(2)).isEqualToIgnoringCase("firstname");
         assertThat(metaData.getColumnName(3)).isEqualToIgnoringCase("lastname");
-        assertThat(metaData.getColumnLabel(3)).isEqualToIgnoringCase("lastname");
+        assertThat(metaData.getColumnName(3)).isEqualToIgnoringCase("lastname");
         assertThat(metaData.getColumnName(4)).isEqualToIgnoringCase("age");
-        assertThat(metaData.getColumnLabel(4)).isEqualToIgnoringCase("age");
+        assertThat(metaData.getColumnName(4)).isEqualToIgnoringCase("age");
         assertThat(metaData.getColumnName(5)).isEqualToIgnoringCase("sex");
-        assertThat(metaData.getColumnLabel(5)).isEqualToIgnoringCase("sex");
+        assertThat(metaData.getColumnName(5)).isEqualToIgnoringCase("sex");
         assertThat(metaData.getColumnName(6)).isEqualToIgnoringCase("birthday");
-        assertThat(metaData.getColumnLabel(6)).isEqualToIgnoringCase("birthday");
+        assertThat(metaData.getColumnName(6)).isEqualToIgnoringCase("birthday");
         assertThat(metaData.getColumnName(7)).isEqualToIgnoringCase("human");
-        assertThat(metaData.getColumnLabel(7)).isEqualToIgnoringCase("human");
+        assertThat(metaData.getColumnName(7)).isEqualToIgnoringCase("human");
 
         assertThat(metaData.getColumnTypeName(1)).isEqualTo("LONG");
         assertThat(metaData.getColumnTypeName(2)).isEqualTo("VARCHAR");
@@ -88,13 +89,13 @@ class JdbcUtilsTest extends TransactionalTest {
     @Test
     void testJdbcUtils() throws SQLException {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
-        columnsMetaData.addColumn(new ColumnMetaData("id", ColumnMetaData.Type.LONG));
-        columnsMetaData.addColumn(new ColumnMetaData("firstname", ColumnMetaData.Type.VARCHAR));
-        columnsMetaData.addColumn(new ColumnMetaData("lastname", ColumnMetaData.Type.VARCHAR));
-        columnsMetaData.addColumn(new ColumnMetaData("age", ColumnMetaData.Type.INTEGER));
-        columnsMetaData.addColumn(new ColumnMetaData("sex", ColumnMetaData.Type.VARCHAR));
-        columnsMetaData.addColumn(new ColumnMetaData("birthday", ColumnMetaData.Type.DATE));
-        columnsMetaData.addColumn(new ColumnMetaData("human", ColumnMetaData.Type.BIT));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("id"), ColumnMetaData.Type.LONG));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("firstname"), ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("lastname"), ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("age"), ColumnMetaData.Type.INTEGER));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("sex"), ColumnMetaData.Type.VARCHAR));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("birthday"), ColumnMetaData.Type.DATE));
+        columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("human"), ColumnMetaData.Type.BIT));
         TableMetaData csvMetaData = new TableMetaData("person", columnsMetaData);
 
         TableMetaData metaData = JdbcUtils.findMetaData(conn, csvMetaData);

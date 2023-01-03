@@ -8,7 +8,7 @@ class ColumnMetaDataTest {
 
     @Test
     void columnMetaDataToString() {
-        ColumnMetaData columnMetaData = new ColumnMetaData("column", ColumnMetaData.Type.VARCHAR);
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("column"), ColumnMetaData.Type.VARCHAR);
         assertThat(columnMetaData.toString()).isEqualTo("column[VARCHAR]");
     }
 

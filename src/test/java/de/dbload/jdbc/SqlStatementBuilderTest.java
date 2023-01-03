@@ -18,6 +18,7 @@ package de.dbload.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -88,22 +89,22 @@ class SqlStatementBuilderTest {
 
     private ColumnsMetaData createSingleColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("col1"), Type.VARCHAR));
         return columns;
     }
 
     private ColumnsMetaData createTwoColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("col2", Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("col1"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("col2"), Type.VARCHAR));
         return columns;
     }
 
     private ColumnsMetaData createThreeColumnTable() {
         ColumnsMetaData columns = new ColumnsMetaData();
-        columns.addColumn(new ColumnMetaData("col1", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("col2", Type.VARCHAR));
-        columns.addColumn(new ColumnMetaData("col3", Type.DATE));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("col1"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("col2"), Type.VARCHAR));
+        columns.addColumn(new ColumnMetaData(ColumnKey.of("col3"), Type.DATE));
         return columns;
     }
 

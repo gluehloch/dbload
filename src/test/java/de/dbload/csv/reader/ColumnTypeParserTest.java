@@ -18,6 +18,7 @@ package de.dbload.csv.reader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import org.junit.jupiter.api.Test;
@@ -33,20 +34,20 @@ class ColumnTypeParserTest {
     void testColumnNameAndTypeParser() {
         ColumnMetaData columnMetaData = null;
 
-        columnMetaData = ColumnTypeParser.parseColumnMetaData("hello");
-        assertThat(columnMetaData.getColumnName()).isEqualTo("hello");
+        columnMetaData = ColumnTypeParser.parseColumnMetaData(ColumnKey.of("hello"));
+        assertThat(columnMetaData.getColumnKey().getColumnName()).isEqualTo("hello");
         assertThat(columnMetaData.getColumnType()).isEqualTo(Type.VARCHAR);
 
-        columnMetaData = ColumnTypeParser.parseColumnMetaData("hello(date)");
-        assertThat(columnMetaData.getColumnName()).isEqualTo("hello");
+        columnMetaData = ColumnTypeParser.parseColumnMetaData(ColumnKey.of("hello(date)"));
+        assertThat(columnMetaData.getColumnKey().getColumnName()).isEqualTo("hello");
         assertThat(columnMetaData.getColumnType()).isEqualTo(Type.DATE_TIME);
     }
 
     @Test
     void testColumnTypeParser() {
-        assertThat(ColumnTypeParser.findType("thisismycolumn(date)")).isEqualTo(Type.DATE_TIME);
-        assertThat(ColumnTypeParser.findType("thisismycolumn (date)")).isEqualTo(Type.DATE_TIME);
-        assertThat(ColumnTypeParser.findType("thisismycolumn")).isEqualTo(Type.VARCHAR);
+        assertThat(ColumnTypeParser.findType(ColumnKey.of("thisismycolumn(date)"))).isEqualTo(Type.DATE_TIME);
+        assertThat(ColumnTypeParser.findType(ColumnKey.of("thisismycolumn (date)"))).isEqualTo(Type.DATE_TIME);
+        assertThat(ColumnTypeParser.findType(ColumnKey.of("thisismycolumn"))).isEqualTo(Type.VARCHAR);
     }
 
 }

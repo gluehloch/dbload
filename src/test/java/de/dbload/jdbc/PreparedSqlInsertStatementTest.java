@@ -25,6 +25,7 @@ import java.util.Date;
 
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
+import de.dbload.meta.ColumnKey;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
@@ -53,20 +54,20 @@ class PreparedSqlInsertStatementTest extends TransactionalTest {
     @Test
     void dbloadInsert() throws SQLException {
         DataRow dataRow1 = new DataRow();
-        dataRow1.put("id", "1");
-        dataRow1.put("lastname", "Winkler");
-        dataRow1.put("firstname", "Andre");
-        dataRow1.put("age", "43");
-        dataRow1.put("sex", "0");
-        dataRow1.put("birthday", "1971-03-24 06:41:11");
+        dataRow1.put(ColumnKey.of("id"), "1");
+        dataRow1.put(ColumnKey.of("lastname"), "Winkler");
+        dataRow1.put(ColumnKey.of("firstname"), "Andre");
+        dataRow1.put(ColumnKey.of("age"), "43");
+        dataRow1.put(ColumnKey.of("sex"), "0");
+        dataRow1.put(ColumnKey.of("birthday"), "1971-03-24 06:41:11");
 
         DataRow dataRow2 = new DataRow();
-        dataRow2.put("id", "2");
-        dataRow2.put("lastname", "Winkler");
-        dataRow2.put("firstname", "Lars");
-        dataRow2.put("age", "40");
-        dataRow2.put("sex", "0");
-        dataRow2.put("birthday", "1974-06-02 10:00:00");
+        dataRow2.put(ColumnKey.of("id"), "2");
+        dataRow2.put(ColumnKey.of("lastname"), "Winkler");
+        dataRow2.put(ColumnKey.of("firstname"), "Lars");
+        dataRow2.put(ColumnKey.of("age"), "40");
+        dataRow2.put(ColumnKey.of("sex"), "0");
+        dataRow2.put(ColumnKey.of("birthday"), "1974-06-02 10:00:00");
 
         try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(dbloadContext, tableMetaData)) {
             dbloadInsert.execute(dataRow1);

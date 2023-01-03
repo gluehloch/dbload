@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import de.dbload.meta.DataRow;
 import org.apache.commons.lang.StringUtils;
+
+import de.dbload.meta.ColumnKey;
+import de.dbload.meta.DataRow;
 
 /**
  * Read a resource.
@@ -32,7 +34,7 @@ public class ResourceParser {
 
     public static final String COMMENT_START = "###";
     private String tableName;
-    private List<String> columns;
+    private List<ColumnKey> columns;
     private DataRow data;
     private ParserState parserState;
 
@@ -54,7 +56,7 @@ public class ResourceParser {
      *
      * @return Column description.
      */
-    public List<String> getColumns() {
+    public List<ColumnKey> getColumns() {
         return columns;
     }
 
@@ -70,9 +72,9 @@ public class ResourceParser {
     /**
      * Reads the table definition
      *
-     * @param lineNo the line number (for better error messages)
-     * @param line   One line from the resource
-     * @return ParserState
+     * @param  lineNo the line number (for better error messages)
+     * @param  line   One line from the resource
+     * @return        ParserState
      */
     public ParserState parse(int lineNo, String line) {
         String currentLine = StringUtils.trimToEmpty(line);
@@ -96,13 +98,12 @@ public class ResourceParser {
     /**
      * Reading a line of data.
      *
-     * @param _columns The name of the columns. The parsed line element will be
-     *                 associated with a column.
-     * @param _lineNo  the line number (for better error messages)
-     * @param line     The data line. Will be parsed to one or many columns.
-     * @return list with data
+     * @param  _columns The name of the columns. The parsed line element will be associated with a column.
+     * @param  _lineNo  the line number (for better error messages)
+     * @param  line     The data line. Will be parsed to one or many columns.
+     * @return          list with data
      */
-    public DataRow readRow(List<String> _columns, int _lineNo, String line) {
+    public DataRow readRow(List<ColumnKey> _columns, int _lineNo, String line) {
         data = new DataRow();
         StringTokenizer stok = new StringTokenizer(line, "|", true);
         boolean lastTokenIsDelim = false;
@@ -149,11 +150,11 @@ public class ResourceParser {
     /**
      * Read the column definition
      *
-     * @param columnDefinition column definitions
-     * @return column description
+     * @param  columnDefinition column definitions
+     * @return                  column description
      */
-    public List<String> readColumnNames(String columnDefinition) {
-        List<String> _columns = new ArrayList<>();
+    public List<ColumnKey> readColumnNames(String columnDefinition) {
+        List<ColumnKey> _columns = new ArrayList<>();
 
         String tmp = columnDefinition.trim();
         if (!tmp.startsWith("###")) {
@@ -165,7 +166,7 @@ public class ResourceParser {
         StringTokenizer stok = new StringTokenizer(tmp, "|");
         while (stok.hasMoreTokens()) {
             String token = stok.nextToken();
-            _columns.add(token.trim());
+            _columns.add(ColumnKey.of(token.trim()));
         }
 
         return _columns;
@@ -174,8 +175,8 @@ public class ResourceParser {
     /**
      * Read the table definition
      *
-     * @param tableDefinition the table definition
-     * @return the table name
+     * @param  tableDefinition the table definition
+     * @return                 the table name
      */
     public String readTableDefinition(String tableDefinition) {
         String _tableName = "";
