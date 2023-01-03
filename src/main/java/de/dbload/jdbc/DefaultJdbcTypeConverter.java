@@ -107,7 +107,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 returnValue = Boolean.FALSE;
             } else {
                 switch (value) {
-                case "J", "1", "Y":
+                case "J", "1", "Y", "TRUE":
                     returnValue = Boolean.TRUE;
                     break;
                 default:

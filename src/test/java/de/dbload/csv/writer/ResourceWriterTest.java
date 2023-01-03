@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.stream.Stream;
 
@@ -42,23 +43,32 @@ class ResourceWriterTest extends TransactionalTest {
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, ClasspathFileMarker.class);
 
+        select(context);
+
         Path temp1 = writeToFile("dbload1");
-        String fileContent1 = readFileToString(temp1);
-        System.out.println(fileContent1);
+        System.out.println(readFileToString(temp1));
 
         context.getConnection().createStatement().execute("DELETE person");
 
         Dbload.read(context, temp1.toFile());
+        
+        select(context);
 
         Path temp2 = writeToFile("dbload2");
-        String fileContent2 = readFileToString(temp2);
-        System.out.println(fileContent2);        
+        System.out.println(readFileToString(temp2));        
+    }
+    
+    private void select(DbloadContext context) throws Exception {
+        ResultSet resultSet = context.getConnection().createStatement().executeQuery("SELECT human FROM person ORDER BY id");
+        while (resultSet.next()) {
+            System.out.println(resultSet.getBoolean(1));
+        }
     }
 
     private Path writeToFile(String fileName) throws IOException, SQLException {
         Path temp = Files.createTempFile(fileName, ".dat");
         ResourceWriter resourceWriter = new ResourceWriter(temp.toFile());
-        resourceWriter.start(conn, "SELECT * FROM person", false);
+        resourceWriter.start(conn, "SELECT * FROM person ORDER BY id", false);
         return temp;
     }
 
