@@ -83,13 +83,24 @@ public class Dbload {
     }
 
     /**
-     * Read the data from a file and put it to the database.s
+     * Read the data from a file and put it to the database.
      *
      * @param connection   the database JDBC connection
      * @param readFromFile the file to read from
      */
     public static void read(Connection connection, File readFromFile) {
         DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DefaultDbloadImpl dbload = new DefaultDbloadImpl();
+        dbload.readFromFile(context, readFromFile);
+    }
+
+    /**
+     * Read the data from a file and put it to the database.
+     *
+     * @param context  the context for dbload
+     * @param readFromFile the file to read from
+     */
+    public static void read(DbloadContext context, File readFromFile) {
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.readFromFile(context, readFromFile);
     }

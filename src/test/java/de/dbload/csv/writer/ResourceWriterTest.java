@@ -16,10 +16,12 @@
 
 package de.dbload.csv.writer;
 
-import java.io.File;
-import java.sql.SQLException;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import de.dbload.Dbload;
@@ -34,15 +36,27 @@ import de.dbload.utils.TransactionalTest;
  */
 class ResourceWriterTest extends TransactionalTest {
 
-    @Disabled
     @Test
-    void testResourceWriter() throws SQLException {
+    void testResourceWriter() throws Exception {
         DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, ClasspathFileMarker.class);
 
-        File file = new File("E:/projects/tmp/dbload.dat");
-        ResourceWriter resourceWriter = new ResourceWriter(file);
+        Path temp = Files.createTempFile("dbload", ".dat");
+        ResourceWriter resourceWriter = new ResourceWriter(temp.toFile());
         resourceWriter.start(conn, "SELECT * FROM person", false);
+
+        StringBuilder contentBuilder = new StringBuilder();
+        try (Stream<String> stream = Files.lines(temp, StandardCharsets.UTF_8)) {
+            stream.forEach(s -> contentBuilder.append(s).append("\n"));
+        } catch (IOException ex) {
+        }
+
+        String fileContent = contentBuilder.toString();
+        System.out.println(fileContent);
+        
+        context.getConnection().createStatement().execute("DELETE person");
+        
+        Dbload.read(context, temp.toFile());
     }
 
 }

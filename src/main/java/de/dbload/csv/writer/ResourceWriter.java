@@ -16,20 +16,31 @@
 
 package de.dbload.csv.writer;
 
-import java.io.*;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Date;
+
+import org.joda.time.DateTime;
 
 import de.dbload.impl.DbloadException;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 
 /**
  * Write some SQL results to a <code>.dat</code> file.
