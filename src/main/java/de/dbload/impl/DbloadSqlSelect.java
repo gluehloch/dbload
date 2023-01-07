@@ -36,6 +36,8 @@ public class DbloadSqlSelect implements DbloadSqlStatement {
     private PreparedSqlSelectStatement preparedSqlStatement;
 
     private int resultRowCounter;
+    
+    private String tableName;
 
     /**
      * Constructor.
@@ -53,6 +55,8 @@ public class DbloadSqlSelect implements DbloadSqlStatement {
         if (preparedSqlStatement != null) {
             preparedSqlStatement.close();
         }
+        
+        tableName = tableMetaData.getTableName();
 
         preparedSqlStatement = new PreparedSqlSelectStatement(context,
                 tableMetaData);
@@ -77,6 +81,11 @@ public class DbloadSqlSelect implements DbloadSqlStatement {
 
     public int getResultRowCounter() {
         return resultRowCounter;
+    }
+
+    @Override
+    public String getTableName() {
+        return tableName;
     }
 
 }

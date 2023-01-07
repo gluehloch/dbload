@@ -165,7 +165,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                     if (number.intValue() == 1) {
                         stmt.setObject(index, Boolean.TRUE, Types.BIT);
                     } else {
-                        stmt.setObject(index, Boolean.TRUE, Types.BIT);
+                        stmt.setObject(index, Boolean.FALSE, Types.BIT);
                     }
                 } else {
                     stmt.setObject(index, value, java.sql.Types.BIT);

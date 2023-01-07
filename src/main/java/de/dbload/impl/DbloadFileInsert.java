@@ -161,4 +161,9 @@ public class DbloadFileInsert implements DbloadSqlStatement {
         }
     }
 
+    @Override
+    public String getTableName() {
+        return tableMetaData.getTableName();
+    }
+
 }

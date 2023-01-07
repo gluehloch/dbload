@@ -32,15 +32,22 @@ interface DbloadSqlStatement extends Closeable {
     /**
      * Set the current table name.
      *
-     * @param tableMetaData table name.
+     * @param  tableMetaData table name.
      * @throws SQLException
      */
     void newTableMetaData(TableMetaData tableMetaData) throws SQLException;
 
     /**
+     * Get the current table name.
+     *
+     * @return the current table name
+     */
+    String getTableName();
+
+    /**
      * Exceute a SQL statement with <code>data</code> as parameter.
      *
-     * @param data Holds the data
+     * @param  data         Holds the data
      * @throws SQLException
      */
     void execute(DataRow data) throws SQLException;

@@ -89,4 +89,9 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
         return preparedSqlStatement.toString();
     }
 
+    @Override
+    public String getTableName() {
+        return currentTableMetaData.getTableName();
+    }
+
 }
