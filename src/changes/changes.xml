@@ -10,6 +10,15 @@
 			and writing from files/strings to database tables. </action> -->
 
 		<!-- Under construction -->
+		
+		<!-- RELEASED -->
+		<release version="dbload-0.7.2" date="2023-01-07">
+			<action dev="andrewinkler" type="fix" date="2023-01-07">
+				Fix #17 / BIT und Boolean Spalten / Export / Fix of fix.
+			</action>
+		</release>
+		
+		<!-- RELEASED -->
 		<release version="dbload-0.7.2" date="2023-01-03">
 			<action dev="andrewinkler" type="fix" date="2023-01-03">
 				Fix #17 / BIT und Boolean Spalten / Export.
