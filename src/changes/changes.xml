@@ -17,14 +17,7 @@
 				Fix #17 / BIT und Boolean Spalten / Export / Fix of fix.
 			</action>
 		</release>
-		
-		<!-- RELEASED -->
-		<release version="dbload-0.7.2" date="2023-01-03">
-			<action dev="andrewinkler" type="fix" date="2023-01-03">
-				Fix #17 / BIT und Boolean Spalten / Export.
-			</action>
-		</release>
-	
+
 		<!-- RELEASED -->
 		<release version="dbload-0.7.1" date="2023-01-02">
 			<action dev="andrewinkler" type="fix" date="2023-01-02">
