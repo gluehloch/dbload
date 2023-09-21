@@ -22,14 +22,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import de.dbload.DbloadContext;
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TestMetaDataFactory;
 import de.dbload.utils.TransactionalTest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test for class {@link DbloadSqlInsert}.

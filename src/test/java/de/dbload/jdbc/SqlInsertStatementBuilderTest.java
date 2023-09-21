@@ -24,15 +24,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
-import de.dbload.meta.ColumnMetaData.Type;
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import de.dbload.meta.ColumnKey;
+import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TransactionalTest;
-import org.joda.time.DateTime;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test for building an INSERT statement.

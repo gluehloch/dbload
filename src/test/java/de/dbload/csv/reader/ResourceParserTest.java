@@ -21,10 +21,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.Arrays;
 import java.util.List;
 
-import de.dbload.meta.ColumnKey;
-import de.dbload.meta.DataRow;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+
+import de.dbload.meta.ColumnKey;
+import de.dbload.meta.DataRow;
 
 /**
  * Test fuer {@link ResourceParser}.

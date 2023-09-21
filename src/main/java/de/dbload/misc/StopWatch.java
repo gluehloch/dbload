@@ -16,6 +16,9 @@
 
 package de.dbload.misc;
 
+import java.time.Duration;
+import java.time.Instant;
+
 /**
  * A stop watch to measure some things.
  *
@@ -23,23 +26,19 @@ package de.dbload.misc;
  */
 public class StopWatch {
 
-    private long startTime;
-    private long endTime;
+    private Instant startTime;
+    private Instant endTime;
 
     public void start() {
-        startTime = System.currentTimeMillis();
+        startTime = Instant.now();
     }
 
     public void stop() {
-        endTime = System.currentTimeMillis();
+        endTime = Instant.now();
     }
 
-    public long getTime() {
-        return endTime - startTime;
-    }
-
-    public long getSeconds() {
-        return getTime() / 1000;
+    public Duration duration()  {
+        return Duration.between(startTime, endTime);
     }
 
 }

@@ -25,12 +25,13 @@ import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import org.apache.commons.lang3.StringUtils;
+import org.joda.time.DateTime;
+
 import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 
 /**
  * Convert a Java type to the associated JDBC type. Don´t share this converter

@@ -20,10 +20,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import de.dbload.impl.DbloadException;
-import de.dbload.jdbc.connector.DatabasePropertyReader;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+
+import de.dbload.impl.DbloadException;
+import de.dbload.jdbc.connector.DatabasePropertyReader;
 
 /**
  * Open and close a JDBC connection for a JUnit test case.

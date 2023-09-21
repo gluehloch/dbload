@@ -18,10 +18,11 @@ package de.dbload.csv.reader;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.Test;
+
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test for class {@link ColumnTypeParser}.

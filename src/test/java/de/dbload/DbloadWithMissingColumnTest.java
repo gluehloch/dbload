@@ -20,9 +20,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.io.InputStream;
 
+import org.junit.jupiter.api.Test;
+
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.utils.TransactionalTest;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test Dbload. The <code>.dat</code> file is missing a column.

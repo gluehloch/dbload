@@ -16,9 +16,10 @@
 
 package de.dbload;
 
+import org.junit.jupiter.api.Test;
+
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.utils.TransactionalTest;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test Dbload. The whole!

@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import de.dbload.Dbload;
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
@@ -28,8 +31,6 @@ import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * Test for class {@link DbloadFileInsert}.

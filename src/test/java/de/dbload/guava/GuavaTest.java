@@ -20,8 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.ArrayList;
 
-import com.google.common.collect.Lists;
 import org.junit.jupiter.api.Test;
+
+import com.google.common.collect.Lists;
 
 /**
  * Some tests for Google´s Guava.

@@ -37,9 +37,9 @@ public class PreparedStatementBuilder {
     /**
      * Creates a {@link PreparedStatement}.
      *
-     * @param _context     dbload context (database connection)
-     * @param sqlStatement The SQL statement (INSERT, SELECT or UPDATE)
-     * @return a PreparedStatement
+     * @param  _context     dbload context (database connection)
+     * @param  sqlStatement The SQL statement (INSERT, SELECT or UPDATE)
+     * @return              a PreparedStatement
      * @throws SQLException that was not ok!
      */
     public static PreparedStatement prepareStatement(DbloadContext _context,

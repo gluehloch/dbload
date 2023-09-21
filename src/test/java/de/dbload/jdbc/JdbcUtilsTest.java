@@ -20,11 +20,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.SQLException;
 
+import org.junit.jupiter.api.Test;
+
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnsMetaData;
-import org.junit.jupiter.api.Test;
-
 import de.dbload.meta.TableMetaData;
 import de.dbload.utils.TransactionalTest;
 

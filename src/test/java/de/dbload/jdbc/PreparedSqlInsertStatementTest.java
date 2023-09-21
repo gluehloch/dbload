@@ -23,6 +23,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import org.joda.time.DateTime;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 import de.dbload.DbloadContext;
 import de.dbload.impl.DefaultDbloadContext;
 import de.dbload.meta.ColumnKey;
@@ -31,9 +35,6 @@ import de.dbload.meta.TableMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.utils.TestMetaDataFactory;
 import de.dbload.utils.TransactionalTest;
-import org.joda.time.DateTime;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 /**
  * A test case for {@link AbstractPreparedSqlStatement}.

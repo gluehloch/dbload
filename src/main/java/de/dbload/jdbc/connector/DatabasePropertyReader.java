@@ -21,8 +21,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import de.dbload.impl.DbloadException;
 import org.apache.commons.lang3.StringUtils;
+
+import de.dbload.impl.DbloadException;
 
 /**
  * Reads the database properties.

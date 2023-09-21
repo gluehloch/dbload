@@ -18,14 +18,15 @@ package de.dbload.impl;
 
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dbload.DbloadContext;
 import de.dbload.jdbc.AbstractPreparedSqlStatement;
 import de.dbload.jdbc.PreparedSqlInsertStatement;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 import de.dbload.misc.StopWatch;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Writes the insert sql script to the database.
@@ -77,7 +78,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
                 LOG.info(
                         "DBLOAD stats:  Tablename: {}, Number of rows: {}, Time [ms]: {}",
                         new Object[] { currentTableMetaData.getTableName(),
-                                numberOfRows, stopWatch.getTime() });
+                                numberOfRows, stopWatch.duration() });
             }
 
             numberOfRows = 0;

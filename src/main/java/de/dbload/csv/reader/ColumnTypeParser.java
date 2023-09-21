@@ -18,11 +18,12 @@ package de.dbload.csv.reader;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * Find the type of a column.
@@ -33,9 +34,9 @@ public class ColumnTypeParser {
 
     /**
      * Find name and type of a column description.
-     *
-     * @param columnKeys The names and types some columns.
-     * @return the column meta data
+     *  
+     * @param  columnKeys The names and types some columns.
+     * @return            the column meta data
      */
     public static ColumnsMetaData parseColumnsMetaData(List<ColumnKey> columnKeys) {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
@@ -48,8 +49,8 @@ public class ColumnTypeParser {
     /**
      * Creates column meta data from a column description.
      *
-     * @param columnNameAndType a column description with name and type
-     * @return the column meta data
+     * @param  columnNameAndType a column description with name and type
+     * @return                   the column meta data
      */
     public static ColumnMetaData parseColumnMetaData(ColumnKey columnNameAndType) {
         Type columnType = ColumnTypeParser.findType(columnNameAndType);
@@ -61,8 +62,8 @@ public class ColumnTypeParser {
     /**
      * Find the column type.
      *
-     * @param columnDescription the column description
-     * @return the column type
+     * @param  columnDescription the column description
+     * @return                   the column type
      */
     protected static ColumnMetaData.Type findType(ColumnKey columnDescription) {
         if (containsDate(columnDescription)) {

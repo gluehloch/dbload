@@ -19,11 +19,12 @@ package de.dbload.jdbc;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import de.dbload.DbloadContext;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Holds a prepared INSERT statement.
