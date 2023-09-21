@@ -29,7 +29,7 @@ import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 
 /**

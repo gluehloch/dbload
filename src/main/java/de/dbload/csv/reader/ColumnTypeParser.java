@@ -22,7 +22,7 @@ import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Find the type of a column.

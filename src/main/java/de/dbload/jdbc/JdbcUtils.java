@@ -22,7 +22,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData.Type;
