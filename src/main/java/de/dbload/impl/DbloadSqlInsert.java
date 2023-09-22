@@ -17,6 +17,8 @@
 package de.dbload.impl;
 
 import java.sql.SQLException;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,12 +76,10 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
             preparedSqlStatement.close();
             stopWatch.stop();
 
-            if (LOG.isInfoEnabled()) {
-                LOG.info(
-                        "DBLOAD stats:  Tablename: {}, Number of rows: {}, Time [ms]: {}",
-                        new Object[] { currentTableMetaData.getTableName(),
-                                numberOfRows, stopWatch.duration() });
-            }
+            LOG.atInfo().log("DBLOAD stats: Tablename: {}, Number of rows: {}, Time [ms]: {}",
+                    new Object[] { currentTableMetaData.getTableName(),
+                            numberOfRows, stopWatch.duration().toMillis()
+                    });
 
             numberOfRows = 0;
         }
