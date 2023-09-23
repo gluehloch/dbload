@@ -17,8 +17,6 @@
 package de.dbload.impl;
 
 import java.sql.SQLException;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.TemporalUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
