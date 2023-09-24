@@ -33,15 +33,13 @@ class DateTimeUtilsTest {
 
     @Test
     void testDateTimeUtils() {
-        DateTime jodaDateTime = DateTimeUtils
-                .toJodaDateTime("1971-03-24 06:34:55");
+        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
         assertThat(jodaDateTime.getYear()).isEqualTo(1971);
     }
 
     @Test
     void testDateTimeVersusJavaSqlTimestamp() {
-        DateTime jodaDateTime = DateTimeUtils
-                .toJodaDateTime("1971-03-24 06:34:55");
+        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
         Date birthday = jodaDateTime.toDate();
         Timestamp timestamp = new Timestamp(birthday.getTime());
 

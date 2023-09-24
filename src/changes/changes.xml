@@ -13,6 +13,9 @@
             <action dev="andrewinkler" type="update" date="2023-09-21">
                 Update to Java 21.
             </action>
+            <action dev="andrewinkler" type="fix" date="2023-09-24">
+                Zeitzonen werden beim Export/Import nicht beachtet.
+            </action>
         </release>
 
         <!-- RELEASED -->

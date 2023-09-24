@@ -58,9 +58,7 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
 
     @Test
     void testSqlInsertStatementBuilder() {
-        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(
-                tableMetaData);
-
+        SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
         assertThat(sqlStatement.createSql()).isEqualTo(
                 "INSERT INTO person(id, lastname, firstname, age, sex, birthday) VALUES(?, ?, ?, ?, ?, ?)");
     }
@@ -103,6 +101,11 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
          * type java.sql.Time delivers an unexpected result: Hours and minutes
          * are moved to year and month? No! Time ist only time!!!
          */
+        try (Statement countStmt = conn.createStatement()) {
+            ResultSet resultSet = countStmt.executeQuery("select count(*) from person");
+            assertThat(resultSet.next()).isTrue();
+            assertThat(resultSet.getInt(1)).isEqualTo(2);
+        }
 
         try (Statement selectStmt = conn.createStatement()) {
             ResultSet resultSet = selectStmt.executeQuery("select * from person order by id");

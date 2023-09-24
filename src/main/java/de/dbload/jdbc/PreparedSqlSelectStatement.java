@@ -51,13 +51,9 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     public void execute(DataRow data) throws SQLException {
         applyParams(data);
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug("Executing \n\t[{}] with data \n\t[{}]",
-                    getPreparedStatement(), data);
-        }
+        LOG.atDebug().log("Executing \n\t[{}] with data \n\t[{}]",getPreparedStatement(), data);
 
-        preparedStatementReturnsWithResultSet = getPreparedStatement()
-                .execute();
+        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
         resultSet = getPreparedStatement().getResultSet();
     }
 
