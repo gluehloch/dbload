@@ -4,6 +4,7 @@ export DOCKER_DB_HOST='127.0.0.1'
 
 # Die Testdatenbank laueft unter Port 3310. Damit gehe ich dem Konflikt mit
 # der betoffice Datenbank aus dem Weg.
+# Podman: podman pull docker.io/mariadb:latest
 # docker run --expose=3306 -p 3310:3306 --name ${DOCKER_NAME} -e MYSQL_ALLOW_EMPTY_PASSWORD=true -d mariadb:latest
 
 #export DOCKER_CONTAINER_ID=$(docker inspect -f '{{.Id}}' ${DOCKER_NAME})
