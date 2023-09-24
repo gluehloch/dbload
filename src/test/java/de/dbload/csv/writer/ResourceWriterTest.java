@@ -22,6 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Test;
@@ -48,7 +49,9 @@ class ResourceWriterTest extends TransactionalTest {
         Path temp1 = writeToFile("dbload1");
         System.out.println(readFileToString(temp1));
 
-        context.getConnection().createStatement().execute("DELETE person");
+        try (Statement stmt = context.getConnection().createStatement()) {
+            stmt.execute("DELETE person");
+        }
 
         Dbload.read(context, temp1.toFile());
         
@@ -59,9 +62,11 @@ class ResourceWriterTest extends TransactionalTest {
     }
     
     private void select(DbloadContext context) throws Exception {
-        ResultSet resultSet = context.getConnection().createStatement().executeQuery("SELECT human FROM person ORDER BY id");
-        while (resultSet.next()) {
-            System.out.println(resultSet.getBoolean(1));
+        try (Statement stmt = context.getConnection().createStatement()) {
+            ResultSet resultSet = stmt.executeQuery("SELECT human FROM person ORDER BY id");
+            while (resultSet.next()) {
+                System.out.println(resultSet.getBoolean(1));
+            }
         }
     }
 
