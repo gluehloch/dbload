@@ -29,7 +29,7 @@ import de.dbload.jdbc.connector.DatabasePropertyReader;
 /**
  * Open and close a JDBC connection for a JUnit test case.
  *
- * @author Andre Winkler. http://www.andre-winkler.de
+ * @author <a href="http://www.andre-winkler.de">Andre Winkler</a>
  */
 public abstract class TransactionalTest {
 

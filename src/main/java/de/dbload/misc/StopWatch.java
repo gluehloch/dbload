@@ -22,7 +22,7 @@ import java.time.Instant;
 /**
  * A stop watch to measure some things.
  *
- * @author Andre Winkler. http://www.andre-winkler.de
+ * @author <a href="https://www.andre-winkler.de">Andre Winkler</a>
  */
 public class StopWatch {
 

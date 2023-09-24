@@ -34,7 +34,7 @@ import de.dbload.impl.DbloadException;
  * <p>
  * The database URL can be found under the key {@code dbload.database.url}.
  *
- * @author Andre Winkler. https://www.andre-winkler.de
+ * @author <a href="https://www.andre-winkler.de">Andre Winkler</a>
  */
 public class DatabasePropertyReader {
 
