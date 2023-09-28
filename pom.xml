@@ -90,7 +90,6 @@
                     <toolchains>
                         <jdk>
                             <version>21</version>
-                            <vendor>openjdk</vendor>
                         </jdk>
                     </toolchains>
                 </configuration>
