@@ -35,8 +35,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.joda.time.DateTime;
-
 import de.dbload.impl.DbloadException;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;

@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 
 import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
@@ -52,7 +53,7 @@ class DbloadTest extends TransactionalTest {
                             "SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
                 assertThat(resultSet.next()).isTrue();
 
-                DateTime datetime = DateTimeUtils
+                ZonedDateTime datetime = DateTimeUtils
                         .toJodaDateTime("1971-03-24 06:38:00");
 
                 Timestamp expectedTimestamp = new Timestamp(datetime.toDate()

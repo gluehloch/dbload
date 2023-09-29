@@ -17,11 +17,9 @@
 package de.dbload.misc;
 
 import java.sql.Timestamp;
-import java.util.Date;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 
 /**
  * A utility to create date objects.
@@ -60,8 +58,8 @@ public class DateTimeUtils {
      * @param dateAsString a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
      * @return A Joda {@link DateTime}
      */
-    public static DateTime toJodaDateTime(String dateAsString) {
-        DateTime dateTime = DateTime.parse(dateAsString,
+    public static ZonedDateTime toZonedDateTime(String dateAsString) {
+        ZonedDateTime dateTime = ZonedDateTime.parse(dateAsString,
                 DEFAULT_FORMATTER_FOR_JODA_DATETIME);
         return dateTime;
     }

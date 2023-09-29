@@ -16,6 +16,9 @@
             <action dev="andrewinkler" type="fix" date="2023-09-24">
                 Zeitzonen werden beim Export/Import nicht beachtet.
             </action>
+            <action dev="andrewinkler" type="remove" date="2023-09-29">
+                Joda DateTime Dependency entfernt.
+             </action>
         </release>
 
         <!-- RELEASED -->
