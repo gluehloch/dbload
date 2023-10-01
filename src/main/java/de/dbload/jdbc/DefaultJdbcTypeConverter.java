@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DecimalFormat;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Locale;
 
@@ -122,10 +123,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         case DATE_TIME:
             // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             if (value != null) {
-                DateTime jodaDateTime = DateTimeUtils.toJodaDateTime(value);
-                Date date = jodaDateTime.toDate();
-                long dateAsLong = date.getTime();
-                returnValue = new java.sql.Timestamp(dateAsLong);
+                returnValue = DateTimeUtils.toZonedDateTime(value);
             }
             break;
 
@@ -226,11 +224,10 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
             if (value == null) {
                 stmt.setNull(index, java.sql.Types.TIMESTAMP);
             } else if (value instanceof String) {
-                Date date = DateTimeUtils.toJodaDateTime((String) value)
-                        .toDate();
-                java.sql.Timestamp sqlDate = new java.sql.Timestamp(
-                        date.getTime());
-                stmt.setTimestamp(index, sqlDate);
+                ZonedDateTime date = DateTimeUtils.toZonedDateTime((String) value);
+                stmt.setObject(index, date);
+            } else if (value instanceof ZonedDateTime) {
+                stmt.setObject(index, value);
             } else if (value instanceof Date) {
                 // TODO This code was created from a drunken train passenger.
                 // It is a good idea to check this tomorrow!
@@ -239,7 +236,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 Timestamp timestamp = new Timestamp(sqlDate.getTime());
                 stmt.setTimestamp(index, timestamp);
             } else {
-                throw new IllegalStateException("Unknown decimal type "
+                throw new IllegalStateException("Unknown datetime type "
                         + columnMetaData.getColumnKey().getColumnName());
             }
             // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')

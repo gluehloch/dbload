@@ -17,7 +17,8 @@
                 Zeitzonen werden beim Export/Import nicht beachtet.
             </action>
             <action dev="andrewinkler" type="remove" date="2023-09-29">
-                Joda DateTime Dependency entfernt.
+                Joda DateTime Dependency entfernt. Umstellung auf java.time
+                und die Unterstützung durch JDBC 4.
              </action>
         </release>
 

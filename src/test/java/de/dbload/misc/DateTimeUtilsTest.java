@@ -19,6 +19,7 @@ package de.dbload.misc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -33,24 +34,10 @@ class DateTimeUtilsTest {
 
     @Test
     void testDateTimeUtils() {
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
-        assertThat(jodaDateTime.getYear()).isEqualTo(1971);
-    }
-
-    @Test
-    void testDateTimeVersusJavaSqlTimestamp() {
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
-        Date birthday = jodaDateTime.toDate();
-        Timestamp timestamp = new Timestamp(birthday.getTime());
-
-        assertThat(birthday.getTime()).isEqualTo(timestamp.getTime());
-        assertThat(birthday.getTime()).isEqualTo(jodaDateTime.getMillis());
-
-        System.out.println(jodaDateTime);
-        System.out.println(birthday);
-        System.out.println(timestamp);
-        System.out.println(String.format("%tY-%tm-%td", birthday, birthday, birthday));
-        System.out.println(jodaDateTime.toString("yyyy-MM-dd HH:mm:ss"));
+        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("1971-03-24 06:34:55");
+        assertThat(zdt.getYear()).isEqualTo(1971);
+        assertThat(zdt.getMonth().getValue()).isEqualTo(3);
+        assertThat(zdt.getDayOfMonth()).isEqualTo(24);
     }
 
 }

@@ -19,6 +19,7 @@ package de.dbload.jdbc;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.Locale;
 
 import org.joda.time.DateTime;
@@ -57,10 +58,8 @@ class JdbcTypeConverterTest {
 
     @Test
     void testJdbcTypeConverterToNumberDecimal() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
-                Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"),
-                Type.INTEGER);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.INTEGER);
 
         Object value = converter.convert(columnMetaData, "4711,11");
         assertThat(value).isInstanceOf(Number.class);
@@ -75,10 +74,8 @@ class JdbcTypeConverterTest {
 
     @Test
     void testJdbcTypeConverterToString() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
-                Locale.GERMANY);
-        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"),
-                Type.VARCHAR);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
+        ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.VARCHAR);
         Object value = converter.convert(columnMetaData, "4711");
 
         assertThat(value).isInstanceOf(String.class);
@@ -88,16 +85,13 @@ class JdbcTypeConverterTest {
 
     @Test
     void testJdbcTypeConverterToDate() {
-        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(
-                Locale.GERMANY);
+        JdbcTypeConverter converter = new DefaultJdbcTypeConverter(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.DATE);
         Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
 
-        assertThat(value).isInstanceOfAny(Timestamp.class);
-        DateTime jodaDateTime = DateTimeUtils
-                .toJodaDateTime("2011-03-24 06:34:11");
-        assertThat(((Timestamp) value).getTime())
-                .isEqualTo(jodaDateTime.toDate().getTime());
+        assertThat(value).isInstanceOfAny(ZonedDateTime.class);
+        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24 06:34:11");
+        assertThat(value).isEqualTo(zdt);
     }
 
 }

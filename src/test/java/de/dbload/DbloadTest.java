@@ -21,6 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 
 import org.joda.time.DateTime;
@@ -33,7 +34,7 @@ import de.dbload.utils.TransactionalTest;
 /**
  * Test Dbload. The whole!
  *
- * @author Andre Winkler. http://www.andre-winkler.de
+ * @author <a href="http://www.andre-winkler.de">Andre Winkler</a>
  */
 class DbloadTest extends TransactionalTest {
 
@@ -53,13 +54,10 @@ class DbloadTest extends TransactionalTest {
                             "SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
                 assertThat(resultSet.next()).isTrue();
 
-                ZonedDateTime datetime = DateTimeUtils
-                        .toJodaDateTime("1971-03-24 06:38:00");
+                ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("1971-03-24 06:38:00");
+                Instant birthday = resultSet.getObject("birthday", Instant.class);
 
-                Timestamp expectedTimestamp = new Timestamp(datetime.toDate()
-                        .getTime());
-                assertThat(resultSet.getTimestamp("birthday"))
-                        .isEqualTo(expectedTimestamp);
+                assertThat(birthday).isEqualTo(zdt);
             }
         }
     }

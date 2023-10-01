@@ -22,6 +22,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -67,11 +68,7 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
     void testExecuteSqlStatement() throws SQLException {
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("2014-03-24 06:05:00");
-        Date date = jodaDateTime.toDate();
-
-        java.sql.Timestamp sqlTimestamp = new java.sql.Timestamp(date.getTime());
-        java.sql.Time sqlTime = new java.sql.Time(date.getTime());
+        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2014-03-24 06:05:00");
 
         PreparedStatement stmt = conn.prepareStatement(sqlStatement.createSql());
         stmt.setInt(1, 1);
@@ -79,7 +76,7 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
         stmt.setString(3, "andre");
         stmt.setInt(4, 43);
         stmt.setInt(5, 0);
-        stmt.setTimestamp(6, sqlTimestamp);
+        stmt.setObject(6, zdt);
         stmt.execute();
 
         stmt.setInt(1, 2);
@@ -87,7 +84,7 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
         stmt.setString(3, "lars");
         stmt.setInt(4, 43);
         stmt.setInt(5, 0);
-        stmt.setTime(6, sqlTime);
+        stmt.setObject(6, zdt);
         stmt.execute();
 
         /*
