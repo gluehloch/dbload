@@ -16,12 +16,9 @@
 
 package de.dbload.misc;
 
-import java.sql.Timestamp;
-import java.util.Date;
-
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.DateTimeFormatterBuilder;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * A utility to create date objects.
@@ -41,13 +38,11 @@ public class DateTimeUtils {
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
     /**
-     * DateTimeFormatter: '2020-03-24 18:10:33'
+     * Format: '2020-03-24 18:10:33'
      */
-    private static DateTimeFormatter DEFAULT_FORMATTER_FOR_JODA_DATETIME = new DateTimeFormatterBuilder()
-            .appendYear(4, 4).appendLiteral("-").appendMonthOfYear(2)
-            .appendLiteral("-").appendDayOfMonth(2).appendLiteral(" ")
-            .appendHourOfDay(2).appendLiteral(":").appendMinuteOfHour(2)
-            .appendLiteral(":").appendSecondOfMinute(2).toFormatter();
+    public static final DateTimeFormatter DEFAULT_LOCAL_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+    public static final DateTimeFormatter DEFAULT_UTC_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
     /**
      * Creates a Joda DateTime object. The following date and time pattern will
@@ -58,49 +53,19 @@ public class DateTimeUtils {
      * </pre>
      *
      * @param dateAsString a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
-     * @return A Joda {@link DateTime}
+     * @return toZonedDateTime
      */
-    public static DateTime toJodaDateTime(String dateAsString) {
-        DateTime dateTime = DateTime.parse(dateAsString,
-                DEFAULT_FORMATTER_FOR_JODA_DATETIME);
-        return dateTime;
+    public static LocalDateTime toLocalDateTime(final String dateAsString) {
+        return LocalDateTime.parse(dateAsString, DEFAULT_LOCAL_DATETIME_FORMATTER);
     }
 
-    /**
-     * Convert a JDBC <code>Timestamp</code> object to a Joda
-     * <code>DateTime</code> object.
-     *
-     * @param timestamp a JDBC time stamp
-     * @return a Joda {@link DateTime}
-     */
-    public static DateTime toDateJodaTime(Timestamp timestamp) {
-        Date date = new Date(timestamp.getTime());
-        return new DateTime(date);
+    public static ZonedDateTime toZonedDateTim(final String dateAsString) {
+        return ZonedDateTime.parse(dateAsString, DEFAULT_UTC_FORMATTER);
     }
 
     // Timestamp timestamp = resultSet.getTimestamp(i);
     // Date date = new Date(timestamp.getTime());
     // DateTime dateTime = new DateTime(date);
     // print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
-
-    /**
-     * Returns the milliseconds of {@link DateTime}.
-     *
-     * @param datetime the Joda date and time object
-     * @return milliseconds
-     */
-    public static long toLong(DateTime datetime) {
-        return datetime.toDate().getTime();
-    }
-
-    /**
-     * Returns the SQL <code>Timestamp</code> for a Joda DateTime object.
-     *
-     * @param datetime the joda date and time object
-     * @return a SQL Timestamp.
-     */
-    public static Timestamp toTimestamp(DateTime datetime) {
-        return new Timestamp(datetime.toDate().getTime());
-    }
 
 }

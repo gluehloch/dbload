@@ -33,7 +33,7 @@ interface DbloadSqlStatement extends Closeable {
      * Set the current table name.
      *
      * @param  tableMetaData table name.
-     * @throws SQLException
+     * @throws SQLException Da ging was schief...
      */
     void newTableMetaData(TableMetaData tableMetaData) throws SQLException;
 
@@ -48,7 +48,7 @@ interface DbloadSqlStatement extends Closeable {
      * Exceute a SQL statement with <code>data</code> as parameter.
      *
      * @param  data         Holds the data
-     * @throws SQLException
+     * @throws SQLException Da ging was schief...
      */
     void execute(DataRow data) throws SQLException;
 

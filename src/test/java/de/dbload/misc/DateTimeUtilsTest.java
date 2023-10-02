@@ -18,10 +18,14 @@ package de.dbload.misc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.sql.Timestamp;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-import org.joda.time.DateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -32,25 +36,52 @@ import org.junit.jupiter.api.Test;
 class DateTimeUtilsTest {
 
     @Test
-    void testDateTimeUtils() {
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
-        assertThat(jodaDateTime.getYear()).isEqualTo(1971);
+    void javaDateTime() {
+        ZoneId utcZone = ZoneId.of("UTC");
+        assertThat(utcZone).isNotNull();
+
+        ZoneId zZone = ZoneId.of("Z");
+        assertThat(zZone).isNotNull();
+        assertThat(utcZone.normalized()).isEqualTo(zZone);
+
+        ZoneId europeBerlin = ZoneId.of("Europe/Berlin");
+        assertThat(europeBerlin).isNotNull();
+        assertThat(europeBerlin.normalized()).isEqualTo(europeBerlin);
+                
+        var now = Instant.now();
+        
+        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(utcZone).format(now));
+        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").withZone(utcZone).format(now));
+        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").withZone(europeBerlin).format(now));
+        System.out.println(DateTimeFormatter.ISO_INSTANT.withZone(europeBerlin).format(now));
+        System.out.println(DateTimeFormatter.ISO_DATE_TIME.withZone(europeBerlin).format(now));
     }
 
     @Test
-    void testDateTimeVersusJavaSqlTimestamp() {
-        DateTime jodaDateTime = DateTimeUtils.toJodaDateTime("1971-03-24 06:34:55");
-        Date birthday = jodaDateTime.toDate();
-        Timestamp timestamp = new Timestamp(birthday.getTime());
+    void parseDateTime() {
+        LocalDateTime ldt = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER);
+        assertThat(ldt.getYear()).isEqualTo(1971);
 
-        assertThat(birthday.getTime()).isEqualTo(timestamp.getTime());
-        assertThat(birthday.getTime()).isEqualTo(jodaDateTime.getMillis());
+        // In dem übergebenen String fehlt die Zeitzone.
+        Assertions.assertThrows(DateTimeParseException.class, () -> {
+            ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_UTC_FORMATTER);
+        });
 
-        System.out.println(jodaDateTime);
-        System.out.println(birthday);
-        System.out.println(timestamp);
-        System.out.println(String.format("%tY-%tm-%td", birthday, birthday, birthday));
-        System.out.println(jodaDateTime.toString("yyyy-MM-dd HH:mm:ss"));
+        LocalDateTime ldt2 = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER);
+        assertThat(ldt2.getYear()).isEqualTo(1971);
+        assertThat(ldt2.getMonthValue()).isEqualTo(3);
+        assertThat(ldt2.getDayOfMonth()).isEqualTo(24);
+        assertThat(ldt2.getHour()).isEqualTo(6);
+        assertThat(ldt2.getMinute()).isEqualTo(0);
+        assertThat(ldt2.getSecond()).isEqualTo(1);
+    }
+
+    @Test
+    void testDateTimeUtils() {
+        LocalDateTime ldt = DateTimeUtils.toLocalDateTime("1971-03-24 06:34:55");
+        assertThat(ldt.getYear()).isEqualTo(1971);
+        assertThat(ldt.getMonth().getValue()).isEqualTo(3);
+        assertThat(ldt.getDayOfMonth()).isEqualTo(24);
     }
 
 }

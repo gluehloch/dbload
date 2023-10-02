@@ -21,6 +21,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.Date;
 
 import org.joda.time.DateTime;
@@ -83,12 +85,10 @@ class PreparedSqlInsertStatementTest extends TransactionalTest {
                 assertThat(resultSet.getString("lastname")).isEqualTo("Winkler");
                 assertThat(resultSet.getString("firstname")).isEqualTo("Andre");
 
-                Date date = resultSet.getTimestamp("birthday");
-                DateTime dateTime = new DateTime(date.getTime());
+                Instant date = resultSet.getObject("birthday", Instant.class);
+                ZonedDateTime date_19710324 = DateTimeUtils.toZonedDateTime("1971-03-24 06:41:11");
 
-                DateTime date_19710324 = DateTimeUtils.toJodaDateTime("1971-03-24 06:41:11");
-
-                assertThat(dateTime).isEqualTo(date_19710324);
+                assertThat(date).isEqualTo(date_19710324);
             }
         }
     }

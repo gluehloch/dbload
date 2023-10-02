@@ -33,9 +33,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.Date;
-
-import org.joda.time.DateTime;
 
 import de.dbload.impl.DbloadException;
 import de.dbload.meta.ColumnMetaData;
@@ -113,13 +113,12 @@ public class ResourceWriter {
                         case DATE:
                         case TIME:
                         case DATE_TIME:
-                            Timestamp timestamp = resultSet.getTimestamp(i);
+                            OffsetDateTime timestamp = resultSet.getObject(i, OffsetDateTime.class);
                             if (timestamp == null) {
                                 print = "";
                             } else {
-                                Date date = new Date(timestamp.getTime());
-                                DateTime dateTime = new DateTime(date);
-                                print = dateTime.toString(DateTimeUtils.DATE_FORMAT);
+                                ZonedDateTime zdt = timestamp.toZonedDateTime();
+                                print = zdt.format(DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
                             }
                             break;
                         case BIT:
