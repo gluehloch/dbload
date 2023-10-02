@@ -59,22 +59,29 @@ class DateTimeUtilsTest {
 
     @Test
     void parseDateTime() {
-        LocalDateTime ldt = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
+        LocalDateTime ldt = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER);
         assertThat(ldt.getYear()).isEqualTo(1971);
 
+        // In dem übergebenen String fehlt die Zeitzone.
         Assertions.assertThrows(DateTimeParseException.class, () -> {
-            ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
+            ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_UTC_FORMATTER);
         });
 
-        ZonedDateTime zdt2 = ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_UTC_FORMATTER);
+        LocalDateTime ldt2 = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER);
+        assertThat(ldt2.getYear()).isEqualTo(1971);
+        assertThat(ldt2.getMonthValue()).isEqualTo(3);
+        assertThat(ldt2.getDayOfMonth()).isEqualTo(24);
+        assertThat(ldt2.getHour()).isEqualTo(6);
+        assertThat(ldt2.getMinute()).isEqualTo(0);
+        assertThat(ldt2.getSecond()).isEqualTo(1);
     }
 
     @Test
     void testDateTimeUtils() {
-        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("1971-03-24 06:34:55");
-        assertThat(zdt.getYear()).isEqualTo(1971);
-        assertThat(zdt.getMonth().getValue()).isEqualTo(3);
-        assertThat(zdt.getDayOfMonth()).isEqualTo(24);
+        LocalDateTime ldt = DateTimeUtils.toLocalDateTime("1971-03-24 06:34:55");
+        assertThat(ldt.getYear()).isEqualTo(1971);
+        assertThat(ldt.getMonth().getValue()).isEqualTo(3);
+        assertThat(ldt.getDayOfMonth()).isEqualTo(24);
     }
 
 }

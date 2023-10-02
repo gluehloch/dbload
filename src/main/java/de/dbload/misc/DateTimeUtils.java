@@ -16,13 +16,9 @@
 
 package de.dbload.misc;
 
-import java.sql.Timestamp;
-import java.time.ZoneId;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.TextStyle;
-import java.util.Date;
 
 /**
  * A utility to create date objects.
@@ -42,9 +38,9 @@ public class DateTimeUtils {
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
     /**
-     * DateTimeFormatter: '2020-03-24 18:10:33'
+     * Format: '2020-03-24 18:10:33'
      */
-    public static final DateTimeFormatter DEFAULT_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter DEFAULT_LOCAL_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static final DateTimeFormatter DEFAULT_UTC_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
@@ -59,8 +55,12 @@ public class DateTimeUtils {
      * @param dateAsString a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
      * @return toZonedDateTime
      */
-    public static ZonedDateTime toZonedDateTime(String dateAsString) {
-        return ZonedDateTime.parse(dateAsString, DEFAULT_DATETIME_FORMATTER);
+    public static LocalDateTime toLocalDateTime(final String dateAsString) {
+        return LocalDateTime.parse(dateAsString, DEFAULT_LOCAL_DATETIME_FORMATTER);
+    }
+
+    public static ZonedDateTime toZonedDateTim(final String dateAsString) {
+        return ZonedDateTime.parse(dateAsString, DEFAULT_UTC_FORMATTER);
     }
 
     // Timestamp timestamp = resultSet.getTimestamp(i);
