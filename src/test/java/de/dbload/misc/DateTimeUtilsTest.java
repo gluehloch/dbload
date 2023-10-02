@@ -20,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -35,6 +36,22 @@ import org.junit.jupiter.api.Test;
 class DateTimeUtilsTest {
 
     @Test
+    void javaDateTime() {
+        ZoneId utcZone = ZoneId.of("UTC");
+        assertThat(utcZone).isNotNull();
+
+        ZoneId zZone = ZoneId.of("Z");
+        assertThat(zZone).isNotNull();
+        assertThat(utcZone.normalized()).isEqualTo(zZone);
+
+        ZoneId europeBerlin = ZoneId.of("Europe/Berlin");
+        assertThat(europeBerlin).isNotNull();
+        assertThat(europeBerlin.normalized()).isEqualTo(europeBerlin);
+                
+        System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(ZoneId.of("UTC")).format(Instant.now()));
+    }
+
+    @Test
     void parseDateTime() {
         LocalDateTime ldt = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
         assertThat(ldt.getYear()).isEqualTo(1971);
@@ -42,8 +59,6 @@ class DateTimeUtilsTest {
         Assertions.assertThrows(DateTimeParseException.class, () -> {
             ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
         });
-
-        System.out.println(DateTimeFormatter.BASIC_ISO_DATE.format(Instant.now()));
 
         ZonedDateTime zdt2 = ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_UTC_FORMATTER);
     }

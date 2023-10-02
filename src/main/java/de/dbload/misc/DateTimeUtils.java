@@ -47,6 +47,7 @@ public class DateTimeUtils {
     public static final DateTimeFormatter DEFAULT_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public static final DateTimeFormatter DEFAULT_UTC_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
+
     /**
      * Creates a Joda DateTime object. The following date and time pattern will
      * be used:
