@@ -17,9 +17,11 @@
 package de.dbload.misc;
 
 import java.sql.Timestamp;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.TextStyle;
 import java.util.Date;
 
 /**
@@ -42,9 +44,9 @@ public class DateTimeUtils {
     /**
      * DateTimeFormatter: '2020-03-24 18:10:33'
      */
-    public static final DateTimeFormatter DEFAULT_DATETIME_FORMATTER = new DateTimeFormatterBuilder()
-            .appendPattern("yyyy-MM-dd HH:mm:ss").toFormatter();
+    public static final DateTimeFormatter DEFAULT_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    public static final DateTimeFormatter DEFAULT_UTC_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
     /**
      * Creates a Joda DateTime object. The following date and time pattern will
      * be used:

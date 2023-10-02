@@ -18,11 +18,13 @@ package de.dbload.misc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
-import org.joda.time.DateTime;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -31,6 +33,20 @@ import org.junit.jupiter.api.Test;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 class DateTimeUtilsTest {
+
+    @Test
+    void parseDateTime() {
+        LocalDateTime ldt = LocalDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
+        assertThat(ldt.getYear()).isEqualTo(1971);
+
+        Assertions.assertThrows(DateTimeParseException.class, () -> {
+            ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
+        });
+
+        System.out.println(DateTimeFormatter.BASIC_ISO_DATE.format(Instant.now()));
+
+        ZonedDateTime zdt2 = ZonedDateTime.parse("1971-03-24 06:00:01", DateTimeUtils.DEFAULT_UTC_FORMATTER);
+    }
 
     @Test
     void testDateTimeUtils() {
