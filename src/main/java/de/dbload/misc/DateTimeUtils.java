@@ -17,6 +17,7 @@
 package de.dbload.misc;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,6 +27,9 @@ import java.time.format.DateTimeFormatter;
  * @author Andre Winkler. http://www.andre-winkler.de
  */
 public class DateTimeUtils {
+
+    public static final ZoneId ZONE_UTC = ZoneId.of("UTC");
+    public static final ZoneId ZONE_EUROPE_BERLIN = ZoneId.of("Europe/Berlin");
 
     /**
      * Konvertierungsformat {@code Oracle-Date-Type} to {@code String}.

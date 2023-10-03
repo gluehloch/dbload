@@ -22,17 +22,19 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DecimalFormat;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 
 import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
+import liquibase.database.jvm.JdbcConnection;
 
 /**
  * Convert a Java type to the associated JDBC type. Don´t share this converter
@@ -46,32 +48,26 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     private static final Integer ZERO = Integer.valueOf(0);
     private static final String NULL = "NULL";
 
-    private DecimalFormat decimalFormat;
+    private final DecimalFormat decimalFormat;
+    private final ZoneId zoneId;
+    private final DateTimeFormatter dateTimeFormatter;
 
-    /**
-     * Creates a type converter with the default locale.
-     */
-    public DefaultJdbcTypeConverter() {
-        decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
+    private DefaultJdbcTypeConverter(
+            ZoneId zoneId,
+            DateTimeFormatter dateTimeFormatter,
+            DecimalFormat decimalFormat
+    ) {
+        this.zoneId = zoneId;
+        this.dateTimeFormatter = dateTimeFormatter;
+        this.decimalFormat = decimalFormat;
     }
 
-    /**
-     * Creates a type converter with the specified locale.
-     *
-     * @param locale a locale
-     */
-    public DefaultJdbcTypeConverter(Locale locale) {
-        decimalFormat = NumberUtils.createDecimalFormatter(locale);
-    }
-
-    /**
-     * Creates a type converter. But here you define your own
-     * {@link DecimalFormat}.
-     *
-     * @param _decimalFormat a decimal formatter
-     */
-    public DefaultJdbcTypeConverter(DecimalFormat _decimalFormat) {
-        decimalFormat = _decimalFormat;
+    public static JdbcTypeConverter of() {
+        var decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
+        var zoneId = DateTimeUtils.ZONE_UTC;
+        var dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
+        var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
+        return jdbcConverter;
     }
 
     /*
