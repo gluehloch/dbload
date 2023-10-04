@@ -20,11 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.ZonedDateTime;
 
-import org.joda.time.DateTime;
 import org.junit.jupiter.api.Test;
 
 import de.dbload.impl.DefaultDbloadContext;
