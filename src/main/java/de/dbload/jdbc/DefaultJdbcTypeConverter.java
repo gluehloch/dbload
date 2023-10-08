@@ -34,13 +34,12 @@ import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
-import liquibase.database.jvm.JdbcConnection;
 
 /**
  * Convert a Java type to the associated JDBC type. Don´t share this converter
  * between different threads (DecimalFormat).
  *
- * @author Andre Winkler. http://www.andre-winkler.de
+ * @author <a href="http://www.andre-winkler.de">Andre Winkler</a> 
  */
 public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
@@ -119,7 +118,8 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         case DATE_TIME:
             // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             if (value != null) {
-                returnValue = DateTimeUtils.toZonedDateTime(value);
+                returnValue = this.dateTimeFormatter.format(value);
+                // returnValue = DateTimeUtils.toZonedDateTime(value);
             }
             break;
 
