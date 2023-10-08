@@ -72,13 +72,18 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
         return jdbcConverter;
     }
+    
+    public static JdbcTypeConverter of(Local locale, ZoneId zoneId) {
+        var decimalFormat = NumberUtils.createDecimalFormatter(locale);
+        var dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
+        var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
+        return jdbcConverter;
+    }
 
-    /*
-     * (non-Javadoc)
+    /**
+     * Konvertiert einen String anhand der Metadaten in das zugeordnete Objekt (String, Number, Boolean oder Date).
      *
-     * @see
-     * de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData,
-     * java.lang.String)
+     * @see de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData, java.lang.String)
      */
     @Override
     public Object convert(ColumnMetaData columnMetaData, String value) {
@@ -122,7 +127,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         case DATE_TIME:
             // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             if (value != null) {
-                returnValue = this.dateTimeFormatter.format(value);
+                returnValue = this.dateTimeFormatter.parse(value);
                 // returnValue = DateTimeUtils.toZonedDateTime(value);
             }
             break;
