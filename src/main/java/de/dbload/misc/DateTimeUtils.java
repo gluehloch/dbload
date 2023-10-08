@@ -63,7 +63,7 @@ public class DateTimeUtils {
         return LocalDateTime.parse(dateAsString, DEFAULT_LOCAL_DATETIME_FORMATTER);
     }
 
-    public static ZonedDateTime toZonedDateTim(final String dateAsString) {
+    public static ZonedDateTime toZonedDateTime(final String dateAsString) {
         return ZonedDateTime.parse(dateAsString, DEFAULT_UTC_FORMATTER);
     }
 

@@ -62,7 +62,11 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     }
 
     public static JdbcTypeConverter of() {
-        var decimalFormat = NumberUtils.createDecimalFormatter(Locale.getDefault());
+        return of(Locale.getDefault());
+    }
+    
+    public static JdbcTypeConverter of(Locale locale) {
+        var decimalFormat = NumberUtils.createDecimalFormatter(locale);
         var zoneId = DateTimeUtils.ZONE_UTC;
         var dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
         var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
