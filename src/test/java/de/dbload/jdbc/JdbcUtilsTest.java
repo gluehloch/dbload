@@ -36,7 +36,7 @@ import de.dbload.utils.TransactionalTest;
 class JdbcUtilsTest extends TransactionalTest {
 
     @Test
-    void testJdbcUtilsMetadataFinder() throws Exception {
+    void testJdbcUtilsMetadataFinder() {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
         columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("id"), ColumnMetaData.Type.LONG));
         columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("firstname"), ColumnMetaData.Type.VARCHAR));
@@ -87,7 +87,7 @@ class JdbcUtilsTest extends TransactionalTest {
     }
 
     @Test
-    void testJdbcUtils() throws SQLException {
+    void testJdbcUtils() {
         ColumnsMetaData columnsMetaData = new ColumnsMetaData();
         columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("id"), ColumnMetaData.Type.LONG));
         columnsMetaData.addColumn(new ColumnMetaData(ColumnKey.of("firstname"), ColumnMetaData.Type.VARCHAR));

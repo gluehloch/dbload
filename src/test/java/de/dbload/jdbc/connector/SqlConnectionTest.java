@@ -20,6 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.OffsetDateTime;
 
 import org.junit.jupiter.api.Test;
 
@@ -39,4 +42,22 @@ class SqlConnectionTest {
         assertThat(conn).isNotNull();
     }
 
+    @Test
+    void timestampToOffsetDateTime() {
+        DatabasePropertyReader dpr = new DatabasePropertyReader();
+        String url = dpr.getDatabaseUrl();
+        try (Connection conn = DriverManager.getConnection(url)) {
+            Statement st = conn.createStatement();
+            st.execute("INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', now())");
+            ResultSet rs = st.executeQuery("SELECT birthday FROM person p WHERE p.firstname = 'test'");
+            rs.next();
+            OffsetDateTime odt = rs.getObject(1, OffsetDateTime.class);
+            assertThat(odt).isInstanceOf(OffsetDateTime.class);
+
+            System.out.println(odt.getClass().getName());  // java.time.OffsetDateTime
+            System.out.println(odt.toString());  // 1981-02-03T19:20:21-02:00
+        } catch (Exception e) {
+            e.printStackTrace(System.err);
+        }
+    }
 }

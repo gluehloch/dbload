@@ -73,7 +73,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         return jdbcConverter;
     }
     
-    public static JdbcTypeConverter of(Local locale, ZoneId zoneId) {
+    public static JdbcTypeConverter of(Locale locale, ZoneId zoneId) {
         var decimalFormat = NumberUtils.createDecimalFormatter(locale);
         var dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
         var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
@@ -127,8 +127,10 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         case DATE_TIME:
             // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             if (value != null) {
-                returnValue = this.dateTimeFormatter.parse(value);
-                // returnValue = DateTimeUtils.toZonedDateTime(value);
+                var datetime = this.dateTimeFormatter.parse(value);
+                var formatter = dateTimeFormatter.withZone(zoneId);
+                var datetime2 = formatter.parse(value);
+                returnValue = datetime2;
             }
             break;
 
