@@ -222,8 +222,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setByte(index, (Byte) value);
             } else {
                 throw new IllegalStateException(
-                        "Unknown number type " + columnMetaData.getColumnType()
-                                + " for object " + value);
+                    String.format("Unknown number type %s for object %s.", columnMetaData.getColumnType(), value));
             }
             break;
 
@@ -237,14 +236,13 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setObject(index, value);
             } else if (value instanceof Date) {
                 // TODO This code was created from a drunken train passenger.
-                // It is a good idea to check this tomorrow!
-                java.sql.Date sqlDate = new java.sql.Date(
-                        ((Date) value).getTime());
-                Timestamp timestamp = new Timestamp(sqlDate.getTime());
+                final Date date = (Date) value;
+                final java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+                final Timestamp timestamp = new Timestamp(sqlDate.getTime());
                 stmt.setTimestamp(index, timestamp);
             } else {
-                throw new IllegalStateException("Unknown datetime type "
-                        + columnMetaData.getColumnKey().getColumnName());
+                throw new IllegalStateException(
+                    String.format("Unknown datetime type %s", columnMetaData.getColumnKey().getColumnName()));
             }
             // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             break;
