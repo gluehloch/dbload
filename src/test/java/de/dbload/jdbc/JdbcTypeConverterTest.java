@@ -41,12 +41,12 @@ class JdbcTypeConverterTest {
         JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.INTEGER);
 
-        Object value = converter.convert(columnMetaData, "4711");
+        Object value = converter.toSqlValue(columnMetaData, "4711");
         assertThat(value).isInstanceOf(Number.class);
         Number number = (Number) value;
         assertThat(number.intValue()).isEqualTo(4711);
 
-        value = converter.convert(columnMetaData, "4711,1");
+        value = converter.toSqlValue(columnMetaData, "4711,1");
         assertThat(value).isInstanceOf(Number.class);
         number = (Number) value;
         assertThat(number.intValue()).isEqualTo(4711);
@@ -57,12 +57,12 @@ class JdbcTypeConverterTest {
         JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.INTEGER);
 
-        Object value = converter.convert(columnMetaData, "4711,11");
+        Object value = converter.toSqlValue(columnMetaData, "4711,11");
         assertThat(value).isInstanceOf(Number.class);
         Number number = (Number) value;
         assertThat(number.doubleValue()).isEqualTo(4711.11);
 
-        value = converter.convert(columnMetaData, "4711");
+        value = converter.toSqlValue(columnMetaData, "4711");
         assertThat(value).isInstanceOfAny(Number.class);
         number = (Number) value;
         assertThat(number.doubleValue()).isEqualTo(4711d);
@@ -72,7 +72,7 @@ class JdbcTypeConverterTest {
     void testJdbcTypeConverterToString() {
         JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.VARCHAR);
-        Object value = converter.convert(columnMetaData, "4711");
+        Object value = converter.toSqlValue(columnMetaData, "4711");
 
         assertThat(value).isInstanceOf(String.class);
         String str = (String) value;
@@ -83,7 +83,7 @@ class JdbcTypeConverterTest {
     void testJdbcTypeConverterToDate() {
         JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.DATE);
-        Object value = converter.convert(columnMetaData, "2011-03-24 06:34:11");
+        Object value = converter.toSqlValue(columnMetaData, "2011-03-24 06:34:11");
 
         assertThat(value).isInstanceOfAny(ZonedDateTime.class);
         ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24 06:34:11");

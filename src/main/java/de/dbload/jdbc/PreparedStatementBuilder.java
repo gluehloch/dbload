@@ -64,9 +64,9 @@ public class PreparedStatementBuilder {
         int index = 1; // JDBC parameter index starts with 1
         for (ColumnMetaData columnMetaData : _tableMetaData.getColumns()) {
             String value = _data.get(columnMetaData.getColumnKey());
-            Object typedValue = _jdbcTypeConverter.convert(columnMetaData, value);
+            Object typedValue = _jdbcTypeConverter.toSqlValue(columnMetaData, value);
 
-            _jdbcTypeConverter.setTypedValue(_stmt, index, columnMetaData, typedValue);
+            _jdbcTypeConverter.setSqlVariable(_stmt, index, columnMetaData, typedValue);
             index++;
         }
     }

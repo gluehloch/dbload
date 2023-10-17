@@ -35,7 +35,7 @@ public interface JdbcTypeConverter {
      * @param value          the String value to convert
      * @return the converted value (String, Number, Date)
      */
-    Object convert(ColumnMetaData columnMetaData, String value);
+    Object toSqlValue(ColumnMetaData columnMetaData, String value);
 
     /**
      * Calls the appropriate <code>PreparedStatement#setXxx</code> typed setter.
@@ -46,7 +46,7 @@ public interface JdbcTypeConverter {
      * @param value          The value to set. Already converted to the expected type.
      * @throws SQLException Something wrong here.
      */
-    void setTypedValue(PreparedStatement stmt, int index, ColumnMetaData columnMetaData, Object value)
+    void setSqlVariable(PreparedStatement stmt, int index, ColumnMetaData columnMetaData, Object value)
             throws SQLException;
 
 }

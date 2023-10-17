@@ -83,10 +83,10 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     /**
      * Konvertiert einen String anhand der Metadaten in das zugeordnete Objekt (String, Number, Boolean oder Date).
      *
-     * @see de.dbload.jdbc.JdbcTypeConverter#convert(de.dbload.meta.ColumnMetaData, java.lang.String)
+     * @see de.dbload.jdbc.JdbcTypeConverter#toSqlValue(de.dbload.meta.ColumnMetaData, java.lang.String)
      */
     @Override
-    public Object convert(ColumnMetaData columnMetaData, String value) {
+    public Object toSqlValue(ColumnMetaData columnMetaData, String value) {
         Object returnValue = null;
 
         // TODO NULL-Value wenn die Spalte das erlaubt?
@@ -152,7 +152,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     }
 
     @Override
-    public void setTypedValue(PreparedStatement stmt, int index, ColumnMetaData columnMetaData, Object value)
+    public void setSqlVariable(PreparedStatement stmt, int index, ColumnMetaData columnMetaData, Object value)
             throws SQLException {
 
         switch (columnMetaData.getColumnType()) {
