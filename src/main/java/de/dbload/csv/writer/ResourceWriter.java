@@ -118,7 +118,9 @@ public class ResourceWriter {
                                 print = "";
                             } else {
                                 ZonedDateTime zdt = timestamp.toZonedDateTime();
-                                print = zdt.format(DateTimeUtils.DEFAULT_DATETIME_FORMATTER);
+                                // TODO Der Formatter muss extern konfigurierbar sein.
+                                // TODO TODO Tag in einer anderen Farbe bitte.
+                                print = zdt.format(DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER);
                             }
                             break;
                         case BIT:

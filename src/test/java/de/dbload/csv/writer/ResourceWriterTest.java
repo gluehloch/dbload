@@ -16,6 +16,8 @@
 
 package de.dbload.csv.writer;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -84,6 +86,29 @@ class ResourceWriterTest extends TransactionalTest {
         } catch (IOException ex) {
         }
         return contentBuilder.toString();
+    }
+
+    @Test
+    void testResourceWriterStart() throws Exception {
+        // create a temporary file
+        Path temp = Files.createTempFile("testResourceWriterStart", ".dat");
+
+        // create a ResourceWriter instance
+        ResourceWriter resourceWriter = new ResourceWriter(temp.toFile());
+
+        // execute the start method
+        resourceWriter.start(conn, "SELECT * FROM person ORDER BY id", false);
+
+        // read the content of the file
+        String fileContent = new String(Files.readAllBytes(temp));
+
+        // check if the file content is correct
+        String expectedContent = "### TAB person\n" +
+                "### id | name | age | human\n" +
+                "1 | Alice | 25 | true\n" +
+                "2 | Bob | 30 | true\n" +
+                "3 | Charlie | 35 | false\n";
+        assertThat(fileContent).isEqualTo(expectedContent);
     }
 
 }
