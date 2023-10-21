@@ -57,12 +57,16 @@ class SqlConnectionTest {
             OffsetDateTime odt = rs.getObject(1, OffsetDateTime.class);
             assertThat(odt).isInstanceOf(OffsetDateTime.class);
 
-            System.out.println(odt.getClass().getName());  // java.time.OffsetDateTime
-            System.out.println(odt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX")));  // 1981-02-03 00:00:00+01:00
-            System.out.println(odt.atZoneSameInstant(ZoneId.of("Europe/Berlin")).format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX z")));  // 1981-02-03 00:00:00 CET
+            var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
+            var formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX z");
+            var europeBerlin = ZoneId.of("Europe/Berlin");
+
+            System.out.println(odt.format(formatter));  // 1981-02-03 00:00:00+01:00
+            System.out.println(odt.atZoneSameInstant(europeBerlin).format(formatter2));  // 1981-02-03 00:00:00 CET
             
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
     }
+
 }
