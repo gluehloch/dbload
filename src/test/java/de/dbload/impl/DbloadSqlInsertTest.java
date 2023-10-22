@@ -60,7 +60,7 @@ class DbloadSqlInsertTest extends TransactionalTest {
             dbloadSqlInsert.execute(dataRow);
         }
 
-        try (Statement stmt = dbloadContext.getConnection().createStatement()) {
+        try (Statement stmt = dbloadContext.connection().createStatement()) {
             try (ResultSet resultSet = stmt.executeQuery("select id, lastname, firstname, age from person")) {
                 assertThat(resultSet.next()).isTrue();
                 assertThat(resultSet.getInt("id")).isEqualTo(1);

@@ -25,18 +25,8 @@ import java.sql.Connection;
  */
 public interface DbloadContext {
 
-    /**
-     * Returns a JDBC connection.
-     *
-     * @return a JDBC connection
-     */
-    Connection getConnection();
+    Connection connection();
 
-    /**
-     * Returns a JDBC type converter
-     *
-     * @return a JDBC type converter
-     */
-    JdbcTypeConverter getJdbcTypeConverter();
+    JdbcTypeConverter converter();
 
 }

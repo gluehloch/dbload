@@ -51,7 +51,7 @@ class ResourceWriterTest extends TransactionalTest {
         Path temp1 = writeToFile("dbload1");
         System.out.println(readFileToString(temp1));
 
-        try (Statement stmt = context.getConnection().createStatement()) {
+        try (Statement stmt = context.connection().createStatement()) {
             stmt.execute("DELETE person");
         }
 
@@ -64,7 +64,7 @@ class ResourceWriterTest extends TransactionalTest {
     }
     
     private void select(DbloadContext context) throws Exception {
-        try (Statement stmt = context.getConnection().createStatement()) {
+        try (Statement stmt = context.connection().createStatement()) {
             ResultSet resultSet = stmt.executeQuery("SELECT human FROM person ORDER BY id");
             while (resultSet.next()) {
                 System.out.println(resultSet.getBoolean(1));

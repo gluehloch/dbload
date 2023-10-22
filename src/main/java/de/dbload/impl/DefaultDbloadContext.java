@@ -20,7 +20,6 @@ import java.sql.Connection;
 
 import de.dbload.DbloadContext;
 import de.dbload.JdbcTypeConverter;
-import de.dbload.jdbc.DefaultJdbcTypeConverter;
 
 /**
  * Holds the database connection.
@@ -33,35 +32,23 @@ public class DefaultDbloadContext implements DbloadContext {
     private final JdbcTypeConverter jdbcTypeConverter;
 
     /**
-     * Constructor. Here we use a default JdbcTypeConverters (with a default
-     * locale).
-     *
-     * @param _conn a jdbc database connection
-     */
-    public DefaultDbloadContext(Connection _conn) {
-        this(_conn, new DefaultJdbcTypeConverter());
-    }
-
-    /**
      * Constructor.
      *
-     * @param _conn              a jdbc database connection
-     * @param _jdbcTypeConverter a jdbc type converter
+     * @param conn              jdbc database connection
+     * @param jdbcTypeConverter jdbc type converter
      */
-    public DefaultDbloadContext(Connection _conn,
-            JdbcTypeConverter _jdbcTypeConverter) {
-
-        conn = _conn;
-        jdbcTypeConverter = _jdbcTypeConverter;
+    public DefaultDbloadContext(Connection conn, JdbcTypeConverter jdbcTypeConverter) {
+        this.conn = conn;
+        this.jdbcTypeConverter = jdbcTypeConverter;
     }
 
     @Override
-    public Connection getConnection() {
+    public Connection connection() {
         return conn;
     }
 
     @Override
-    public JdbcTypeConverter getJdbcTypeConverter() {
+    public JdbcTypeConverter converter() {
         return jdbcTypeConverter;
     }
 

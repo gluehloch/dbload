@@ -32,15 +32,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.time.OffsetDateTime;
-import java.time.ZonedDateTime;
-import java.util.Date;
+import java.time.format.DateTimeFormatter;
 
 import de.dbload.impl.DbloadException;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
-import de.dbload.misc.DateTimeUtils;
 
 /**
  * Write some SQL results to a <code>.dat</code> file.
@@ -51,26 +48,26 @@ public class ResourceWriter {
 
     private final File file;
     private final Charset utf8;
+    private final DateTimeFormatter dateTimeFormatter;
 
-    public ResourceWriter(Path _path) {
-        this(_path.toFile());
+    public ResourceWriter(Path _path, DateTimeFormatter dateTimeFormatter) {
+        this(_path.toFile(), dateTimeFormatter);
     }
 
-    public ResourceWriter(File _file) {
+    public ResourceWriter(File _file, DateTimeFormatter dateTimeFormatter) {
         file = _file;
         utf8 = Charset.forName("UTF-8");
+        this.dateTimeFormatter = dateTimeFormatter;
     }
 
-    public void start(Connection conn, String sqlSelect, boolean append)
-            throws SQLException {
+    public void start(Connection conn, String sqlSelect, boolean append) throws SQLException {
 
         if (append) {
             if (!file.exists()) {
                 try {
                     file.createNewFile();
                 } catch (IOException ex) {
-                    throw new DbloadException("Unable to create export file.",
-                            ex);
+                    throw new DbloadException("Unable to create export file.", ex);
                 }
             }
         } else {
@@ -117,10 +114,7 @@ public class ResourceWriter {
                             if (timestamp == null) {
                                 print = "";
                             } else {
-                                ZonedDateTime zdt = timestamp.toZonedDateTime();
-                                // TODO Der Formatter muss extern konfigurierbar sein.
-                                // TODO TODO Tag in einer anderen Farbe bitte.
-                                print = zdt.format(DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER);
+                                print = timestamp.format(dateTimeFormatter);
                             }
                             break;
                         case BIT:

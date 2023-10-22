@@ -75,7 +75,7 @@ class PreparedSqlInsertStatementTest extends TransactionalTest {
             dbloadInsert.execute(dataRow2);
         }
 
-        try (Statement stmt = dbloadContext.getConnection().createStatement()) {
+        try (Statement stmt = dbloadContext.connection().createStatement()) {
             try (ResultSet resultSet = stmt.executeQuery("select * from person order by id")) {
                 resultSet.next();
 

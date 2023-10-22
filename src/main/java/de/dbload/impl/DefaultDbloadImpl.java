@@ -109,7 +109,7 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newTableMetaData(TableMetaData tableMetaData) {
                     try {
-                        final TableMetaData metaData = JdbcUtils.findMetaData(context.getConnection(), tableMetaData);
+                        final TableMetaData metaData = JdbcUtils.findMetaData(context.connection(), tableMetaData);
 
                         //
                         // TODO Less column data then meta data???
@@ -172,7 +172,7 @@ public class DefaultDbloadImpl {
         try {
             for (String tableName : tableNames) {
                 String select = String.format("SELECT * FROM %s", tableName);
-                rw.start(context.getConnection(), select, true);
+                rw.start(context.connection(), select, true);
             }
         } catch (SQLException ex) {
             LOG.error("Unable to write export file!", ex);
