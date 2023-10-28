@@ -45,8 +45,7 @@ import de.dbload.meta.TableMetaData;
  */
 public class DefaultDbloadImpl {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(DefaultDbloadImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DefaultDbloadImpl.class);
 
     /**
      * Start upload.

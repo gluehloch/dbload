@@ -35,6 +35,10 @@ import org.junit.jupiter.api.Test;
  */
 class SqlConnectionTest {
 
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
+    private DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX z");
+    private ZoneId europeBerlin = ZoneId.of("Europe/Berlin");
+
     @Test
     void testMySqlConnectionStringWithAutoCommit() throws Exception {
         DatabasePropertyReader dpr = new DatabasePropertyReader();
@@ -51,22 +55,26 @@ class SqlConnectionTest {
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement st = conn.createStatement();
             st.execute("DELETE FROM PERSON WHERE firstname = 'test'");
-            st.execute("INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 05:55:55+00:00')");
+            st.execute("INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 05:55:55+4:00')");
+            st.execute("INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 07:55:55')");
             ResultSet rs = st.executeQuery("SELECT birthday FROM person p WHERE p.firstname = 'test'");
-            rs.next();
-            OffsetDateTime odt = rs.getObject(1, OffsetDateTime.class);
-            assertThat(odt).isInstanceOf(OffsetDateTime.class);
+            read(rs);
+            read(rs);
 
-            var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX");
-            var formatter2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss XXX z");
-            var europeBerlin = ZoneId.of("Europe/Berlin");
-
-            System.out.println(odt.format(formatter));  // 1981-02-03 00:00:00+01:00
-            System.out.println(odt.atZoneSameInstant(europeBerlin).format(formatter2));  // 1981-02-03 00:00:00 CET
-            
+            ResultSet rs2 = st.executeQuery("select now() from dual");
+            read(rs2);
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }
+    }
+
+    private void read(ResultSet rs) throws Exception {
+        rs.next();
+        OffsetDateTime odt = rs.getObject(1, OffsetDateTime.class);
+        assertThat(odt).isInstanceOf(OffsetDateTime.class);
+        System.out.println("=== row ===");
+        System.out.println("OffsetDateTime.format: " + odt.format(formatter));
+        System.out.println("ZonedDateTime.format : " + odt.atZoneSameInstant(europeBerlin).format(formatter2));
     }
 
 }
