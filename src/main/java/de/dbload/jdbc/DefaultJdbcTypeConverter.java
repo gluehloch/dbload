@@ -22,10 +22,12 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import java.util.Locale;
 
@@ -71,8 +73,6 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     public Object toSqlValue(ColumnMetaData columnMetaData, String value) {
         Object returnValue = null;
 
-        // TODO NULL-Value wenn die Spalte das erlaubt?
-
         switch (columnMetaData.getColumnType()) {
         case VARCHAR:
             returnValue = value;
@@ -107,12 +107,10 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         case TIME:
         case DATE:
         case DATE_TIME:
-            // MYSQL: str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             if (value != null) {
-                var datetime = this.dateTimeFormatter.parse(value);
                 var formatter = dateTimeFormatter.withZone(zoneId);
                 var datetime2 = formatter.parse(value);
-                returnValue = datetime2;
+                returnValue = ZonedDateTime.from(datetime2);
             }
             break;
 
@@ -218,6 +216,9 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setObject(index, value);
             } else if (value instanceof OffsetDateTime) {
                 stmt.setObject(index, value);
+            } else if (value instanceof TemporalAccessor) {
+                var ta = (TemporalAccessor) value;
+                stmt.setObject(index, LocalDateTime.from(ta));
             } else if (value instanceof Date) {
                 // TODO This code was created from a drunken train passenger.
                 final Date date = (Date) value;

@@ -66,7 +66,7 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
     void testExecuteSqlStatement() throws SQLException {
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
-        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2014-03-24 06:05:00");
+        ZonedDateTime zdt = DateTimeUtils.toLocalDateTime("2014-03-24 06:05:00").atZone(DateTimeUtils.ZONE_EUROPE_BERLIN);
 
         PreparedStatement stmt = conn.prepareStatement(sqlStatement.createSql());
         stmt.setInt(1, 1);
@@ -87,11 +87,11 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
 
         /*
          * I get the following result from the MySql command line:
-         * +----+---------+---------+------+------+---------------------+ | id |
-         * lastname | firstname| age | sex | birthday |
-         * +----+---------+---------+------+------+---------------------+ | 1 |
-         * winkler | andre | 43 | | 2014-03-24 06:05:00 | | 2 | winkler | andre
-         * | 43 | | 2006-05-00 00:00:00 |
+         * +----+---------+----------+------+------+---------------------+
+         * | id |lastname | firstname| age  | sex  | birthday |
+         * +----+---------+----------+------+------+---------------------+
+         * | 1  | winkler | andre    | 43   |      | 2014-03-24 06:05:00 | | 2 | winkler | andre
+         * | 43 |             | 2006-05-00 00:00:00 |
          * +----+---------+---------+------+------+---------------------+ The
          * type java.sql.Time delivers an unexpected result: Hours and minutes
          * are moved to year and month? No! Time ist only time!!!

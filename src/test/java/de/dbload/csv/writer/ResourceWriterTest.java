@@ -97,6 +97,12 @@ class ResourceWriterTest extends TransactionalTest {
 
     @Test
     void testResourceWriterStart() throws Exception {
+        try (Statement stmt = context.connection().createStatement()) {
+            stmt.execute("INSERT INTO person(id, firstname, lastname, age, human) values(1, 'Alice', 'Wunderland', 25, true)");
+            stmt.execute("INSERT INTO person(id, firstname, lastname, age, human) values(2, 'Bob', 'Geldorf', 30, true)");
+            stmt.execute("INSERT INTO person(id, firstname, lastname, age, human) values(3, 'Charlie', 'Brown', 35, false)");
+        }
+
         // create a temporary file
         Path temp = Files.createTempFile("testResourceWriterStart", ".dat");
 
@@ -110,12 +116,14 @@ class ResourceWriterTest extends TransactionalTest {
         String fileContent = new String(Files.readAllBytes(temp));
 
         // check if the file content is correct
-        String expectedContent = "### TAB person\n" +
-                "### id | name | age | human\n" +
-                "1 | Alice | 25 | true\n" +
-                "2 | Bob | 30 | true\n" +
-                "3 | Charlie | 35 | false\n";
-        assertThat(fileContent).isEqualTo(expectedContent);
+        String expectedContent = """
+                ### TAB PERSON
+                ### ID | FIRSTNAME | LASTNAME | AGE | SEX | BIRTHDAY | HUMAN
+                1 | Alice | Wunderland | 25 |  |  | TRUE
+                2 | Bob | Geldorf | 30 |  |  | TRUE
+                3 | Charlie | Brown | 35 |  |  | FALSE
+                """;
+        assertThat(fileContent).isEqualToIgnoringWhitespace(expectedContent);
     }
 
 }
