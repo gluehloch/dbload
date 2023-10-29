@@ -23,11 +23,11 @@ import java.util.Locale;
 
 import org.junit.jupiter.api.Test;
 
-import de.dbload.JdbcTypeConverter;
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.misc.DateTimeUtils;
+import de.dbload.misc.NumberUtils;
 
 /**
  * A test for {@link DefaultJdbcTypeConverter}.
@@ -36,9 +36,13 @@ import de.dbload.misc.DateTimeUtils;
  */
 class JdbcTypeConverterTest {
 
+    private DefaultJdbcTypeConverter converter = new DefaultJdbcTypeConverter(
+            DateTimeUtils.ZONE_EUROPE_BERLIN,
+            DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER,
+            NumberUtils.createDecimalFormatter(Locale.GERMANY));
+    
     @Test
     void testJdbcTypeConverterToNumberInteger() {
-        JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.INTEGER);
 
         Object value = converter.toSqlValue(columnMetaData, "4711");
@@ -54,7 +58,6 @@ class JdbcTypeConverterTest {
 
     @Test
     void testJdbcTypeConverterToNumberDecimal() {
-        JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.INTEGER);
 
         Object value = converter.toSqlValue(columnMetaData, "4711,11");
@@ -70,7 +73,6 @@ class JdbcTypeConverterTest {
 
     @Test
     void testJdbcTypeConverterToString() {
-        JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.VARCHAR);
         Object value = converter.toSqlValue(columnMetaData, "4711");
 
@@ -81,12 +83,12 @@ class JdbcTypeConverterTest {
 
     @Test
     void testJdbcTypeConverterToDate() {
-        JdbcTypeConverter converter = DefaultJdbcTypeConverter.of(Locale.GERMANY);
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.DATE);
         Object value = converter.toSqlValue(columnMetaData, "2011-03-24 06:34:11");
 
         assertThat(value).isInstanceOfAny(ZonedDateTime.class);
-        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24 06:34:11");
+        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24T06:34:11+01:00");
+        // ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24 06:34:11");
         assertThat(value).isEqualTo(zdt);
     }
 
