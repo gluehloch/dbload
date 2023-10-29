@@ -63,6 +63,8 @@ class SqlConnectionTest {
 
             ResultSet rs2 = st.executeQuery("select now() from dual");
             read(rs2);
+
+            st.execute("DELETE FROM PERSON");
         } catch (Exception e) {
             e.printStackTrace(System.err);
         }

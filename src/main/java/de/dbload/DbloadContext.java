@@ -17,6 +17,9 @@
 package de.dbload;
 
 import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /**
  * Defines JDBC connection and JDBC type converter.
@@ -28,5 +31,11 @@ public interface DbloadContext {
     Connection connection();
 
     JdbcTypeConverter converter();
+
+    ZoneId zoneId();
+
+    DateTimeFormatter dateTimeFormatter();
+
+    DecimalFormat decimalFormat();
 
 }

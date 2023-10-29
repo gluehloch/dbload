@@ -164,10 +164,8 @@ public class DefaultDbloadImpl {
      * @param writeToFile the file to write to
      * @param tableNames  the database tables to export
      */
-    public void writeToFile(DbloadContext context, File writeToFile,
-            List<String> tableNames) {
-
-        ResourceWriter rw = new ResourceWriter(writeToFile);
+    public void writeToFile(DbloadContext context, File writeToFile, List<String> tableNames) {
+        ResourceWriter rw = new ResourceWriter(writeToFile, context.dateTimeFormatter());
         try {
             for (String tableName : tableNames) {
                 String select = String.format("SELECT * FROM %s", tableName);

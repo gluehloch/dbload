@@ -45,7 +45,7 @@ class PreparedSqlSelectStatementTest extends TransactionalTest {
 
     @BeforeEach
     public void before() {
-        dbloadContext = new DefaultDbloadContext(conn);
+        dbloadContext = DefaultDbloadContext.of(conn);
         tableMetaData = TestMetaDataFactory.createPersonMetaData();
     }
 

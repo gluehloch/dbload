@@ -41,11 +41,10 @@ public class DateTimeUtils {
      */
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
-    /**
-     * Format: '2020-03-24 18:10:33'
-     */
+    /** DateTime Formatter ohne Zeitzonen Informationen. */
     public static final DateTimeFormatter DEFAULT_LOCAL_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    /** DateTime Formatter mit UTC Zeitzonen Informationen. */
     public static final DateTimeFormatter DEFAULT_UTC_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
     /**

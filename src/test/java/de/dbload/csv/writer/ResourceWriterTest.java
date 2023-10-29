@@ -27,6 +27,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.dbload.Dbload;
@@ -41,9 +42,15 @@ import de.dbload.utils.TransactionalTest;
  */
 class ResourceWriterTest extends TransactionalTest {
 
+    private DbloadContext context;
+    
+    @BeforeEach
+    void before() {
+        context = DefaultDbloadContext.of(conn);
+    }
+    
     @Test
     void testResourceWriter() throws Exception {
-        DbloadContext context = new DefaultDbloadContext(conn);
         Dbload.read(context, ClasspathFileMarker.class);
 
         select(context);
@@ -60,7 +67,7 @@ class ResourceWriterTest extends TransactionalTest {
         select(context);
 
         Path temp2 = writeToFile("dbload2");
-        System.out.println(readFileToString(temp2));        
+        System.out.println(readFileToString(temp2));
     }
     
     private void select(DbloadContext context) throws Exception {
@@ -74,7 +81,7 @@ class ResourceWriterTest extends TransactionalTest {
 
     private Path writeToFile(String fileName) throws IOException, SQLException {
         Path temp = Files.createTempFile(fileName, ".dat");
-        ResourceWriter resourceWriter = new ResourceWriter(temp.toFile());
+        ResourceWriter resourceWriter = new ResourceWriter(temp.toFile(), context.dateTimeFormatter());
         resourceWriter.start(conn, "SELECT * FROM person ORDER BY id", false);
         return temp;
     }
@@ -94,7 +101,7 @@ class ResourceWriterTest extends TransactionalTest {
         Path temp = Files.createTempFile("testResourceWriterStart", ".dat");
 
         // create a ResourceWriter instance
-        ResourceWriter resourceWriter = new ResourceWriter(temp.toFile());
+        ResourceWriter resourceWriter = new ResourceWriter(temp.toFile(), context.dateTimeFormatter());
 
         // execute the start method
         resourceWriter.start(conn, "SELECT * FROM person ORDER BY id", false);

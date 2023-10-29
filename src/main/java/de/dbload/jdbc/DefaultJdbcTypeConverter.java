@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.text.DecimalFormat;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -51,7 +52,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     private final ZoneId zoneId;
     private final DateTimeFormatter dateTimeFormatter;
 
-    private DefaultJdbcTypeConverter(
+    public DefaultJdbcTypeConverter(
             ZoneId zoneId,
             DateTimeFormatter dateTimeFormatter,
             DecimalFormat decimalFormat
@@ -59,25 +60,6 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         this.zoneId = zoneId;
         this.dateTimeFormatter = dateTimeFormatter;
         this.decimalFormat = decimalFormat;
-    }
-
-    public static JdbcTypeConverter of() {
-        return of(Locale.getDefault());
-    }
-    
-    public static JdbcTypeConverter of(Locale locale) {
-        var decimalFormat = NumberUtils.createDecimalFormatter(locale);
-        var zoneId = DateTimeUtils.ZONE_UTC;
-        var dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
-        var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
-        return jdbcConverter;
-    }
-    
-    public static JdbcTypeConverter of(Locale locale, ZoneId zoneId) {
-        var decimalFormat = NumberUtils.createDecimalFormatter(locale);
-        var dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
-        var jdbcConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
-        return jdbcConverter;
     }
 
     /**
@@ -234,6 +216,8 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setObject(index, date);
             } else if (value instanceof ZonedDateTime) {
                 stmt.setObject(index, value);
+            } else if (value instanceof OffsetDateTime) {
+                stmt.setObject(index, value);
             } else if (value instanceof Date) {
                 // TODO This code was created from a drunken train passenger.
                 final Date date = (Date) value;
@@ -242,7 +226,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setTimestamp(index, timestamp);
             } else {
                 throw new IllegalStateException(
-                    String.format("Unknown datetime type %s", columnMetaData.getColumnKey().getColumnName()));
+                    String.format("Unknown datetime column type %s and class type %s", columnMetaData.getColumnKey().getColumnName(), value.getClass().getName()));
             }
             // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             break;

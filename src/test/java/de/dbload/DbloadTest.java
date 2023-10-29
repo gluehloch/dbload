@@ -38,7 +38,7 @@ class DbloadTest extends TransactionalTest {
 
     @Test
     void testDbload() throws Exception {
-        DbloadContext context = new DefaultDbloadContext(conn);
+        DbloadContext context = DefaultDbloadContext.of(conn);
         Dbload.read(context, DbloadTest.class);
 
         assertThat(context).isInstanceOf(DefaultDbloadContext.class);

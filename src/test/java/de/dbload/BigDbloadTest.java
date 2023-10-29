@@ -30,7 +30,7 @@ class BigDbloadTest extends TransactionalTest {
 
     @Test
     void testDbload() {
-        DbloadContext context = new DefaultDbloadContext(conn);
+        DbloadContext context = DefaultDbloadContext.of(conn);
         Dbload.read(context, BigDbloadTest.class);
         Dbload.read(context, BigDbloadTest.class);
         Dbload.read(context, BigDbloadTest.class);

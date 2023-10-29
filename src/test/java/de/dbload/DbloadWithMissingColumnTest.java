@@ -34,7 +34,7 @@ class DbloadWithMissingColumnTest extends TransactionalTest {
 
     @Test
     void testDbload() throws Exception {
-        DbloadContext context = new DefaultDbloadContext(conn);
+        DbloadContext context = DefaultDbloadContext.of(conn);
         Dbload.read(context, DbloadWithMissingColumnTest.class);
 
         InputStream resourceAsStream = DbloadWithMissingColumnTest.class

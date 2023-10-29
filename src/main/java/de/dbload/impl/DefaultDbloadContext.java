@@ -17,9 +17,16 @@
 package de.dbload.impl;
 
 import java.sql.Connection;
+import java.text.DecimalFormat;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 import de.dbload.DbloadContext;
 import de.dbload.JdbcTypeConverter;
+import de.dbload.jdbc.DefaultJdbcTypeConverter;
+import de.dbload.misc.DateTimeUtils;
+import de.dbload.misc.NumberUtils;
 
 /**
  * Holds the database connection.
@@ -29,19 +36,45 @@ import de.dbload.JdbcTypeConverter;
 public class DefaultDbloadContext implements DbloadContext {
 
     private final Connection conn;
+    private final ZoneId zoneId;
+    private final DateTimeFormatter dateTimeFormatter;
+    private final DecimalFormat decimalFormat;  
     private final JdbcTypeConverter jdbcTypeConverter;
 
-    /**
-     * Constructor.
-     *
-     * @param conn              jdbc database connection
-     * @param jdbcTypeConverter jdbc type converter
-     */
-    public DefaultDbloadContext(Connection conn, JdbcTypeConverter jdbcTypeConverter) {
-        this.conn = conn;
-        this.jdbcTypeConverter = jdbcTypeConverter;
+    public static DbloadContext of(Connection connection) {
+        return DefaultDbloadContext.of(connection, Locale.getDefault());
     }
 
+    public static DbloadContext of(Connection connection, Locale locale) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        DateTimeFormatter dateTimeFormatter = DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER;
+        DecimalFormat decimalFormat = NumberUtils.createDecimalFormatter(locale);
+        return DefaultDbloadContext.of(connection, zoneId, dateTimeFormatter, decimalFormat);
+    }
+
+    public static DbloadContext of(
+            Connection connection,
+            ZoneId zoneId,
+            DateTimeFormatter dateTimeFormatter,
+            DecimalFormat decimalFormat) {
+        DefaultJdbcTypeConverter jdbcTypeConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
+        return new DefaultDbloadContext(connection, zoneId, dateTimeFormatter, decimalFormat, jdbcTypeConverter);
+    }
+
+    private DefaultDbloadContext(
+            Connection conn,
+            ZoneId zoneId,
+            DateTimeFormatter dateTimeFormatter,
+            DecimalFormat decimalFormat,
+            JdbcTypeConverter jdbcTypeConverter) {
+        this.conn = conn;
+        this.zoneId = zoneId;
+        this.dateTimeFormatter = dateTimeFormatter;
+        this.decimalFormat = decimalFormat;
+        this.jdbcTypeConverter = jdbcTypeConverter;
+
+    }
+    
     @Override
     public Connection connection() {
         return conn;
@@ -50,6 +83,21 @@ public class DefaultDbloadContext implements DbloadContext {
     @Override
     public JdbcTypeConverter converter() {
         return jdbcTypeConverter;
+    }
+
+    @Override
+    public ZoneId zoneId() {
+        return zoneId;
+    }
+
+    @Override
+    public DateTimeFormatter dateTimeFormatter() {
+        return dateTimeFormatter;
+    }
+
+    @Override
+    public DecimalFormat decimalFormat() {
+        return decimalFormat;
     }
 
 }

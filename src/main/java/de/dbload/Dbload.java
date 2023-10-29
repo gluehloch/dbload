@@ -64,7 +64,7 @@ public class Dbload {
      * @param clazz      used as classloader root for the data file
      */
     public static void read(Connection connection, Class<?> clazz) {
-        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DbloadContext context = DefaultDbloadContext.of(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.readFromClasspathResource(context, clazz);
     }
@@ -77,7 +77,7 @@ public class Dbload {
      * @param resource   the resource to load with the classloader
      */
     public static void read(Connection connection, Class<?> clazz, String resource) {
-        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DbloadContext context = DefaultDbloadContext.of(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.readFromClasspathResource(context, clazz, resource);
     }
@@ -89,7 +89,7 @@ public class Dbload {
      * @param readFromFile the file to read from
      */
     public static void read(Connection connection, File readFromFile) {
-        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DbloadContext context = DefaultDbloadContext.of(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.readFromFile(context, readFromFile);
     }
@@ -113,7 +113,7 @@ public class Dbload {
      * @param tableNames  the database tables to export
      */
     public static void write(Connection connection, File writeToFile, String[] tableNames) {
-        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DbloadContext context = DefaultDbloadContext.of(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.writeToFile(context, writeToFile, tableNames);
     }
@@ -126,7 +126,7 @@ public class Dbload {
      * @param tableNames  the database tables to export
      */
     public static void write(Connection connection, File writeToFile, List<String> tableNames) {
-        DefaultDbloadContext context = new DefaultDbloadContext(connection);
+        DbloadContext context = DefaultDbloadContext.of(connection);
         DefaultDbloadImpl dbload = new DefaultDbloadImpl();
         dbload.writeToFile(context, writeToFile, tableNames);
     }
