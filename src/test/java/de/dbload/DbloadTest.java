@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 import org.junit.jupiter.api.Test;
@@ -52,10 +52,15 @@ class DbloadTest extends TransactionalTest {
                             "SELECT * FROM person WHERE birthday = '1971-03-24 06:38:00'")) {
                 assertThat(resultSet.next()).isTrue();
 
-                ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("1971-03-24 06:38:00");
-                Instant birthday = resultSet.getObject("birthday", Instant.class);
+                ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("1971-03-24T06:38:00+01:00");
+                ZonedDateTime birthday = resultSet.getObject("birthday", ZonedDateTime.class);
+                OffsetDateTime birthday2 = resultSet.getObject("birthday", OffsetDateTime.class);
 
                 assertThat(birthday).isEqualTo(zdt);
+
+                System.out.println(birthday);
+                System.out.println(birthday2);
+                // TODO Does not work: assertThat(birthday).isNotEqualTo(birthday2);
             }
         }
     }
