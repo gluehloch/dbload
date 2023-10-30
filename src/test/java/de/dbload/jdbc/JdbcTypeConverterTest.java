@@ -18,7 +18,6 @@ package de.dbload.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 
