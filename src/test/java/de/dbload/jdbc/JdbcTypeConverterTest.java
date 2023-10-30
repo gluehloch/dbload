@@ -18,6 +18,7 @@ package de.dbload.jdbc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Locale;
 
@@ -87,7 +88,13 @@ class JdbcTypeConverterTest {
         Object value = converter.toSqlValue(columnMetaData, "2011-03-24 06:34:11");
 
         assertThat(value).isInstanceOfAny(ZonedDateTime.class);
-        ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24T06:34:11+01:00");
+        var valueAsZonedDateTime = (ZonedDateTime) value;
+        assertThat(valueAsZonedDateTime.getZone()).isEqualTo(converter.getZoneId());
+
+        // ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24T06:34:11+01:00 Europe/Berlin");
+        ZonedDateTime zdt = (ZonedDateTime) DateTimeUtils.toDateTimeWithOptionalOffsetAndTimeZoneId("2011-03-24T06:34:11+01:00[Europe/Berlin]", converter.getZoneId());
+        assertThat(zdt.getZone()).isEqualTo(converter.getZoneId());
+
         // ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24 06:34:11");
         assertThat(value).isEqualTo(zdt);
     }

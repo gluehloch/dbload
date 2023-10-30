@@ -18,6 +18,7 @@ package de.dbload;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.time.ZoneId;
 
 import de.dbload.meta.ColumnMetaData;
 
@@ -48,5 +49,11 @@ public interface JdbcTypeConverter {
      */
     void setSqlVariable(PreparedStatement stmt, int index, ColumnMetaData columnMetaData, Object value)
             throws SQLException;
+    /**
+     * Gets the configured time zone id.
+     *
+     * @return time zone id
+     */
+    ZoneId getZoneId();
 
 }

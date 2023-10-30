@@ -244,4 +244,9 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
         }
     }
 
+    @Override
+    public ZoneId getZoneId() {
+        return zoneId;
+    }
+
 }
