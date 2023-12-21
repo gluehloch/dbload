@@ -8,8 +8,10 @@
         <!-- <action dev="andrewinkler" type="remove" date="2014-??-??"> TODO: Remove the database assertions to another project. DBLoad is only 
             for reading and writing from files/strings to database tables. </action> -->
 
-        <!-- Under construction -->
-        <release version="dbload-0.8.0" date="2023-09-21">
+        <!-- Under Construction -->
+
+        <!-- RELEASED -->
+        <release version="dbload-0.8.0" date="2023-12-21">
             <action dev="andrewinkler" type="update" date="2023-09-21">
                 Update to Java 21.
             </action>
