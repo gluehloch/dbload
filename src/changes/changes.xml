@@ -9,6 +9,11 @@
             for reading and writing from files/strings to database tables. </action> -->
 
         <!-- Under Construction -->
+        <release version="dbload-0.9.0" date="2025-11-24">
+            <action dev="andrewinkler" type="update" date="2025-11-24">
+                Update to Java 25.
+            </action>
+        </release>
 
         <!-- RELEASED -->
         <release version="dbload-0.8.0" date="2023-12-21">
