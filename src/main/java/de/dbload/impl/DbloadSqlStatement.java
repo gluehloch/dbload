@@ -53,8 +53,8 @@ interface DbloadSqlStatement extends Closeable {
     void addBatch(DataRow data) throws SQLException;
 
     /**
-     * Executes the batched sql statements
-     * 
+     * Execute the batched SQL statements
+     *
      * @throws SQLException Da ging was schief...
      */
     void execute() throws SQLException;
