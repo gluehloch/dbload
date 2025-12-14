@@ -56,7 +56,7 @@ public class TableMetaData {
     /**
      * JDBC Column Index Logic: 1..N
      * 
-     * @param index 1..N
+     * @param  index 1..N
      * @return       The column name
      */
     public ColumnKey getColumnKey(int index) {

@@ -56,7 +56,7 @@ public class DbloadCommandLineParser {
         options.addOption("u", "user", true, "Database connection user name.");
         options.addOption("p", "password", true, "Database connection password.");
         options.addOption("d", "url", true, "Database connection JDBC url.");
-        
+
         Option exportOption = Option.builder("export")
                 .longOpt("export")
                 .desc("Export some tables of the database.")

@@ -102,7 +102,7 @@ public class DefaultDbloadImpl {
 
     private void startReading(final InputStream is, final DbloadContext context) {
         try (final ResourceDataReader rdr = new ResourceDataReader(is);
-                final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
+                final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context)) {
 
             final ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {

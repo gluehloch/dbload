@@ -30,7 +30,7 @@ public class ColumnKey {
     private ColumnKey(String columnName) {
         this.columnName = columnName;
     }
-    
+
     public static ColumnKey of(String columnName) {
         return new ColumnKey(columnName);
     }
@@ -55,7 +55,7 @@ public class ColumnKey {
         ColumnKey other = (ColumnKey) obj;
         return Objects.equals(columnName.toLowerCase(), other.columnName.toLowerCase());
     }
-    
+
     @Override
     public String toString() {
         return new StringBuilder("ColumnKey=[").append(this.columnName).append("]").toString();

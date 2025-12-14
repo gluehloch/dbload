@@ -49,7 +49,7 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     public void addBatch(DataRow data) throws SQLException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
-        }        
+        }
         applyParams(data);
         getPreparedStatement().addBatch();
     }
@@ -57,9 +57,8 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     /**
      * Returns the execution result.
      *
-     * @return Returns <code>true</code>, if the executed statement returns a
-     * {@link ResultSet} object. Returns <code>false</code>, if the
-     * executed statement returns the count of executed updates.
+     * @return Returns <code>true</code>, if the executed statement returns a {@link ResultSet} object. Returns
+     *         <code>false</code>, if the executed statement returns the count of executed updates.
      */
     public boolean isExecutionResult() {
         return preparedStatementReturnsWithResultSet;

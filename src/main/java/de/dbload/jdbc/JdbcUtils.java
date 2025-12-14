@@ -22,8 +22,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import org.apache.commons.lang3.StringUtils;
-
 import de.dbload.meta.ColumnKey;
 import de.dbload.meta.ColumnMetaData.Type;
 import de.dbload.meta.ColumnsMetaData;
@@ -58,13 +56,13 @@ public class JdbcUtils {
     }
 
     /**
-     * Die Tabellen Metadaten aus der CSV Datei werden mit den Metadaten aus der JDBC Connection abgeglichen.
-     * Die CSV Metadaten sind dabei führend zu betrachten. D.h. werden aus der JDBC Connection für die Tabelle
-     * mehr Spalten ermittelt, die nicht in den Metadaten der CSV Datei stehen, dann sind diese zu ignorieren.
+     * Die Tabellen Metadaten aus der CSV Datei werden mit den Metadaten aus der JDBC Connection abgeglichen. Die CSV
+     * Metadaten sind dabei führend zu betrachten. D.h. werden aus der JDBC Connection für die Tabelle mehr Spalten
+     * ermittelt, die nicht in den Metadaten der CSV Datei stehen, dann sind diese zu ignorieren.
      *
-     * @param conn JDBC Connection
-     * @param csvTableMetaData Die Tabellen Metadaten, wie sie aus der CSV Datei ermittelt wurden.
-     * @return Entspricht den CSV Metadaten. Angereichert mit Typ-Informationen.
+     * @param  conn             JDBC Connection
+     * @param  csvTableMetaData Die Tabellen Metadaten, wie sie aus der CSV Datei ermittelt wurden.
+     * @return                  Entspricht den CSV Metadaten. Angereichert mit Typ-Informationen.
      */
     public static TableMetaData findMetaData(Connection conn, TableMetaData csvTableMetaData) {
         String sql = String.format("SELECT * FROM %s WHERE 1 = 0", csvTableMetaData.getTableName());
@@ -86,13 +84,14 @@ public class JdbcUtils {
      * @return                   A description of the table columns for dbload
      * @throws SQLException      Something is wrong
      */
-    private static TableMetaData toTableMetaData(TableMetaData csvTableMetaData, ResultSetMetaData resultSetMetaData) throws SQLException {
+    private static TableMetaData toTableMetaData(TableMetaData csvTableMetaData, ResultSetMetaData resultSetMetaData)
+            throws SQLException {
         if (resultSetMetaData.getColumnCount() < 1) {
             throw new IllegalArgumentException("Min column count is one.");
         }
 
         String tableName = resultSetMetaData.getTableName(1);
-        if (!StringUtils.equalsIgnoreCase(csvTableMetaData.getTableName(), tableName)) {
+        if (!csvTableMetaData.getTableName().equalsIgnoreCase(tableName)) {
             throw new IllegalStateException("Table names csv vs jdbc are not equal");
         }
 

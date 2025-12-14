@@ -46,21 +46,21 @@ public class DateTimeUtils {
     public static final String ORACLE_DATE_FORMAT = "yyyy-MM-dd HH24:MI:ss";
 
     /** DateTime Formatter ohne Zeitzonen Informationen. */
-    public static final DateTimeFormatter DEFAULT_LOCAL_DATETIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    public static final DateTimeFormatter DEFAULT_LOCAL_DATETIME_FORMATTER = DateTimeFormatter
+            .ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /** DateTime Formatter mit UTC Zeitzonen Informationen. */
     public static final DateTimeFormatter DEFAULT_UTC_FORMATTER = DateTimeFormatter.ISO_DATE_TIME;
 
     /**
-     * Creates a Joda DateTime object. The following date and time pattern will
-     * be used:
+     * Creates a Joda DateTime object. The following date and time pattern will be used:
      *
      * <pre>
      * yyyy-MM-dd HH24:MI:ss
      * </pre>
      *
-     * @param dateAsString a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
-     * @return toZonedDateTime
+     * @param  dateAsString a String with pattern like 'yyyy-MM-dd HH24:MI:ss'
+     * @return              toZonedDateTime
      */
     public static LocalDateTime toLocalDateTime(final String dateAsString) {
         return LocalDateTime.parse(dateAsString, DEFAULT_LOCAL_DATETIME_FORMATTER);
@@ -74,10 +74,10 @@ public class DateTimeUtils {
         DateTimeFormatter formatter = new DateTimeFormatterBuilder()
                 .parseCaseInsensitive()
                 .append(DateTimeFormatter.ISO_LOCAL_DATE)
-                .optionalStart()           // time made optional
+                .optionalStart() // time made optional
                 .appendLiteral('T')
                 .append(DateTimeFormatter.ISO_LOCAL_TIME)
-                .optionalStart()           // zone and offset made optional
+                .optionalStart() // zone and offset made optional
                 .appendOffsetId()
                 .optionalStart()
                 .appendLiteral('[')
@@ -89,7 +89,8 @@ public class DateTimeUtils {
                 .optionalEnd()
                 .toFormatter();
 
-        TemporalAccessor temporalAccessor = formatter.parseBest(value, ZonedDateTime::from, LocalDateTime::from, LocalDate::from);
+        TemporalAccessor temporalAccessor = formatter.parseBest(value, ZonedDateTime::from, LocalDateTime::from,
+                LocalDate::from);
         if (temporalAccessor instanceof ZonedDateTime) {
             return ((ZonedDateTime) temporalAccessor);
         }

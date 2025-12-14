@@ -67,7 +67,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
         preparedSqlStatement.addBatch(dataRow);
         numberOfRows++;
     }
-  
+
     @Override
     public void close() {
         if (preparedSqlStatement != null) {
@@ -89,7 +89,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
             preparedSqlStatement.execute();
         }
     }
-    
+
     @Override
     public String toString() {
         return preparedSqlStatement.toString();

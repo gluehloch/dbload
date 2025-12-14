@@ -39,9 +39,7 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     private boolean preparedStatementReturnsWithResultSet;
     private ResultSet resultSet;
 
-    public PreparedSqlSelectStatement(DbloadContext _context,
-            TableMetaData _tableMetaData) throws SQLException {
-
+    public PreparedSqlSelectStatement(DbloadContext _context, TableMetaData _tableMetaData) throws SQLException {
         super(_context, _tableMetaData, PreparedStatementBuilder
                 .prepareStatement(_context, new SqlSelectStatementBuilder(
                         _tableMetaData)));
@@ -51,7 +49,7 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     public void addBatch(DataRow data) throws SQLException {
         applyParams(data);
 
-        LOG.atDebug().log("Executing \n\t[{}] with data \n\t[{}]",getPreparedStatement(), data);
+        LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
 
         preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
         resultSet = getPreparedStatement().getResultSet();
@@ -60,9 +58,8 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     /**
      * Returns the execution result.
      *
-     * @return Returns <code>true</code>, if the executed statement returns a
-     * {@link ResultSet} object. Returns <code>false</code>, if the
-     * executed statement returns the count of executed updates.
+     * @return Returns <code>true</code>, if the executed statement returns a {@link ResultSet} object. Returns
+     *         <code>false</code>, if the executed statement returns the count of executed updates.
      */
     @Override
     public boolean hasResultSet() {

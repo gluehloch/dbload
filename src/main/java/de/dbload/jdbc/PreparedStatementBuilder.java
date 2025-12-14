@@ -27,8 +27,7 @@ import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
 
 /**
- * Creates a {@link PreparedStatement} by {@link DefaultDbloadContext} and
- * {@link TableMetaData}.
+ * Creates a {@link PreparedStatement} by {@link DefaultDbloadContext} and {@link TableMetaData}.
  *
  * @author Andre Winkler. https://www.andre-winkler.de
  */

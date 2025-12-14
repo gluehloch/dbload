@@ -43,12 +43,12 @@ import de.dbload.utils.TransactionalTest;
 class ResourceWriterTest extends TransactionalTest {
 
     private DbloadContext context;
-    
+
     @BeforeEach
     void before() {
         context = DefaultDbloadContext.of(conn);
     }
-    
+
     @Test
     void testResourceWriter() throws Exception {
         Dbload.read(context, ClasspathFileMarker.class);
@@ -63,13 +63,13 @@ class ResourceWriterTest extends TransactionalTest {
         }
 
         Dbload.read(context, temp1.toFile());
-        
+
         select(context);
 
         Path temp2 = writeToFile("dbload2");
         System.out.println(readFileToString(temp2));
     }
-    
+
     private void select(DbloadContext context) throws Exception {
         try (Statement stmt = context.connection().createStatement()) {
             ResultSet resultSet = stmt.executeQuery("SELECT human FROM person ORDER BY id");
@@ -98,9 +98,12 @@ class ResourceWriterTest extends TransactionalTest {
     @Test
     void testResourceWriterStart() throws Exception {
         try (Statement stmt = context.connection().createStatement()) {
-            stmt.execute("INSERT INTO person(id, firstname, lastname, age, human) values(1, 'Alice', 'Wunderland', 25, true)");
-            stmt.execute("INSERT INTO person(id, firstname, lastname, age, human) values(2, 'Bob', 'Geldorf', 30, true)");
-            stmt.execute("INSERT INTO person(id, firstname, lastname, age, human) values(3, 'Charlie', 'Brown', 35, false)");
+            stmt.execute(
+                    "INSERT INTO person(id, firstname, lastname, age, human) values(1, 'Alice', 'Wunderland', 25, true)");
+            stmt.execute(
+                    "INSERT INTO person(id, firstname, lastname, age, human) values(2, 'Bob', 'Geldorf', 30, true)");
+            stmt.execute(
+                    "INSERT INTO person(id, firstname, lastname, age, human) values(3, 'Charlie', 'Brown', 35, false)");
         }
 
         // create a temporary file

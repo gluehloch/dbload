@@ -39,9 +39,9 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     /**
      * Constructor.
      *
-     * @param  _context          dbload context
-     * @param  _tableMetaData    table meta data
-     * @param  preparedStatement A JDBC prepared statement
+     * @param _context          dbload context
+     * @param _tableMetaData    table meta data
+     * @param preparedStatement A JDBC prepared statement
      */
     public AbstractPreparedSqlStatement(DbloadContext _context,
             TableMetaData _tableMetaData, PreparedStatement preparedStatement) {
@@ -88,7 +88,7 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     public final void execute() throws SQLException {
         stmt.executeBatch();
     }
-    
+
     /**
      * Returns the execution result.
      *
