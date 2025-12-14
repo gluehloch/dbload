@@ -33,7 +33,7 @@ interface DbloadSqlStatement extends Closeable {
      * Set the current table name.
      *
      * @param  tableMetaData table name.
-     * @throws SQLException Da ging was schief...
+     * @throws SQLException  Da ging was schief...
      */
     void newTableMetaData(TableMetaData tableMetaData) throws SQLException;
 
@@ -45,12 +45,19 @@ interface DbloadSqlStatement extends Closeable {
     String getTableName();
 
     /**
-     * Exceute a SQL statement with <code>data</code> as parameter.
+     * Add a SQL statement with <code>data</code> as parameter.
      *
      * @param  data         Holds the data
      * @throws SQLException Da ging was schief...
      */
-    void execute(DataRow data) throws SQLException;
+    void addBatch(DataRow data) throws SQLException;
+
+    /**
+     * Executes the batched sql statements
+     * 
+     * @throws SQLException Da ging was schief...
+     */
+    void execute() throws SQLException;
 
     /**
      * Close this resource.

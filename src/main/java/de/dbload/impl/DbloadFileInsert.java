@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.sql.SQLException;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -94,7 +95,7 @@ public class DbloadFileInsert implements DbloadSqlStatement {
      * @param data the data to insert
      */
     @Override
-    public void execute(DataRow data) {
+    public void addBatch(DataRow data) {
         StringBuilder insertSqlCommand = new StringBuilder("INSERT INTO ");
         insertSqlCommand.append(tableMetaData.getTableName());
         insertSqlCommand.append('(');
@@ -143,6 +144,10 @@ public class DbloadFileInsert implements DbloadSqlStatement {
         }
     }
 
+    @Override
+    public void execute() throws SQLException {
+    }
+    
     /**
      * Close this resource.
      */

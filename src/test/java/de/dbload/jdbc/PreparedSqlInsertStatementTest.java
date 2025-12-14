@@ -70,8 +70,8 @@ class PreparedSqlInsertStatementTest extends TransactionalTest {
         dataRow2.put(ColumnKey.of("birthday"), "1974-06-02 10:00:00");
 
         try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(dbloadContext, tableMetaData)) {
-            dbloadInsert.execute(dataRow1);
-            dbloadInsert.execute(dataRow2);
+            dbloadInsert.addBatch(dataRow1);
+            dbloadInsert.addBatch(dataRow2);
         }
 
         try (Statement stmt = dbloadContext.connection().createStatement()) {

@@ -48,7 +48,7 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     }
 
     @Override
-    public void execute(DataRow data) throws SQLException {
+    public void addBatch(DataRow data) throws SQLException {
         applyParams(data);
 
         LOG.atDebug().log("Executing \n\t[{}] with data \n\t[{}]",getPreparedStatement(), data);

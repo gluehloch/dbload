@@ -57,7 +57,7 @@ class DbloadSqlInsertTest extends TransactionalTest {
             dataRow.put(ColumnKey.of("lastname"), "winkler");
             dataRow.put(ColumnKey.of("firstname"), "andre");
             dataRow.put(ColumnKey.of("age"), "55");
-            dbloadSqlInsert.execute(dataRow);
+            dbloadSqlInsert.addBatch(dataRow);
         }
 
         try (Statement stmt = dbloadContext.connection().createStatement()) {

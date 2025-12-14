@@ -46,14 +46,12 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     }
 
     @Override
-    public void execute(DataRow data) throws SQLException {
-        applyParams(data);
-
+    public void addBatch(DataRow data) throws SQLException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
-        }
-
-        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
+        }        
+        applyParams(data);
+        getPreparedStatement().addBatch();
     }
 
     /**

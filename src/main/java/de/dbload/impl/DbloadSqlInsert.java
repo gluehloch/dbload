@@ -63,11 +63,11 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
     }
 
     @Override
-    public void execute(DataRow dataRow) throws SQLException {
-        preparedSqlStatement.execute(dataRow);
+    public void addBatch(DataRow dataRow) throws SQLException {
+        preparedSqlStatement.addBatch(dataRow);
         numberOfRows++;
     }
-
+  
     @Override
     public void close() {
         if (preparedSqlStatement != null) {
@@ -83,6 +83,13 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
         }
     }
 
+    @Override
+    public void execute() throws SQLException {
+        if (preparedSqlStatement != null) {
+            preparedSqlStatement.execute();
+        }
+    }
+    
     @Override
     public String toString() {
         return preparedSqlStatement.toString();

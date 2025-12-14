@@ -83,8 +83,12 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      * @param  data         the data to use as parameters for the query
      * @throws SQLException Something is wrong
      */
-    public abstract void execute(DataRow data) throws SQLException;
+    public abstract void addBatch(DataRow data) throws SQLException;
 
+    public final void execute() throws SQLException {
+        stmt.executeBatch();
+    }
+    
     /**
      * Returns the execution result.
      *

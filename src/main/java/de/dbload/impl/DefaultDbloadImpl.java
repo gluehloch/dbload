@@ -101,8 +101,9 @@ public class DefaultDbloadImpl {
     }
 
     private void startReading(final InputStream is, final DbloadContext context) {
-        try (ResourceDataReader rdr = new ResourceDataReader(is)) {
-            final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);
+        try (final ResourceDataReader rdr = new ResourceDataReader(is);
+                final DbloadSqlInsert dbloadSqlInsert = new DbloadSqlInsert(context);) {
+
             final ResourceReader resourceReader = new ResourceReader();
             resourceReader.start(rdr, new ResourceReaderCallback() {
                 @Override
@@ -124,21 +125,15 @@ public class DefaultDbloadImpl {
                 @Override
                 public void newDataRow(DataRow dataRow) {
                     try {
-                        dbloadSqlInsert.execute(dataRow);
+                        dbloadSqlInsert.addBatch(dataRow);
                     } catch (SQLException ex) {
-                        String error = "Unable to execute INSERT ["
-                                + dbloadSqlInsert.toString()
-                                + "] statement with params [" + dataRow + "]";
+                        String error = String.format("Unable to execute INSERT [%s] statement with params [%s]",
+                                dbloadSqlInsert, dataRow);
                         LOG.error(error);
                         throw new DbloadException(error, ex);
                     }
                 }
             });
-
-            // Autoclose does not work here. But on exception, there is no
-            // close!
-            dbloadSqlInsert.close();
-
         } catch (IOException ex) {
             LOG.error("Dbload throws an error.", ex);
             throw new DbloadException(ex);
