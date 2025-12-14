@@ -48,7 +48,9 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     public void select(DataRow data) throws SQLException {
         applyParams(data);
 
-        LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
+        }
 
         preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
         resultSet = getPreparedStatement().getResultSet();

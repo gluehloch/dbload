@@ -47,7 +47,7 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
 
     public void addBatch(DataRow data) throws SQLException {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
+            LOG.debug("AddBatch \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
         }
         applyParams(data);
         getPreparedStatement().addBatch();
