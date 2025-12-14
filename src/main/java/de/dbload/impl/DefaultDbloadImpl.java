@@ -123,7 +123,7 @@ public class DefaultDbloadImpl {
                 }
 
                 @Override
-                public void newDataRow(DataRow dataRow) {
+                public void addBatch(DataRow dataRow) {
                     try {
                         dbloadSqlInsert.addBatch(dataRow);
                     } catch (SQLException ex) {
@@ -131,6 +131,16 @@ public class DefaultDbloadImpl {
                                 dbloadSqlInsert, dataRow);
                         LOG.error(error);
                         throw new DbloadException(error, ex);
+                    }
+                }
+
+                @Override
+                public void execute() {
+                    try {
+                        dbloadSqlInsert.execute();
+                    } catch (SQLException ex) {
+                        LOG.error("Unable to execute sql inserts.", ex);
+                        throw new DbloadException(ex);
                     }
                 }
             });

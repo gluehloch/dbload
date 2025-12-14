@@ -54,10 +54,11 @@ public class ResourceReader {
                     throw new IllegalStateException("Find column description without a table name!");
                 }
 
-                List<ColumnKey> currentColumnKeys = resourceParser.readColumnNames(line);
-                ColumnsMetaData columnsMetaData = ColumnTypeParser.parseColumnsMetaData(currentColumnKeys);
+                final List<ColumnKey> currentColumnKeys = resourceParser.readColumnNames(line);
+                final ColumnsMetaData columnsMetaData = ColumnTypeParser.parseColumnsMetaData(currentColumnKeys);
+                
+                resourceReaderCallback.execute();
                 currentTableMetaData = new TableMetaData(currentTableName, columnsMetaData);
-
                 resourceReaderCallback.newTableMetaData(currentTableMetaData);
 
                 break;
@@ -67,9 +68,9 @@ public class ResourceReader {
                 if (currentTableMetaData == null) {
                     throw new IllegalStateException("Found data without table definition.");
                 }
-                DataRow dataRow = resourceParser.readRow(currentTableMetaData.getColumns().getColumnKeys(), lineNo, line);
 
-                resourceReaderCallback.newDataRow(dataRow);
+                final DataRow dataRow = resourceParser.readRow(currentTableMetaData.getColumns().getColumnKeys(), lineNo, line);
+                resourceReaderCallback.addBatch(dataRow);
 
                 break;
             case TABLE_DEFINITION:
@@ -81,6 +82,7 @@ public class ResourceReader {
 
             lineNo++;
         } while (!resourceDataReader.endOfFile());
+        resourceReaderCallback.execute();
     }
 
 }

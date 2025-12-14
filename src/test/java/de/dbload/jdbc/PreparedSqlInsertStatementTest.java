@@ -72,6 +72,7 @@ class PreparedSqlInsertStatementTest extends TransactionalTest {
         try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(dbloadContext, tableMetaData)) {
             dbloadInsert.addBatch(dataRow1);
             dbloadInsert.addBatch(dataRow2);
+            dbloadInsert.execute();
         }
 
         try (Statement stmt = dbloadContext.connection().createStatement()) {
