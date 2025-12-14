@@ -69,6 +69,7 @@ class DbloadFileInsertTest {
         try (DbloadFileInsert rfi = new DbloadFileInsert(directory, Dbload.class)) {
             rfi.newTableMetaData(tableMetaData);
             rfi.addBatch(data);
+            rfi.execute();
         }
     }
 
