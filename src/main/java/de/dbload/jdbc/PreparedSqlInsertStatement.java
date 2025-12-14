@@ -45,13 +45,16 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
                 .prepareStatement(_context, new SqlInsertStatementBuilder(_tableMetaData)));
     }
 
-    @Override
     public void addBatch(DataRow data) throws SQLException {
         if (LOG.isDebugEnabled()) {
             LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
         }
         applyParams(data);
         getPreparedStatement().addBatch();
+    }
+
+    public final void execute() throws SQLException {
+        getPreparedStatement().executeBatch();
     }
 
     /**

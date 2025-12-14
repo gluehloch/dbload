@@ -43,8 +43,10 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
      * @param _tableMetaData    table meta data
      * @param preparedStatement A JDBC prepared statement
      */
-    public AbstractPreparedSqlStatement(DbloadContext _context,
-            TableMetaData _tableMetaData, PreparedStatement preparedStatement) {
+    public AbstractPreparedSqlStatement(
+            final DbloadContext _context,
+            final TableMetaData _tableMetaData,
+            final PreparedStatement preparedStatement) {
 
         dbloadContext = _context;
         tableMetaData = _tableMetaData;
@@ -75,18 +77,6 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
 
     protected void applyParams(DataRow dataRow) throws SQLException {
         PreparedStatementBuilder.applyParams(dataRow, tableMetaData, dbloadContext.converter(), stmt);
-    }
-
-    /**
-     * Execute the SQL statement with the given parameters (data).
-     *
-     * @param  data         the data to use as parameters for the query
-     * @throws SQLException Something is wrong
-     */
-    public abstract void addBatch(DataRow data) throws SQLException;
-
-    public final void execute() throws SQLException {
-        stmt.executeBatch();
     }
 
     /**

@@ -45,8 +45,7 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
                         _tableMetaData)));
     }
 
-    @Override
-    public void addBatch(DataRow data) throws SQLException {
+    public void select(DataRow data) throws SQLException {
         applyParams(data);
 
         LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);

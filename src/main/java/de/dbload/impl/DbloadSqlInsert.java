@@ -22,7 +22,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.dbload.DbloadContext;
-import de.dbload.jdbc.AbstractPreparedSqlStatement;
 import de.dbload.jdbc.PreparedSqlInsertStatement;
 import de.dbload.meta.DataRow;
 import de.dbload.meta.TableMetaData;
@@ -42,7 +41,7 @@ public class DbloadSqlInsert implements DbloadSqlStatement {
 
     private TableMetaData currentTableMetaData;
     private int numberOfRows;
-    private AbstractPreparedSqlStatement preparedSqlStatement;
+    private PreparedSqlInsertStatement preparedSqlStatement;
 
     /**
      * Constructor.
