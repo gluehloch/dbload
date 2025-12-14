@@ -13,6 +13,9 @@
             <action dev="andrewinkler" type="update" date="2025-11-24">
                 Update to Java 25.
             </action>
+            <action dev="andrewinkler" type="update" date="2025-12-??">
+                Use JDBC batch features.
+            </action>
         </release>
 
         <!-- RELEASED -->
