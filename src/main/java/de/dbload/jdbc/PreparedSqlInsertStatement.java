@@ -58,6 +58,7 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     public final void execute() throws SQLException {
         if (batchAdded) {
             getPreparedStatement().executeBatch();
+            batchAdded = false;
         } else {
             if (LOG.isInfoEnabled()) {
                 LOG.info("No batch to execute: {}", getPreparedStatement());
