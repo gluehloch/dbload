@@ -37,9 +37,10 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
             .getLogger(PreparedSqlInsertStatement.class);
 
     private boolean preparedStatementReturnsWithResultSet;
+    private boolean batchAdded = false;
 
-    public PreparedSqlInsertStatement(DbloadContext _context,
-            TableMetaData _tableMetaData) throws SQLException {
+    public PreparedSqlInsertStatement(final DbloadContext _context, final TableMetaData _tableMetaData)
+            throws SQLException {
 
         super(_context, _tableMetaData, PreparedStatementBuilder
                 .prepareStatement(_context, new SqlInsertStatementBuilder(_tableMetaData)));
@@ -51,10 +52,17 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
         }
         applyParams(data);
         getPreparedStatement().addBatch();
+        batchAdded = true;
     }
 
     public final void execute() throws SQLException {
-        getPreparedStatement().executeBatch();
+        if (batchAdded) {
+            getPreparedStatement().executeBatch();
+        } else {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("No batch to execute: {}", getPreparedStatement());
+            }
+        }
     }
 
     /**
