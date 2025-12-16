@@ -39,7 +39,10 @@ public class ResourceParser {
     private ParserState parserState;
 
     public enum ParserState {
-        TABLE_DEFINITION, COLUMN_DEFINITION, DATA_DEFINITION, COMMENT_OR_EMPTY
+        TABLE_DEFINITION,
+        COLUMN_DEFINITION,
+        DATA_DEFINITION,
+        COMMENT_OR_EMPTY
     }
 
     /**

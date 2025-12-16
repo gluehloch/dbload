@@ -37,7 +37,7 @@ public class StopWatch {
         endTime = Instant.now();
     }
 
-    public Duration duration()  {
+    public Duration duration() {
         return Duration.between(startTime, endTime);
     }
 

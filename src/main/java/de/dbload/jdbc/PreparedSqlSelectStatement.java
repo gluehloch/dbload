@@ -36,37 +36,23 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     private static final Logger LOG = LoggerFactory
             .getLogger(PreparedSqlSelectStatement.class);
 
-    private boolean preparedStatementReturnsWithResultSet;
     private ResultSet resultSet;
 
-    public PreparedSqlSelectStatement(DbloadContext _context,
-            TableMetaData _tableMetaData) throws SQLException {
-
+    public PreparedSqlSelectStatement(DbloadContext _context, TableMetaData _tableMetaData) throws SQLException {
         super(_context, _tableMetaData, PreparedStatementBuilder
                 .prepareStatement(_context, new SqlSelectStatementBuilder(
                         _tableMetaData)));
     }
 
-    @Override
-    public void execute(DataRow data) throws SQLException {
+    public void select(DataRow data) throws SQLException {
         applyParams(data);
 
-        LOG.atDebug().log("Executing \n\t[{}] with data \n\t[{}]",getPreparedStatement(), data);
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
+        }
 
-        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
+        /* boolean execute = you should read the Javadoc of #execute() */ getPreparedStatement().execute();
         resultSet = getPreparedStatement().getResultSet();
-    }
-
-    /**
-     * Returns the execution result.
-     *
-     * @return Returns <code>true</code>, if the executed statement returns a
-     * {@link ResultSet} object. Returns <code>false</code>, if the
-     * executed statement returns the count of executed updates.
-     */
-    @Override
-    public boolean hasResultSet() {
-        return preparedStatementReturnsWithResultSet;
     }
 
     /**

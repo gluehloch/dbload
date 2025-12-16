@@ -38,7 +38,7 @@ public class DefaultDbloadContext implements DbloadContext {
     private final Connection conn;
     private final ZoneId zoneId;
     private final DateTimeFormatter dateTimeFormatter;
-    private final DecimalFormat decimalFormat;  
+    private final DecimalFormat decimalFormat;
     private final JdbcTypeConverter jdbcTypeConverter;
 
     public static DbloadContext of(Connection connection) {
@@ -57,7 +57,8 @@ public class DefaultDbloadContext implements DbloadContext {
             ZoneId zoneId,
             DateTimeFormatter dateTimeFormatter,
             DecimalFormat decimalFormat) {
-        DefaultJdbcTypeConverter jdbcTypeConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter, decimalFormat);
+        DefaultJdbcTypeConverter jdbcTypeConverter = new DefaultJdbcTypeConverter(zoneId, dateTimeFormatter,
+                decimalFormat);
         return new DefaultDbloadContext(connection, zoneId, dateTimeFormatter, decimalFormat, jdbcTypeConverter);
     }
 
@@ -74,7 +75,7 @@ public class DefaultDbloadContext implements DbloadContext {
         this.jdbcTypeConverter = jdbcTypeConverter;
 
     }
-    
+
     @Override
     public Connection connection() {
         return conn;

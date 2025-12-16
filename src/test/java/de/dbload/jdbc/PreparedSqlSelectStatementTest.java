@@ -70,7 +70,7 @@ class PreparedSqlSelectStatementTest extends TransactionalTest {
             dataRowB.put(ColumnKey.of("age"), "43");
             dataRowB.put(ColumnKey.of("sex"), "0");
             dataRowB.put(ColumnKey.of("birthday"), "1971-03-24 01:00:00");
-            sql.execute(dataRowB);
+            sql.select(dataRowB);
 
             try (ResultSet rs = sql.getResultSet()) {
                 assertThat(rs.next()).isEqualTo(true);
@@ -84,7 +84,7 @@ class PreparedSqlSelectStatementTest extends TransactionalTest {
                 dataRowA.put(ColumnKey.of("age"), "40");
                 dataRowA.put(ColumnKey.of("sex"), "0");
                 dataRowA.put(ColumnKey.of("birthday"), "1971-03-24 01:00:00");
-                sql.execute(dataRowA);
+                sql.select(dataRowA);
 
                 try (ResultSet rs2 = sql.getResultSet()) {
                     assertThat(rs2.next()).isTrue();

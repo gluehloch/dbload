@@ -47,9 +47,9 @@ class DateTimeUtilsTest {
         ZoneId europeBerlin = ZoneId.of("Europe/Berlin");
         assertThat(europeBerlin).isNotNull();
         assertThat(europeBerlin.normalized()).isEqualTo(europeBerlin);
-                
+
         var now = Instant.now();
-        
+
         System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").withZone(utcZone).format(now));
         System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").withZone(utcZone).format(now));
         System.out.println(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z").withZone(europeBerlin).format(now));

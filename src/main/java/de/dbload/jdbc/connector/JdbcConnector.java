@@ -32,8 +32,8 @@ public class JdbcConnector {
     /**
      * Creates a JDBC connection.
      *
-     * @param databaseUrl the database url
-     * @return a JDBC connection
+     * @param  databaseUrl the database url
+     * @return             a JDBC connection
      */
     public static Connection createConnection(String databaseUrl) {
         Connection conn = null;
@@ -51,10 +51,10 @@ public class JdbcConnector {
     /**
      * Creates a JDBC connection.
      *
-     * @param user        the user name
-     * @param password    the password
-     * @param databaseUrl the database url
-     * @return a JDBC connection
+     * @param  user        the user name
+     * @param  password    the password
+     * @param  databaseUrl the database url
+     * @return             a JDBC connection
      */
     public static Connection createConnection(String user, String password, String databaseUrl) {
 

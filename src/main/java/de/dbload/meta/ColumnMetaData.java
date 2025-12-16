@@ -64,7 +64,7 @@ public class ColumnMetaData {
          * date and time
          */
         DATE_TIME(java.sql.Types.TIMESTAMP),
-        
+
         /**
          * Boolean
          */
@@ -94,7 +94,7 @@ public class ColumnMetaData {
     /**
      * Constructor
      *
-     * @param columnKey column key name
+     * @param columnKey  column key name
      * @param columnType column type
      */
     public ColumnMetaData(ColumnKey columnKey, Type columnType) {

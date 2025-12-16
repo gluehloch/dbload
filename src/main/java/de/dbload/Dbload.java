@@ -97,7 +97,7 @@ public class Dbload {
     /**
      * Read the data from a file and put it to the database.
      *
-     * @param context  the context for dbload
+     * @param context      the context for dbload
      * @param readFromFile the file to read from
      */
     public static void read(DbloadContext context, File readFromFile) {

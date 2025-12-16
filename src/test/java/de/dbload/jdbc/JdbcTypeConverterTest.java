@@ -40,7 +40,7 @@ class JdbcTypeConverterTest {
             DateTimeUtils.ZONE_EUROPE_BERLIN,
             DateTimeUtils.DEFAULT_LOCAL_DATETIME_FORMATTER,
             NumberUtils.createDecimalFormatter(Locale.GERMANY));
-    
+
     @Test
     void testJdbcTypeConverterToNumberInteger() {
         ColumnMetaData columnMetaData = new ColumnMetaData(ColumnKey.of("col1"), Type.INTEGER);
@@ -91,7 +91,8 @@ class JdbcTypeConverterTest {
         assertThat(valueAsZonedDateTime.getZone()).isEqualTo(converter.getZoneId());
 
         // ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24T06:34:11+01:00 Europe/Berlin");
-        ZonedDateTime zdt = (ZonedDateTime) DateTimeUtils.toDateTimeWithOptionalOffsetAndTimeZoneId("2011-03-24T06:34:11+01:00[Europe/Berlin]", converter.getZoneId());
+        ZonedDateTime zdt = (ZonedDateTime) DateTimeUtils.toDateTimeWithOptionalOffsetAndTimeZoneId(
+                "2011-03-24T06:34:11+01:00[Europe/Berlin]", converter.getZoneId());
         assertThat(zdt.getZone()).isEqualTo(converter.getZoneId());
 
         // ZonedDateTime zdt = DateTimeUtils.toZonedDateTime("2011-03-24 06:34:11");

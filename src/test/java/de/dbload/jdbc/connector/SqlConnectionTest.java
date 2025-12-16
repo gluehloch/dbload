@@ -55,8 +55,10 @@ class SqlConnectionTest {
         try (Connection conn = DriverManager.getConnection(url)) {
             Statement st = conn.createStatement();
             st.execute("DELETE FROM PERSON WHERE firstname = 'test'");
-            st.execute("INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 05:55:55+4:00')");
-            st.execute("INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 07:55:55')");
+            st.execute(
+                    "INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 05:55:55+4:00')");
+            st.execute(
+                    "INSERT INTO PERSON(firstname, lastname, birthday) VALUES('test', 'test', '1971-02-03 07:55:55')");
             ResultSet rs = st.executeQuery("SELECT birthday FROM person p WHERE p.firstname = 'test'");
             read(rs);
             read(rs);
