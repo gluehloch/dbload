@@ -92,4 +92,64 @@ class PreparedSqlInsertStatementTest extends TransactionalTest {
         }
     }
 
+    @Test
+    void executeWithoutAddBatch() throws SQLException {
+        // Test calling execute() without any prior addBatch() calls
+        // This should not throw an exception and should not execute any batch
+        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(dbloadContext, tableMetaData)) {
+            dbloadInsert.execute();
+        }
+
+        // Verify no rows were inserted
+        try (Statement stmt = dbloadContext.connection().createStatement()) {
+            try (ResultSet resultSet = stmt.executeQuery("select count(*) as cnt from person")) {
+                resultSet.next();
+                assertThat(resultSet.getInt("cnt")).isEqualTo(0);
+            }
+        }
+    }
+
+    @Test
+    void executeMultipleTimes() throws SQLException {
+        DataRow dataRow1 = new DataRow();
+        dataRow1.put(ColumnKey.of("id"), "1");
+        dataRow1.put(ColumnKey.of("lastname"), "Winkler");
+        dataRow1.put(ColumnKey.of("firstname"), "Andre");
+        dataRow1.put(ColumnKey.of("age"), "43");
+        dataRow1.put(ColumnKey.of("sex"), "0");
+        dataRow1.put(ColumnKey.of("birthday"), "1971-03-24 06:41:11");
+
+        DataRow dataRow2 = new DataRow();
+        dataRow2.put(ColumnKey.of("id"), "2");
+        dataRow2.put(ColumnKey.of("lastname"), "Winkler");
+        dataRow2.put(ColumnKey.of("firstname"), "Lars");
+        dataRow2.put(ColumnKey.of("age"), "40");
+        dataRow2.put(ColumnKey.of("sex"), "0");
+        dataRow2.put(ColumnKey.of("birthday"), "1974-06-02 10:00:00");
+
+        try (PreparedSqlInsertStatement dbloadInsert = new PreparedSqlInsertStatement(dbloadContext, tableMetaData)) {
+            // First batch execution
+            dbloadInsert.addBatch(dataRow1);
+            dbloadInsert.execute();
+
+            // Second consecutive execute() call without addBatch - should not throw
+            dbloadInsert.execute();
+
+            // Third batch execution with new data
+            dbloadInsert.addBatch(dataRow2);
+            dbloadInsert.execute();
+
+            // Fourth consecutive execute() call without addBatch - should not throw
+            dbloadInsert.execute();
+        }
+
+        // Verify both rows were inserted (one from first execute, one from third)
+        try (Statement stmt = dbloadContext.connection().createStatement()) {
+            try (ResultSet resultSet = stmt.executeQuery("select count(*) as cnt from person")) {
+                resultSet.next();
+                assertThat(resultSet.getInt("cnt")).isEqualTo(2);
+            }
+        }
+    }
+
 }
