@@ -146,6 +146,7 @@ public class DbloadFileInsert implements DbloadSqlStatement {
 
     @Override
     public void execute() throws SQLException {
+        // No-op: File-based insert doesn't require batch execution"
     }
 
     /**
