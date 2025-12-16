@@ -36,7 +36,6 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
     private static final Logger LOG = LoggerFactory
             .getLogger(PreparedSqlSelectStatement.class);
 
-    private boolean preparedStatementReturnsWithResultSet;
     private ResultSet resultSet;
 
     public PreparedSqlSelectStatement(DbloadContext _context, TableMetaData _tableMetaData) throws SQLException {
@@ -52,19 +51,8 @@ public class PreparedSqlSelectStatement extends AbstractPreparedSqlStatement {
             LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
         }
 
-        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
+        /* boolean execute = you should read the Javadoc of #execute() */ getPreparedStatement().execute();
         resultSet = getPreparedStatement().getResultSet();
-    }
-
-    /**
-     * Returns the execution result.
-     *
-     * @return Returns <code>true</code>, if the executed statement returns a {@link ResultSet} object. Returns
-     *         <code>false</code>, if the executed statement returns the count of executed updates.
-     */
-    @Override
-    public boolean hasResultSet() {
-        return preparedStatementReturnsWithResultSet;
     }
 
     /**

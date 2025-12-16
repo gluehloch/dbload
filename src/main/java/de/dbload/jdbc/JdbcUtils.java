@@ -95,8 +95,10 @@ public class JdbcUtils {
             throw new IllegalStateException("Table names csv vs jdbc are not equal");
         }
 
+        // Validate the table name for all columns. if set, it must be equal to 'tableName'.
         for (int i = 2; i <= resultSetMetaData.getColumnCount(); i++) {
-            if (!resultSetMetaData.getTableName(i).equals(tableName)) {
+            final String columnTableName = resultSetMetaData.getTableName(i);
+            if (columnTableName != null && !columnTableName.equalsIgnoreCase(tableName)) {
                 throw new IllegalArgumentException(String.format("All columns must be of table %s.", tableName));
             }
         }

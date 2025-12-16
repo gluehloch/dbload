@@ -18,7 +18,6 @@ package de.dbload.jdbc;
 
 import java.io.Closeable;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import de.dbload.DbloadContext;
@@ -78,13 +77,5 @@ public abstract class AbstractPreparedSqlStatement implements Closeable {
     protected void applyParams(DataRow dataRow) throws SQLException {
         PreparedStatementBuilder.applyParams(dataRow, tableMetaData, dbloadContext.converter(), stmt);
     }
-
-    /**
-     * Returns the execution result.
-     *
-     * @return Returns <code>true</code>, if the executed statement returns a {@link ResultSet} object. Returns
-     *         <code>false</code>, if the executed statement returns the count of executed updates.
-     */
-    abstract boolean hasResultSet();
 
 }
