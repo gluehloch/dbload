@@ -6,12 +6,12 @@
     <parent>
         <groupId>de.awtools</groupId>
         <artifactId>master-pom</artifactId>
-        <version>14-java21</version>
+        <version>16-java25</version>
     </parent>
 
     <groupId>de.winkler.dbload</groupId>
     <artifactId>dbload</artifactId>
-    <version>0.8.0-SNAPSHOT</version>
+    <version>0.9.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>dbload</name>
@@ -33,7 +33,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.3.1</version>
+                <version>3.12.0</version>
                 <configuration>
                     <failOnError>false</failOnError>
                 </configuration>
@@ -89,7 +89,7 @@
                 <configuration>
                     <toolchains>
                         <jdk>
-                            <version>21</version>
+                            <version>25</version>
                         </jdk>
                     </toolchains>
                 </configuration>
@@ -175,7 +175,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.13.0</version>
+            <version>3.18.0</version>
             <scope>compile</scope>
         </dependency>
         <!--
@@ -197,7 +197,7 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.4.12</version>
+            <version>1.5.21</version>
             <scope>test</scope>
         </dependency>
 
