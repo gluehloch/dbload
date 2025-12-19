@@ -38,6 +38,11 @@ public interface ResourceReaderCallback {
      *
      * @param dataRow a new data row
      */
-    void newDataRow(DataRow dataRow);
+    void addBatch(DataRow dataRow);
+
+    /**
+     * Execute batch insert.
+     */
+    void execute();
 
 }

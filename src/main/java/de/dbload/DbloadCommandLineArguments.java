@@ -33,7 +33,9 @@ import java.util.Arrays;
 public class DbloadCommandLineArguments {
 
     public enum Command {
-        EXPORT, IMPORT, HELP
+        EXPORT,
+        IMPORT,
+        HELP
     }
 
     private Command command;

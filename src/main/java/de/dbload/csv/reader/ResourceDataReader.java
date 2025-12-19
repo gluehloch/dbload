@@ -62,7 +62,7 @@ public class ResourceDataReader implements Closeable {
     /**
      * Read one line of the resource.
      *
-     * @return line of data
+     * @return             line of data
      * @throws IOException Ups
      */
     public String readLine() throws IOException {

@@ -68,7 +68,8 @@ class DbloadFileInsertTest {
         File directory = tempDir.toFile();
         try (DbloadFileInsert rfi = new DbloadFileInsert(directory, Dbload.class)) {
             rfi.newTableMetaData(tableMetaData);
-            rfi.execute(data);
+            rfi.addBatch(data);
+            rfi.execute();
         }
     }
 

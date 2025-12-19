@@ -66,7 +66,8 @@ class SqlInsertStatementBuilderTest extends TransactionalTest {
     void testExecuteSqlStatement() throws SQLException {
         SqlInsertStatementBuilder sqlStatement = new SqlInsertStatementBuilder(tableMetaData);
 
-        ZonedDateTime zdt = DateTimeUtils.toLocalDateTime("2014-03-24 06:05:00").atZone(DateTimeUtils.ZONE_EUROPE_BERLIN);
+        ZonedDateTime zdt = DateTimeUtils.toLocalDateTime("2014-03-24 06:05:00")
+                .atZone(DateTimeUtils.ZONE_EUROPE_BERLIN);
 
         PreparedStatement stmt = conn.prepareStatement(sqlStatement.createSql());
         stmt.setInt(1, 1);

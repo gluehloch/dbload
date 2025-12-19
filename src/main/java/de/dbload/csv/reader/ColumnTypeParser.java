@@ -34,7 +34,7 @@ public class ColumnTypeParser {
 
     /**
      * Find name and type of a column description.
-     *  
+     * 
      * @param  columnKeys The names and types some columns.
      * @return            the column meta data
      */

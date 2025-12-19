@@ -7,9 +7,9 @@ public class DbloadMain {
         DbloadCommandLineArguments arguments = dclp.parse(args, System.out);
 
         switch (arguments.getCommand()) {
-            case EXPORT -> ExportDatabase.start(arguments, System.out);
-            case IMPORT -> ImportDatabase.start(arguments, System.out);
-            case HELP -> System.out.println(".");
+        case EXPORT -> ExportDatabase.start(arguments, System.out);
+        case IMPORT -> ImportDatabase.start(arguments, System.out);
+        case HELP -> System.out.println(".");
         }
 
     }

@@ -16,7 +16,6 @@
 
 package de.dbload.jdbc;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.slf4j.Logger;
@@ -36,40 +35,36 @@ public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
     private static final Logger LOG = LoggerFactory
             .getLogger(PreparedSqlInsertStatement.class);
 
-    private boolean preparedStatementReturnsWithResultSet;
+    private boolean batchAdded = false;
 
-    public PreparedSqlInsertStatement(DbloadContext _context,
-            TableMetaData _tableMetaData) throws SQLException {
+    public PreparedSqlInsertStatement(final DbloadContext _context, final TableMetaData _tableMetaData)
+            throws SQLException {
 
         super(_context, _tableMetaData, PreparedStatementBuilder
                 .prepareStatement(_context, new SqlInsertStatementBuilder(_tableMetaData)));
     }
 
-    @Override
-    public void execute(DataRow data) throws SQLException {
-        applyParams(data);
-
+    public void addBatch(DataRow data) throws SQLException {
         if (LOG.isDebugEnabled()) {
-            LOG.debug("Executing \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
+            LOG.debug("AddBatch \n\t[{}] with data \n\t[{}]", getPreparedStatement(), data);
         }
-
-        preparedStatementReturnsWithResultSet = getPreparedStatement().execute();
+        applyParams(data);
+        getPreparedStatement().addBatch();
+        batchAdded = true;
     }
 
-    /**
-     * Returns the execution result.
-     *
-     * @return Returns <code>true</code>, if the executed statement returns a
-     * {@link ResultSet} object. Returns <code>false</code>, if the
-     * executed statement returns the count of executed updates.
-     */
-    public boolean isExecutionResult() {
-        return preparedStatementReturnsWithResultSet;
-    }
-
-    @Override
-    boolean hasResultSet() {
-        return preparedStatementReturnsWithResultSet;
+    public final void execute() throws SQLException {
+        if (batchAdded) {
+            try {
+                getPreparedStatement().executeBatch();
+            } finally {
+                batchAdded = false;
+            }
+        } else {
+            if (LOG.isInfoEnabled()) {
+                LOG.info("No batch to execute: {}", getPreparedStatement());
+            }
+        }
     }
 
 }

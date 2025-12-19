@@ -29,7 +29,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
-import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -39,10 +38,10 @@ import de.dbload.misc.DateTimeUtils;
 import de.dbload.misc.NumberUtils;
 
 /**
- * Convert a Java type to the associated JDBC type. Don´t share this converter
- * between different threads (DecimalFormat).
+ * Convert a Java type to the associated JDBC type. Don´t share this converter between different threads
+ * (DecimalFormat).
  *
- * @author <a href="http://www.andre-winkler.de">Andre Winkler</a> 
+ * @author <a href="http://www.andre-winkler.de">Andre Winkler</a>
  */
 public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
 
@@ -57,8 +56,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
     public DefaultJdbcTypeConverter(
             ZoneId zoneId,
             DateTimeFormatter dateTimeFormatter,
-            DecimalFormat decimalFormat
-    ) {
+            DecimalFormat decimalFormat) {
         this.zoneId = zoneId;
         this.dateTimeFormatter = dateTimeFormatter;
         this.decimalFormat = decimalFormat;
@@ -170,7 +168,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                     }
                 } else {
                     stmt.setObject(index, value, java.sql.Types.BOOLEAN);
-                }                
+                }
             }
             break;
 
@@ -202,7 +200,7 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setByte(index, (Byte) value);
             } else {
                 throw new IllegalStateException(
-                    String.format("Unknown number type %s for object %s.", columnMetaData.getColumnType(), value));
+                        String.format("Unknown number type %s for object %s.", columnMetaData.getColumnType(), value));
             }
             break;
 
@@ -227,7 +225,8 @@ public class DefaultJdbcTypeConverter implements JdbcTypeConverter {
                 stmt.setTimestamp(index, timestamp);
             } else {
                 throw new IllegalStateException(
-                    String.format("Unknown datetime column type %s and class type %s", columnMetaData.getColumnKey().getColumnName(), value.getClass().getName()));
+                        String.format("Unknown datetime column type %s and class type %s",
+                                columnMetaData.getColumnKey().getColumnName(), value.getClass().getName()));
             }
             // MYSQL str_to_date('1971-03-24 06:41:11', '%Y-%m-%d %h:%i:%s')
             break;
