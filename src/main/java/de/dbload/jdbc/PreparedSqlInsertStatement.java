@@ -28,7 +28,7 @@ import de.dbload.meta.TableMetaData;
 /**
  * Holds a prepared INSERT statement.
  *
- * @author Andre Winkler. http://www.andre-winkler.de
+ * @author Andre Winkler. <a href="http://www.andre-winkler.de">...</a>
  */
 public class PreparedSqlInsertStatement extends AbstractPreparedSqlStatement {
 
